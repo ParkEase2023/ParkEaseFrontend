@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import Geolocation from 'react-native-geolocation-service';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Crosshair, MagnifyingGlass, StackSimple } from 'phosphor-react-native';
+import Omise from 'omise-react-native';
+Omise.config('pkey_test_5xg1y8vhghfe2gisvjv');
 
 
 
@@ -23,6 +25,7 @@ enum MapType {
 }
 
 const mapNomal = [{}]
+
 
 const mapStyle = [
   {
@@ -280,11 +283,21 @@ const {width} = Dimensions.get('window');
 const aspectRatio = 300 / 500;
 const height = width * aspectRatio;
 
+const genQR = async() => {
+  const data = await Omise.createSource({
+    type: 'promptpay',
+    amount: 500000,
+    currency: 'thb'
+});
+console.log(data)
+}
 
 
 
 
 const Home = () => {
+
+
   const mapRef = useRef<MapView | null>(null);
   const [pos, setPos] = useState<Position>({
     latitude: 0,
@@ -310,6 +323,7 @@ const Home = () => {
         enableHighAccuracy: true,
       },
     );
+    genQR();
   }, []);
   const [currentType, setCurrentType] = useState(MapType.standard);
   const [check, setCheck] = useState(true);
