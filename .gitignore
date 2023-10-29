@@ -62,3 +62,8 @@ buck-out/
 # Ruby / CocoaPods
 /ios/Pods/
 /vendor/bundle/
+android/.gradle/8.0.1/fileHashes/fileHashes.lock
+android/.gradle/8.0.1/executionHistory/executionHistory.bin
+android/.gradle/8.0.1/executionHistory/executionHistory.lock
+android/.gradle/8.0.1/fileHashes/fileHashes.bin
+android/.gradle/8.0.1/fileHashes/fileHashes.lock
