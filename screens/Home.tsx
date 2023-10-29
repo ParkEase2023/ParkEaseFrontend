@@ -4,7 +4,7 @@ import Geolocation from 'react-native-geolocation-service';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Crosshair, MagnifyingGlass, StackSimple } from 'phosphor-react-native';
 import Omise from 'omise-react-native';
-Omise.config('pkey_test_5xg1y8vhghfe2gisvjv');
+Omise.config('pkey_test_5xg1y8vhghfe2gisvjv', '2015-11-17');
 
 
 
@@ -285,7 +285,7 @@ const height = width * aspectRatio;
 
 const genQR = async() => {
   const data = await Omise.createSource({
-    type: 'promptpay',
+    type: 'internet_banking_bbl',
     amount: 500000,
     currency: 'thb'
 });
