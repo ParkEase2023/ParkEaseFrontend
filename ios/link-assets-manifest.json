@@ -1,0 +1,45 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/RedHatText-Bold.ttf",
+      "sha1": "0b21a62007ac575f4e4f5e68757e21b1188355f0"
+    },
+    {
+      "path": "assets/fonts/RedHatText-BoldItalic.ttf",
+      "sha1": "847662b6aeba52fe4aaa749f6535b99f539bd679"
+    },
+    {
+      "path": "assets/fonts/RedHatText-Italic.ttf",
+      "sha1": "23c39f4e46ff72e3fdcc865c8b963ac00556624d"
+    },
+    {
+      "path": "assets/fonts/RedHatText-Light.ttf",
+      "sha1": "9b207cddd967538e80d2fe2a5cb495c192b0f00c"
+    },
+    {
+      "path": "assets/fonts/RedHatText-LightItalic.ttf",
+      "sha1": "7232d16fff1332708cb7e22e3a7fac9d1d26f6a7"
+    },
+    {
+      "path": "assets/fonts/RedHatText-Medium.ttf",
+      "sha1": "95484b40c07ad194ad7f044c491e7c7156c03a9c"
+    },
+    {
+      "path": "assets/fonts/RedHatText-MediumItalic.ttf",
+      "sha1": "3e079ad6c52b1db7db7697f26be555716af0c025"
+    },
+    {
+      "path": "assets/fonts/RedHatText-Regular.ttf",
+      "sha1": "6312efa27440f0bb3923c0478cbae414a1edfaf7"
+    },
+    {
+      "path": "assets/fonts/RedHatText-SemiBold.ttf",
+      "sha1": "ca5b8c6bf34c8ae0c77691ac5a1df8662a9d8a16"
+    },
+    {
+      "path": "assets/fonts/RedHatText-SemiBoldItalic.ttf",
+      "sha1": "5993b1405d3d8f7c9cc29a588d15b8082ee58e52"
+    }
+  ]
+}

@@ -9,6 +9,7 @@ import Notification from '../screens/Notification';
 import Profile from '../screens/Profile';
 import LinearGradient from 'react-native-linear-gradient';
 import { SvgUri } from 'react-native-svg';
+import SignIn from '../screens/SignIn';
 export type MenuParamList = {
   HomeStack: undefined;
   MyList: undefined;
@@ -50,7 +51,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="MyList"
-          component={MyList}
+          component={SignIn}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <Heart

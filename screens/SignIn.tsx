@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -9,7 +9,8 @@ const SignIn = () => {
   return (
     <SafeAreaView>
       <View>
-        <Text>Signin</Text>
+        <Text style={{fontFamily: 'RedHatText-Bold'}}>Log In</Text>
+        <Image style={styles.Logo} source={require('../assets/LogoPark_DarkMode.png')} />
         <Text
           onPress={() => navigation.navigate('SignUp')}>
           SIGN Up
@@ -21,4 +22,9 @@ const SignIn = () => {
 
 export default SignIn
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  Logo: {
+    width: 100,
+    height: 100,
+  },
+})
