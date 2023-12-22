@@ -4,7 +4,7 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
-import { ArrowLeft, EnvelopeSimple } from 'phosphor-react-native';
+import { ArrowLeft, EnvelopeSimple, Key } from 'phosphor-react-native';
 
 const SignIn = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
@@ -21,14 +21,11 @@ const SignIn = () => {
           <Text style={styles.title}>Log In</Text>
         </View>
         <View>
-          <View>
-            <EnvelopeSimple size={24} color="#000"/>
+          <View style={styles.Email}>
+            <EnvelopeSimple size={24} color="#565E8B"/>
             <TextInput
               placeholder="Email"
               style={{
-                backgroundColor: '#FFFFFF',
-                borderRadius: 12,
-                marginBottom: 40,
                 padding: 16,
                 fontFamily: 'RedHatText-Regular',
                 fontSize: 16,
@@ -37,19 +34,23 @@ const SignIn = () => {
             />
           </View>
           
-          <TextInput
-            placeholder="Password"
-            secureTextEntry={true}
-            style={{
-              backgroundColor: '#FFFFFF',
-              borderRadius: 12,
-              marginBottom: 16,
-              padding: 16,
-              fontFamily: 'RedHatText-Regular',
-              fontSize: 16,
-              color: '#565E8B',
-            }}
-          />
+          <View style={styles.Password}>
+            <Key size={24} color="#565E8B"/>
+            <TextInput
+              placeholder="Password"
+              secureTextEntry={true}
+              style={{
+                padding: 16,
+                fontFamily: 'RedHatText-Regular',
+                fontSize: 16,
+                color: '#565E8B',
+              }}
+              onPress={() => {
+                setSecureTextEntry(!secureTextEntry);
+                return false;
+              }}
+            />
+          </View>
           <Text style={styles.ForgotPassword}>Forgot Password?</Text>
         </View>
         <TouchableOpacity style={styles.btnLogIn}>
@@ -104,7 +105,34 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: '#10152F',
   },
-
+  Email: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    marginBottom: 40,
+    paddingHorizontal: 16,
+  },
+  EmailActive: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    marginBottom: 40,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: '#7F85B2',
+  },
+  Password: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    marginBottom: 16,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: '#7F85B2',
+  },
   ForgotPassword: {
     textAlign: 'right',
     fontFamily: 'RedHatText-Regular',
