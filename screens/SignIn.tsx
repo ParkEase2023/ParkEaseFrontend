@@ -4,7 +4,7 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
-import { ArrowLeft, EnvelopeSimple, Key } from 'phosphor-react-native';
+import { ArrowLeft, EnvelopeSimple, Key, Eye } from 'phosphor-react-native';
 
 const SignIn = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
@@ -12,7 +12,11 @@ const SignIn = () => {
     <KeyboardAwareScrollView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView style={styles.Logo}>
         <Image source={require('../assets/LogoParkEase1.png')} />
+        <View style={styles.circleG} />
+        <View style={styles.circleB} />
+        <View style={styles.circleY} />
       </SafeAreaView>
+
       <View style={styles.mainContainer}>
         <View style={styles.heading}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -20,21 +24,22 @@ const SignIn = () => {
           </TouchableOpacity>
           <Text style={styles.title}>Log In</Text>
         </View>
-        <View>
-          <View style={styles.Email}>
-            <EnvelopeSimple size={24} color="#565E8B"/>
-            <TextInput
-              placeholder="Email"
-              style={{
-                padding: 16,
-                fontFamily: 'RedHatText-Regular',
-                fontSize: 16,
-                color: '#565E8B',
-              }}
-            />
-          </View>
+
+        <View style={styles.email}>
+          <EnvelopeSimple size={24} color="#565E8B"/>
+          <TextInput
+            placeholder="Email"
+            style={{
+              padding: 16,
+              fontFamily: 'RedHatText-Regular',
+              fontSize: 16,
+              color: '#565E8B',
+            }}
+          />
+        </View>
           
-          <View style={styles.Password}>
+        <View style={styles.password}>
+          <View style={styles.itemLeft}>
             <Key size={24} color="#565E8B"/>
             <TextInput
               placeholder="Password"
@@ -45,14 +50,12 @@ const SignIn = () => {
                 fontSize: 16,
                 color: '#565E8B',
               }}
-              onPress={() => {
-                setSecureTextEntry(!secureTextEntry);
-                return false;
-              }}
             />
           </View>
-          <Text style={styles.ForgotPassword}>Forgot Password?</Text>
+          <Eye size={24} weight="duotone" color="#565E8B"/>
         </View>
+        <Text style={styles.ForgotPassword}>Forgot Password?</Text>
+        
         <TouchableOpacity style={styles.btnLogIn}>
           <Text style={styles.textLogIn}>LOG IN</Text>
         </TouchableOpacity>
@@ -83,6 +86,33 @@ const styles = StyleSheet.create({
     marginTop: 81,
     marginBottom: 32,
   },
+  circleG: {
+    position: 'absolute',
+    width: 35,
+    height: 35,
+    borderRadius: 100,
+    backgroundColor: '#94FEBF',
+    top: -40,
+    right: 68,
+  },
+  circleB: {
+    position: 'absolute',
+    width: 85,
+    height: 85,
+    borderRadius: 100,
+    backgroundColor: '#95EDFF',
+    top: 90,
+    right: -43,
+  },
+  circleY: {
+    position: 'absolute',
+    width: 18,
+    height: 18,
+    borderRadius: 100,
+    backgroundColor: '#FEFA94',
+    top: 115,
+    left: 38,
+  },
   mainContainer: {
     flex: 2,
     backgroundColor: '#EEF0FF',
@@ -105,33 +135,54 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: '#10152F',
   },
-  Email: {
+  email: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    marginBottom: 40,
-    paddingHorizontal: 16,
-  },
-  EmailActive: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#EEF0FF',
     borderRadius: 12,
     marginBottom: 40,
     paddingHorizontal: 16,
     borderWidth: 1,
-    borderColor: '#7F85B2',
+    borderColor: '#CED2EA',
+    elevation: 1,
   },
-  Password: {
+  emailActive: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#EEF0FF',
+    borderRadius: 12,
+    marginBottom: 40,
+    paddingHorizontal: 16,
+    borderWidth: 2,
+    borderColor: '#565E8B',
+    elevation: 2,
+  },
+  password: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#EEF0FF',
     borderRadius: 12,
     marginBottom: 16,
     paddingHorizontal: 16,
     borderWidth: 1,
-    borderColor: '#7F85B2',
+    borderColor: '#CED2EA',
+    elevation: 1,
+  },
+  passwordActive: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#EEF0FF',
+    borderRadius: 12,
+    marginBottom: 16,
+    paddingHorizontal: 16,
+    borderWidth: 2,
+    borderColor: '#565E8B',
+    elevation: 2,
+  },
+  itemLeft: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   ForgotPassword: {
     textAlign: 'right',
