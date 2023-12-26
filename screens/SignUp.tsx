@@ -4,7 +4,7 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
-import { ArrowLeft, EnvelopeSimple, Key, Eye } from 'phosphor-react-native';
+import { ArrowLeft, EnvelopeSimple, Phone, Key, Eye } from 'phosphor-react-native';
 
 const SignUp = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
@@ -25,6 +25,32 @@ const SignUp = () => {
           <Text style={styles.title}>Sign Up</Text>
         </View>
 
+        <View style={styles.textInputContainer}>
+          <View style={styles.firstName}>
+            <TextInput
+              placeholder="First Name"
+              style={{
+                paddingVertical: 16,
+                fontFamily: 'RedHatText-Regular',
+                fontSize: 16,
+                color: '#565E8B',
+              }}
+            />
+          </View>
+
+          <View style={styles.lastName}>
+            <TextInput
+              placeholder="Last Name"
+              style={{
+                paddingVertical: 16,
+                fontFamily: 'RedHatText-Regular',
+                fontSize: 16,
+                color: '#565E8B',
+              }}
+            />
+          </View>
+        </View>
+
         <View style={styles.email}>
           <EnvelopeSimple size={24} color="#565E8B"/>
           <TextInput
@@ -38,6 +64,19 @@ const SignUp = () => {
           />
         </View>
           
+        <View style={styles.email}>
+          <Phone size={24} color="#565E8B"/>
+          <TextInput
+            placeholder="Phone Number"
+            style={{
+              padding: 16,
+              fontFamily: 'RedHatText-Regular',
+              fontSize: 16,
+              color: '#565E8B',
+            }}
+          />
+        </View>
+
         <View style={styles.password}>
           <View style={styles.itemLeft}>
             <Key size={24} color="#565E8B"/>
@@ -54,18 +93,34 @@ const SignUp = () => {
           </View>
           <Eye size={24} weight="duotone" color="#565E8B"/>
         </View>
-        <Text style={styles.ForgotPassword}>Forgot Password?</Text>
+
+        <View style={styles.password}>
+          <View style={styles.itemLeft}>
+            <Key size={24} weight="fill" color="#565E8B"/>
+            <TextInput
+              placeholder="Confirm Password"
+              secureTextEntry={true}
+              style={{
+                padding: 16,
+                fontFamily: 'RedHatText-Regular',
+                fontSize: 16,
+                color: '#565E8B',
+              }}
+            />
+          </View>
+          <Eye size={24} weight="duotone" color="#565E8B"/>
+        </View>
         
         <TouchableOpacity style={styles.btnLogIn}>
-          <Text style={styles.textLogIn}>LOG IN</Text>
+          <Text style={styles.textSignUp}>SIGN UP</Text>
         </TouchableOpacity>
         <Text style={styles.textBody}>
-          New User?
+          Already have account?
           <Text
             style={styles.textButton}
             onPress={() => navigation.navigate('SignUp')}>
             {' '}
-            SIGN UP
+            LOG IN
           </Text>
         </Text>
       </View>
@@ -119,14 +174,14 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     paddingHorizontal: 25,
-    paddingTop: 45,
-    paddingBottom: 50,
+    paddingTop: 35,
+    paddingBottom: 10,
   },
   heading: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 50,
+    marginBottom: 40,
   },
   title: {
     flex: 1,
@@ -135,12 +190,38 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: '#10152F',
   },
+  textInputContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  firstName: {
+    flex: 1,
+    marginRight: 10,
+    backgroundColor: '#EEF0FF',
+    borderRadius: 12,
+    marginBottom: 25,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: '#CED2EA',
+    elevation: 1,
+  },
+  lastName: {
+    flex: 1,
+    marginLeft: 10,
+    backgroundColor: '#EEF0FF',
+    borderRadius: 12,
+    marginBottom: 25,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: '#CED2EA',
+    elevation: 1,
+  },
   email: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#EEF0FF',
     borderRadius: 12,
-    marginBottom: 40,
+    marginBottom: 25,
     paddingHorizontal: 16,
     borderWidth: 1,
     borderColor: '#CED2EA',
@@ -151,7 +232,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#EEF0FF',
     borderRadius: 12,
-    marginBottom: 40,
+    marginBottom: 25,
     paddingHorizontal: 16,
     borderWidth: 2,
     borderColor: '#565E8B',
@@ -162,7 +243,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#EEF0FF',
     borderRadius: 12,
-    marginBottom: 16,
+    marginBottom: 25,
     paddingHorizontal: 16,
     borderWidth: 1,
     borderColor: '#CED2EA',
@@ -173,7 +254,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#EEF0FF',
     borderRadius: 12,
-    marginBottom: 16,
+    marginBottom: 25,
     paddingHorizontal: 16,
     borderWidth: 2,
     borderColor: '#565E8B',
@@ -184,20 +265,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  ForgotPassword: {
-    textAlign: 'right',
-    fontFamily: 'RedHatText-Regular',
-    fontSize: 14,
-    color: '#262D57',
-    marginBottom: 50,
-  },
   btnLogIn: {
     backgroundColor: '#10152F',
     borderRadius: 16,
     paddingVertical: 16,
-    marginBottom: 25,
+    marginBottom: 20,
   },
-  textLogIn: {
+  textSignUp: {
     textAlign: 'center',
     fontFamily: 'RedHatText-Bold',
     fontSize: 18,
