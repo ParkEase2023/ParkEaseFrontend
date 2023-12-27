@@ -4,10 +4,37 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
-import { ArrowLeft, EnvelopeSimple, Key, Eye } from 'phosphor-react-native';
-
+import { ArrowLeft, EnvelopeSimple, Key, Eye, EyeSlash } from 'phosphor-react-native';
+import {useContext, useEffect, useState} from 'react';
 const SignIn = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
+  const [textEntry, setTextEntry] = useState(true);
+  const Entrypassword = (): JSX.Element | null => {
+    if(textEntry == true)
+    {
+      return (
+      <TouchableOpacity 
+        onPress={() => {
+        setTextEntry(!textEntry);
+        return false;
+      }}>
+        <EyeSlash size={24} weight="duotone" color="#565E8B"/>
+      </TouchableOpacity>
+      )
+    }
+    else
+    {
+      return (
+        <TouchableOpacity 
+        onPress={() => {
+        setTextEntry(!textEntry);
+        return false;
+      }}>
+        <Eye size={24} weight="duotone" color="#565E8B"/>
+      </TouchableOpacity>
+      )
+    }
+  }
   return (
     <KeyboardAwareScrollView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView style={styles.Logo}>
@@ -43,7 +70,7 @@ const SignIn = () => {
             <Key size={24} color="#565E8B"/>
             <TextInput
               placeholder="Password"
-              secureTextEntry={true}
+              secureTextEntry={textEntry}
               style={{
                 padding: 16,
                 fontFamily: 'RedHatText-Regular',
@@ -52,7 +79,7 @@ const SignIn = () => {
               }}
             />
           </View>
-          <Eye size={24} weight="duotone" color="#565E8B"/>
+          <Entrypassword></Entrypassword>
         </View>
         <Text style={styles.ForgotPassword}>Forgot Password?</Text>
         
