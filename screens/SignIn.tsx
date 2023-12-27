@@ -6,9 +6,47 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
 import { ArrowLeft, EnvelopeSimple, Key, Eye, EyeSlash } from 'phosphor-react-native';
 import {useContext, useEffect, useState} from 'react';
+import AuthContext from '../context/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { logIn } from '../services/auth';
+import { RootStackList } from '../stack/RootStack';
+
+
 const SignIn = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
+  const navigetAffterlogin = useNavigation<NativeStackNavigationProp<RootStackList>>();
+  const [email, setEmail] = useState('191144zs456zs@gmail.com');
+  const [password, setPassword] = useState('123456');
+  const {setLoggedIn} = useContext(AuthContext);
   const [textEntry, setTextEntry] = useState(true);
+  const [errorsEmail, setErrorsEmail] = useState('');
+  const [errorsPassword, setErrorsPassword] = useState('');
+  const hardleLogin = async () => {
+    try {
+      const res: any = await logIn({
+        email: email,
+        password: password,
+      });
+      console.log('res token', res);
+      if (res.message === 'success') {
+        AsyncStorage.setItem('token', res.token);
+        setLoggedIn(true);
+        console.log('token save to local storage successfully');
+        navigetAffterlogin.replace('MenuStack', {screen: 'HomeStack'});
+      }
+    } catch (err: any) {
+      // setErrorsEmail('');
+      // setErrorsPassword('');
+      // err.errors.map((item: any) => {
+      //   if (item.param === 'email') {
+      //     setErrorsEmail(item.msg);
+      //   } else if (item.param === 'password') {
+      //     setErrorsPassword(item.msg);
+      //   }
+      // });
+      console.log(err);
+    }
+  };
   const Entrypassword = (): JSX.Element | null => {
     if(textEntry == true)
     {
@@ -35,6 +73,7 @@ const SignIn = () => {
       )
     }
   }
+
   return (
     <KeyboardAwareScrollView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView style={styles.Logo}>
@@ -62,7 +101,9 @@ const SignIn = () => {
               fontSize: 16,
               color: '#565E8B',
             }}
+            // onChangeText={text => setEmail(text)}
           />
+          <Text style={styles.error}>{errorsEmail}</Text>
         </View>
           
         <View style={styles.password}>
@@ -77,13 +118,15 @@ const SignIn = () => {
                 fontSize: 16,
                 color: '#565E8B',
               }}
+              // onChangeText={text => setPassword(text)}
             />
+            <Text style={styles.error}>{errorsPassword}</Text>
           </View>
           <Entrypassword></Entrypassword>
         </View>
         <Text style={styles.ForgotPassword}>Forgot Password?</Text>
         
-        <TouchableOpacity style={styles.btnLogIn}>
+        <TouchableOpacity style={styles.btnLogIn} onPress={hardleLogin}>
           <Text style={styles.textLogIn}>LOG IN</Text>
         </TouchableOpacity>
         <Text style={styles.textBody}>
@@ -240,5 +283,12 @@ const styles = StyleSheet.create({
     fontFamily: 'RedHatText-Bold',
     fontSize: 16,
     color: '#565E8B',
+  },
+  error: {
+    color: '#D75D5D',
+    fontFamily: 'RedHatText-Medium',
+    fontSize: 12,
+    paddingTop: 2,
+    paddingLeft: 16,
   },
 })
