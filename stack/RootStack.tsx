@@ -1,9 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigatorScreenParams } from '@react-navigation/native';
-import React from 'react'
+import React, { useState } from 'react'
 import AuthStack, { AuthTabParamList } from './AuthStack';
 import MenuStack, { MenuParamList } from './MenuStack';
+import AuthContext from '../context/AuthContext';
 
 export type RootStackList = {
   AuthStack: NavigatorScreenParams<AuthTabParamList>;
@@ -11,8 +12,10 @@ export type RootStackList = {
 };
 
 const Rootstack = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const Stack = createNativeStackNavigator<RootStackList>();
   return (
+    <AuthContext.Provider value={{isLoggedIn: isLoggedIn, setLoggedIn: setIsLoggedIn}}>
     <Stack.Navigator initialRouteName="MenuStack"
       screenOptions={{
         headerShown: false,
@@ -22,6 +25,7 @@ const Rootstack = () => {
       <Stack.Screen name="AuthStack" component={AuthStack} />
 
     </Stack.Navigator>
+    </AuthContext.Provider>
   )
 }
 
