@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+import { http } from './axiosInstance';
+// import axios from 'axios';
+
 
 interface ISignUp {
   firstname: string;
@@ -16,13 +18,13 @@ interface ISignIn {
 }
 
 export const signUp = async (body: ISignUp) => {
-  const res = await axios.post('/auth/signup', body);
+  const res = await http.post('/auth/signup', body);
   console.log('res signUp ', res);
   return res;
 };
 
 export const logIn = async (body: ISignIn) => {
-  const res = await axios.post('/auth/login', body);
+  const res = await http.post('/auth/login', body);
   console.log('res login ', res);
   return res;
 };

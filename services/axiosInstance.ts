@@ -14,17 +14,17 @@ const onRequest = async (config: any) => {
   return config;
 };
 
-// export const dummyApi = axios.create({
-//   baseURL: 'https://dummyjson.com',
-//   headers: {
-//       'Content-Type': 'application/json'
-//   }
-// });
+export const http = axios.create({
+  baseURL: Config.REACT_APP_API_URL,
+  headers: {
+      'Content-Type': 'application/json'
+  }
+});
 
 const onRequestError = (err: AxiosError): Promise<AxiosError> => {
   return Promise.reject(err);
 };
-axios.interceptors.request.use(onRequest, onRequestError);
+http.interceptors.request.use(onRequest, onRequestError);
 
 const onResponse = (response: AxiosResponse): AxiosResponse => {
   return response.data;
@@ -32,4 +32,4 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
 const onResponseError = (err: AxiosError): Promise<AxiosError> => {
   return Promise.reject(err.response?.data);
 };
-axios.interceptors.response.use(onResponse, onResponseError);
+http.interceptors.response.use(onResponse, onResponseError);
