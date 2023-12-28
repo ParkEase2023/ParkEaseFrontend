@@ -21,12 +21,7 @@ const ForgetPassword = () => {
           <EnvelopeSimple size={24} color="#565E8B"/>
           <TextInput
             placeholder="Email"
-            style={{
-              padding: 16,
-              fontFamily: 'RedHatText-Regular',
-              fontSize: 16,
-              color: '#565E8B',
-            }}
+            style={styles.textInput}
           />
         </View>
         <TouchableOpacity style={styles.btnSend}>
@@ -77,21 +72,24 @@ const styles = StyleSheet.create({
     marginTop: 80,
     marginBottom: 50,
   },
+  textInput: {
+    padding: 16,
+    fontFamily: 'RedHatText-Regular',
+    fontSize: 16,
+    color: '#10152F',
+  },
   email: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#EEF0FF',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
     marginBottom: 101,
     paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: '#CED2EA',
-    elevation: 1,
   },
   emailActive: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#EEF0FF',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
     marginBottom: 101,
     paddingHorizontal: 16,

@@ -13,6 +13,7 @@ import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import ForgetPassword from '../screens/ForgetPassword';
 import VerifyYourEmail from '../screens/VerifyYourEmail';
+import CreateNewPassword from '../screens/CreateNewPassword';
 
 export type MenuParamList = {
   HomeStack: undefined;
@@ -55,7 +56,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="MyList"
-          component={SignUp}
+          component={VerifyYourEmail}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <Heart

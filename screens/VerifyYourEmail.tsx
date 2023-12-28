@@ -85,6 +85,14 @@ const VerifyYourEmail = () => {
         <TouchableOpacity style={styles.btnSend}>
           <Text style={styles.textSend}>VERIFY</Text>
         </TouchableOpacity>
+        <Text style={styles.textBody}>
+          Did you don’t get code?
+          <Text
+            style={styles.textButton}>
+            {' '}
+            RESEND
+          </Text>
+        </Text>
         <View style={styles.circleSmall} />
       </SafeAreaView>
     </KeyboardAwareScrollView>
@@ -173,6 +181,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#10152F',
     borderRadius: 16,
     paddingVertical: 16,
+    marginBottom: 20,
   },
   textSend: {
     textAlign: 'center',
@@ -180,13 +189,24 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#FEFA94',
   },
+  textBody: {
+    textAlign: 'center',
+    fontFamily: 'RedHatText-Regular',
+    fontSize: 16,
+    color: '#2C2F4A',
+  },
+  textButton: {
+    fontFamily: 'RedHatText-Bold',
+    fontSize: 16,
+    color: '#565E8B',
+  },
   circleSmall: {
     position: 'absolute',
     width: 95,
     height: 95,
     borderRadius: 100,
     backgroundColor: '#CED2EA',
-    bottom: -120,
+    bottom: -100,
     right: -20,
   },
 })

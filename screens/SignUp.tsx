@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   firstName: {
     flex: 1,
     marginRight: 10,
-    backgroundColor: '#E0E4FE',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
     marginBottom: 25,
     paddingHorizontal: 16,
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   lastName: {
     flex: 1,
     marginLeft: 10,
-    backgroundColor: '#E0E4FE',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
     marginBottom: 25,
     paddingHorizontal: 16,
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
   firstNameActive: {
     flex: 1,
     marginRight: 10,
-    backgroundColor: '#E0E4FE',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
     marginBottom: 25,
     paddingHorizontal: 16,
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
   lastNameActive: {
     flex: 1,
     marginLeft: 10,
-    backgroundColor: '#E0E4FE',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
     marginBottom: 25,
     paddingHorizontal: 16,
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
   emailToConPassword: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E0E4FE',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
     marginBottom: 25,
     paddingHorizontal: 16,
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
   emailToConPasswordActive: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E0E4FE',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
     marginBottom: 25,
     paddingHorizontal: 16,

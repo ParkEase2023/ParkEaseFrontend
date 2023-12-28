@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   emailAndPassword: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E0E4FE',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
     marginBottom: 25,
     paddingHorizontal: 16,
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   emailAndPasswordActive: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E0E4FE',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
     marginBottom: 25,
     paddingHorizontal: 16,
