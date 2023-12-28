@@ -25,31 +25,21 @@ const SignIn = () => {
           <Text style={styles.title}>Log In</Text>
         </View>
 
-        <View style={styles.email}>
+        <View style={styles.emailAndPassword}>
           <EnvelopeSimple size={24} color="#565E8B"/>
           <TextInput
             placeholder="Email"
-            style={{
-              padding: 16,
-              fontFamily: 'RedHatText-Regular',
-              fontSize: 16,
-              color: '#565E8B',
-            }}
+            style={styles.longTextInput}
           />
         </View>
           
-        <View style={styles.password}>
+        <View style={styles.emailAndPassword}>
           <View style={styles.itemLeft}>
             <Key size={24} color="#565E8B"/>
             <TextInput
               placeholder="Password"
               secureTextEntry={true}
-              style={{
-                padding: 16,
-                fontFamily: 'RedHatText-Regular',
-                fontSize: 16,
-                color: '#565E8B',
-              }}
+              style={styles.longTextInput}
             />
           </View>
           <Eye size={24} weight="duotone" color="#565E8B"/>
@@ -135,45 +125,26 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: '#10152F',
   },
-  email: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#EEF0FF',
-    borderRadius: 12,
-    marginBottom: 40,
-    paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: '#CED2EA',
-    elevation: 1,
+  longTextInput: {
+    padding: 16,
+    fontFamily: 'RedHatText-Regular',
+    fontSize: 16,
+    color: '#10152F',
   },
-  emailActive: {
+  emailAndPassword: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#EEF0FF',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
-    marginBottom: 40,
+    marginBottom: 25,
     paddingHorizontal: 16,
-    borderWidth: 2,
-    borderColor: '#565E8B',
-    elevation: 2,
   },
-  password: {
+  emailAndPasswordActive: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#EEF0FF',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
-    marginBottom: 16,
-    paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: '#CED2EA',
-    elevation: 1,
-  },
-  passwordActive: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#EEF0FF',
-    borderRadius: 12,
-    marginBottom: 16,
+    marginBottom: 25,
     paddingHorizontal: 16,
     borderWidth: 2,
     borderColor: '#565E8B',
