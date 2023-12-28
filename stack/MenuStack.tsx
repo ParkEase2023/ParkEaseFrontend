@@ -11,6 +11,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import { SvgUri } from 'react-native-svg';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
+import ForgetPassword from '../screens/ForgetPassword';
+import VerifyYourEmail from '../screens/VerifyYourEmail';
 
 export type MenuParamList = {
   HomeStack: undefined;
