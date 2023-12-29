@@ -150,7 +150,7 @@ const SignUp = () => {
           <Text style={styles.error}>{errorsLastname}</Text>
         </View>
 
-        <View style={styles.email}>
+        <View style={styles.emailToConPassword}>
           <EnvelopeSimple size={24} color="#565E8B"/>
           <TextInput
             placeholder="Email"
@@ -165,7 +165,7 @@ const SignUp = () => {
           <Text style={styles.error}>{errorsEmail}</Text>
         </View>
           
-        <View style={styles.email}>
+        <View style={styles.emailToConPassword}>
           <Phone size={24} color="#565E8B"/>
           <TextInput
             placeholder="Phone Number"
@@ -180,7 +180,7 @@ const SignUp = () => {
           <Text style={styles.error}>{errorsPhone}</Text>
         </View>
 
-        <View style={styles.password}>
+        <View style={styles.emailToConPassword}>
           <View style={styles.itemLeft}>
             <Key size={24} color="#565E8B"/>
             <TextInput
@@ -199,7 +199,7 @@ const SignUp = () => {
           <Entrypassword></Entrypassword>
         </View>
 
-        <View style={styles.password}>
+        <View style={styles.emailToConPassword}>
           <View style={styles.itemLeft}>
             <Key size={24} weight="fill" color="#565E8B"/>
             <TextInput
@@ -301,43 +301,38 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  shortTextInput: {
+    paddingVertical: 16,
+    fontFamily: 'RedHatText-Regular',
+    fontSize: 16,
+    color: '#10152F',
+  },
+  longTextInput: {
+    padding: 16,
+    fontFamily: 'RedHatText-Regular',
+    fontSize: 16,
+    color: '#10152F',
+  },
   firstName: {
     flex: 1,
     marginRight: 10,
-    backgroundColor: '#EEF0FF',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
     marginBottom: 25,
     paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: '#CED2EA',
-    elevation: 1,
   },
   lastName: {
     flex: 1,
     marginLeft: 10,
-    backgroundColor: '#EEF0FF',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
     marginBottom: 25,
     paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: '#CED2EA',
-    elevation: 1,
   },
-  email: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#EEF0FF',
-    borderRadius: 12,
-    marginBottom: 25,
-    paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: '#CED2EA',
-    elevation: 1,
-  },
-  emailActive: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#EEF0FF',
+  firstNameActive: {
+    flex: 1,
+    marginRight: 10,
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
     marginBottom: 25,
     paddingHorizontal: 16,
@@ -345,21 +340,29 @@ const styles = StyleSheet.create({
     borderColor: '#565E8B',
     elevation: 2,
   },
-  password: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#EEF0FF',
+  lastNameActive: {
+    flex: 1,
+    marginLeft: 10,
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
     marginBottom: 25,
     paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: '#CED2EA',
-    elevation: 1,
+    borderWidth: 2,
+    borderColor: '#565E8B',
+    elevation: 2,
   },
-  passwordActive: {
+  emailToConPassword: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#EEF0FF',
+    backgroundColor: '#DAE0FF',
+    borderRadius: 12,
+    marginBottom: 25,
+    paddingHorizontal: 16,
+  },
+  emailToConPasswordActive: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
     marginBottom: 25,
     paddingHorizontal: 16,
