@@ -373,6 +373,5 @@ const styles = StyleSheet.create({
     fontFamily: 'RedHatText-Medium',
     fontSize: 12,
     paddingTop: 2,
-    paddingLeft: 16,
   },
 })

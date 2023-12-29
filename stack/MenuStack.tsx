@@ -54,7 +54,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="MyList"
-          component={SignUp}
+          component={MyList}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <Heart
