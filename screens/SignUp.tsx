@@ -1,13 +1,31 @@
 import { StyleSheet, Text, View, Image, Platform, TouchableOpacity, TextInput, SafeAreaView } from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
 import { ArrowLeft, EnvelopeSimple, Phone, Key, Eye, EyeSlash } from 'phosphor-react-native';
+import AuthContext from '../context/AuthContext';
+import { signUp } from '../services/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { RootStackList } from '../stack/RootStack';
 
 const SignUp = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
+  const navigetAffterSignUp = useNavigation<NativeStackNavigationProp<RootStackList>>();
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNum, setPhoneNum] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const {setLoggedIn} = useContext(AuthContext);
+  const [errorsFirstname, setErrorsFirstname] = useState('');
+  const [errorsLastname, setErrorsLastname] = useState('');
+  const [errorsPhone, setErrorsPhone] = useState('');
+  const [errorsEmail, setErrorsEmail] = useState('');
+  const [errorsPassword, setErrorsPassword] = useState('');
+  const [errorsConpassword, setErrorsConpassword] = useState('');
   const [textEntry, setTextEntry] = useState(true);
   const Entrypassword = (): JSX.Element | null => {
     if(textEntry == true)
@@ -35,6 +53,55 @@ const SignUp = () => {
       )
     }
   }
+  const handleSignUp = async () => {
+    try {
+      if(password === confirmPassword)
+      {
+        const res: any = await signUp({
+          firstname: firstname,
+          lastname: lastname,
+          phone_number: phoneNum,
+          email: email,
+          password: password,
+        });
+        console.log('res token', res);
+        if (res.message === 'created') {
+          AsyncStorage.setItem('token', res.token);
+          setLoggedIn(true);
+          console.log('token kkkkkkkkkk');
+          navigetAffterSignUp.replace('MenuStack', {screen: 'HomeStack'});
+        }
+        console.log(res);
+      }
+      else
+      {
+        setErrorsConpassword("Password not match");
+      }
+    } catch (err: any) {
+      setErrorsFirstname('');
+      setErrorsLastname('');
+      setErrorsPhone('');
+      setErrorsEmail('');
+      setErrorsPassword('');
+      setErrorsConpassword('');
+      err.errors.map((item: any) => {
+        if (item.param === 'firstname') {
+          setErrorsFirstname(item.msg);
+        } else if (item.param === 'lastname') {
+          setErrorsLastname(item.msg);
+        } else if (item.param === 'phone_number') {
+          setErrorsPhone(item.msg);
+        } else if (item.param === 'email') {
+          setErrorsEmail(item.msg);
+        } else if (item.param === 'password') {
+          setErrorsPassword(item.msg);
+        } else if (item.param === 'conPassword') {
+          setErrorsConpassword(item.msg);
+        }
+      });
+      console.log(err);
+    }
+  };
   return (
     <KeyboardAwareScrollView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView style={styles.Logo}>
@@ -62,8 +129,11 @@ const SignUp = () => {
                 fontSize: 16,
                 color: '#565E8B',
               }}
+              onChangeText={text => setFirstname(text)}
             />
+            
           </View>
+          <Text style={styles.error}>{errorsFirstname}</Text>
 
           <View style={styles.lastName}>
             <TextInput
@@ -74,8 +144,10 @@ const SignUp = () => {
                 fontSize: 16,
                 color: '#565E8B',
               }}
+              onChangeText={text => setLastname(text)}
             />
           </View>
+          <Text style={styles.error}>{errorsLastname}</Text>
         </View>
 
         <View style={styles.email}>
@@ -88,7 +160,9 @@ const SignUp = () => {
               fontSize: 16,
               color: '#565E8B',
             }}
+            onChangeText={text => setEmail(text)}
           />
+          <Text style={styles.error}>{errorsEmail}</Text>
         </View>
           
         <View style={styles.email}>
@@ -101,7 +175,9 @@ const SignUp = () => {
               fontSize: 16,
               color: '#565E8B',
             }}
+            onChangeText={text => setPhoneNum(text)}
           />
+          <Text style={styles.error}>{errorsPhone}</Text>
         </View>
 
         <View style={styles.password}>
@@ -116,7 +192,9 @@ const SignUp = () => {
                 fontSize: 16,
                 color: '#565E8B',
               }}
+              onChangeText={text => setPassword(text)}
             />
+            <Text style={styles.error}>{errorsPassword}</Text>
           </View>
           <Entrypassword></Entrypassword>
         </View>
@@ -133,12 +211,14 @@ const SignUp = () => {
                 fontSize: 16,
                 color: '#565E8B',
               }}
+              onChangeText={text => setConfirmPassword(text)}
             />
+            <Text style={styles.error}>{errorsConpassword}</Text>
           </View>
           <Entrypassword></Entrypassword>
         </View>
         
-        <TouchableOpacity style={styles.btnLogIn}>
+        <TouchableOpacity style={styles.btnLogIn} onPress={handleSignUp}>
           <Text style={styles.textSignUp}>SIGN UP</Text>
         </TouchableOpacity>
         <Text style={styles.textBody}>
@@ -314,5 +394,12 @@ const styles = StyleSheet.create({
     fontFamily: 'RedHatText-Bold',
     fontSize: 16,
     color: '#565E8B',
+  },
+  error: {
+    color: '#D75D5D',
+    fontFamily: 'RedHatText-Medium',
+    fontSize: 12,
+    paddingTop: 2,
+    paddingLeft: 16,
   },
 })

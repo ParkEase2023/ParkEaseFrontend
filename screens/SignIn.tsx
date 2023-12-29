@@ -15,8 +15,8 @@ import { RootStackList } from '../stack/RootStack';
 const SignIn = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
   const navigetAffterlogin = useNavigation<NativeStackNavigationProp<RootStackList>>();
-  const [email, setEmail] = useState('191144zs456zs@gmail.com');
-  const [password, setPassword] = useState('123456');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const {setLoggedIn} = useContext(AuthContext);
   const [textEntry, setTextEntry] = useState(true);
   const [errorsEmail, setErrorsEmail] = useState('');
@@ -35,15 +35,15 @@ const SignIn = () => {
         navigetAffterlogin.replace('MenuStack', {screen: 'HomeStack'});
       }
     } catch (err: any) {
-      // setErrorsEmail('');
-      // setErrorsPassword('');
-      // err.errors.map((item: any) => {
-      //   if (item.param === 'email') {
-      //     setErrorsEmail(item.msg);
-      //   } else if (item.param === 'password') {
-      //     setErrorsPassword(item.msg);
-      //   }
-      // });
+      setErrorsEmail('');
+      setErrorsPassword('');
+      err.errors.map((item: any) => {
+        if (item.param === 'email') {
+          setErrorsEmail(item.msg);
+        } else if (item.param === 'password') {
+          setErrorsPassword(item.msg);
+        }
+      });
       console.log(err);
     }
   };
@@ -101,7 +101,7 @@ const SignIn = () => {
               fontSize: 16,
               color: '#565E8B',
             }}
-            // onChangeText={text => setEmail(text)}
+            onChangeText={text => setEmail(text)}
           />
           <Text style={styles.error}>{errorsEmail}</Text>
         </View>
@@ -118,7 +118,7 @@ const SignIn = () => {
                 fontSize: 16,
                 color: '#565E8B',
               }}
-              // onChangeText={text => setPassword(text)}
+              onChangeText={text => setPassword(text)}
             />
             <Text style={styles.error}>{errorsPassword}</Text>
           </View>

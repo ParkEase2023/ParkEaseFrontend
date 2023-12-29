@@ -6,10 +6,9 @@ import { http } from '../config/axiosInstance';
 interface ISignUp {
   firstname: string;
   lastname: string;
-  phone: string;
+  phone_number: string;
   email: string;
   password: string;
-  conPassword: string;
 }
 
 interface ISignIn {
