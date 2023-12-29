@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { http } from './axiosInstance';
+import { http } from '../config/axiosInstance';
 // import axios from 'axios';
 
 

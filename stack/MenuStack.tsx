@@ -11,6 +11,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { SvgUri } from 'react-native-svg';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
+import Logout from '../screens/Logout';
 
 export type MenuParamList = {
   HomeStack: undefined;
@@ -97,7 +98,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="ProfileStack"
-          component={Profile}
+          component={Logout}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <User
