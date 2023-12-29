@@ -1,8 +1,9 @@
 import { Dimensions, PermissionsAndroid, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import Geolocation from 'react-native-geolocation-service';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Crosshair, MagnifyingGlass, StackSimple } from 'phosphor-react-native';
+import { getAllParking } from '../services/parking';
 
 
 
@@ -278,7 +279,7 @@ async function requestPermissions() {
   }
 }
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const aspectRatio = 300 / 500;
 const height = width * aspectRatio;
 
@@ -289,7 +290,7 @@ const height = width * aspectRatio;
 
 const Home = () => {
 
-
+  const [parkingMarkers, setParkingMarkers] = useState<Position[]>([]);
   const mapRef = useRef<MapView | null>(null);
   const [pos, setPos] = useState<Position>({
     latitude: 0,
@@ -316,9 +317,23 @@ const Home = () => {
       },
     );
   }, []);
+
+  const [listparking, setListParking] = useState(parkingMarkers);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const dataParking: any = await getAllParking();
+      setListParking(dataParking.data);
+    };
+    fetchData();
+  }, []);
+
+
+
   const [currentType, setCurrentType] = useState(MapType.standard);
   const [check, setCheck] = useState(true);
-  function callBoth() {
+
+  const callBoth = () => {
     if (check === true) {
       setCurrentType(MapType.hybrid);
       setCheck(false);
@@ -327,6 +342,29 @@ const Home = () => {
       setCheck(true);
     }
   }
+
+  const RenderParking = () => {
+    return (
+      <>
+        {
+          listparking.map((item: any, index) => {
+            return (
+              <Marker
+                key={index}
+                coordinate={{
+                  latitude: item.latitude,
+                  longitude: item.longitude,
+                }}
+                title={item.title}
+                description={item._id}
+              >
+              </Marker>
+            )
+          })
+        }
+      </>
+    )
+  };
 
   const getCurrentPosition = () => {
     Geolocation.getCurrentPosition(
@@ -366,22 +404,23 @@ const Home = () => {
         toolbarEnabled={true}
 
       >
+      <RenderParking></RenderParking>
       </MapView>
       <View style={styles.container}>
-          <View style={styles.searchContainer}>
-            <View style={styles.inner}>
-              <TouchableOpacity style={styles.search}>
-                <MagnifyingGlass size={22} weight="bold" color="#A6A6A6" />
-              </TouchableOpacity>
-              <TextInput
-                style={styles.field}
-                placeholder="Search"
-                placeholderTextColor="#A6A6A6" 
-                // value={searchInput}
-                // onChangeText={text => setSearchInput(text)}
-              />
-            </View>
+        <View style={styles.searchContainer}>
+          <View style={styles.inner}>
+            <TouchableOpacity style={styles.search}>
+              <MagnifyingGlass size={22} weight="bold" color="#A6A6A6" />
+            </TouchableOpacity>
+            <TextInput
+              style={styles.field}
+              placeholder="Search"
+              placeholderTextColor="#A6A6A6"
+            // value={searchInput}
+            // onChangeText={text => setSearchInput(text)}
+            />
           </View>
+        </View>
       </View>
       <View
         style={{
@@ -436,8 +475,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#10152F',
     position: 'absolute',
-    width:'100%',
-    
+    width: '100%',
+
     // borderRadius:50
   },
   searchContainer: {
@@ -445,7 +484,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginTop: 10,
     elevation: 3,
-    height:60
+    height: 60
   },
   inner: {
     flexDirection: 'row',
@@ -458,9 +497,9 @@ const styles = StyleSheet.create({
     paddingRight: 50,
     paddingVertical: 10,
     fontFamily: 'Fredoka-Regular',
-    fontSize:16,
+    fontSize: 16,
     borderRadius: 10
-  
+
   },
   search: {
     position: 'absolute',
