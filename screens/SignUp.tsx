@@ -123,12 +123,7 @@ const SignUp = () => {
           <View style={styles.firstName}>
             <TextInput
               placeholder="First Name"
-              style={{
-                paddingVertical: 16,
-                fontFamily: 'RedHatText-Regular',
-                fontSize: 16,
-                color: '#565E8B',
-              }}
+              style={styles.shortTextInput}
               onChangeText={text => setFirstname(text)}
             />
             
@@ -138,12 +133,7 @@ const SignUp = () => {
           <View style={styles.lastName}>
             <TextInput
               placeholder="Last Name"
-              style={{
-                paddingVertical: 16,
-                fontFamily: 'RedHatText-Regular',
-                fontSize: 16,
-                color: '#565E8B',
-              }}
+              style={styles.shortTextInput}
               onChangeText={text => setLastname(text)}
             />
           </View>
@@ -154,12 +144,7 @@ const SignUp = () => {
           <EnvelopeSimple size={24} color="#565E8B"/>
           <TextInput
             placeholder="Email"
-            style={{
-              padding: 16,
-              fontFamily: 'RedHatText-Regular',
-              fontSize: 16,
-              color: '#565E8B',
-            }}
+            style={styles.longTextInput}
             onChangeText={text => setEmail(text)}
           />
           <Text style={styles.error}>{errorsEmail}</Text>
@@ -169,12 +154,7 @@ const SignUp = () => {
           <Phone size={24} color="#565E8B"/>
           <TextInput
             placeholder="Phone Number"
-            style={{
-              padding: 16,
-              fontFamily: 'RedHatText-Regular',
-              fontSize: 16,
-              color: '#565E8B',
-            }}
+            style={styles.longTextInput}
             onChangeText={text => setPhoneNum(text)}
           />
           <Text style={styles.error}>{errorsPhone}</Text>
@@ -186,12 +166,7 @@ const SignUp = () => {
             <TextInput
               placeholder="Password"
               secureTextEntry={textEntry}
-              style={{
-                padding: 16,
-                fontFamily: 'RedHatText-Regular',
-                fontSize: 16,
-                color: '#565E8B',
-              }}
+              style={styles.longTextInput}
               onChangeText={text => setPassword(text)}
             />
             <Text style={styles.error}>{errorsPassword}</Text>
@@ -205,12 +180,7 @@ const SignUp = () => {
             <TextInput
               placeholder="Confirm Password"
               secureTextEntry={textEntry}
-              style={{
-                padding: 16,
-                fontFamily: 'RedHatText-Regular',
-                fontSize: 16,
-                color: '#565E8B',
-              }}
+              style={styles.longTextInput}
               onChangeText={text => setConfirmPassword(text)}
             />
             <Text style={styles.error}>{errorsConpassword}</Text>
@@ -403,6 +373,5 @@ const styles = StyleSheet.create({
     fontFamily: 'RedHatText-Medium',
     fontSize: 12,
     paddingTop: 2,
-    paddingLeft: 16,
   },
 })
