@@ -4,10 +4,76 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
-import { ArrowLeft, EnvelopeSimple, Key, Eye } from 'phosphor-react-native';
+import { ArrowLeft, EnvelopeSimple, Key, Eye, EyeSlash } from 'phosphor-react-native';
+import {useContext, useEffect, useState} from 'react';
+import AuthContext from '../context/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { logIn } from '../services/auth';
+import { RootStackList } from '../stack/RootStack';
+
 
 const SignIn = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
+  const navigetAffterlogin = useNavigation<NativeStackNavigationProp<RootStackList>>();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const {setLoggedIn} = useContext(AuthContext);
+  const [textEntry, setTextEntry] = useState(true);
+  const [errorsEmail, setErrorsEmail] = useState('');
+  const [errorsPassword, setErrorsPassword] = useState('');
+  const hardleLogin = async () => {
+    try {
+      const res: any = await logIn({
+        email: email,
+        password: password,
+      });
+      console.log('res token', res);
+      if (res.message === 'success') {
+        AsyncStorage.setItem('token', res.token);
+        setLoggedIn(true);
+        console.log('token save to local storage successfully');
+        navigetAffterlogin.replace('MenuStack', {screen: 'HomeStack'});
+      }
+    } catch (err: any) {
+      setErrorsEmail('');
+      setErrorsPassword('');
+      err.errors.map((item: any) => {
+        if (item.param === 'email') {
+          setErrorsEmail(item.msg);
+        } else if (item.param === 'password') {
+          setErrorsPassword(item.msg);
+        }
+      });
+      console.log(err);
+    }
+  };
+  const Entrypassword = (): JSX.Element | null => {
+    if(textEntry == true)
+    {
+      return (
+      <TouchableOpacity 
+        onPress={() => {
+        setTextEntry(!textEntry);
+        return false;
+      }}>
+        <EyeSlash size={24} weight="duotone" color="#565E8B"/>
+      </TouchableOpacity>
+      )
+    }
+    else
+    {
+      return (
+        <TouchableOpacity 
+        onPress={() => {
+        setTextEntry(!textEntry);
+        return false;
+      }}>
+        <Eye size={24} weight="duotone" color="#565E8B"/>
+      </TouchableOpacity>
+      )
+    }
+  }
+
   return (
     <KeyboardAwareScrollView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView style={styles.Logo}>
@@ -25,7 +91,7 @@ const SignIn = () => {
           <Text style={styles.title}>Log In</Text>
         </View>
 
-        <View style={styles.email}>
+        <View style={styles.emailAndPassword}>
           <EnvelopeSimple size={24} color="#565E8B"/>
           <TextInput
             placeholder="Email"
@@ -35,28 +101,32 @@ const SignIn = () => {
               fontSize: 16,
               color: '#565E8B',
             }}
+            onChangeText={text => setEmail(text)}
           />
+          <Text style={styles.error}>{errorsEmail}</Text>
         </View>
           
-        <View style={styles.password}>
+        <View style={styles.emailAndPassword}>
           <View style={styles.itemLeft}>
             <Key size={24} color="#565E8B"/>
             <TextInput
               placeholder="Password"
-              secureTextEntry={true}
+              secureTextEntry={textEntry}
               style={{
                 padding: 16,
                 fontFamily: 'RedHatText-Regular',
                 fontSize: 16,
                 color: '#565E8B',
               }}
+              onChangeText={text => setPassword(text)}
             />
+            <Text style={styles.error}>{errorsPassword}</Text>
           </View>
-          <Eye size={24} weight="duotone" color="#565E8B"/>
+          <Entrypassword></Entrypassword>
         </View>
         <Text style={styles.ForgotPassword}>Forgot Password?</Text>
         
-        <TouchableOpacity style={styles.btnLogIn}>
+        <TouchableOpacity style={styles.btnLogIn} onPress={hardleLogin}>
           <Text style={styles.textLogIn}>LOG IN</Text>
         </TouchableOpacity>
         <Text style={styles.textBody}>
@@ -135,45 +205,26 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: '#10152F',
   },
-  email: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#EEF0FF',
-    borderRadius: 12,
-    marginBottom: 40,
-    paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: '#CED2EA',
-    elevation: 1,
+  longTextInput: {
+    padding: 16,
+    fontFamily: 'RedHatText-Regular',
+    fontSize: 16,
+    color: '#10152F',
   },
-  emailActive: {
+  emailAndPassword: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#EEF0FF',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
-    marginBottom: 40,
+    marginBottom: 25,
     paddingHorizontal: 16,
-    borderWidth: 2,
-    borderColor: '#565E8B',
-    elevation: 2,
   },
-  password: {
+  emailAndPasswordActive: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#EEF0FF',
+    backgroundColor: '#DAE0FF',
     borderRadius: 12,
-    marginBottom: 16,
-    paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: '#CED2EA',
-    elevation: 1,
-  },
-  passwordActive: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#EEF0FF',
-    borderRadius: 12,
-    marginBottom: 16,
+    marginBottom: 25,
     paddingHorizontal: 16,
     borderWidth: 2,
     borderColor: '#565E8B',
@@ -213,5 +264,12 @@ const styles = StyleSheet.create({
     fontFamily: 'RedHatText-Bold',
     fontSize: 16,
     color: '#565E8B',
+  },
+  error: {
+    color: '#D75D5D',
+    fontFamily: 'RedHatText-Medium',
+    fontSize: 12,
+    paddingTop: 2,
+    paddingLeft: 16,
   },
 })
