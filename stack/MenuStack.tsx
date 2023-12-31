@@ -15,6 +15,7 @@ import ForgetPassword from '../screens/ForgetPassword';
 import VerifyYourEmail from '../screens/VerifyYourEmail';
 import CreateNewPassword from '../screens/CreateNewPassword';
 import SelectForVerify from '../screens/SelectForVerify';
+import VerifyYourIdentify from '../screens/VerifyYourIdentity';
 
 export type MenuParamList = {
   HomeStack: undefined;
@@ -57,7 +58,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="MyList"
-          component={ SelectForVerify }
+          component={ VerifyYourIdentify }
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <Heart

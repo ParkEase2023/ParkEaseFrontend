@@ -4,7 +4,7 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
-import { ArrowLeft, Key, Eye } from 'phosphor-react-native';
+import { ArrowLeft, Key, Eye, EnvelopeSimple } from 'phosphor-react-native';
 
 const SelectForVerify = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
@@ -18,16 +18,10 @@ const SelectForVerify = () => {
         <Text style={styles.title}>Verify Your Password</Text>
         <Text style={styles.text}>Please enter your email address to receive a verification cord.</Text>
         
-        <View style={styles.newPassword}>
-          <View style={styles.itemLeft}>
-            <Key size={24} color="#565E8B"/>
-            <TextInput
-              placeholder="Password"
-              secureTextEntry={true}
-              style={styles.textInput}
-            />
-          </View>
-          <Eye size={24} weight="duotone" color="#565E8B"/>
+        <View style={styles.email}>
+          <EnvelopeSimple size={24} color="#565E8B"/>
+          <Text>   kierra.ami@gmail.com</Text>
+
         </View>
 
         <TouchableOpacity style={styles.btnSend}>
@@ -143,8 +137,16 @@ const styles = StyleSheet.create({
     width: 95,
     height: 95,
     borderRadius: 100,
-    backgroundColor: '#CED2EA',
+    backgroundColor: '#262D57',
     bottom: -120,
     right: -20,
+  },
+  email: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#DAE0FF',
+    borderRadius: 20,
+    marginBottom: 101,
+    paddingHorizontal: 30,
   },
 })

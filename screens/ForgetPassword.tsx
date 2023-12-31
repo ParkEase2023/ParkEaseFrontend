@@ -9,7 +9,7 @@ import { ArrowLeft, EnvelopeSimple } from 'phosphor-react-native';
 const ForgetPassword = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
   return (
-    <KeyboardAwareScrollView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAwareScrollView style={styles.container}>
       <SafeAreaView style={styles.mainContainer}>
         <View style={styles.circleBig} />
         <TouchableOpacity style={styles.btnBack} onPress={() => navigation.goBack()}>
