@@ -9,7 +9,7 @@ import { ArrowLeft, EnvelopeSimple, Phone, Key, Eye } from 'phosphor-react-nativ
 const SignUp = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
   return (
-    <KeyboardAwareScrollView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAwareScrollView style={styles.container} >
       <SafeAreaView style={styles.Logo}>
         <Image source={require('../assets/LogoParkEase2.png')} />
         <View style={styles.circleG} />

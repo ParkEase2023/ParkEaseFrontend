@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
 import { ArrowLeft, Key, Eye } from 'phosphor-react-native';
 
-const CreateNewPassword = () => {
+const SelectForVerify = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
   return (
     <KeyboardAwareScrollView style={styles.container} >
@@ -15,26 +15,14 @@ const CreateNewPassword = () => {
         <TouchableOpacity style={styles.btnBack} onPress={() => navigation.goBack()}>
           <ArrowLeft size={24} color="#EEF0FF" />
         </TouchableOpacity>
-        <Text style={styles.title}>Check New Password</Text>
-        <Text style={styles.text}>Your new password must be different from previously used password.</Text>
+        <Text style={styles.title}>Verify Your Password</Text>
+        <Text style={styles.text}>Please enter your email address to receive a verification cord.</Text>
         
         <View style={styles.newPassword}>
           <View style={styles.itemLeft}>
             <Key size={24} color="#565E8B"/>
             <TextInput
               placeholder="Password"
-              secureTextEntry={true}
-              style={styles.textInput}
-            />
-          </View>
-          <Eye size={24} weight="duotone" color="#565E8B"/>
-        </View>
-
-        <View style={styles.conPassword}>
-          <View style={styles.itemLeft}>
-            <Key size={24} weight="fill" color="#565E8B"/>
-            <TextInput
-              placeholder="Confirm Password"
               secureTextEntry={true}
               style={styles.textInput}
             />
@@ -51,7 +39,7 @@ const CreateNewPassword = () => {
   )
 }
 
-export default CreateNewPassword
+export default SelectForVerify
 
 const styles = StyleSheet.create({
   container: {

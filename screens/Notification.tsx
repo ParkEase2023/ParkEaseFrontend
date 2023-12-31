@@ -12,7 +12,6 @@ const Notification = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>0TP Delivery Method</Text>
-      <Text style={styles.text}>0TP Delivery Method</Text>
       <Pressable onPress={() => navigation.goBack()}>
         <ArrowLeft size={24} color="#565E8B" />
       </Pressable>
@@ -20,6 +19,7 @@ const Notification = () => {
       <View style={styles.email}>
         <Circle size={24} color="#565E8B" />
       </View>
+      
     </View>
   )
 }
