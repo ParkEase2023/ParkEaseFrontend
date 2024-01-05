@@ -16,6 +16,7 @@ import VerifyYourEmail from '../screens/VerifyYourEmail';
 import CreateNewPassword from '../screens/CreateNewPassword';
 import SelectForVerify from '../screens/SelectForVerify';
 import VerifyYourIdentify from '../screens/VerifyYourIdentity';
+import AlertFiterSreach from '../screens/AlertFiterSreach';
 
 export type MenuParamList = {
   HomeStack: undefined;
@@ -58,7 +59,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="MyList"
-          component={ VerifyYourIdentify }
+          component={ AlertFiterSreach }
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <Heart
@@ -71,7 +72,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="AddParkingStack"
-          component={AddParking}
+          component={ AddParking }
           // onPress={() =>
           //   navigation.navigate('AddToiletStack', {screen: 'AddToilet'})
           // }
