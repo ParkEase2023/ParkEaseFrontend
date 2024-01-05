@@ -1,13 +1,16 @@
-import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, SafeAreaView, Image } from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import React from 'react'
+import Modal from 'react-native-modal';
+import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
 import { ArrowLeft, Key, Eye } from 'phosphor-react-native';
+import Good from '../assets/Good.png';
 
 const CreateNewPassword = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
+  const [visible, setVisible] = useState(false);
   return (
     <KeyboardAwareScrollView style={styles.container} >
       <SafeAreaView style={styles.mainContainer}>
@@ -42,11 +45,23 @@ const CreateNewPassword = () => {
           <Eye size={24} weight="duotone" color="#565E8B"/>
         </View>
 
-        <TouchableOpacity style={styles.btnSend}>
+        <TouchableOpacity style={styles.btnSend} onPress={() => setVisible(true)}>
           <Text style={styles.textSend}>SEND</Text>
         </TouchableOpacity>
         <View style={styles.circleSmall} />
       </SafeAreaView>
+
+      <Modal isVisible={visible} backdropOpacity={0.9} backdropColor='#262D57'>
+        <View style={styles.modalContainer}>
+          <Image source={Good} style={styles.imageGood} />
+          <Text style={styles.modalText}>
+            Saved!
+          </Text>
+          <Text style={styles.modalText2}>
+            Yahoo! You have successfully changed your password.
+          </Text>
+        </View>
+      </Modal>
     </KeyboardAwareScrollView>
   )
 }
@@ -158,5 +173,31 @@ const styles = StyleSheet.create({
     backgroundColor: '#CED2EA',
     bottom: -120,
     right: -20,
+  },
+  
+  modalContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#EEF0FF',
+    borderRadius: 16,
+    paddingHorizontal: 25,
+    marginHorizontal: 35,
+  },
+  imageGood: {
+    marginTop: -115,
+    marginBottom: 16,
+  },
+  modalText: {
+    fontFamily: 'RedHatText-Bold',
+    fontSize: 24,
+    color: '#10152F',
+    marginBottom: 16,
+  },
+  modalText2: {
+    fontFamily: 'RedHatText-Regular',
+    fontSize: 16,
+    color: '#262D57',
+    textAlign: 'center',
+    marginBottom: 30,
   },
 })

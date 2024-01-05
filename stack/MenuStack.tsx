@@ -11,8 +11,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import { SvgUri } from 'react-native-svg';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
+import Logout from '../screens/Logout';
 import ForgetPassword from '../screens/ForgetPassword';
-import VerifyYourEmail from '../screens/VerifyYourEmail';
 import CreateNewPassword from '../screens/CreateNewPassword';
 import SelectForVerify from '../screens/SelectForVerify';
 import VerifyYourIdentify from '../screens/VerifyYourIdentity';
@@ -59,7 +59,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="MyList"
-          component={ AlertFiterSreach }
+          component={MyList}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <Heart
@@ -90,7 +90,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="NotificationStack"
-          component={Notification}
+          component={Profile}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <Bell
@@ -103,7 +103,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="ProfileStack"
-          component={Profile}
+          component={Logout}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <User
