@@ -17,6 +17,7 @@ import CreateNewPassword from '../screens/CreateNewPassword';
 import SelectForVerify from '../screens/SelectForVerify';
 import VerifyYourIdentify from '../screens/VerifyYourIdentity';
 import AlertFiterSreach from '../screens/AlertFiterSreach';
+import EditProfile from '../screens/EditProfile';
 
 export type MenuParamList = {
   HomeStack: undefined;
@@ -90,7 +91,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="NotificationStack"
-          component={Profile}
+          component={EditProfile}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <Bell
