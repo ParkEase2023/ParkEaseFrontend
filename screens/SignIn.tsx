@@ -91,7 +91,7 @@ const SignIn = () => {
           <Text style={styles.title}>Log In</Text>
         </View>
 
-        <View style={styles.emailAndPassword}>
+        <View style={styles.email}>
           <EnvelopeSimple size={24} color="#565E8B"/>
           <TextInput
             placeholder="Email"
@@ -103,10 +103,10 @@ const SignIn = () => {
             }}
             onChangeText={text => setEmail(text)}
           />
-          <Text style={styles.error}>{errorsEmail}</Text>
         </View>
+        <Text style={styles.error}>{errorsEmail}</Text>
           
-        <View style={styles.emailAndPassword}>
+        <View style={styles.password}>
           <View style={styles.itemLeft}>
             <Key size={24} color="#565E8B"/>
             <TextInput
@@ -120,10 +120,10 @@ const SignIn = () => {
               }}
               onChangeText={text => setPassword(text)}
             />
-            <Text style={styles.error}>{errorsPassword}</Text>
           </View>
           <Entrypassword></Entrypassword>
         </View>
+        <Text style={styles.error}>{errorsPassword}</Text>
         <Text style={styles.ForgotPassword}>Forgot Password?</Text>
         
         <TouchableOpacity style={styles.btnLogIn} onPress={hardleLogin}>
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 40,
     paddingHorizontal: 25,
     paddingTop: 45,
-    paddingBottom: 50,
+    paddingBottom: 98.5,
   },
   heading: {
     flexDirection: 'row',
@@ -211,21 +211,38 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#10152F',
   },
-  emailAndPassword: {
+  email: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#DAE0FF',
     borderRadius: 12,
-    marginBottom: 25,
     paddingHorizontal: 16,
   },
-  emailAndPasswordActive: {
+  emailActive: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#DAE0FF',
     borderRadius: 12,
-    marginBottom: 25,
     paddingHorizontal: 16,
+    borderWidth: 2,
+    borderColor: '#565E8B',
+    elevation: 2,
+  },
+  password:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#DAE0FF',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    marginTop: 25,
+  },
+  passwordActive:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#DAE0FF',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    marginTop: 25,
     borderWidth: 2,
     borderColor: '#565E8B',
     elevation: 2,
@@ -240,6 +257,7 @@ const styles = StyleSheet.create({
     fontFamily: 'RedHatText-Regular',
     fontSize: 14,
     color: '#262D57',
+    marginTop: 2,
     marginBottom: 50,
   },
   btnLogIn: {
@@ -266,8 +284,8 @@ const styles = StyleSheet.create({
     color: '#565E8B',
   },
   error: {
-    color: '#D75D5D',
-    fontFamily: 'RedHatText-Medium',
+    color: '#EA4C4C',
+    fontFamily: 'RedHatText-SemiBold',
     fontSize: 12,
     paddingTop: 2,
     paddingLeft: 16,

@@ -126,7 +126,6 @@ const SignUp = () => {
               style={styles.shortTextInput}
               onChangeText={text => setFirstname(text)}
             />
-            
           </View>
           <Text style={styles.error}>{errorsFirstname}</Text>
 
@@ -252,7 +251,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 40,
     paddingHorizontal: 25,
     paddingTop: 35,
-    paddingBottom: 10,
+    paddingBottom: 27.5,
   },
   heading: {
     flexDirection: 'row',
@@ -369,9 +368,10 @@ const styles = StyleSheet.create({
     color: '#565E8B',
   },
   error: {
-    color: '#D75D5D',
-    fontFamily: 'RedHatText-Medium',
+    color: '#EA4C4C',
+    fontFamily: 'RedHatText-SemiBold',
     fontSize: 12,
     paddingTop: 2,
+    // paddingLeft: 16,
   },
 })
