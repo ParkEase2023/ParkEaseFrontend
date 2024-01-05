@@ -124,7 +124,7 @@ const SignIn = () => {
           <Entrypassword></Entrypassword>
         </View>
         <Text style={styles.error}>{errorsPassword}</Text>
-        <Text style={styles.ForgotPassword}>Forgot Password?</Text>
+        <Text style={styles.ForgotPassword} onPress={() => navigation.navigate('ForgetPassword')}>Forgot Password?</Text>
         
         <TouchableOpacity style={styles.btnLogIn} onPress={hardleLogin}>
           <Text style={styles.textLogIn}>LOG IN</Text>

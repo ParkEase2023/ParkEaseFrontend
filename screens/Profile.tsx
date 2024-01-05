@@ -1,9 +1,54 @@
 import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
-import profile from '../assets/profile.png';
+import React, { useContext, useEffect } from 'react'
+import Imageprofile from '../assets/profile.png';
 import { EnvelopeSimple, Phone, PencilSimple, Wallet, CoinVertical, CaretRight, Bell, ClockCounterClockwise, Car, IdentificationBadge, UserList, SignOut } from 'phosphor-react-native';
 import RequireLogin from '../components/RequireLogin';
+import { getProfile } from '../services/user';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackList } from '../stack/RootStack';
+import AuthContext from '../context/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export interface IProfile {
+  _id: string;
+  firstname: string;
+  lastname: string;
+  phone_number: string;
+  email: string;
+  coins: number;
+  profile_picture: string;
+}
+
 const Profile = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
+  const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
+  const [profile, setProfile] = React.useState<IProfile>({
+    _id: '',
+    firstname: '',
+    lastname: '',
+    phone_number: '',
+    email: '',
+    coins:0,
+    profile_picture:
+      'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png',
+  });
+  const getUserProfile = async () => {
+    const { data } = await getProfile();
+    // console.log('user profile ', data);
+    setProfile(data);
+  };
+  
+  useEffect(() => {
+    getUserProfile();
+  }, []);
+
+  const handleLogout = async () => {
+      setLoggedIn(false);
+      await AsyncStorage.removeItem('token');
+      navigation.replace('MenuStack', { screen: 'HomeStack' });
+  };
+
   return (
     <RequireLogin>
       <SafeAreaView style={styles.container}>
@@ -13,19 +58,19 @@ const Profile = () => {
 
           <View style={styles.profileContainer}>
             <View style={styles.mainProfileContainer}>
-              <Image source={profile} style={styles.imageProfile} />
+              <Image source={{uri: profile.profile_picture}} style={styles.imageProfile} />
 
               <View style={styles.dataProfile}>
-                <Text style={styles.name}>Kierra Aminoff</Text>
+                <Text style={styles.name}>{profile.firstname} {profile.lastname}</Text>
 
                 <View style={styles.email}>
                   <EnvelopeSimple size={20} weight="fill" color="#7F85B2" />
-                  <Text style={styles.textProfile}>kierra.ami@gmail.com</Text>
+                  <Text style={styles.textProfile}>{profile.email}</Text>
                 </View>
 
                 <View style={styles.phone}>
                   <Phone size={20} weight="fill" color="#7F85B2" />
-                  <Text style={styles.textProfile}>089-555-0120</Text>
+                  <Text style={styles.textProfile}>{profile.phone_number}</Text>
                 </View>
               </View>
             </View>
@@ -45,7 +90,7 @@ const Profile = () => {
 
             <View style={styles.itemRight}>
               <CoinVertical size={22} weight="fill" color="#2C2F4A" />
-              <Text style={styles.textBold}>0</Text>
+              <Text style={styles.textBold}>{profile.coins}</Text>
               <CaretRight size={22} weight="bold" color="#7F85B2" />
             </View>
           </TouchableOpacity>
@@ -105,7 +150,7 @@ const Profile = () => {
             <CaretRight size={22} weight="bold" color="#7F85B2" />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.btnRectangle}>
+          <TouchableOpacity style={styles.btnRectangle} onPress={handleLogout}>
             <View style={styles.itemLeft}>
               <View style={styles.bgIconLogOut}>
                 <SignOut size={22} weight="bold" color="#EEF0FF" />

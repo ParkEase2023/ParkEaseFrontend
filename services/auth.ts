@@ -9,6 +9,7 @@ interface ISignUp {
   phone_number: string;
   email: string;
   password: string;
+  Exptime:Date;
 }
 
 interface ISignIn {

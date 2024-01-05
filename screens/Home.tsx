@@ -4,7 +4,7 @@ import Geolocation from 'react-native-geolocation-service';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { CaretLeft, Crosshair, MagnifyingGlass, StackSimple } from 'phosphor-react-native';
 import { getAllParking } from '../services/parking';
-
+import { LogBox } from 'react-native';
 
 
 
@@ -285,7 +285,7 @@ const height = width * aspectRatio;
 
 
 
-
+LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
 
 
 const Home = () => {

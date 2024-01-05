@@ -63,6 +63,7 @@ const SignUp = () => {
           phone_number: phoneNum,
           email: email,
           password: password,
+          Exptime: new Date()
         });
         console.log('res token', res);
         if (res.message === 'created') {

@@ -17,13 +17,15 @@ import CreateNewPassword from '../screens/CreateNewPassword';
 import SelectForVerify from '../screens/SelectForVerify';
 import VerifyYourIdentify from '../screens/VerifyYourIdentity';
 import AlertFiterSreach from '../screens/AlertFiterSreach';
+import { NavigatorScreenParams } from '@react-navigation/native';
+import ProfileStack, { ProfileParamList } from './ProfileStack';
 
 export type MenuParamList = {
   HomeStack: undefined;
   MyList: undefined;
   AddParkingStack: undefined;
   NotificationStack: undefined;
-  ProfileStack: undefined;
+  ProfileStack: NavigatorScreenParams<ProfileParamList>;
 };
 
 const MenuStack = () => {
@@ -103,7 +105,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="ProfileStack"
-          component={Profile}
+          component={ProfileStack}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <User
