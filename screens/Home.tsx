@@ -2,7 +2,7 @@ import { Dimensions, PermissionsAndroid, Platform, SafeAreaView, StyleSheet, Tex
 import React, { useEffect, useRef, useState } from 'react'
 import Geolocation from 'react-native-geolocation-service';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { Crosshair, MagnifyingGlass, StackSimple } from 'phosphor-react-native';
+import { CaretLeft, Crosshair, MagnifyingGlass, StackSimple } from 'phosphor-react-native';
 import { getAllParking } from '../services/parking';
 
 
@@ -328,7 +328,18 @@ const Home = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const dataParking: any = await getAllParking();
+      setParkingMarkers(dataParking.data);
+    };
+    fetchData();
+  }, [listparking]);
 
+
+
+  const [selectedOpen, setSelectedOpen] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(false);
 
   const [currentType, setCurrentType] = useState(MapType.standard);
   const [check, setCheck] = useState(true);
@@ -350,6 +361,7 @@ const Home = () => {
           listparking.map((item: any, index) => {
             return (
               <Marker
+                image={require('../assets/PinParkRemoveBG.png')}
                 key={index}
                 coordinate={{
                   latitude: item.latitude,
@@ -365,6 +377,27 @@ const Home = () => {
       </>
     )
   };
+
+  const FilterParking = () => {
+    let FilterParkingMarkers = parkingMarkers;
+    //Open filter
+    if (selectedOpen === true) {
+      FilterParkingMarkers = FilterParkingMarkers.filter(
+        (item: any) => item.opening_status === true,
+      );
+    }
+    //Booking filter
+    if (selectedBooking === true) {
+      FilterParkingMarkers = FilterParkingMarkers.filter(
+        (item: any) => item.booking === true,
+      );
+    }
+    setListParking(FilterParkingMarkers);
+  };
+
+  useEffect(() => {
+    FilterParking();
+  }, [selectedOpen, selectedBooking]);
 
   const getCurrentPosition = () => {
     Geolocation.getCurrentPosition(
@@ -393,6 +426,7 @@ const Home = () => {
         ref={mapRef}
         showsUserLocation={true}
         style={{ flex: 1 }}
+        minZoomLevel={15}
         provider={PROVIDER_GOOGLE}
         region={pos}
         mapType={currentType}
@@ -402,9 +436,8 @@ const Home = () => {
         zoomControlEnabled={true}
         showsBuildings={true}
         toolbarEnabled={true}
-
       >
-      <RenderParking></RenderParking>
+        <RenderParking></RenderParking>
       </MapView>
       <View style={styles.container}>
         <View style={styles.searchContainer}>
@@ -422,6 +455,16 @@ const Home = () => {
           </View>
         </View>
       </View>
+      <View style={{
+        position: 'absolute', //use absolute position to show button on top of the map
+        top: -30, //for center align
+        left: 60,
+        alignSelf: 'flex-start', //for align to right
+      }}>
+        <TouchableOpacity style={styles.btnStackSimple_46}>
+          <CaretLeft size={24}  color="#A6A6A6" />
+        </TouchableOpacity>
+      </View>
       <View
         style={{
           position: 'absolute', //use absolute position to show button on top of the map
@@ -429,12 +472,26 @@ const Home = () => {
           right: 12,
           alignSelf: 'flex-end', //for align to right
         }}>
-        <SafeAreaView>
+        {/* <SafeAreaView>
           <TouchableOpacity style={styles.btnStackSimple_44} onPress={getCurrentPosition}>
             <Crosshair size={24} weight="fill" color="#A6A6A6" />
           </TouchableOpacity>
-
           <TouchableOpacity style={styles.btnStackSimple_45} onPress={callBoth}>
+            <StackSimple size={22} weight="fill" color="#A6A6A6" />
+          </TouchableOpacity>
+        </SafeAreaView> */}
+        <SafeAreaView>
+          <TouchableOpacity style={styles.btnStackSimple_44}
+            onPress={() => {
+              setSelectedOpen(!selectedOpen);
+              return true;
+            }}>
+            <Crosshair size={24} weight="fill" color="#A6A6A6" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnStackSimple_45} onPress={() => {
+            setSelectedBooking(!selectedBooking);
+            return true;
+          }}>
             <StackSimple size={22} weight="fill" color="#A6A6A6" />
           </TouchableOpacity>
         </SafeAreaView>
@@ -471,12 +528,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10
   },
+  btnStackSimple_46: {
+    position: 'absolute',
+    width: 50,
+    height: 50,
+    backgroundColor: '#10152F',
+    marginTop: 40,
+    right: 0,
+    elevation: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10
+  },
   container: {
     flex: 1,
     backgroundColor: '#10152F',
     position: 'absolute',
-    width: '100%',
-
+    width: '87%',
+    alignSelf: 'flex-end'
     // borderRadius:50
   },
   searchContainer: {
