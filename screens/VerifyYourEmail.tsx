@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, SafeAreaView } from 'react-native'
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import React from 'react'
-import { useNavigation } from '@react-navigation/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import React, { useRef, useState } from 'react'
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
 import { ArrowLeft } from 'phosphor-react-native';
@@ -14,7 +14,28 @@ import { ArrowLeft } from 'phosphor-react-native';
 // };
 
 const VerifyYourEmail = () => {
+  const { params } = useRoute<RouteProp<AuthTabParamList, 'VerifyYourEmail'>>();
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [complete, setComplete] = useState('')
+  const inputRefs = [useRef<TextInput>(null), useRef<TextInput>(null), useRef<TextInput>(null), useRef<TextInput>(null), useRef<TextInput>(null), useRef<TextInput>(null)];
+  const handleInputChange = (index:any, value:any) => {
+    // Update the OTP array with the new value
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+  
+    // Move to the next input field or submit if the last digit is entered
+    const nextInputRef = inputRefs[index + 1];
+    if (index < otp.length - 1 && value !== '' && nextInputRef && nextInputRef.current) {
+      (nextInputRef.current as any).focus();
+    } else if (index === otp.length - 1 && value !== '') {
+      const OTP = newOtp.join('')
+      console.log('OTP entered: ' + OTP);
+      setComplete(OTP)
+    }
+  };
+  
   return (
     <KeyboardAwareScrollView style={styles.container} >
       <SafeAreaView style={styles.mainContainer}>
@@ -24,62 +45,22 @@ const VerifyYourEmail = () => {
         </TouchableOpacity>
         <Text style={styles.title}>Verify Your Email</Text>
         <Text style={styles.text}>Please enter the 6-digit code sent to</Text>
-        <Text style={styles.textBold}>palita.sim@gmail.com</Text>
-        
+        <Text style={styles.textBold}>{params.Email}</Text>
+
         <View style={styles.textInputContainer}>
-          <View style={styles.code}>
-            <TextInput
-              keyboardType="number-pad"
-              maxLength={1}
-              placeholder=" "
-              style={styles.textInput}
-            />
-          </View>
-
-          <View style={styles.code}>
-            <TextInput
-              keyboardType="number-pad"
-              maxLength={1}
-              placeholder=" "
-              style={styles.textInput}
-            />
-          </View>
-
-          <View style={styles.code}>
-            <TextInput
-              keyboardType="number-pad"
-              maxLength={1}
-              placeholder=" "
-              style={styles.textInput}
-            />
-          </View>
-
-          <View style={styles.code}>
-            <TextInput
-              keyboardType="number-pad"
-              maxLength={1}
-              placeholder=" "
-              style={styles.textInput}
-            />
-          </View>
-
-          <View style={styles.code}>
-            <TextInput
-              keyboardType="number-pad"
-              maxLength={1}
-              placeholder=" "
-              style={styles.textInput}
-            />
-          </View>
-
-          <View style={styles.code}>
-            <TextInput
-              keyboardType="number-pad"
-              maxLength={1}
-              placeholder=" "
-              style={styles.textInput}
-            />
-          </View>
+          {otp.map((digit, index) => (
+            <View style={styles.code} key={index}>
+              <TextInput
+                keyboardType="number-pad"
+                maxLength={1}
+                onChangeText={(value) => handleInputChange(index, value)}
+                placeholder=" "
+                value={digit}
+                style={styles.textInput}
+                ref={inputRefs[index]}
+              />
+            </View>
+          ))}
         </View>
 
         <TouchableOpacity style={styles.btnSend}>

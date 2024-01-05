@@ -1,13 +1,31 @@
 import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, SafeAreaView } from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
 import { ArrowLeft, EnvelopeSimple } from 'phosphor-react-native';
-
+import { checkemail } from '../services/forgotpassword';
+import CountDown from 'react-native-countdown-component';
 const ForgetPassword = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
+  const [email, setEmail] = useState('');
+  const [errorsEmail, setErrorsEmail] = useState('');
+  const chackemail  = async () => {
+    try {
+      const res:any = await checkemail(email);
+      console.log(res.message)
+      navigation.navigate("VerifyYourEmail",{Email: email});
+    } catch (err: any) {
+      setErrorsEmail("")
+      err.errors.map((item: any) => {
+        if (item.param === 'email') {
+          setErrorsEmail(item.msg);
+        }
+      });
+      console.log(err);
+    }
+  };
   return (
     <KeyboardAwareScrollView style={styles.container} >
       <SafeAreaView style={styles.mainContainer}>
@@ -22,9 +40,11 @@ const ForgetPassword = () => {
           <TextInput
             placeholder="Email"
             style={styles.textInput}
+            onChangeText={text => setEmail(text)}
           />
+        <Text style={styles.error}>{errorsEmail}</Text>
         </View>
-        <TouchableOpacity style={styles.btnSend}>
+        <TouchableOpacity style={styles.btnSend} onPress={chackemail}>
           <Text style={styles.textSend}>SEND</Text>
         </TouchableOpacity>
         <View style={styles.circleSmall} />
@@ -116,5 +136,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#CED2EA',
     bottom: -120,
     right: -20,
+  },
+  error: {
+    zIndex: 9999,
+    color: '#EA4C4C',
+    fontFamily: 'RedHatText-SemiBold',
+    fontSize: 12,
+    paddingTop: 2,
+    paddingLeft: 16,
   },
 })
