@@ -2,123 +2,125 @@ import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity } from 'r
 import React from 'react'
 import profile from '../assets/profile.png';
 import { EnvelopeSimple, Phone, PencilSimple, Wallet, CoinVertical, CaretRight, Bell, ClockCounterClockwise, Car, IdentificationBadge, UserList, SignOut } from 'phosphor-react-native';
-
+import RequireLogin from '../components/RequireLogin';
 const Profile = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.mainContainer}>
-        <View style={styles.circleBig} />
-        <Text style={styles.title}>Profile</Text>
+    <RequireLogin>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.mainContainer}>
+          <View style={styles.circleBig} />
+          <Text style={styles.title}>Profile</Text>
 
-        <View style={styles.profileContainer}>
-          <View style={styles.mainProfileContainer}>
-            <Image source={profile} style={styles.imageProfile} />
+          <View style={styles.profileContainer}>
+            <View style={styles.mainProfileContainer}>
+              <Image source={profile} style={styles.imageProfile} />
 
-            <View style={styles.dataProfile}>
-              <Text style={styles.name}>Kierra Aminoff</Text>
+              <View style={styles.dataProfile}>
+                <Text style={styles.name}>Kierra Aminoff</Text>
 
-              <View style={styles.email}>
-                <EnvelopeSimple size={20} weight="fill" color="#7F85B2" />
-                <Text style={styles.textProfile}>kierra.ami@gmail.com</Text>
+                <View style={styles.email}>
+                  <EnvelopeSimple size={20} weight="fill" color="#7F85B2" />
+                  <Text style={styles.textProfile}>kierra.ami@gmail.com</Text>
+                </View>
+
+                <View style={styles.phone}>
+                  <Phone size={20} weight="fill" color="#7F85B2" />
+                  <Text style={styles.textProfile}>089-555-0120</Text>
+                </View>
               </View>
+            </View>
 
-              <View style={styles.phone}>
-                <Phone size={20} weight="fill" color="#7F85B2" />
-                <Text style={styles.textProfile}>089-555-0120</Text>
-              </View>
+            <View style={styles.bgBtnEdit}>
+              <PencilSimple size={24} weight="fill" style={styles.btnEdit} />
             </View>
           </View>
 
-          <View style={styles.bgBtnEdit}>
-            <PencilSimple size={24} weight="fill" style={styles.btnEdit} />
-          </View>
+          <TouchableOpacity style={styles.btnRectangle}>
+            <View style={styles.itemLeft}>
+              <View style={styles.bgIcon}>
+                <Wallet size={22} weight="fill" color="#EEF0FF" />
+              </View>
+              <Text style={styles.textBody}>Remaining Balance</Text>
+            </View>
+
+            <View style={styles.itemRight}>
+              <CoinVertical size={22} weight="fill" color="#2C2F4A" />
+              <Text style={styles.textBold}>0</Text>
+              <CaretRight size={22} weight="bold" color="#7F85B2" />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.btnRectangle}>
+            <View style={styles.itemLeft}>
+              <View style={styles.bgIcon}>
+                <Bell size={22} weight="fill" color="#EEF0FF" />
+              </View>
+              <Text style={styles.textBody}>Notification</Text>
+            </View>
+
+            <CaretRight size={22} weight="bold" color="#7F85B2" />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.btnRectangle}>
+            <View style={styles.itemLeft}>
+              <View style={styles.bgIcon}>
+                <ClockCounterClockwise size={22} weight="bold" color="#EEF0FF" />
+              </View>
+              <Text style={styles.textBody}>Booking History</Text>
+            </View>
+
+            <CaretRight size={22} weight="bold" color="#7F85B2" />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.btnRectangle}>
+            <View style={styles.itemLeft}>
+              <View style={styles.bgIcon}>
+                <Car size={22} weight="fill" color="#EEF0FF" />
+              </View>
+              <Text style={styles.textBody}>My Parking</Text>
+            </View>
+
+            <CaretRight size={22} weight="bold" color="#7F85B2" />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.btnRectangle}>
+            <View style={styles.itemLeft}>
+              <View style={styles.bgIcon}>
+                <IdentificationBadge size={22} weight="fill" color="#EEF0FF" />
+              </View>
+              <Text style={styles.textBody}>Verify Your Identity</Text>
+            </View>
+
+            <CaretRight size={22} weight="bold" color="#7F85B2" />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.btnRectangle}>
+            <View style={styles.itemLeft}>
+              <View style={styles.bgIcon}>
+                <UserList size={22} weight="bold" color="#EEF0FF" />
+              </View>
+              <Text style={styles.textBody}>Apply For Membership</Text>
+            </View>
+
+            <CaretRight size={22} weight="bold" color="#7F85B2" />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.btnRectangle}>
+            <View style={styles.itemLeft}>
+              <View style={styles.bgIconLogOut}>
+                <SignOut size={22} weight="bold" color="#EEF0FF" />
+              </View>
+              <Text style={styles.textBody}>Log Out</Text>
+            </View>
+
+            <CaretRight size={22} weight="bold" color="#7F85B2" />
+          </TouchableOpacity>
+
+          <View style={styles.circleSmall} />
         </View>
 
-        <TouchableOpacity style={styles.btnRectangle}>
-          <View style={styles.itemLeft}>
-            <View style={styles.bgIcon}>
-              <Wallet size={22} weight="fill" color="#EEF0FF" />
-            </View>
-            <Text style={styles.textBody}>Remaining Balance</Text>
-          </View>
-          
-          <View style={styles.itemRight}>
-            <CoinVertical size={22} weight="fill" color="#2C2F4A" />
-            <Text style={styles.textBold}>0</Text>
-            <CaretRight size={22} weight="bold" color="#7F85B2" />
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.btnRectangle}>
-          <View style={styles.itemLeft}>
-            <View style={styles.bgIcon}>
-              <Bell size={22} weight="fill" color="#EEF0FF" />
-            </View>
-            <Text style={styles.textBody}>Notification</Text>
-          </View>
-          
-          <CaretRight size={22} weight="bold" color="#7F85B2" />
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.btnRectangle}>
-          <View style={styles.itemLeft}>
-            <View style={styles.bgIcon}>
-              <ClockCounterClockwise size={22} weight="bold" color="#EEF0FF" />
-            </View>
-            <Text style={styles.textBody}>Booking History</Text>
-          </View>
-          
-          <CaretRight size={22} weight="bold" color="#7F85B2" />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.btnRectangle}>
-          <View style={styles.itemLeft}>
-            <View style={styles.bgIcon}>
-              <Car size={22} weight="fill" color="#EEF0FF" />
-            </View>
-            <Text style={styles.textBody}>My Parking</Text>
-          </View>
-          
-          <CaretRight size={22} weight="bold" color="#7F85B2" />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.btnRectangle}>
-          <View style={styles.itemLeft}>
-            <View style={styles.bgIcon}>
-              <IdentificationBadge size={22} weight="fill" color="#EEF0FF" />
-            </View>
-            <Text style={styles.textBody}>Verify Your Identity</Text>
-          </View>
-          
-          <CaretRight size={22} weight="bold" color="#7F85B2" />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.btnRectangle}>
-          <View style={styles.itemLeft}>
-            <View style={styles.bgIcon}>
-              <UserList size={22} weight="bold" color="#EEF0FF" />
-            </View>
-            <Text style={styles.textBody}>Apply For Membership</Text>
-          </View>
-          
-          <CaretRight size={22} weight="bold" color="#7F85B2" />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.btnRectangle}>
-          <View style={styles.itemLeft}>
-            <View style={styles.bgIconLogOut}>
-              <SignOut size={22} weight="bold" color="#EEF0FF" />
-            </View>
-            <Text style={styles.textBody}>Log Out</Text>
-          </View>
-          
-          <CaretRight size={22} weight="bold" color="#7F85B2" />
-        </TouchableOpacity>
-
-        <View style={styles.circleSmall} />
-      </View>
-
-    </SafeAreaView>
+      </SafeAreaView>
+    </RequireLogin>
   )
 }
 
@@ -184,7 +186,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 6,
   },
-  phone:{
+  phone: {
     flexDirection: 'row',
     alignItems: 'center',
   },

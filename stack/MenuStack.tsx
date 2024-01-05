@@ -90,7 +90,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="NotificationStack"
-          component={Profile}
+          component={Notification}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <Bell
@@ -103,7 +103,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="ProfileStack"
-          component={Logout}
+          component={Profile}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <User
