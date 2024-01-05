@@ -1,16 +1,13 @@
-import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, SafeAreaView, Image } from 'react-native'
+import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, SafeAreaView } from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import Modal from 'react-native-modal';
-import React, { useState } from 'react'
+import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
-import { ArrowLeft, Key, Eye } from 'phosphor-react-native';
-import Good from '../assets/Good.png';
+import { ArrowLeft, Key, Eye, EnvelopeSimple } from 'phosphor-react-native';
 
-const CreateNewPassword = () => {
+const SelectForVerify = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
-  const [visible, setVisible] = useState(false);
   return (
     <KeyboardAwareScrollView style={styles.container} >
       <SafeAreaView style={styles.mainContainer}>
@@ -18,55 +15,25 @@ const CreateNewPassword = () => {
         <TouchableOpacity style={styles.btnBack} onPress={() => navigation.goBack()}>
           <ArrowLeft size={24} color="#EEF0FF" />
         </TouchableOpacity>
-        <Text style={styles.title}>Check New Password</Text>
-        <Text style={styles.text}>Your new password must be different from previously used password.</Text>
+        <Text style={styles.title}>Verify Your Password</Text>
+        <Text style={styles.text}>Please enter your email address to receive a verification cord.</Text>
         
-        <View style={styles.newPassword}>
-          <View style={styles.itemLeft}>
-            <Key size={24} color="#565E8B"/>
-            <TextInput
-              placeholder="Password"
-              secureTextEntry={true}
-              style={styles.textInput}
-            />
-          </View>
-          <Eye size={24} weight="duotone" color="#565E8B"/>
+        <View style={styles.email}>
+          <EnvelopeSimple size={24} color="#565E8B"/>
+          <Text>   kierra.ami@gmail.com</Text>
+
         </View>
 
-        <View style={styles.conPassword}>
-          <View style={styles.itemLeft}>
-            <Key size={24} weight="fill" color="#565E8B"/>
-            <TextInput
-              placeholder="Confirm Password"
-              secureTextEntry={true}
-              style={styles.textInput}
-            />
-          </View>
-          <Eye size={24} weight="duotone" color="#565E8B"/>
-        </View>
-
-        <TouchableOpacity style={styles.btnSend} onPress={() => setVisible(true)}>
+        <TouchableOpacity style={styles.btnSend}>
           <Text style={styles.textSend}>SEND</Text>
         </TouchableOpacity>
         <View style={styles.circleSmall} />
       </SafeAreaView>
-
-      <Modal isVisible={visible} backdropOpacity={0.9} backdropColor='#262D57'>
-        <View style={styles.modalContainer}>
-          <Image source={Good} style={styles.imageGood} />
-          <Text style={styles.modalText}>
-            Saved!
-          </Text>
-          <Text style={styles.modalText2}>
-            Yahoo! You have successfully changed your password.
-          </Text>
-        </View>
-      </Modal>
     </KeyboardAwareScrollView>
   )
 }
 
-export default CreateNewPassword
+export default SelectForVerify
 
 const styles = StyleSheet.create({
   container: {
@@ -170,34 +137,16 @@ const styles = StyleSheet.create({
     width: 95,
     height: 95,
     borderRadius: 100,
-    backgroundColor: '#CED2EA',
+    backgroundColor: '#262D57',
     bottom: -120,
     right: -20,
   },
-  
-  modalContainer: {
-    justifyContent: 'center',
+  email: {
+    flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#EEF0FF',
-    borderRadius: 16,
-    paddingHorizontal: 25,
-    marginHorizontal: 35,
-  },
-  imageGood: {
-    marginTop: -115,
-    marginBottom: 16,
-  },
-  modalText: {
-    fontFamily: 'RedHatText-Bold',
-    fontSize: 24,
-    color: '#10152F',
-    marginBottom: 16,
-  },
-  modalText2: {
-    fontFamily: 'RedHatText-Regular',
-    fontSize: 16,
-    color: '#262D57',
-    textAlign: 'center',
-    marginBottom: 30,
+    backgroundColor: '#DAE0FF',
+    borderRadius: 20,
+    marginBottom: 101,
+    paddingHorizontal: 30,
   },
 })

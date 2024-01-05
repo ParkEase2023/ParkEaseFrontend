@@ -75,7 +75,7 @@ const SignIn = () => {
   }
 
   return (
-    <KeyboardAwareScrollView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAwareScrollView style={styles.container}>
       <SafeAreaView style={styles.Logo}>
         <Image source={require('../assets/LogoParkEase1.png')} />
         <View style={styles.circleG} />

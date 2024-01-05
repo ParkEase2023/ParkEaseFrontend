@@ -6,14 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
 import { ArrowLeft } from 'phosphor-react-native';
 
-// type OTPInputProps = {
-//   length: number;
-//   value: Array<string>;
-//   disabled: boolean;
-//   onChange: (value: Array<string>) => void;
-// };
-
-const VerifyYourEmail = () => {
+const VerifyYourIdentify = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
   return (
     <KeyboardAwareScrollView style={styles.container} >
@@ -22,9 +15,9 @@ const VerifyYourEmail = () => {
         <TouchableOpacity style={styles.btnBack} onPress={() => navigation.goBack()}>
           <ArrowLeft size={24} color="#EEF0FF" />
         </TouchableOpacity>
-        <Text style={styles.title}>Verify Your Email</Text>
+        <Text style={styles.title}>Verify Your Identity</Text>
         <Text style={styles.text}>Please enter the 6-digit code sent to</Text>
-        <Text style={styles.textBold}>palita.sim@gmail.com</Text>
+        <Text style={styles.textBold}>kierra.ami@gmail.com</Text>
         
         <View style={styles.textInputContainer}>
           <View style={styles.code}>
@@ -83,7 +76,7 @@ const VerifyYourEmail = () => {
         </View>
 
         <TouchableOpacity style={styles.btnSend}>
-          <Text style={styles.textSend}>VERIFY</Text>
+          <Text style={styles.textSend}>Confirm</Text>
         </TouchableOpacity>
         <Text style={styles.textBody}>
           Did you don’t get code?
@@ -99,7 +92,7 @@ const VerifyYourEmail = () => {
   )
 }
 
-export default VerifyYourEmail
+export default VerifyYourIdentify
 
 const styles = StyleSheet.create({
   container: {

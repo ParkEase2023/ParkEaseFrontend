@@ -14,6 +14,9 @@ import SignUp from '../screens/SignUp';
 import Logout from '../screens/Logout';
 import ForgetPassword from '../screens/ForgetPassword';
 import CreateNewPassword from '../screens/CreateNewPassword';
+import SelectForVerify from '../screens/SelectForVerify';
+import VerifyYourIdentify from '../screens/VerifyYourIdentity';
+import AlertFiterSreach from '../screens/AlertFiterSreach';
 
 export type MenuParamList = {
   HomeStack: undefined;
@@ -69,7 +72,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="AddParkingStack"
-          component={AddParking}
+          component={ AddParking }
           // onPress={() =>
           //   navigation.navigate('AddToiletStack', {screen: 'AddToilet'})
           // }
