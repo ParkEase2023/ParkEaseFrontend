@@ -11,3 +11,9 @@ export const sendOTPtoEmail = async (email:any) => {
     // console.log('res', res);
     return res;
 };
+
+export const forgetpassword = async (otp:any) => {
+    const res = await http.get('/forget/forgetpassword', {params: {OTP: otp}});
+    // console.log('res', res);
+    return res;
+};

@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
 import { ArrowLeft } from 'phosphor-react-native';
 import CountdownTimer from '../components/CountdownTimer';
-import { sendOTPtoEmail } from '../services/forgotpassword';
+import { forgetpassword, sendOTPtoEmail } from '../services/forgotpassword';
 
 
 
@@ -14,9 +14,10 @@ const VerifyYourEmail = () => {
   const { params } = useRoute<RouteProp<AuthTabParamList, 'VerifyYourEmail'>>();
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [errorsOTP, setErrorsOTP] = useState('');
   const [complete, setComplete] = useState('')
   const [otpTimeOut, setotpTimeOut] = useState(false)
-  const [duration, setDuration] = useState(30);
+  const [duration, setDuration] = useState(180);
   const inputRefs = [useRef<TextInput>(null), useRef<TextInput>(null), useRef<TextInput>(null), useRef<TextInput>(null), useRef<TextInput>(null), useRef<TextInput>(null)];
   const handleInputChange = (index: any, value: any) => {
     // Update the OTP array with the new value
@@ -44,7 +45,7 @@ const VerifyYourEmail = () => {
   const Renderbtn = ():JSX.Element | null => {
     if (otpTimeOut === false) {
       return (
-        <TouchableOpacity style={styles.btnSend}>
+        <TouchableOpacity style={styles.btnSend} onPress={handleverify}>
           <Text style={styles.textSend}>VERIFY</Text>
         </TouchableOpacity>
       );
@@ -60,12 +61,27 @@ const VerifyYourEmail = () => {
   };
   
   
-
+  const handleverify = async () => {
+    // await forgetpassword(complete);
+    try {
+      const res: any = await forgetpassword(complete);
+      console.log(res.message);
+      navigation.navigate("CreateNewPassword", { SetEmail: params.Email });
+    } catch (err: any) {
+      setErrorsOTP("")
+      err.errors.map((item: any) => {
+        if (item.message === 'OTP') {
+          setErrorsOTP(item.message);
+        }
+      });
+      console.log(err);
+    }
+  };
 
   const handleresend = async () => {
     await sendOTPtoEmail(params.Email);
     setotpTimeOut(false)
-    setDuration(30)
+    setDuration(180)
   };
 
 
