@@ -1,30 +1,28 @@
-import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, SafeAreaView, RefreshControl } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
 import { ArrowLeft } from 'phosphor-react-native';
+import CountdownTimer from '../components/CountdownTimer';
 
-// type OTPInputProps = {
-//   length: number;
-//   value: Array<string>;
-//   disabled: boolean;
-//   onChange: (value: Array<string>) => void;
-// };
+
 
 const VerifyYourEmail = () => {
   const { params } = useRoute<RouteProp<AuthTabParamList, 'VerifyYourEmail'>>();
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [complete, setComplete] = useState('')
+  const [otpTimeOut, setotpTimeOut] = useState(false)
+  const [duration, setDuration] = useState(30);
   const inputRefs = [useRef<TextInput>(null), useRef<TextInput>(null), useRef<TextInput>(null), useRef<TextInput>(null), useRef<TextInput>(null), useRef<TextInput>(null)];
-  const handleInputChange = (index:any, value:any) => {
+  const handleInputChange = (index: any, value: any) => {
     // Update the OTP array with the new value
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
-  
+
     // Move to the next input field or submit if the last digit is entered
     const nextInputRef = inputRefs[index + 1];
     if (index < otp.length - 1 && value !== '' && nextInputRef && nextInputRef.current) {
@@ -35,9 +33,46 @@ const VerifyYourEmail = () => {
       setComplete(OTP)
     }
   };
+
+  useEffect(() => {
+    if (otpTimeOut === true) {
+      console.log('time out');
+    }
+  }, [otpTimeOut])
+
+  const Renderbtn = ():JSX.Element | null => {
+    if (otpTimeOut === false) {
+      return (
+        <TouchableOpacity style={styles.btnSend}>
+          <Text style={styles.textSend}>VERIFY</Text>
+        </TouchableOpacity>
+      );
+    } else if (otpTimeOut === true) {
+      return (
+        <TouchableOpacity style={styles.btnSend} onPress={handleresend}>
+          <Text style={styles.textSend}>RESEND</Text>
+        </TouchableOpacity>
+      );
+    } else {
+      return null;
+    }
+  };
   
+  
+
+
+  const handleresend = () => {
+    setotpTimeOut(false)
+    setDuration(30)
+  };
+
+
+  
+
+
+
   return (
-    <KeyboardAwareScrollView style={styles.container} >
+    <KeyboardAwareScrollView style={styles.container}>
       <SafeAreaView style={styles.mainContainer}>
         <View style={styles.circleBig} />
         <TouchableOpacity style={styles.btnBack} onPress={() => navigation.goBack()}>
@@ -63,15 +98,26 @@ const VerifyYourEmail = () => {
           ))}
         </View>
 
-        <TouchableOpacity style={styles.btnSend}>
-          <Text style={styles.textSend}>VERIFY</Text>
-        </TouchableOpacity>
+        <Renderbtn></Renderbtn>
         <Text style={styles.textBody}>
           Did you don’t get code?
-          <Text
+          {/* <Text
             style={styles.textButton}>
             {' '}
             RESEND
+          </Text> */}
+          <Text
+            style={styles.textButton}>
+            {' '}
+            <CountdownTimer
+              duration={duration}
+              setDuration={
+                setDuration
+              }
+              onTimerOut={value => {
+                setotpTimeOut(value);
+              }}>
+            </CountdownTimer>
           </Text>
         </Text>
         <View style={styles.circleSmall} />

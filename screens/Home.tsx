@@ -430,7 +430,7 @@ const Home = () => {
         provider={PROVIDER_GOOGLE}
         region={pos}
         mapType={currentType}
-        // customMapStyle={mapNomal}
+        customMapStyle={mapStyle}
         followsUserLocation={true}
         showsMyLocationButton={false}
         zoomControlEnabled={true}
