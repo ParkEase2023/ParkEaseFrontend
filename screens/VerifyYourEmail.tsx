@@ -6,6 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
 import { ArrowLeft } from 'phosphor-react-native';
 import CountdownTimer from '../components/CountdownTimer';
+import { sendOTPtoEmail } from '../services/forgotpassword';
 
 
 
@@ -61,7 +62,8 @@ const VerifyYourEmail = () => {
   
 
 
-  const handleresend = () => {
+  const handleresend = async () => {
+    await sendOTPtoEmail(params.Email);
     setotpTimeOut(false)
     setDuration(30)
   };
@@ -86,7 +88,7 @@ const VerifyYourEmail = () => {
           {otp.map((digit, index) => (
             <View style={styles.code} key={index}>
               <TextInput
-                keyboardType="number-pad"
+                keyboardType="default"
                 maxLength={1}
                 onChangeText={(value) => handleInputChange(index, value)}
                 placeholder=" "

@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
 import { ArrowLeft, EnvelopeSimple } from 'phosphor-react-native';
-import { checkemail } from '../services/forgotpassword';
+import { checkemail, sendOTPtoEmail } from '../services/forgotpassword';
 const ForgetPassword = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
   const [email, setEmail] = useState('');
@@ -13,7 +13,8 @@ const ForgetPassword = () => {
   const chackemail = async () => {
     try {
       const res: any = await checkemail(email);
-      console.log(res.message)
+      console.log(res.message);
+      await sendOTPtoEmail(email);
       navigation.navigate("VerifyYourEmail", { Email: email });
     } catch (err: any) {
       setErrorsEmail("")
