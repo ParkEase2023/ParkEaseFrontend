@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
 import { ArrowLeft } from 'phosphor-react-native';
 import CountdownTimer from '../components/CountdownTimer';
-import { forgetpassword, sendOTPtoEmail } from '../services/forgotpassword';
+import { checkeOTP, sendOTPtoEmail } from '../services/forgotpassword';
 
 
 
@@ -64,9 +64,9 @@ const VerifyYourEmail = () => {
   const handleverify = async () => {
     // await forgetpassword(complete);
     try {
-      const res: any = await forgetpassword(complete);
+      const res: any = await checkeOTP(complete);
       console.log(res.message);
-      navigation.navigate("CreateNewPassword", { SetEmail: params.Email });
+      navigation.navigate("CreateNewPassword", { Email: params.Email });
     } catch (err: any) {
       setErrorsOTP("")
       err.errors.map((item: any) => {

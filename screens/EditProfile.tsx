@@ -25,6 +25,7 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ProfileParamList } from '../stack/ProfileStack';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { updateProfile } from '../services/user';
 
 const EditProfile = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
@@ -69,6 +70,44 @@ const EditProfile = () => {
         }
     };
 
+    const onSubmit = async () => {
+        try {
+            if (password === confirmPassword) {
+                const body = {
+                    firstname: firstname,
+                    lastname: lastname,
+                    phone: phoneNumber,
+                    email: email,
+                    profile_picture: profilePicture,
+                    password: password
+                };
+                await updateProfile(params._id, body);
+                navigation.replace('Profile');
+            } else {
+                setErrorsConfirmpassword('Password not match');
+            }
+        } catch (err: any) {
+            setErrorsFirstname('');
+            setErrorsLastname('');
+            setErrorsPhone('');
+            setErrorsEmail('');
+            setErrorsPassword('');
+            err.errors.map((item: any) => {
+                if (item.param === 'firstname') {
+                    setErrorsFirstname(item.msg);
+                } else if (item.param === 'lastname') {
+                    setErrorsLastname(item.msg);
+                } else if (item.param === 'phone') {
+                    setErrorsPhone(item.msg);
+                } else if (item.param === 'email') {
+                    setErrorsEmail(item.msg);
+                } else if (item.param === 'password') {
+                    setErrorsPassword(item.msg);
+                }
+            });
+            console.log(err);
+        }
+    };
     const chooseImage = async () => {
         let options: any = {
             includeBase64: true,
@@ -107,7 +146,7 @@ const EditProfile = () => {
         };
         launchCamera(options, async (response: any) => {
             // console.log('Response = ', response);
-    
+
             if (response.didCancel) {
                 console.log('User cancelled taking photo');
             } else if (response.error) {
@@ -142,19 +181,21 @@ const EditProfile = () => {
                         </TouchableOpacity>
                         <Text style={styles.title}>EditProfile</Text>
                     </View>
-                    <View style={styles.itemRightHead}>
-                        <Check size={28} weight="bold" color="#239D60" />
-                    </View>
+                    <TouchableOpacity onPress={onSubmit}>
+                        <View style={styles.itemRightHead}>
+                            <Check size={28} weight="bold" color="#239D60" />
+                        </View>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.profileContainer}>
                     <View style={styles.profilePicture}>
                         <Image source={{ uri: profilePicture }} style={styles.imageProfile} />
-                            <View style={styles.bgBtnCamera} >
-                                <TouchableOpacity onPress={takePhoto}>
+                        <View style={styles.bgBtnCamera}>
+                            <TouchableOpacity onPress={takePhoto}>
                                 <Camera size={28} weight="bold" color="#EEF0FF" />
-                                </TouchableOpacity>
-                            </View>
+                            </TouchableOpacity>
+                        </View>
                     </View>
 
                     <View style={styles.textInputContainer}>
@@ -224,6 +265,7 @@ const EditProfile = () => {
                         </View>
                         <Entrypassword />
                     </View>
+                    <Text style={styles.error}>{errorsConfirmpassword}</Text>
                 </View>
 
                 <View style={styles.circleSmall} />
@@ -412,5 +454,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#7F85B2',
         bottom: 8,
         right: -20
-    }
+    },
+    error: {
+        color: '#EA4C4C',
+        fontFamily: 'RedHatText-SemiBold',
+        fontSize: 12,
+        paddingTop: 2,
+        // paddingLeft: 16,
+      },
 });

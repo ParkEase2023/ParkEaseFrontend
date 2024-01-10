@@ -11,7 +11,7 @@ export type AuthTabParamList = {
     SignUp: undefined;
     ForgetPassword: undefined;
     VerifyYourEmail:{Email: string;};
-    CreateNewPassword:{SetEmail: string;};
+    CreateNewPassword:{Email: string;};
 };
 
 const AuthStack = () => {
