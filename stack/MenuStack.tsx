@@ -91,7 +91,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="NotificationStack"
-          component={EditProfile}
+          component={Notification}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <Bell

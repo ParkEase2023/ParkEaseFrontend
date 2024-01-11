@@ -1,5 +1,5 @@
 import { Dimensions, PermissionsAndroid, Platform, SafeAreaView, StyleSheet, Image, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Geolocation from 'react-native-geolocation-service';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { MagnifyingGlass } from 'phosphor-react-native';
@@ -7,7 +7,9 @@ import { getAllParking } from '../services/parking';
 import caretLeft from '../assets/Icons/caretLeft.png';
 import crosshair from '../assets/Icons/crosshair.png';
 import funnel from '../assets/Icons/funnel.png';
-import SlideBar from '../components/SlideBar';
+import SlideBar, { SlideBarRefProps } from '../components/SlideBar';
+import { StatusBar } from 'expo-status-bar'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 interface Position {
   latitude: number;
@@ -290,7 +292,15 @@ const height = width * aspectRatio;
 
 
 const Home = () => {
-
+  const ref = useRef<SlideBarRefProps>(null)
+  const onPress = useCallback(() => {
+    const isActive = ref?.current?.isActive();
+    if (isActive) {
+      ref?.current?.scrollTo(0);
+    } else {
+      ref?.current?.scrollTo(-300);
+    }
+  }, []);
   const [parkingMarkers, setParkingMarkers] = useState<Position[]>([]);
   const mapRef = useRef<MapView | null>(null);
   const [pos, setPos] = useState<Position>({
@@ -370,6 +380,7 @@ const Home = () => {
                 }}
                 title={item.title}
                 description={item._id}
+                onPress={onPress}
               >
               </Marker>
             )
@@ -422,7 +433,7 @@ const Home = () => {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <MapView
         ref={mapRef}
         showsUserLocation={true}
@@ -497,8 +508,11 @@ const Home = () => {
           </TouchableOpacity>
         </SafeAreaView>
       </View>
-      <SlideBar/>
-    </View>
+      <View style={styles.containerSlideBar}>
+        <StatusBar style="light" />
+        <SlideBar ref={ref} />
+      </View>
+    </GestureHandlerRootView>
   )
 }
 
@@ -573,5 +587,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 12,
     zIndex: 2,
+  },
+  containerSlideBar: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
