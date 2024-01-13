@@ -1,4 +1,12 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity } from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    View,
+    SafeAreaView,
+    Image,
+    TouchableOpacity,
+    ScrollView
+} from 'react-native';
 import React, { useContext, useEffect } from 'react';
 import Imageprofile from '../assets/profile.png';
 import {
@@ -46,7 +54,7 @@ const Profile = () => {
         phone_number: '',
         email: '',
         coins: 0,
-        password:'',
+        password: '',
         profile_picture:
             'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png'
     });
@@ -67,20 +75,20 @@ const Profile = () => {
     };
 
     const handleEditProfile = async () => {
-      navigationEditProfile.navigate("EditProfile",{
-        _id: profile._id,
-        firstname: profile.firstname,
-        lastname: profile.lastname,
-        phone_number: profile.phone_number,
-        email: profile.email,
-        password:profile.password,
-        profile_picture:profile.profile_picture
-      })
-    }
+        navigationEditProfile.navigate('EditProfile', {
+            _id: profile._id,
+            firstname: profile.firstname,
+            lastname: profile.lastname,
+            phone_number: profile.phone_number,
+            email: profile.email,
+            password: profile.password,
+            profile_picture: profile.profile_picture
+        });
+    };
 
     return (
         <RequireLogin>
-            <SafeAreaView style={styles.container}>
+            <ScrollView style={styles.container}>
                 <View style={styles.mainContainer}>
                     <View style={styles.circleBig} />
                     <Text style={styles.title}>Profile</Text>
@@ -199,7 +207,7 @@ const Profile = () => {
 
                     <View style={styles.circleSmall} />
                 </View>
-            </SafeAreaView>
+            </ScrollView>
         </RequireLogin>
     );
 };
@@ -213,7 +221,8 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         flex: 1,
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
+        marginBottom:25,
     },
     circleBig: {
         position: 'absolute',

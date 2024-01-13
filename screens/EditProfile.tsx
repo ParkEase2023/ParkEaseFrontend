@@ -5,7 +5,9 @@ import {
     SafeAreaView,
     Image,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+    Animated,
+    KeyboardAvoidingView
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -26,6 +28,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ProfileParamList } from '../stack/ProfileStack';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { updateProfile } from '../services/user';
+import TabEditProfilePicture from '../components/TabEditProfilePicture';
 
 const EditProfile = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
@@ -46,6 +49,9 @@ const EditProfile = () => {
     const [errorsPassword, setErrorsPassword] = useState('');
     const [errorsConfirmpassword, setErrorsConfirmpassword] = useState('');
     const [textEntry, setTextEntry] = useState(true);
+    const [isVisible, setIsVisible] = useState(false);
+    const [isHidden, setIsHidden] = useState(true);
+    const translateY = new Animated.Value(100);
     const Entrypassword = (): JSX.Element | null => {
         if (textEntry == true) {
             return (
@@ -159,6 +165,26 @@ const EditProfile = () => {
         });
     };
 
+    const RenderTab = (): JSX.Element | null => {
+        if (isHidden === false) {
+            return (
+                <Animated.View
+                    style={{ ...styles.boxview, flex: 1, transform: [{ translateY: translateY }] }}>
+                    <TabEditProfilePicture></TabEditProfilePicture>
+                </Animated.View>
+            );
+        } else {
+            return null;
+        }
+    };
+    useEffect(() => {
+        Animated.timing(translateY, {
+            toValue: isVisible ? 100 : 0, // Adjust the height as needed
+            duration: 500, // Adjust the duration as needed
+            useNativeDriver: true
+        }).start();
+    }, [isVisible, translateY, isHidden]);
+
     useEffect(() => {
         setFirstname(params.firstname);
         setLastname(params.lastname);
@@ -170,7 +196,7 @@ const EditProfile = () => {
         // console.log("data user")
     }, []);
     return (
-        <KeyboardAwareScrollView style={styles.container}>
+        <KeyboardAvoidingView style={styles.container}>
             <View style={styles.mainContainer}>
                 <View style={styles.circleBig} />
 
@@ -192,7 +218,7 @@ const EditProfile = () => {
                     <View style={styles.profilePicture}>
                         <Image source={{ uri: profilePicture }} style={styles.imageProfile} />
                         <View style={styles.bgBtnCamera}>
-                            <TouchableOpacity onPress={takePhoto}>
+                            <TouchableOpacity onPress={() => setIsHidden(!isHidden)}>
                                 <Camera size={28} weight="bold" color="#EEF0FF" />
                             </TouchableOpacity>
                         </View>
@@ -270,7 +296,8 @@ const EditProfile = () => {
 
                 <View style={styles.circleSmall} />
             </View>
-        </KeyboardAwareScrollView>
+            <RenderTab></RenderTab>
+        </KeyboardAvoidingView>
     );
 };
 
@@ -282,8 +309,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#D7DAEF'
     },
     mainContainer: {
-        flex: 1,
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
+        flexGrow: 1
     },
     circleBig: {
         position: 'absolute',
@@ -459,7 +486,15 @@ const styles = StyleSheet.create({
         color: '#EA4C4C',
         fontFamily: 'RedHatText-SemiBold',
         fontSize: 12,
-        paddingTop: 2,
+        paddingTop: 2
         // paddingLeft: 16,
-      },
+    },
+    boxview: {
+        width: '100%',
+        height: 100,
+        position: 'absolute',
+        bottom: 0,
+        zIndex: 2
+        // paddingHorizontal: 10,
+    }
 });
