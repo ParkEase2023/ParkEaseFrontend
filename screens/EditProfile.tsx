@@ -7,7 +7,9 @@ import {
     TextInput,
     TouchableOpacity,
     Animated,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -185,6 +187,23 @@ const EditProfile = () => {
         }).start();
     }, [isVisible, translateY, isHidden]);
 
+    const handleOpenTab = () => {
+        if(isHidden===true){
+            const duration = 30 * 1000;
+            setIsHidden(false);
+    
+            const timer = setTimeout(() => {
+                setIsHidden(true);
+            }, duration);
+    
+            return () => clearTimeout(timer);
+        }
+        else
+        {
+            setIsHidden(true);
+        }
+    };
+
     useEffect(() => {
         setFirstname(params.firstname);
         setLastname(params.lastname);
@@ -196,107 +215,113 @@ const EditProfile = () => {
         // console.log("data user")
     }, []);
     return (
-        <KeyboardAvoidingView style={styles.container}>
-            <View style={styles.mainContainer}>
-                <View style={styles.circleBig} />
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            <ScrollView
+                contentContainerStyle={styles.scrollViewContainer}
+                keyboardShouldPersistTaps="handled">
+                <View style={styles.mainContainer}>
+                    <View style={styles.circleBig} />
 
-                <View style={styles.heading}>
-                    <View style={styles.itemLeftHead}>
-                        <TouchableOpacity onPress={() => navigation.goBack()}>
-                            <X size={28} weight="bold" color="#fff" />
-                        </TouchableOpacity>
-                        <Text style={styles.title}>EditProfile</Text>
-                    </View>
-                    <TouchableOpacity onPress={onSubmit}>
-                        <View style={styles.itemRightHead}>
-                            <Check size={28} weight="bold" color="#239D60" />
-                        </View>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.profileContainer}>
-                    <View style={styles.profilePicture}>
-                        <Image source={{ uri: profilePicture }} style={styles.imageProfile} />
-                        <View style={styles.bgBtnCamera}>
-                            <TouchableOpacity onPress={() => setIsHidden(!isHidden)}>
-                                <Camera size={28} weight="bold" color="#EEF0FF" />
+                    <View style={styles.heading}>
+                        <View style={styles.itemLeftHead}>
+                            <TouchableOpacity onPress={() => navigation.goBack()}>
+                                <X size={28} weight="bold" color="#fff" />
                             </TouchableOpacity>
+                            <Text style={styles.title}>EditProfile</Text>
                         </View>
+                        <TouchableOpacity onPress={onSubmit}>
+                            <View style={styles.itemRightHead}>
+                                <Check size={28} weight="bold" color="#239D60" />
+                            </View>
+                        </TouchableOpacity>
                     </View>
 
-                    <View style={styles.textInputContainer}>
-                        <View style={styles.firstName}>
-                            <TextInput
-                                placeholder="First Name"
-                                value={firstname}
-                                style={styles.shortTextInput}
-                                onChangeText={text => setFirstname(text)}
-                            />
+                    <View style={styles.profileContainer}>
+                        <View style={styles.profilePicture}>
+                            <Image source={{ uri: profilePicture }} style={styles.imageProfile} />
+                            <View style={styles.bgBtnCamera}>
+                                <TouchableOpacity onPress={handleOpenTab}>
+                                    <Camera size={28} weight="bold" color="#EEF0FF" />
+                                </TouchableOpacity>
+                            </View>
                         </View>
 
-                        <View style={styles.lastName}>
-                            <TextInput
-                                placeholder="Last Name"
-                                value={lastname}
-                                style={styles.shortTextInput}
-                                onChangeText={text => setLastname(text)}
-                            />
+                        <View style={styles.textInputContainer}>
+                            <View style={styles.firstName}>
+                                <TextInput
+                                    placeholder="First Name"
+                                    value={firstname}
+                                    style={styles.shortTextInput}
+                                    onChangeText={text => setFirstname(text)}
+                                />
+                            </View>
+
+                            <View style={styles.lastName}>
+                                <TextInput
+                                    placeholder="Last Name"
+                                    value={lastname}
+                                    style={styles.shortTextInput}
+                                    onChangeText={text => setLastname(text)}
+                                />
+                            </View>
                         </View>
-                    </View>
 
-                    <View style={styles.emailToPassword}>
-                        <EnvelopeSimple size={24} color="#565E8B" />
-                        <TextInput
-                            placeholder="Email"
-                            value={email}
-                            style={styles.longTextInput}
-                            onChangeText={text => setEmail(text)}
-                        />
-                    </View>
-
-                    <View style={styles.emailToPassword}>
-                        <Phone size={24} color="#565E8B" />
-                        <TextInput
-                            placeholder="Phone Number"
-                            value={phoneNumber}
-                            style={styles.longTextInput}
-                            onChangeText={text => setPhoneNumber(text)}
-                        />
-                    </View>
-
-                    <View style={styles.emailToPassword}>
-                        <View style={styles.itemLeft}>
-                            <Key size={24} color="#565E8B" />
+                        <View style={styles.emailToPassword}>
+                            <EnvelopeSimple size={24} color="#565E8B" />
                             <TextInput
-                                secureTextEntry={textEntry}
-                                placeholder="Password"
-                                value={password}
+                                placeholder="Email"
+                                value={email}
                                 style={styles.longTextInput}
-                                onChangeText={text => setPassword(text)}
+                                onChangeText={text => setEmail(text)}
                             />
                         </View>
-                        <Entrypassword />
+
+                        <View style={styles.emailToPassword}>
+                            <Phone size={24} color="#565E8B" />
+                            <TextInput
+                                placeholder="Phone Number"
+                                value={phoneNumber}
+                                style={styles.longTextInput}
+                                onChangeText={text => setPhoneNumber(text)}
+                            />
+                        </View>
+
+                        <View style={styles.emailToPassword}>
+                            <View style={styles.itemLeft}>
+                                <Key size={24} color="#565E8B" />
+                                <TextInput
+                                    secureTextEntry={textEntry}
+                                    placeholder="Password"
+                                    value={password}
+                                    style={styles.longTextInput}
+                                    onChangeText={text => setPassword(text)}
+                                />
+                            </View>
+                            <Entrypassword />
+                        </View>
+
+                        <View style={styles.ConPassword}>
+                            <View style={styles.itemLeft}>
+                                <Key size={24} weight="fill" color="#565E8B" />
+                                <TextInput
+                                    secureTextEntry={textEntry}
+                                    placeholder="Confirm Password"
+                                    value={confirmPassword}
+                                    style={styles.longTextInput}
+                                    onChangeText={text => setConfirmPassword(text)}
+                                />
+                            </View>
+                            <Entrypassword />
+                        </View>
+                        <Text style={styles.error}>{errorsConfirmpassword}</Text>
                     </View>
 
-                    <View style={styles.ConPassword}>
-                        <View style={styles.itemLeft}>
-                            <Key size={24} weight="fill" color="#565E8B" />
-                            <TextInput
-                                secureTextEntry={textEntry}
-                                placeholder="Confirm Password"
-                                value={confirmPassword}
-                                style={styles.longTextInput}
-                                onChangeText={text => setConfirmPassword(text)}
-                            />
-                        </View>
-                        <Entrypassword />
-                    </View>
-                    <Text style={styles.error}>{errorsConfirmpassword}</Text>
+                    <View style={styles.circleSmall} />
                 </View>
-
-                <View style={styles.circleSmall} />
-            </View>
-            <RenderTab></RenderTab>
+                <RenderTab></RenderTab>
+            </ScrollView>
         </KeyboardAvoidingView>
     );
 };
@@ -310,6 +335,9 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         paddingHorizontal: 16,
+        flexGrow: 1
+    },
+    scrollViewContainer: {
         flexGrow: 1
     },
     circleBig: {
@@ -491,7 +519,7 @@ const styles = StyleSheet.create({
     },
     boxview: {
         width: '100%',
-        height: 100,
+        height: 120,
         position: 'absolute',
         bottom: 0,
         zIndex: 2
