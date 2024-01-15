@@ -189,7 +189,7 @@ const EditProfile = () => {
 
     const handleOpenTab = () => {
         if(isHidden===true){
-            const duration = 30 * 1000;
+            const duration = 10 * 1000;
             setIsHidden(false);
     
             const timer = setTimeout(() => {

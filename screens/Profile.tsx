@@ -49,6 +49,7 @@ const Profile = () => {
     const navigationEditProfile = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
     const [visible, setVisible] = useState(false);
+    const [ticker, setTicker] = useState(false);
     const [profile, setProfile] = React.useState<IProfile>({
         _id: '',
         firstname: '',
@@ -89,7 +90,9 @@ const Profile = () => {
     };
 
     const handleVrify = () => {
+        setTicker(true);
         setVisible(!visible);
+
     };
 
     return (
@@ -213,7 +216,7 @@ const Profile = () => {
 
                     <View style={styles.circleSmall} />
                 </View>
-                <Popupverify setVisible={visible}></Popupverify>
+                <Popupverify setVisible={visible} ticker={ticker}></Popupverify>
             </ScrollView>
         </RequireLogin>
     );

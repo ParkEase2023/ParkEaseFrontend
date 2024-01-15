@@ -9,12 +9,15 @@ import { ProfileParamList } from '../stack/ProfileStack';
 
 interface IPopup {
     setVisible: boolean;
+    ticker:boolean;
 }
 
 const Popupverify = (props: IPopup) => {
     const [show, setShow] = useState(Boolean);
     useEffect(() => {
-        setShow(true)
+        if(props.ticker===true){
+            setShow(true)
+        }
     }, [props.setVisible]);
     const navigationVerify = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     return (
