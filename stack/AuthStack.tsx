@@ -3,10 +3,15 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUp from '../screens/SignUp';
 import SignIn from '../screens/SignIn';
-
+import ForgetPassword from '../screens/ForgetPassword'
+import VerifyYourEmail from '../screens/VerifyYourEmail';
+import CreateNewPassword from '../screens/CreateNewPassword';
 export type AuthTabParamList = {
     SignIn: undefined;
     SignUp: undefined;
+    ForgetPassword: undefined;
+    VerifyYourEmail:{Email: string;};
+    CreateNewPassword:{Email: string;};
 };
 
 const AuthStack = () => {
@@ -19,6 +24,9 @@ const AuthStack = () => {
       }}>
       <Stack.Screen name="SignIn" component={SignIn} />
       <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+      <Stack.Screen name="VerifyYourEmail" component={VerifyYourEmail} />
+      <Stack.Screen name="CreateNewPassword" component={CreateNewPassword} />
     </Stack.Navigator>
   )
 }
