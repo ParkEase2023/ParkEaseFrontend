@@ -3,6 +3,8 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Profile from '../screens/Profile';
 import EditProfile from '../screens/EditProfile';
+import VerifyYourIdentify from '../screens/VerifyYourIdentity';
+import SelectForVerify from '../screens/SelectForVerify';
 
 export type ProfileParamList = {
     Profile: undefined;
@@ -15,6 +17,8 @@ export type ProfileParamList = {
       profile_picture: string;
       password:string;
     };
+  VerifyIdentity:undefined;
+  SelectForVerify:undefined;
 };
 
 const ProfileStack = () => {
@@ -27,6 +31,9 @@ const ProfileStack = () => {
       }}>
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen name="VerifyIdentity" component={VerifyYourIdentify} />
+      <Stack.Screen name="SelectForVerify" component={SelectForVerify} />
+
     </Stack.Navigator>
   )
 }

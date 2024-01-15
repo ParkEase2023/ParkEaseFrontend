@@ -5,9 +5,10 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
 import { ArrowLeft } from 'phosphor-react-native';
+import { ProfileParamList } from '../stack/ProfileStack';
 
 const VerifyYourIdentify = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
   return (
     <KeyboardAwareScrollView style={styles.container} >
       <SafeAreaView style={styles.mainContainer}>
@@ -75,7 +76,7 @@ const VerifyYourIdentify = () => {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.btnSend}>
+        <TouchableOpacity style={styles.btnSend} onPress={()=>navigation.navigate("SelectForVerify")}>
           <Text style={styles.textSend}>Confirm</Text>
         </TouchableOpacity>
         <Text style={styles.textBody}>

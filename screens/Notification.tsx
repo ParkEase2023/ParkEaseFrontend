@@ -12,12 +12,12 @@ import Popupverify from '../components/Popupverify';
 const Notification = () => {
     const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
     return (
-        // <View style={{flex:1}}>
-        //     <View style={styles.container}>
-        //         <TabEditProfilePicture></TabEditProfilePicture>
-        //     </View>
-        // </View>
-        <Popupverify></Popupverify>
+        <View style={{flex:1}}>
+            <View style={styles.container}>
+                <TabEditProfilePicture></TabEditProfilePicture>
+            </View>
+        </View>
+        // <Popupverify></Popupverify>
     );
 };
 

@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     ScrollView
 } from 'react-native';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Imageprofile from '../assets/profile.png';
 import {
     EnvelopeSimple,
@@ -31,6 +31,7 @@ import { RootStackList } from '../stack/RootStack';
 import AuthContext from '../context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProfileParamList } from '../stack/ProfileStack';
+import Popupverify from '../components/Popupverify';
 
 export interface IProfile {
     _id: string;
@@ -47,6 +48,7 @@ const Profile = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
     const navigationEditProfile = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
+    const [visible, setVisible] = useState(false);
     const [profile, setProfile] = React.useState<IProfile>({
         _id: '',
         firstname: '',
@@ -84,6 +86,10 @@ const Profile = () => {
             password: profile.password,
             profile_picture: profile.profile_picture
         });
+    };
+
+    const handleVrify = () => {
+        setVisible(!visible);
     };
 
     return (
@@ -172,7 +178,7 @@ const Profile = () => {
                         <CaretRight size={22} weight="bold" color="#7F85B2" />
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.btnRectangle}>
+                    <TouchableOpacity style={styles.btnRectangle} onPress={handleVrify}>
                         <View style={styles.itemLeft}>
                             <View style={styles.bgIcon}>
                                 <IdentificationBadge size={22} weight="fill" color="#EEF0FF" />
@@ -207,6 +213,7 @@ const Profile = () => {
 
                     <View style={styles.circleSmall} />
                 </View>
+                <Popupverify setVisible={visible}></Popupverify>
             </ScrollView>
         </RequireLogin>
     );
@@ -222,7 +229,7 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         paddingHorizontal: 16,
-        marginBottom:25,
+        marginBottom: 25
     },
     circleBig: {
         position: 'absolute',

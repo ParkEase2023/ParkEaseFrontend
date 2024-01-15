@@ -17,7 +17,7 @@ import CreateNewPassword from '../screens/CreateNewPassword';
 import SelectForVerify from '../screens/SelectForVerify';
 import VerifyYourIdentify from '../screens/VerifyYourIdentity';
 import AlertFiterSreach from '../screens/AlertFiterSreach';
-import { NavigatorScreenParams } from '@react-navigation/native';
+import { NavigatorScreenParams, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import ProfileStack, { ProfileParamList } from './ProfileStack';
 
 export type MenuParamList = {
@@ -98,17 +98,35 @@ const MenuStack = () => {
                 <Stack.Screen
                     name="ProfileStack"
                     component={ProfileStack}
-                    options={{
+                    options={({ route }) => ({
+                        tabBarStyle: (() => {
+                            const routeName = getFocusedRouteNameFromRoute(route);
+
+                            if (routeName === 'EditProfile') {
+                                return { display: 'none' };
+                            }
+
+                            return { backgroundColor: '#10152F', height: 55 };
+                        })(),
                         tabBarIcon: ({ focused, color, size }) => (
                             <User color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
                         )
-                    }}
+                    })}
                 />
             </Stack.Navigator>
         </>
     );
 };
 
+// const getTabBarVisibility = (route: any) => {
+//     const routeName = route.state ? route.state.routes[route.state.index].name : '';
+
+//     if (routeName === 'EditProfile') {
+//         return false;
+//     }
+
+//     return true;
+// };
 
 export default MenuStack;
 
