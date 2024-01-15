@@ -52,8 +52,6 @@ const CreateNewPassword = () => {
         }
     };
 
-    
-
     const handleOpenmodal = () => {
         const duration = 3 * 1000;
         setVisible(true);
