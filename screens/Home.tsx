@@ -10,6 +10,8 @@ import funnel from '../assets/Icons/funnel.png';
 import SlideBar, { SlideBarRefProps } from '../components/SlideBar';
 import { StatusBar } from 'expo-status-bar'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { LogBox } from 'react-native';
+
 
 interface Position {
   latitude: number;
@@ -288,7 +290,7 @@ const height = width * aspectRatio;
 
 
 
-
+LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
 
 
 const Home = () => {
@@ -442,7 +444,7 @@ const Home = () => {
         provider={PROVIDER_GOOGLE}
         region={pos}
         mapType={currentType}
-        // customMapStyle={mapNomal}
+        // customMapStyle={mapStyle}
         followsUserLocation={true}
         showsMyLocationButton={false}
         zoomControlEnabled={true}
