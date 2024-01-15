@@ -1,11 +1,16 @@
-import { Dimensions, PermissionsAndroid, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import { Dimensions, PermissionsAndroid, Platform, SafeAreaView, StyleSheet, Image, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Geolocation from 'react-native-geolocation-service';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { CaretLeft, Crosshair, MagnifyingGlass, StackSimple } from 'phosphor-react-native';
+import { MagnifyingGlass } from 'phosphor-react-native';
 import { getAllParking } from '../services/parking';
+import caretLeft from '../assets/Icons/caretLeft.png';
+import crosshair from '../assets/Icons/crosshair.png';
+import funnel from '../assets/Icons/funnel.png';
+import SlideBar, { SlideBarRefProps } from '../components/SlideBar';
+import { StatusBar } from 'expo-status-bar'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { LogBox } from 'react-native';
-
 
 
 interface Position {
@@ -289,7 +294,15 @@ LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
 
 
 const Home = () => {
-
+  const ref = useRef<SlideBarRefProps>(null)
+  const onPress = useCallback(() => {
+    const isActive = ref?.current?.isActive();
+    if (isActive) {
+      ref?.current?.scrollTo(0);
+    } else {
+      ref?.current?.scrollTo(-300);
+    }
+  }, []);
   const [parkingMarkers, setParkingMarkers] = useState<Position[]>([]);
   const mapRef = useRef<MapView | null>(null);
   const [pos, setPos] = useState<Position>({
@@ -369,6 +382,7 @@ const Home = () => {
                 }}
                 title={item.title}
                 description={item._id}
+                onPress={onPress}
               >
               </Marker>
             )
@@ -421,7 +435,7 @@ const Home = () => {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <MapView
         ref={mapRef}
         showsUserLocation={true}
@@ -461,8 +475,8 @@ const Home = () => {
         left: 60,
         alignSelf: 'flex-start', //for align to right
       }}>
-        <TouchableOpacity style={styles.btnStackSimple_46}>
-          <CaretLeft size={24}  color="#A6A6A6" />
+        <TouchableOpacity style={styles.btnCaretLeft}>
+          <Image source={caretLeft} />
         </TouchableOpacity>
       </View>
       <View
@@ -481,100 +495,106 @@ const Home = () => {
           </TouchableOpacity>
         </SafeAreaView> */}
         <SafeAreaView>
-          <TouchableOpacity style={styles.btnStackSimple_44}
+          <TouchableOpacity style={styles.btnCrosshair}
             onPress={() => {
               setSelectedOpen(!selectedOpen);
               return true;
             }}>
-            <Crosshair size={24} weight="fill" color="#A6A6A6" />
+            <Image source={crosshair} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnStackSimple_45} onPress={() => {
+          <TouchableOpacity style={styles.btnFunnel} onPress={() => {
             setSelectedBooking(!selectedBooking);
             return true;
           }}>
-            <StackSimple size={22} weight="fill" color="#A6A6A6" />
+            <Image source={funnel} />
           </TouchableOpacity>
         </SafeAreaView>
       </View>
-    </View>
+      <View style={styles.containerSlideBar}>
+        <StatusBar style="light" />
+        <SlideBar ref={ref} />
+      </View>
+    </GestureHandlerRootView>
   )
 }
 
 export default Home
 
 const styles = StyleSheet.create({
-  btnStackSimple_44: {
+  btnCrosshair: {
     position: 'absolute',
-    width: 39,
-    height: 39,
+    width: 48,
+    height: 48,
     backgroundColor: '#10152F',
-    marginTop: 40,
+    marginTop: 42,
     right: 0,
     elevation: 3,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10
+    borderRadius: 12,
   },
 
-  btnStackSimple_45: {
+  btnFunnel: {
     position: 'absolute',
-    width: 39,
-    height: 39,
+    width: 48,
+    height: 48,
     backgroundColor: '#10152F',
-    marginTop: 90,
+    marginTop: 98,
     right: 0,
     elevation: 3,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10
+    borderRadius: 12,
   },
-  btnStackSimple_46: {
+  btnCaretLeft: {
     position: 'absolute',
-    width: 50,
-    height: 50,
+    width: 48,
+    height: 48,
     backgroundColor: '#10152F',
     marginTop: 40,
     right: 0,
     elevation: 3,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10
+    borderRadius: 12,
   },
   container: {
     flex: 1,
     backgroundColor: '#10152F',
     position: 'absolute',
     width: '87%',
-    alignSelf: 'flex-end'
-    // borderRadius:50
+    alignSelf: 'flex-end',
   },
   searchContainer: {
     position: 'absolute',
-    marginHorizontal: 16,
+    marginRight: 12,
+    marginLeft: 16,
     marginTop: 10,
     elevation: 3,
-    height: 60
   },
   inner: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   field: {
     backgroundColor: '#10152F',
-    height: 50,
+    height: 48,
     width: '100%',
     paddingLeft: 16,
-    paddingRight: 50,
-    paddingVertical: 10,
     fontFamily: 'Fredoka-Regular',
     fontSize: 16,
-    borderRadius: 10
-
+    borderRadius: 12,
   },
   search: {
     position: 'absolute',
-    top: 15,
     right: 12,
     zIndex: 2,
   },
-
+  containerSlideBar: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 })
