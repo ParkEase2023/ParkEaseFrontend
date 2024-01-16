@@ -2,9 +2,10 @@ import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, SafeArea
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+// import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthTabParamList } from '../stack/AuthStack';
 import { ArrowLeft, Key, Eye, EnvelopeSimple } from 'phosphor-react-native';
+
 
 const SelectForVerify = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
