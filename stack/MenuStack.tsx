@@ -89,7 +89,7 @@ const MenuStack = () => {
                 />
                 <Stack.Screen
                     name="NotificationStack"
-                    component={Reqlogin}
+                    component={Notification}
                     options={{
                         tabBarIcon: ({ focused, color, size }) => (
                             <Bell color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />

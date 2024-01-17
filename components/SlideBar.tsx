@@ -6,14 +6,16 @@ import Animated, { Extrapolate, interpolate, useAnimatedStyle, useSharedValue, w
 const { height: SCREEN_HEIGHT } = Dimensions.get('window')
 const MAX_TRANSLATE_Y = -SCREEN_HEIGHT + 100;
 
-type SlideBarProps = {};
+type SlideBarProps = {
+  children?: React.ReactNode;
+};
 export type SlideBarRefProps = {
   scrollTo: (destination: number) => void;
   isActive: () => boolean;
 };
 
 const SlideBar = React.forwardRef <SlideBarRefProps, SlideBarProps> (
-  ({}, ref) => {
+  ({children}, ref) => {
   const translateY = useSharedValue(0);
   const active = useSharedValue(false);
 
@@ -58,6 +60,7 @@ const SlideBar = React.forwardRef <SlideBarRefProps, SlideBarProps> (
     <GestureDetector gesture={gesture}>
       <Animated.View style={[styles.bottomSheetContainer, rBottomSheetStyles]}>
         <View style={styles.line} />
+        {children}
       </Animated.View>
     </GestureDetector>
   )

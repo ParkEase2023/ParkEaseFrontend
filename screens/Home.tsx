@@ -1,8 +1,8 @@
-import { Dimensions, PermissionsAndroid, Platform, SafeAreaView, StyleSheet, Image, TextInput, TouchableOpacity, View } from 'react-native'
+import { Dimensions, PermissionsAndroid, Platform, SafeAreaView, StyleSheet, Image, TextInput, TouchableOpacity, View, Text } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Geolocation from 'react-native-geolocation-service';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { MagnifyingGlass } from 'phosphor-react-native';
+import { CoinVertical, Heart, MagnifyingGlass, NavigationArrow, Phone, Star } from 'phosphor-react-native';
 import { getAllParking } from '../services/parking';
 import caretLeft from '../assets/Icons/caretLeft.png';
 import crosshair from '../assets/Icons/crosshair.png';
@@ -512,7 +512,43 @@ const Home = () => {
       </View>
       <View style={styles.containerSlideBar}>
         <StatusBar style="light" />
-        <SlideBar ref={ref} />
+        <SlideBar ref={ref} >
+
+          <View>
+            <Text>อาคารจอดรถ 5 ชั้น</Text>
+            <View>
+              <Star size={24} weight="fill" color="#FFDE00" />
+              <Text>4.5</Text>
+            </View>
+          </View>
+          
+          <View>
+            <View>
+              <CoinVertical size={24} weight="fill" color="#FFDE00" />
+              <Text>10 Coins/hr</Text>
+            </View>
+            <Text>Open</Text>
+          </View>
+          
+          <TouchableOpacity>
+            <Text>Booking</Text>
+          </TouchableOpacity>
+
+          <View>
+            <TouchableOpacity>
+              <NavigationArrow size={24} weight="fill" color="#262D57" />
+              <Text>Navigate</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Phone size={24} weight="fill" color="#262D57" />
+              <Text>Call</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Heart size={24} weight="fill" color="#EEF0FF" />
+            </TouchableOpacity>
+          </View>
+          
+        </SlideBar>
       </View>
     </GestureHandlerRootView>
   )
