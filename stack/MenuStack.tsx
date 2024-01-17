@@ -19,6 +19,7 @@ import VerifyYourIdentify from '../screens/VerifyYourIdentity';
 import AlertFiterSreach from '../screens/AlertFiterSreach';
 import { NavigatorScreenParams } from '@react-navigation/native';
 import ProfileStack, { ProfileParamList } from './ProfileStack';
+import Reqlogin from '../screens/Reqlogin';
 
 export type MenuParamList = {
     HomeStack: undefined;
@@ -88,7 +89,7 @@ const MenuStack = () => {
                 />
                 <Stack.Screen
                     name="NotificationStack"
-                    component={Notification}
+                    component={Reqlogin}
                     options={{
                         tabBarIcon: ({ focused, color, size }) => (
                             <Bell color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
