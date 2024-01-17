@@ -19,6 +19,11 @@ const Popupverify = (props: IPopup) => {
             setShow(true)
         }
     }, [props.setVisible]);
+
+    const handleNevi = () => {
+        navigationVerify.navigate("VerifyIdentity")
+        setShow(false);
+    };
     const navigationVerify = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     return (
         <Modal isVisible={show} backdropOpacity={0.9} backdropColor="#262D57">
@@ -32,7 +37,7 @@ const Popupverify = (props: IPopup) => {
                     You must verify your identity before{'\n'}making any financial transactions
                     {'\n'}and to apply for membership.
                 </Text>
-                <TouchableOpacity style={styles.btnSend} onPress={()=>navigationVerify.navigate("VerifyIdentity")}>
+                <TouchableOpacity style={styles.btnSend} onPress={handleNevi}>
                     <Text style={styles.textSend}>SEND</Text>
                 </TouchableOpacity>
             </View>
