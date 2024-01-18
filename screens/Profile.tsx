@@ -216,7 +216,7 @@ const Profile = () => {
 
                     <View style={styles.circleSmall} />
                 </View>
-                <Popupverify setVisible={visible} ticker={ticker}></Popupverify>
+                <Popupverify setVisible={visible} ticker={ticker} email={profile.email}></Popupverify>
             </ScrollView>
         </RequireLogin>
     );

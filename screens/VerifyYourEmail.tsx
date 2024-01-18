@@ -36,12 +36,7 @@ const VerifyYourEmail = () => {
     }
   };
 
-  useEffect(() => {
-    if (otpTimeOut === true) {
-      console.log('time out');
-    }
-  }, [otpTimeOut])
-
+ 
   const Renderbtn = ():JSX.Element | null => {
     if (otpTimeOut === false) {
       return (

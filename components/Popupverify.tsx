@@ -10,6 +10,7 @@ import { ProfileParamList } from '../stack/ProfileStack';
 interface IPopup {
     setVisible: boolean;
     ticker:boolean;
+    email:string;
 }
 
 const Popupverify = (props: IPopup) => {
@@ -21,7 +22,7 @@ const Popupverify = (props: IPopup) => {
     }, [props.setVisible]);
 
     const handleNevi = () => {
-        navigationVerify.navigate("VerifyIdentity")
+        navigationVerify.navigate("SelectForVerify",{email:props.email})
         setShow(false);
     };
     const navigationVerify = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
@@ -29,7 +30,7 @@ const Popupverify = (props: IPopup) => {
         <Modal isVisible={show} backdropOpacity={0.9} backdropColor="#262D57">
             <View style={styles.modalContainer}>
                 <TouchableOpacity onPress={()=>setShow(!show)}>
-                    <X size={32} weight="bold" style={styles.icon} />
+                    <X size={24} weight="bold" style={styles.icon} />
                 </TouchableOpacity>
                 <Image source={verify} style={styles.imageGood} />
                 <Text style={styles.modalText}>Verify{'\n'}your identity now!</Text>
@@ -38,7 +39,7 @@ const Popupverify = (props: IPopup) => {
                     {'\n'}and to apply for membership.
                 </Text>
                 <TouchableOpacity style={styles.btnSend} onPress={handleNevi}>
-                    <Text style={styles.textSend}>SEND</Text>
+                    <Text style={styles.textSend}>Verify</Text>
                 </TouchableOpacity>
             </View>
         </Modal>
@@ -49,7 +50,6 @@ export default Popupverify;
 
 const styles = StyleSheet.create({
     modalContainer: {
-        height: 550,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#EEF0FF',
@@ -57,11 +57,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         marginHorizontal: 35,
         paddingBottom: 16,
-        paddingTop: 60
+        paddingTop: 0
     },
     imageGood: {
-        marginTop: -60,
-        marginBottom: 10
+        marginBottom: 16
     },
     modalText: {
         textAlign: 'center',
@@ -73,7 +72,7 @@ const styles = StyleSheet.create({
     modalText2: {
         fontFamily: 'RedHatText-Regular',
         fontSize: 16,
-        marginBottom: 16,
+        marginBottom: 25,
         color: '#262D57',
         textAlign: 'center'
     },
@@ -86,12 +85,12 @@ const styles = StyleSheet.create({
     textSend: {
         textAlign: 'center',
         fontFamily: 'RedHatText-Bold',
-        fontSize: 18,
+        fontSize: 16,
         color: '#FEFA94'
     },
     icon: {
-        position: 'relative',
-        top: -45,
-        right: -120
+        position:"relative",
+        top:10,
+        right:-128
     }
 });

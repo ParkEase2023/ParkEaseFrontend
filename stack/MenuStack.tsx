@@ -16,7 +16,6 @@ import ForgetPassword from '../screens/ForgetPassword';
 import CreateNewPassword from '../screens/CreateNewPassword';
 import SelectForVerify from '../screens/SelectForVerify';
 import VerifyYourIdentify from '../screens/VerifyYourIdentity';
-import AlertFiterSreach from '../screens/AlertFiterSreach';
 import { NavigatorScreenParams, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import ProfileStack, { ProfileParamList } from './ProfileStack';
 

@@ -17,8 +17,9 @@ export type ProfileParamList = {
       profile_picture: string;
       password:string;
     };
+  
   VerifyIdentity:undefined;
-  SelectForVerify:undefined;
+  SelectForVerify:{email: string};
 };
 
 const ProfileStack = () => {

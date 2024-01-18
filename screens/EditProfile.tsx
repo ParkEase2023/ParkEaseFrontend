@@ -235,7 +235,7 @@ const EditProfile = () => {
     }, []);
     return (
         <KeyboardAvoidingView
-            style={styles.container}
+            style={isHidden ? styles.container : styles.containerpopup}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <ScrollView
                 contentContainerStyle={styles.scrollViewContainer}
@@ -351,6 +351,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#D7DAEF'
+    },
+    containerpopup: {
+        flex: 1,
+        backgroundColor:'green',
+        zindex:100
     },
     mainContainer: {
         paddingHorizontal: 16,
