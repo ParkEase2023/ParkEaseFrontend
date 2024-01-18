@@ -21,7 +21,8 @@ import {
     Car,
     IdentificationBadge,
     UserList,
-    SignOut
+    SignOut,
+    CheckCircle
 } from 'phosphor-react-native';
 import RequireLogin from '../components/RequireLogin';
 import { getProfile } from '../services/user';
@@ -42,6 +43,7 @@ export interface IProfile {
     coins: number;
     password: string;
     profile_picture: string;
+    verification_status: boolean;
 }
 
 const Profile = () => {
@@ -59,11 +61,12 @@ const Profile = () => {
         coins: 0,
         password: '',
         profile_picture:
-            'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png'
+            'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png',
+        verification_status: false
     });
     const getUserProfile = async () => {
         const { data } = await getProfile();
-        // console.log('user profile ', data);
+        console.log('user profile ', data);
         setProfile(data);
     };
 
@@ -92,7 +95,39 @@ const Profile = () => {
     const handleVrify = () => {
         setTicker(true);
         setVisible(!visible);
+    };
 
+    const ContentVerify = (): JSX.Element | null => {
+        if (profile.verification_status === true) {
+
+            return (
+                <TouchableOpacity style={styles.btnRectangle}>
+                    <View style={styles.itemLeft}>
+                        <View style={styles.bgIcon}>
+                            <IdentificationBadge size={22} weight="fill" color="#EEF0FF" />
+                        </View>
+                        <Text style={styles.textBody}>Verify Your Identity</Text>
+                    </View>
+
+                    <CheckCircle size={22} weight="fill" color="#7F85B2" />
+                </TouchableOpacity>
+            );
+        } else if (profile.verification_status === false) {
+            return (
+                <TouchableOpacity style={styles.btnRectangle} onPress={handleVrify}>
+                    <View style={styles.itemLeft}>
+                        <View style={styles.bgIcon}>
+                            <IdentificationBadge size={22} weight="fill" color="#EEF0FF" />
+                        </View>
+                        <Text style={styles.textBody}>Verify Your Identity</Text>
+                    </View>
+
+                    <CaretRight size={22} weight="bold" color="#7F85B2" />
+                </TouchableOpacity>
+            );
+        } else {
+            return null;
+        }
     };
 
     return (
@@ -181,16 +216,7 @@ const Profile = () => {
                         <CaretRight size={22} weight="bold" color="#7F85B2" />
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.btnRectangle} onPress={handleVrify}>
-                        <View style={styles.itemLeft}>
-                            <View style={styles.bgIcon}>
-                                <IdentificationBadge size={22} weight="fill" color="#EEF0FF" />
-                            </View>
-                            <Text style={styles.textBody}>Verify Your Identity</Text>
-                        </View>
-
-                        <CaretRight size={22} weight="bold" color="#7F85B2" />
-                    </TouchableOpacity>
+                   <ContentVerify></ContentVerify>
 
                     <TouchableOpacity style={styles.btnRectangle}>
                         <View style={styles.itemLeft}>
@@ -216,7 +242,10 @@ const Profile = () => {
 
                     <View style={styles.circleSmall} />
                 </View>
-                <Popupverify setVisible={visible} ticker={ticker} email={profile.email}></Popupverify>
+                <Popupverify
+                    setVisible={visible}
+                    ticker={ticker}
+                    email={profile.email}></Popupverify>
             </ScrollView>
         </RequireLogin>
     );

@@ -5,11 +5,19 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ArrowLeft, Key, Eye, EnvelopeSimple } from 'phosphor-react-native';
 import { ProfileParamList } from '../stack/ProfileStack';
+import { sendOTPtoEmail } from '../services/forgotpassword';
 
 const SelectForVerify = () => {
   const { params } = useRoute<RouteProp<ProfileParamList, 'SelectForVerify'>>();
   const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
   const [email, setEmail] = useState(params.email);
+
+  const chackemail = async () => {
+
+      await sendOTPtoEmail(email);
+      navigation.navigate("VerifyIdentity", { email: email });
+  };
+
   return (
     <KeyboardAwareScrollView style={styles.container} >
       <SafeAreaView style={styles.mainContainer}>
@@ -30,7 +38,7 @@ const SelectForVerify = () => {
           <Text style={styles.error}>{ }</Text>
         </View>
 
-        <TouchableOpacity style={styles.btnSend} onPress={()=>navigation.navigate('VerifyIdentity')}>
+        <TouchableOpacity style={styles.btnSend} onPress={chackemail}>
           <Text style={styles.textSend}>SEND</Text>
         </TouchableOpacity>
         <View style={styles.circleSmall} />

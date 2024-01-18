@@ -18,7 +18,7 @@ export type ProfileParamList = {
       password:string;
     };
   
-  VerifyIdentity:undefined;
+  VerifyIdentity:{email: string};
   SelectForVerify:{email: string};
 };
 
