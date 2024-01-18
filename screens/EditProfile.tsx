@@ -235,7 +235,8 @@ const EditProfile = () => {
     }, []);
     return (
         <KeyboardAvoidingView
-            style={isHidden ? styles.container : styles.containerpopup}
+            // style={isHidden ? styles.container : styles.containerpopup}
+            style={styles.container}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <ScrollView
                 contentContainerStyle={styles.scrollViewContainer}
