@@ -13,14 +13,15 @@ import {
 import { CaretLeft } from 'phosphor-react-native';
 import { RootStackList } from '../stack/RootStack';
 
-const { height: SCREEN_HEIGHT } = Dimensions.get('window')
+const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 function Reqlogin() {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
     return (
         <SafeAreaView style={styles.container}>
+            <View style={styles.circleBig} />
             <TouchableOpacity style={styles.btnBack} onPress={() => navigation.goBack()}>
-                <CaretLeft size={24} weight="bold" color="#262D57" />
+                <CaretLeft size={24} weight="bold" color="#EEF0FF" />
             </TouchableOpacity>
 
             <Image style={styles.reqLogIn} source={require('../assets/Login.png')} />
@@ -52,26 +53,28 @@ const styles = StyleSheet.create({
         paddingHorizontal: 40
     },
     btnBack: {
-        marginTop: 40,
+        marginTop: 80
     },
     reqLogIn: {
         width: 320,
         height: 320,
         alignSelf: 'center',
-        marginTop: SCREEN_HEIGHT/30,
+        marginTop: SCREEN_HEIGHT / 30
     },
     title: {
         fontFamily: 'RedHatText-Bold',
         fontSize: 40,
         color: '#10152F',
-        marginTop: 45
+        marginTop: 45,
+        textAlign: 'center'
     },
     subtitle: {
         fontFamily: 'RedHatText-Regular',
         fontSize: 20,
         color: '#262D57',
         marginTop: 10,
-        marginBottom: 60
+        marginBottom: 60,
+        textAlign: 'center'
     },
     btnLogIn: {
         backgroundColor: '#10152F',
@@ -96,6 +99,25 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#fff'
     },
+    circleSmall: {
+        zIndex: -1,
+        position: 'absolute',
+        width: 95,
+        height: 95,
+        borderRadius: 100,
+        backgroundColor: '#262D57',
+        top: 15,
+        left: 8
+    },
+    circleBig: {
+        position: 'absolute',
+        width: 287,
+        height: 287,
+        borderRadius: 200,
+        backgroundColor: '#262D57',
+        top: -72,
+        left: -144
+    }
 });
 
 export default Reqlogin;

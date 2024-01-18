@@ -66,7 +66,7 @@ const Profile = () => {
     });
     const getUserProfile = async () => {
         const { data } = await getProfile();
-        console.log('user profile ', data);
+        // console.log('user profile ', data);
         setProfile(data);
     };
 
