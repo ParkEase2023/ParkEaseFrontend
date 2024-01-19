@@ -5,7 +5,10 @@ import {
     SafeAreaView,
     Image,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    Animated,
+    KeyboardAvoidingView,
+    Platform
 } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import Imageprofile from '../assets/profile.png';
@@ -33,6 +36,7 @@ import AuthContext from '../context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProfileParamList } from '../stack/ProfileStack';
 import Popupverify from '../components/Popupverify';
+import TabRemainingBalance from '../components/TabRemainingBalance';
 
 export interface IProfile {
     _id: string;
@@ -52,6 +56,12 @@ const Profile = () => {
     const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
     const [visible, setVisible] = useState(false);
     const [ticker, setTicker] = useState(false);
+    const [isHidden, setIsHidden] = useState(true);
+    const [isVisible, setIsVisible] = useState(false);
+    const translateY = new Animated.Value(100);
+    const [fnAddCoins, setFnAddCoins] = useState(false);
+    const [fnBindAccount, setFnBindAccount] = useState(false);
+    const [fnWithdrawMoney, setFnWithdrawMoney] = useState(false);
     const [profile, setProfile] = React.useState<IProfile>({
         _id: '',
         firstname: '',
@@ -99,7 +109,6 @@ const Profile = () => {
 
     const ContentVerify = (): JSX.Element | null => {
         if (profile.verification_status === true) {
-
             return (
                 <TouchableOpacity style={styles.btnRectangle}>
                     <View style={styles.itemLeft}>
@@ -130,123 +139,220 @@ const Profile = () => {
         }
     };
 
+    useEffect(() => {
+        Animated.timing(translateY, {
+            toValue: isVisible ? 100 : 0, // Adjust the height as needed
+            duration: 500, // Adjust the duration as needed
+            useNativeDriver: true
+        }).start();
+    }, [isVisible, translateY, isHidden]);
+
+    const RenderTab = (): JSX.Element | null => {
+        if (isHidden === false) {
+            return (
+                <Animated.View
+                    style={{ ...styles.boxview, flex: 1, transform: [{ translateY: translateY }] }}>
+                    <TabRemainingBalance
+                        addCoins={value => {
+                            setFnAddCoins(value);
+                        }}
+                        BindAccount={value => {
+                            setFnBindAccount(value);
+                        }}
+                        WithdrawMoney={value => {
+                            setFnWithdrawMoney(value);
+                        }}></TabRemainingBalance>
+                </Animated.View>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const handleOpenTab = () => {
+        if (isHidden === true) {
+            const duration = 10 * 1000;
+            setIsHidden(false);
+
+            const timer = setTimeout(() => {
+                setIsHidden(true);
+            }, duration);
+
+            return () => clearTimeout(timer);
+        } else {
+            setIsHidden(true);
+        }
+    };
+    const Renderbg = (): JSX.Element | null => {
+        if (isHidden === false) {
+            return (
+                <TouchableOpacity
+                    onPress={() => setIsHidden(true)}
+                    style={styles.containerpopup}>
+                </TouchableOpacity>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const RemainingBalance = () => {
+        if (fnAddCoins === true) {
+            console.log('add coins');
+            setFnAddCoins(false);
+        } else if (fnBindAccount === true) {
+            console.log('fnBindAccount');
+            setFnBindAccount(false);
+        } else if (fnWithdrawMoney === true) {
+            console.log('fnWithdrawMoney');
+            setFnWithdrawMoney(false);
+        }
+    };
+    const handleBalance = () => {
+        if(profile.verification_status === true){
+            handleOpenTab();
+        }
+        else if (profile.verification_status === false){
+            handleVrify();
+        }
+    };
+    useEffect(() => {
+        RemainingBalance();
+    }, [fnAddCoins,fnBindAccount,fnWithdrawMoney])
+    
+
+
     return (
         <RequireLogin>
-            <ScrollView style={styles.container}>
-                <View style={styles.mainContainer}>
-                    <View style={styles.circleBig} />
-                    <Text style={styles.title}>Profile</Text>
+            <KeyboardAvoidingView
+                style={styles.container}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                <ScrollView
+                    contentContainerStyle={styles.scrollViewContainer}
+                    keyboardShouldPersistTaps="handled">
+                    <View style={styles.mainContainer}>
+                        <View style={styles.circleBig} />
+                        <Text style={styles.title}>Profile</Text>
 
-                    <View style={styles.profileContainer}>
-                        <View style={styles.mainProfileContainer}>
-                            <Image
-                                source={{ uri: profile.profile_picture }}
-                                style={styles.imageProfile}
-                            />
+                        <View style={styles.profileContainer}>
+                            <View style={styles.mainProfileContainer}>
+                                <Image
+                                    source={{ uri: profile.profile_picture }}
+                                    style={styles.imageProfile}
+                                />
 
-                            <View style={styles.dataProfile}>
-                                <Text style={styles.name}>
-                                    {profile.firstname} {profile.lastname}
-                                </Text>
+                                <View style={styles.dataProfile}>
+                                    <Text style={styles.name}>
+                                        {profile.firstname} {profile.lastname}
+                                    </Text>
 
-                                <View style={styles.email}>
-                                    <EnvelopeSimple size={20} weight="fill" color="#7F85B2" />
-                                    <Text style={styles.textProfile}>{profile.email}</Text>
-                                </View>
+                                    <View style={styles.email}>
+                                        <EnvelopeSimple size={20} weight="fill" color="#7F85B2" />
+                                        <Text style={styles.textProfile}>{profile.email}</Text>
+                                    </View>
 
-                                <View style={styles.phone}>
-                                    <Phone size={20} weight="fill" color="#7F85B2" />
-                                    <Text style={styles.textProfile}>{profile.phone_number}</Text>
+                                    <View style={styles.phone}>
+                                        <Phone size={20} weight="fill" color="#7F85B2" />
+                                        <Text style={styles.textProfile}>
+                                            {profile.phone_number}
+                                        </Text>
+                                    </View>
                                 </View>
                             </View>
+
+                            <TouchableOpacity onPress={handleEditProfile}>
+                                <View style={styles.bgBtnEdit}>
+                                    <PencilSimple size={24} weight="fill" style={styles.btnEdit} />
+                                </View>
+                            </TouchableOpacity>
                         </View>
 
-                        <TouchableOpacity onPress={handleEditProfile}>
-                            <View style={styles.bgBtnEdit}>
-                                <PencilSimple size={24} weight="fill" style={styles.btnEdit} />
+                        <TouchableOpacity style={styles.btnRectangle} onPress={handleBalance}>
+                            <View style={styles.itemLeft}>
+                                <View style={styles.bgIcon}>
+                                    <Wallet size={22} weight="fill" color="#EEF0FF" />
+                                </View>
+                                <Text style={styles.textBody}>Remaining Balance</Text>
+                            </View>
+
+                            <View style={styles.itemRight}>
+                                <CoinVertical size={22} weight="fill" color="#2C2F4A" />
+                                <Text style={styles.textBold}>{profile.coins}</Text>
+                                <CaretRight size={22} weight="bold" color="#7F85B2" />
                             </View>
                         </TouchableOpacity>
-                    </View>
 
-                    <TouchableOpacity style={styles.btnRectangle}>
-                        <View style={styles.itemLeft}>
-                            <View style={styles.bgIcon}>
-                                <Wallet size={22} weight="fill" color="#EEF0FF" />
+                        <TouchableOpacity style={styles.btnRectangle}>
+                            <View style={styles.itemLeft}>
+                                <View style={styles.bgIcon}>
+                                    <Bell size={22} weight="fill" color="#EEF0FF" />
+                                </View>
+                                <Text style={styles.textBody}>Notification</Text>
                             </View>
-                            <Text style={styles.textBody}>Remaining Balance</Text>
-                        </View>
 
-                        <View style={styles.itemRight}>
-                            <CoinVertical size={22} weight="fill" color="#2C2F4A" />
-                            <Text style={styles.textBold}>{profile.coins}</Text>
                             <CaretRight size={22} weight="bold" color="#7F85B2" />
-                        </View>
-                    </TouchableOpacity>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.btnRectangle}>
-                        <View style={styles.itemLeft}>
-                            <View style={styles.bgIcon}>
-                                <Bell size={22} weight="fill" color="#EEF0FF" />
+                        <TouchableOpacity style={styles.btnRectangle}>
+                            <View style={styles.itemLeft}>
+                                <View style={styles.bgIcon}>
+                                    <ClockCounterClockwise
+                                        size={22}
+                                        weight="bold"
+                                        color="#EEF0FF"
+                                    />
+                                </View>
+                                <Text style={styles.textBody}>Booking History</Text>
                             </View>
-                            <Text style={styles.textBody}>Notification</Text>
-                        </View>
 
-                        <CaretRight size={22} weight="bold" color="#7F85B2" />
-                    </TouchableOpacity>
+                            <CaretRight size={22} weight="bold" color="#7F85B2" />
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.btnRectangle}>
-                        <View style={styles.itemLeft}>
-                            <View style={styles.bgIcon}>
-                                <ClockCounterClockwise size={22} weight="bold" color="#EEF0FF" />
+                        <TouchableOpacity style={styles.btnRectangle}>
+                            <View style={styles.itemLeft}>
+                                <View style={styles.bgIcon}>
+                                    <Car size={22} weight="fill" color="#EEF0FF" />
+                                </View>
+                                <Text style={styles.textBody}>My Parking</Text>
                             </View>
-                            <Text style={styles.textBody}>Booking History</Text>
-                        </View>
 
-                        <CaretRight size={22} weight="bold" color="#7F85B2" />
-                    </TouchableOpacity>
+                            <CaretRight size={22} weight="bold" color="#7F85B2" />
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.btnRectangle}>
-                        <View style={styles.itemLeft}>
-                            <View style={styles.bgIcon}>
-                                <Car size={22} weight="fill" color="#EEF0FF" />
+                        <ContentVerify></ContentVerify>
+
+                        <TouchableOpacity style={styles.btnRectangle}>
+                            <View style={styles.itemLeft}>
+                                <View style={styles.bgIcon}>
+                                    <UserList size={22} weight="bold" color="#EEF0FF" />
+                                </View>
+                                <Text style={styles.textBody}>Apply For Membership</Text>
                             </View>
-                            <Text style={styles.textBody}>My Parking</Text>
-                        </View>
 
-                        <CaretRight size={22} weight="bold" color="#7F85B2" />
-                    </TouchableOpacity>
+                            <CaretRight size={22} weight="bold" color="#7F85B2" />
+                        </TouchableOpacity>
 
-                   <ContentVerify></ContentVerify>
-
-                    <TouchableOpacity style={styles.btnRectangle}>
-                        <View style={styles.itemLeft}>
-                            <View style={styles.bgIcon}>
-                                <UserList size={22} weight="bold" color="#EEF0FF" />
+                        <TouchableOpacity style={styles.btnRectangle} onPress={handleLogout}>
+                            <View style={styles.itemLeft}>
+                                <View style={styles.bgIconLogOut}>
+                                    <SignOut size={22} weight="bold" color="#EEF0FF" />
+                                </View>
+                                <Text style={styles.textBody}>Log Out</Text>
                             </View>
-                            <Text style={styles.textBody}>Apply For Membership</Text>
-                        </View>
 
-                        <CaretRight size={22} weight="bold" color="#7F85B2" />
-                    </TouchableOpacity>
+                            <CaretRight size={22} weight="bold" color="#7F85B2" />
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.btnRectangle} onPress={handleLogout}>
-                        <View style={styles.itemLeft}>
-                            <View style={styles.bgIconLogOut}>
-                                <SignOut size={22} weight="bold" color="#EEF0FF" />
-                            </View>
-                            <Text style={styles.textBody}>Log Out</Text>
-                        </View>
-
-                        <CaretRight size={22} weight="bold" color="#7F85B2" />
-                    </TouchableOpacity>
-
-                    <View style={styles.circleSmall} />
-                </View>
-                <Popupverify
-                    setVisible={visible}
-                    ticker={ticker}
-                    email={profile.email}></Popupverify>
-            </ScrollView>
+                        <View style={styles.circleSmall} />
+                    </View>
+                    <Popupverify
+                        setVisible={visible}
+                        ticker={ticker}
+                        email={profile.email}></Popupverify>
+                    <RenderTab></RenderTab>
+                    <Renderbg></Renderbg>
+                </ScrollView>
+            </KeyboardAvoidingView>
         </RequireLogin>
     );
 };
@@ -257,6 +363,17 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#D7DAEF'
+    },
+    containerpopup: {
+        flex: 1,
+        backgroundColor: 'rgba(16, 21, 47, 0.8)',
+        height: 1000,
+        position: 'absolute',
+        width: '100%',
+        zindex: 3
+    },
+    scrollViewContainer: {
+        flexGrow: 1
     },
     mainContainer: {
         flex: 1,
@@ -390,5 +507,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#7F85B2',
         bottom: 8,
         right: -20
+    },
+    boxview: {
+        width: '100%',
+        height: 160,
+        position: 'absolute',
+        bottom: 0,
+        zIndex: 2
     }
 });

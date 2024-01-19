@@ -8,7 +8,10 @@ import {
     Image,
     StyleSheet,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView
 } from 'react-native';
 import { CaretLeft } from 'phosphor-react-native';
 import { RootStackList } from '../stack/RootStack';
@@ -18,31 +21,39 @@ const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 function Reqlogin() {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.circleBig} />
-            <TouchableOpacity style={styles.btnBack} onPress={() => navigation.goBack()}>
-                <CaretLeft size={24} weight="bold" color="#EEF0FF" />
-            </TouchableOpacity>
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            <ScrollView
+                contentContainerStyle={styles.scrollViewContainer}
+                keyboardShouldPersistTaps="handled">
+                <SafeAreaView>
+                    <View style={styles.circleBig} />
+                    <TouchableOpacity style={styles.btnBack} onPress={() => navigation.goBack()}>
+                        <CaretLeft size={24} weight="bold" color="#EEF0FF" />
+                    </TouchableOpacity>
 
-            <Image style={styles.reqLogIn} source={require('../assets/Login.png')} />
+                    <Image style={styles.reqLogIn} source={require('../assets/Login.png')} />
 
-            <Text style={styles.title}>Log In Now!</Text>
-            <Text style={styles.subtitle}>You must log in first to use this feature.</Text>
+                    <Text style={styles.title}>Log In Now!</Text>
+                    <Text style={styles.subtitle}>You must log in first to use this feature.</Text>
 
-            <View>
-                <TouchableOpacity
-                    style={styles.btnLogIn}
-                    onPress={() => navigation.navigate('AuthStack', { screen: 'SignIn' })}>
-                    <Text style={styles.textLogIn}>LOG IN</Text>
-                </TouchableOpacity>
+                    <View>
+                        <TouchableOpacity
+                            style={styles.btnLogIn}
+                            onPress={() => navigation.navigate('AuthStack', { screen: 'SignIn' })}>
+                            <Text style={styles.textLogIn}>LOG IN</Text>
+                        </TouchableOpacity>
 
-                <TouchableOpacity
-                    style={styles.btnSignUp}
-                    onPress={() => navigation.navigate('AuthStack', { screen: 'SignUp' })}>
-                    <Text style={styles.textSignUp}>SIGN UP</Text>
-                </TouchableOpacity>
-            </View>
-        </SafeAreaView>
+                        <TouchableOpacity
+                            style={styles.btnSignUp}
+                            onPress={() => navigation.navigate('AuthStack', { screen: 'SignUp' })}>
+                            <Text style={styles.textSignUp}>SIGN UP</Text>
+                        </TouchableOpacity>
+                    </View>
+                </SafeAreaView>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -50,6 +61,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#EEF0FF',
+    },
+    scrollViewContainer: {
+        flexGrow: 1,
         paddingHorizontal: 40
     },
     btnBack: {
@@ -91,7 +105,8 @@ const styles = StyleSheet.create({
     btnSignUp: {
         backgroundColor: '#7F85B2',
         borderRadius: 12,
-        paddingVertical: 16
+        paddingVertical: 16,
+        marginBottom:10
     },
     textSignUp: {
         textAlign: 'center',
