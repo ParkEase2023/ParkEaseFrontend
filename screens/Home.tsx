@@ -549,19 +549,11 @@ const Home = () => {
             </View>
             
             <View style={styles.containerImg}>
-              <View style={styles.imgLeft}>
-                <Image source={require('../assets/IMGParking_1.jpg')} />
-              </View>
+                <Image source={require('../assets/IMGParking_1.jpg')} style={styles.imgLeft} />
               <View style={styles.imgRight}>
-                <View style={styles.imgTop}>
-                  <Image source={require('../assets/IMGParking_2.jpg')} />
-                </View>
-
-                <View style={styles.imgLower}>
-                  <Image source={require('../assets/IMGParking_3.jpg')} />
-                </View>
+                <Image source={require('../assets/IMGParking_2.jpg')} style={styles.imgTop} />
+                <Image source={require('../assets/IMGParking_3.jpg')} style={styles.imgLower} />
               </View>
-              
             </View>
 
             <View style={styles.location}>
@@ -580,7 +572,6 @@ const Home = () => {
               <Text style={styles.textProviderName}>Brandon Stanton</Text>
             </View>
           </SafeAreaView>
-          
 
         </SlideBar>
       </View>
@@ -778,28 +769,25 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
   imgLeft: {
-    width: 169.5,
+    flex: 1,
+    width: '100%',
     height: 240,
     borderRadius: 8,
-    marginBottom: 25,
+    marginRight: 4,
   },
   imgRight: {
-    width: 169.5,
-    height: 240,
-    borderRadius: 8,
-    marginBottom: 25,
+    flex: 1,
   },
   imgTop: {
-    width: 169.5,
+    width: '100%',
     height: 118,
     borderRadius: 8,
-    marginBottom: 25,
+    marginBottom: 4,
   },
   imgLower: {
-    width: 169.5,
+    width: '100%',
     height: 118,
     borderRadius: 8,
-    marginBottom: 25,
   },
   location: {
     flexDirection: 'row',
