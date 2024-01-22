@@ -1,8 +1,8 @@
-import { Dimensions, PermissionsAndroid, Platform, SafeAreaView, StyleSheet, Image, TextInput, TouchableOpacity, View, Text } from 'react-native'
+import { Dimensions, PermissionsAndroid, Platform, SafeAreaView, StyleSheet, Image, TextInput, TouchableOpacity, View, Text, ScrollView } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Geolocation from 'react-native-geolocation-service';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { Clock, CoinVertical, Heart, MagnifyingGlass, MapPin, NavigationArrow, Phone, Star, User } from 'phosphor-react-native';
+import { CaretRight, Clock, CoinVertical, DotsThreeVertical, Heart, MagnifyingGlass, MapPin, NavigationArrow, Phone, Star, User } from 'phosphor-react-native';
 import { getAllParking } from '../services/parking';
 import caretLeft from '../assets/Icons/caretLeft.png';
 import crosshair from '../assets/Icons/crosshair.png';
@@ -513,7 +513,7 @@ const Home = () => {
       <View style={styles.containerSlideBar}>
         <StatusBar style="light" />
         <SlideBar ref={ref} >
-          <SafeAreaView style={styles.mainContainer}>
+          <ScrollView style={styles.mainContainer}>
             <View style={styles.title}>
               <Text style={styles.textTitle}>อาคารจอดรถ 5 ชั้น</Text>
               <View style={styles.rate}>
@@ -571,8 +571,58 @@ const Home = () => {
               <Text style={styles.textProvider}>Provider by </Text>
               <Text style={styles.textProviderName}>Brandon Stanton</Text>
             </View>
-          </SafeAreaView>
 
+            <Text style={styles.titleRateReview}>Rate & Review</Text>
+
+            <View style={styles.rowRateReview}>
+              <View style={styles.rowItemLeft}>
+                <Image source={require('../assets/smallProfile.png')} style={styles.smallProfile} />
+                <View style={styles.rowBigStar}>
+                  <View style={styles.star}>
+                    <Star size={30} weight="regular" color="#565E8B" />
+                  </View>
+                  <View style={styles.star}>
+                    <Star size={30} weight="regular" color="#565E8B" />
+                  </View>
+                  <View style={styles.star}>
+                    <Star size={30} weight="regular" color="#565E8B" />
+                  </View>
+                  <View style={styles.star}>
+                    <Star size={30} weight="regular" color="#565E8B" />
+                  </View>
+                  <View style={styles.star}>
+                    <Star size={30} weight="regular" color="#565E8B" />
+                  </View>
+                </View>
+              </View>
+              
+              <CaretRight size={24} weight="bold" color="#565E8B" />
+            </View>
+
+            <View style={styles.line} />
+
+            <View style={styles.rowComment}>
+              <Image source={require('../assets/smallProfile.png')} style={styles.smallProfile} />
+
+              <View style={styles.rowDetailComment}>
+                <Text style={styles.nameComment}>Charlie Gouse</Text>
+                <View style={styles.rowLower}>
+                  <View style={styles.rowSmallStar}>
+                    <Star size={12} weight="fill" color="#FFDE00" />
+                    <Star size={12} weight="fill" color="#FFDE00" />
+                    <Star size={12} weight="fill" color="#FFDE00" />
+                    <Star size={12} weight="fill" color="#FFDE00" />
+                    <Star size={12} weight="fill" color="#FFDE00" />
+                  </View>
+                  <Text style={styles.timeComment}>24/10/23</Text>
+                </View>
+              </View>
+              
+              <DotsThreeVertical size={24} weight="bold" color="#565E8B" />
+            </View>
+            <Text style={styles.textComment}>ที่จอดรถดีมาก กว้าง สะอาด มีการดูแลเอาใจใส่ลูกค้าดีคร้าบ</Text>
+            <View style={styles.line2} />
+          </ScrollView>
         </SlideBar>
       </View>
     </GestureHandlerRootView>
@@ -827,5 +877,79 @@ const styles = StyleSheet.create({
     fontFamily: 'RedHatText-Bold',
     fontSize: 14,
     color: '#EEF0FF',
+  },
+  titleRateReview: {
+    fontFamily: 'RedHatText-Regular',
+    fontSize: 16,
+    color: '#EEF0FF',
+    marginBottom: 12,
+  },
+  rowRateReview: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 18,
+  },
+  rowItemLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  smallProfile: {
+    width: 32,
+    height: 32,
+    borderRadius: 100,
+    marginRight: 16,
+  },
+  rowBigStar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  star: {
+    marginRight: 8,
+  },
+  line: {
+    width: '100%',
+    height: 1,
+    backgroundColor: '#565E8B',
+    marginBottom: 16,
+  },
+  rowSmallStar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  rowComment: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  rowDetailComment: {
+    flex: 1,
+  },
+  nameComment: {
+    fontFamily: 'RedHatText-Regular',
+    fontSize: 14,
+    color: '#EEF0FF',
+  },
+  rowLower: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  timeComment: {
+    fontFamily: 'RedHatText-Regular',
+    fontSize: 12,
+    color: '#EEF0FF',
+    marginLeft: 8,
+  },
+  textComment: {
+    fontFamily: 'RedHatText-Regular',
+    fontSize: 14,
+    color: '#EEF0FF',
+    marginBottom: 16,
+  },
+  line2: {
+    width: '100%',
+    height: 1,
+    backgroundColor: '#262D57',
+    marginBottom: 16,
   },
 })
