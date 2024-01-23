@@ -6,6 +6,8 @@ import Modal from 'react-native-modal';
 interface IPopup {
     setVisible: boolean;
     ticker: boolean;
+    selectOpen : (value: boolean) => void;
+    selectAvailable: (value: boolean) => void;
 }
 
 const PopupFilter = (props: IPopup) => {
@@ -32,7 +34,7 @@ const PopupFilter = (props: IPopup) => {
                             <RadioButton
                                 value="first"
                                 status={parkingOpen === true ? 'checked' : 'unchecked'}
-                                onPress={() => setParkingOpen(!parkingOpen)}
+                                onPress={() => {setParkingOpen(!parkingOpen),props.selectOpen(!parkingOpen)}}
                                 color={parkingOpen ? '#239D60' : 'black'}
                             />
                         </View>
@@ -45,7 +47,7 @@ const PopupFilter = (props: IPopup) => {
                             <RadioButton
                                 value="second"
                                 status={available === true ? 'checked' : 'unchecked'}
-                                onPress={() => setAvailable(!available)}
+                                onPress={() => {setAvailable(!available),props.selectAvailable(!available)}}
                                 color={available ? '#239D60' : 'black'}
                             />
                         </View>
@@ -85,14 +87,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#EEF0FF',
         borderRadius: 10,
         padding: 16,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
     },
     closeButton: {
         marginTop: 20

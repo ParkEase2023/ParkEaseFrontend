@@ -34,7 +34,7 @@ const Notification = () => {
                     </Text>
                 </View>
             </TouchableOpacity>
-            <PopupFilter setVisible={show} ticker={ticker}></PopupFilter>
+            {/* <PopupFilter setVisible={show} ticker={ticker}></PopupFilter> */}
         </View>
         
     );
