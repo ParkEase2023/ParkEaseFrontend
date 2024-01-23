@@ -38,9 +38,9 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: '#EEF0FF',
     borderRadius: 10,
-    padding: 35,
+    padding: 20,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -52,14 +52,17 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   closeButton: {
-    marginTop: 10,
+    marginTop: 20,
   },
   btnLogIn: {
     backgroundColor: '#10152F',
     borderRadius: 15,
-    paddingVertical: 15,
-    paddingHorizontal: 50,
-    marginBottom: 25
+    padding: 10,
+    elevation: 2,
+    marginTop: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 75,
+    marginBottom: 5,
   },
   textFilter: {
     textAlign: 'center',
@@ -68,14 +71,10 @@ const styles = StyleSheet.create({
     color: '#10152F',
     paddingBottom: 15
   },
-  line: {
-    borderBottomWidth: 10,
-    borderBottomColor: 'black',
-  },
   hairline: {
-    backgroundColor: '#A2A2A2',
+    backgroundColor: '#DAE0FF',
     height: 2,
-    width: 165
+    width: 200
   },
   textSave: {
     textAlign: 'center',

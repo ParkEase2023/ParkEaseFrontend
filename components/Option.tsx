@@ -28,9 +28,9 @@ const Option = () => {
 };
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    padding: 20,
     textAlign: 'center',
-    fontFamily: 'RedHatText-Bold',
+    fontFamily: 'RedHatText',
     fontSize: 14,
     color: '#10152F',
     paddingBottom: 15

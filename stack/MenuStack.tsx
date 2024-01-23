@@ -18,6 +18,11 @@ import SelectForVerify from '../screens/SelectForVerify';
 import VerifyYourIdentify from '../screens/VerifyYourIdentity';
 // import AlertFiterSreach from '../screens/AlertFiterSreach';
 import Popup from '../screens/Popup';
+import AddCoin from '../screens/AddCoin';
+import AddCoinQR from '../screens/AddCoin-QR';
+import BillingInfo from '../screens/BillingInformation';
+import ChangePlan from '../components/ChangePlan';
+import ApplyMember from '../screens/ApplyMember';
 
 export type MenuParamList = {
   HomeStack: undefined;
@@ -73,7 +78,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="AddParkingStack"
-          component={ Popup }
+          component={ ApplyMember }
           // onPress={() =>
           //   navigation.navigate('AddToiletStack', {screen: 'AddToilet'})
           // }
@@ -91,7 +96,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="NotificationStack"
-          component={Profile}
+          component={ BillingInfo}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <Bell
