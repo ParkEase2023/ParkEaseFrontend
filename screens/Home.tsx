@@ -36,6 +36,8 @@ import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { LogBox } from 'react-native';
 import PopupFilter from '../components/PopupFiler';
+import BottomSheetScrollView, { BottomSheetMethods } from '../components/BottomSheetScrollView';
+import Comment from '../components/Comment';
 
 interface Position {
     latitude: number;
@@ -346,6 +348,10 @@ const Home = () => {
             }
         );
     }, []);
+    const bottomSheetRef3 = useRef<BottomSheetMethods>(null);
+    const pressHandler3 = useCallback(() => {
+        bottomSheetRef3.current?.expand();
+    }, []);
 
     const [listparking, setListParking] = useState(parkingMarkers);
 
@@ -402,7 +408,7 @@ const Home = () => {
                             }}
                             title={item.title}
                             description={item._id}
-                            onPress={onPress}></Marker>
+                            onPress={pressHandler3}></Marker>
                     );
                 })}
             </>
@@ -488,36 +494,14 @@ const Home = () => {
             <View
                 style={{
                     position: 'absolute', //use absolute position to show button on top of the map
-                    top: -30, //for center align
-                    left: 60,
-                    alignSelf: 'flex-start' //for align to right
-                }}>
-                <TouchableOpacity style={styles.btnCaretLeft}>
-                    <Image source={caretLeft} />
-                </TouchableOpacity>
-            </View>
-            <View
-                style={{
-                    position: 'absolute', //use absolute position to show button on top of the map
                     top: 25, //for center align
                     right: 12,
                     alignSelf: 'flex-end' //for align to right
                 }}>
-                {/* <SafeAreaView>
-          <TouchableOpacity style={styles.btnStackSimple_44} onPress={getCurrentPosition}>
-            <Crosshair size={24} weight="fill" color="#A6A6A6" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btnStackSimple_45} onPress={callBoth}>
-            <StackSimple size={22} weight="fill" color="#A6A6A6" />
-          </TouchableOpacity>
-        </SafeAreaView> */}
                 <SafeAreaView>
                     <TouchableOpacity
                         style={styles.btnCrosshair}
-                        onPress={() => {
-                            setSelectedOpen(!selectedOpen);
-                            return true;
-                        }}>
+                        onPress={getCurrentPosition}>
                         <Image source={crosshair} />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.btnFunnel} onPress={handleOpen}>
@@ -526,141 +510,118 @@ const Home = () => {
                 </SafeAreaView>
             </View>
             <View style={styles.containerSlideBar}>
-                    <StatusBar style="light" />
-                    <SlideBar ref={ref}>
-                        <View style={styles.mainContainer}>
-                            <View style={{ minHeight: 500 }}>
-                                <View style={styles.title}>
-                                    <Text style={styles.textTitle}>อาคารจอดรถ 5 ชั้น</Text>
-                                    <View style={styles.rate}>
-                                        <Star size={12} weight="fill" color="#FFDE00" />
-                                        <Text style={styles.textRate}>4.5</Text>
-                                    </View>
+                <StatusBar style="light" />
+                <BottomSheetScrollView 
+                ref={bottomSheetRef3}
+                snapTo={'50%'}
+                backgroundColor={'#10152F'}
+                backDropColor={'none'}>
+                    <View style={styles.mainContainer}>
+                        <View style={{ minHeight: 500 }}>
+                            <View style={styles.title}>
+                                <Text style={styles.textTitle}>อาคารจอดรถ 5 ชั้น</Text>
+                                <View style={styles.rate}>
+                                    <Star size={12} weight="fill" color="#FFDE00" />
+                                    <Text style={styles.textRate}>4.5</Text>
                                 </View>
+                            </View>
 
-                                <View style={styles.rowCostOC}>
-                                    <View style={styles.coins}>
-                                        <CoinVertical size={20} weight="fill" color="#FFDE00" />
-                                        <Text style={styles.textCoins}>10 Coins/hr</Text>
-                                    </View>
-                                    <Text style={styles.textOC}>Open</Text>
+                            <View style={styles.rowCostOC}>
+                                <View style={styles.coins}>
+                                    <CoinVertical size={20} weight="fill" color="#FFDE00" />
+                                    <Text style={styles.textCoins}>10 Coins/hr</Text>
                                 </View>
+                                <Text style={styles.textOC}>Open</Text>
+                            </View>
 
-                                <TouchableOpacity style={styles.btnBooking}>
-                                    <Text style={styles.textBooking}>BOOKING</Text>
+                            <TouchableOpacity style={styles.btnBooking}>
+                                <Text style={styles.textBooking}>BOOKING</Text>
+                            </TouchableOpacity>
+
+                            <View style={styles.containerBtn}>
+                                <TouchableOpacity style={styles.btnNavigate}>
+                                    <NavigationArrow size={20} weight="fill" color="#262D57" />
+                                    <Text style={styles.textNavigate}>Navigate</Text>
                                 </TouchableOpacity>
+                                <TouchableOpacity style={styles.btnCall}>
+                                    <Phone size={20} weight="fill" color="#262D57" />
+                                    <Text style={styles.textCall}>Call</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.btnHeart}>
+                                    <Heart size={20} weight="fill" color="#EEF0FF" />
+                                </TouchableOpacity>
+                            </View>
 
-                                <View style={styles.containerBtn}>
-                                    <TouchableOpacity style={styles.btnNavigate}>
-                                        <NavigationArrow size={20} weight="fill" color="#262D57" />
-                                        <Text style={styles.textNavigate}>Navigate</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.btnCall}>
-                                        <Phone size={20} weight="fill" color="#262D57" />
-                                        <Text style={styles.textCall}>Call</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.btnHeart}>
-                                        <Heart size={20} weight="fill" color="#EEF0FF" />
-                                    </TouchableOpacity>
-                                </View>
-
-                                <View style={styles.containerImg}>
+                            <View style={styles.containerImg}>
+                                <Image
+                                    source={require('../assets/IMGParking_1.jpg')}
+                                    style={styles.imgLeft}
+                                />
+                                <View style={styles.imgRight}>
                                     <Image
-                                        source={require('../assets/IMGParking_1.jpg')}
-                                        style={styles.imgLeft}
+                                        source={require('../assets/IMGParking_2.jpg')}
+                                        style={styles.imgTop}
                                     />
-                                    <View style={styles.imgRight}>
-                                        <Image
-                                            source={require('../assets/IMGParking_2.jpg')}
-                                            style={styles.imgTop}
-                                        />
-                                        <Image
-                                            source={require('../assets/IMGParking_3.jpg')}
-                                            style={styles.imgLower}
-                                        />
-                                    </View>
+                                    <Image
+                                        source={require('../assets/IMGParking_3.jpg')}
+                                        style={styles.imgLower}
+                                    />
                                 </View>
+                            </View>
 
-                                <View style={styles.location}>
-                                    <MapPin size={20} weight="fill" color="#EEF0FF" />
-                                    <Text style={styles.textLocation}>
-                                        126 Pracha Uthit Rd, Khwaeng Bang Mot, Khet Thung Khru,
-                                        Krung Thep Maha Nakhon 10140
-                                    </Text>
-                                </View>
+                            <View style={styles.location}>
+                                <MapPin size={20} weight="fill" color="#EEF0FF" />
+                                <Text style={styles.textLocation}>
+                                    126 Pracha Uthit Rd, Khwaeng Bang Mot, Khet Thung Khru, Krung
+                                    Thep Maha Nakhon 10140
+                                </Text>
+                            </View>
 
-                                <View style={styles.time}>
-                                    <Clock size={20} weight="fill" color="#EEF0FF" />
-                                    <Text style={styles.textTime}>Mo-Sat | 07:00 - 22:00</Text>
-                                </View>
+                            <View style={styles.time}>
+                                <Clock size={20} weight="fill" color="#EEF0FF" />
+                                <Text style={styles.textTime}>Mo-Sat | 07:00 - 22:00</Text>
+                            </View>
 
-                                <View style={styles.provider}>
-                                    <User size={20} weight="fill" color="#EEF0FF" />
-                                    <Text style={styles.textProvider}>Provider by </Text>
-                                    <Text style={styles.textProviderName}>Brandon Stanton</Text>
-                                </View>
+                            <View style={styles.provider}>
+                                <User size={20} weight="fill" color="#EEF0FF" />
+                                <Text style={styles.textProvider}>Provider by </Text>
+                                <Text style={styles.textProviderName}>Brandon Stanton</Text>
+                            </View>
 
-                                <Text style={styles.titleRateReview}>Rate & Review</Text>
+                            <Text style={styles.titleRateReview}>Rate & Review</Text>
 
-                                <View style={styles.rowRateReview}>
-                                    <View style={styles.rowItemLeft}>
-                                        <Image
-                                            source={require('../assets/smallProfile.png')}
-                                            style={styles.smallProfile}
-                                        />
-                                        <View style={styles.rowBigStar}>
-                                            <View style={styles.star}>
-                                                <Star size={30} weight="regular" color="#565E8B" />
-                                            </View>
-                                            <View style={styles.star}>
-                                                <Star size={30} weight="regular" color="#565E8B" />
-                                            </View>
-                                            <View style={styles.star}>
-                                                <Star size={30} weight="regular" color="#565E8B" />
-                                            </View>
-                                            <View style={styles.star}>
-                                                <Star size={30} weight="regular" color="#565E8B" />
-                                            </View>
-                                            <View style={styles.star}>
-                                                <Star size={30} weight="regular" color="#565E8B" />
-                                            </View>
-                                        </View>
-                                    </View>
-
-                                    <CaretRight size={24} weight="bold" color="#565E8B" />
-                                </View>
-
-                                <View style={styles.line} />
-
-                                <View style={styles.rowComment}>
+                            <View style={styles.rowRateReview}>
+                                <View style={styles.rowItemLeft}>
                                     <Image
                                         source={require('../assets/smallProfile.png')}
                                         style={styles.smallProfile}
                                     />
-
-                                    <View style={styles.rowDetailComment}>
-                                        <Text style={styles.nameComment}>Charlie Gouse</Text>
-                                        <View style={styles.rowLower}>
-                                            <View style={styles.rowSmallStar}>
-                                                <Star size={12} weight="fill" color="#FFDE00" />
-                                                <Star size={12} weight="fill" color="#FFDE00" />
-                                                <Star size={12} weight="fill" color="#FFDE00" />
-                                                <Star size={12} weight="fill" color="#FFDE00" />
-                                                <Star size={12} weight="fill" color="#FFDE00" />
-                                            </View>
-                                            <Text style={styles.timeComment}>24/10/23</Text>
+                                    <View style={styles.rowBigStar}>
+                                        <View style={styles.star}>
+                                            <Star size={30} weight="regular" color="#565E8B" />
+                                        </View>
+                                        <View style={styles.star}>
+                                            <Star size={30} weight="regular" color="#565E8B" />
+                                        </View>
+                                        <View style={styles.star}>
+                                            <Star size={30} weight="regular" color="#565E8B" />
+                                        </View>
+                                        <View style={styles.star}>
+                                            <Star size={30} weight="regular" color="#565E8B" />
+                                        </View>
+                                        <View style={styles.star}>
+                                            <Star size={30} weight="regular" color="#565E8B" />
                                         </View>
                                     </View>
-
-                                    <DotsThreeVertical size={24} weight="bold" color="#565E8B" />
                                 </View>
-                                <Text style={styles.textComment}>
-                                    ที่จอดรถดีมาก กว้าง สะอาด มีการดูแลเอาใจใส่ลูกค้าดีคร้าบ
-                                </Text>
-                                <View style={styles.line2} />
+
+                                <CaretRight size={24} weight="bold" color="#565E8B" />
                             </View>
+                            <View style={styles.line} />
+                            <Comment/>
                         </View>
-                    </SlideBar>
+                    </View>
+                </BottomSheetScrollView>
             </View>
             <PopupFilter
                 setVisible={show}
@@ -719,7 +680,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#10152F',
         position: 'absolute',
-        width: '87%',
+        width: '100%',
         alignSelf: 'flex-end'
     },
     searchContainer: {
@@ -959,43 +920,4 @@ const styles = StyleSheet.create({
         backgroundColor: '#565E8B',
         marginBottom: 16
     },
-    rowSmallStar: {
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    rowComment: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 10
-    },
-    rowDetailComment: {
-        flex: 1
-    },
-    nameComment: {
-        fontFamily: 'RedHatText-Regular',
-        fontSize: 14,
-        color: '#EEF0FF'
-    },
-    rowLower: {
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    timeComment: {
-        fontFamily: 'RedHatText-Regular',
-        fontSize: 12,
-        color: '#EEF0FF',
-        marginLeft: 8
-    },
-    textComment: {
-        fontFamily: 'RedHatText-Regular',
-        fontSize: 14,
-        color: '#EEF0FF',
-        marginBottom: 16
-    },
-    line2: {
-        width: '100%',
-        height: 1,
-        backgroundColor: '#262D57',
-        marginBottom: 16
-    }
 });
