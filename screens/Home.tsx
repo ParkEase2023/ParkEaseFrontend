@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Geolocation from 'react-native-geolocation-service';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Callout, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import {
     CaretRight,
     Clock,
@@ -408,7 +408,13 @@ const Home = () => {
                             }}
                             title={item.title}
                             description={item._id}
-                            onPress={pressHandler3}></Marker>
+                            onPress={pressHandler3}>
+                            <Callout tooltip style={{ display: 'none' }}>
+                                <View>
+                                    <Text>Hidden</Text>
+                                </View>
+                            </Callout>
+                        </Marker>
                     );
                 })}
             </>
@@ -499,9 +505,7 @@ const Home = () => {
                     alignSelf: 'flex-end' //for align to right
                 }}>
                 <SafeAreaView>
-                    <TouchableOpacity
-                        style={styles.btnCrosshair}
-                        onPress={getCurrentPosition}>
+                    <TouchableOpacity style={styles.btnCrosshair} onPress={getCurrentPosition}>
                         <Image source={crosshair} />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.btnFunnel} onPress={handleOpen}>
@@ -511,11 +515,11 @@ const Home = () => {
             </View>
             <View style={styles.containerSlideBar}>
                 <StatusBar style="light" />
-                <BottomSheetScrollView 
-                ref={bottomSheetRef3}
-                snapTo={'50%'}
-                backgroundColor={'#10152F'}
-                backDropColor={'none'}>
+                <BottomSheetScrollView
+                    ref={bottomSheetRef3}
+                    snapTo={'50%'}
+                    backgroundColor={'#10152F'}
+                    backDropColor={'none'}>
                     <View style={styles.mainContainer}>
                         <View style={{ minHeight: 500 }}>
                             <View style={styles.title}>
@@ -618,7 +622,7 @@ const Home = () => {
                                 <CaretRight size={24} weight="bold" color="#565E8B" />
                             </View>
                             <View style={styles.line} />
-                            <Comment/>
+                            <Comment />
                         </View>
                     </View>
                 </BottomSheetScrollView>
@@ -919,5 +923,5 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: '#565E8B',
         marginBottom: 16
-    },
+    }
 });
