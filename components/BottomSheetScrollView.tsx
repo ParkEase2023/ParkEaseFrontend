@@ -72,7 +72,6 @@ const BottomSheetScrollView = forwardRef<BottomSheetMethods, Props>(
             })
             .onUpdate(event => {
                 const newHeight = context.value + event.translationY;
-                console.log(newHeight);
                 // Calculate the maximum allowable height (90% of screen height)
                 const maxAllowedHeight = 50;
                 const dragHeight = 290;
@@ -115,7 +114,6 @@ const BottomSheetScrollView = forwardRef<BottomSheetMethods, Props>(
                     //     stiffness: 400
                     // });
                 }
-                // Otherwise, it's within the valid range, and no further adjustment is needed.
             });
 
         const onScroll = useAnimatedScrollHandler({
