@@ -97,6 +97,9 @@ const Home = () => {
     const [timeOpen, setTimeOpen] = useState('');
     const [timeClose, setTimeClose] = useState('');
     const [providerBy, setProviderBy] = useState('');
+    const [phoneCall, setPhonecall] = useState('');
+    const [lat, setLat] = useState(0);
+    const [long, setLong] = useState(0);
     const [parkingMarkers, setParkingMarkers] = useState<Position[]>([]);
     const mapRef = useRef<MapView | null>(null);
     const [pos, setPos] = useState<Position>({
@@ -196,6 +199,9 @@ const Home = () => {
                                     setTimeOpen(item.timeOpen);
                                     setTimeClose(item.timeClose);
                                     setProviderBy(item.providerBy);
+                                    setPhonecall(item.phone_number);
+                                    setLat(item.latitude);
+                                    setLong(item.longitude);
                             }}>
                             <Callout tooltip style={{ display: 'none' }}>
                                 <View>
@@ -319,6 +325,9 @@ const Home = () => {
                         TimeOpen={timeOpen}
                         TimeClose={timeClose}
                         ProviderBy={providerBy}
+                        PhoneCall={phoneCall}
+                        latitude={lat}
+                        longitude={long}
                         >
                     </DetailParking>
                 </BottomSheetScrollView>

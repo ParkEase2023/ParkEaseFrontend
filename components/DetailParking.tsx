@@ -1,8 +1,9 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, LogBox, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { CaretRight, Clock, CoinVertical, Heart, MapPin, NavigationArrow, Phone, Star, User } from 'phosphor-react-native';
 import Comment from './Comment';
-
+import {Linking} from 'react-native'
+import LaunchNavigator from 'react-native-launch-navigator';
 export interface IDetail {
     Title: string;
     Price: string;
@@ -14,16 +15,20 @@ export interface IDetail {
     TimeOpen: string;
     TimeClose: string;
     ProviderBy: string;
+    PhoneCall:string;
+    latitude:number;
+    longitude:number;
 }
 
 
 
 
 const DetailParking = (props:IDetail) => {
+    LogBox.ignoreLogs(['new NativeEventEmitter']);
     const ReaderBtn = (): JSX.Element | null => {
         if (props.Opening_status == true) {
             return (
-                <Text style={styles.textOC}>Open</Text>
+                <Text style={styles.textopen}>Open</Text>
             );
         } else {
             return (
@@ -31,6 +36,16 @@ const DetailParking = (props:IDetail) => {
             );
         }
     };
+
+    const PhoneCall = () => {
+        Linking.openURL(`tel:${props.PhoneCall}`);
+    };
+
+    
+
+    const navigate = () => {
+        LaunchNavigator.navigate([props.latitude, props.longitude]);
+      };
 
     return (
         <View style={styles.mainContainer}>
@@ -56,11 +71,11 @@ const DetailParking = (props:IDetail) => {
                 </TouchableOpacity>
 
                 <View style={styles.containerBtn}>
-                    <TouchableOpacity style={styles.btnNavigate}>
+                    <TouchableOpacity style={styles.btnNavigate} onPress={navigate}>
                         <NavigationArrow size={20} weight="fill" color="#262D57" />
                         <Text style={styles.textNavigate}>Navigate</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnCall}>
+                    <TouchableOpacity style={styles.btnCall} onPress={PhoneCall}>
                         <Phone size={20} weight="fill" color="#262D57" />
                         <Text style={styles.textCall}>Call</Text>
                     </TouchableOpacity>
@@ -181,7 +196,7 @@ const styles = StyleSheet.create({
         color: '#FEFA94',
         marginLeft: 6
     },
-    textOC: {
+    textopen: {
         fontFamily: 'RedHatText-Regular',
         fontSize: 14,
         color: '#55FFAA'
@@ -189,7 +204,7 @@ const styles = StyleSheet.create({
     textclose: {
         fontFamily: 'RedHatText-Regular',
         fontSize: 14,
-        color: 'red'
+        color: '#FF6A6A'
     },
 
     btnBooking: {
