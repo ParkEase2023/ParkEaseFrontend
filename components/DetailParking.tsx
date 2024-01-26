@@ -1,5 +1,5 @@
 import { Image, LogBox, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CaretRight, Clock, CoinVertical, Heart, MapPin, NavigationArrow, Phone, Star, User } from 'phosphor-react-native';
 import Comment from './Comment';
 import {Linking} from 'react-native'
@@ -18,12 +18,51 @@ export interface IDetail {
     PhoneCall:string;
     latitude:number;
     longitude:number;
+    mo:boolean;
+    tu:boolean;
+    we:boolean;
+    th:boolean;
+    fr:boolean;
+    sa:boolean;
+    su:boolean;
 }
 
 
 
 
+
 const DetailParking = (props:IDetail) => {
+
+    const [dayOpenAll, setDayOpenAll] = useState("");
+
+    useEffect(() => {
+        const dayOpen = [];
+        if (props.mo === true) {
+            dayOpen.push('Mo');
+        }
+        if (props.tu === true) {
+            dayOpen.push('Tu');
+        }
+        if (props.we === true) {
+            dayOpen.push('We');
+        }
+        if (props.th === true) {
+            dayOpen.push('Th');
+        }
+        if (props.fr === true) {
+            dayOpen.push('Fr');
+        }
+        if (props.sa === true) {
+            dayOpen.push('Sat');
+        }
+        if (props.su === true) {
+            dayOpen.push('Sun');
+        }
+        const result = dayOpen.join('-');
+        setDayOpenAll(result);
+
+    }, [props.Title])
+    
     LogBox.ignoreLogs(['new NativeEventEmitter']);
     const ReaderBtn = (): JSX.Element | null => {
         if (props.Opening_status == true) {
@@ -41,6 +80,7 @@ const DetailParking = (props:IDetail) => {
         Linking.openURL(`tel:${props.PhoneCall}`);
     };
 
+    
     
 
     const navigate = () => {
@@ -107,7 +147,7 @@ const DetailParking = (props:IDetail) => {
 
                 <View style={styles.time}>
                     <Clock size={20} weight="fill" color="#EEF0FF" />
-                    <Text style={styles.textTime}>Mo-Sat | {props.TimeOpen} - {props.TimeClose}</Text>
+                    <Text style={styles.textTime}>{dayOpenAll} | {props.TimeOpen} - {props.TimeClose}</Text>
                 </View>
 
                 <View style={styles.provider}>

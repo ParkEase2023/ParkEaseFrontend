@@ -48,6 +48,8 @@ interface Position {
     longitudeDelta: number;
 }
 
+
+
 enum MapType {
     standard = 'standard',
     satellite = 'satellite',
@@ -100,6 +102,13 @@ const Home = () => {
     const [phoneCall, setPhonecall] = useState('');
     const [lat, setLat] = useState(0);
     const [long, setLong] = useState(0);
+    const [mo, setMo] = useState(false);
+    const [tu, setTu] = useState(false);
+    const [we, setWe] = useState(false);
+    const [th, setTh] = useState(false);
+    const [fr, setFr] = useState(false);
+    const [sat, setSat] = useState(false);
+    const [sun, setSun] = useState(false);
     const [parkingMarkers, setParkingMarkers] = useState<Position[]>([]);
     const mapRef = useRef<MapView | null>(null);
     const [pos, setPos] = useState<Position>({
@@ -173,10 +182,21 @@ const Home = () => {
         setTicker(true);
         setShow(!show);
     };
+
+
     const RenderParking = () => {
         return (
             <>
                 {listparking.map((item: any, index) => {
+                    const dayopen = {
+                        mo: item.opening_mo,
+                        tu: item.opening_tu,
+                        we: item.opening_we,
+                        th: item.opening_th,
+                        fr: item.opening_fr,
+                        sa: item.opening_sa,
+                        su: item.opening_su
+                    };
                     return (
                         <Marker
                             image={require('../assets/PinParkRemoveBG.png')}
@@ -196,12 +216,20 @@ const Home = () => {
                                     setPicture2(item.parking_picture2),
                                     setPicture3(item.parking_picture3),
                                     setLocationAddress(item.location_address);
-                                    setTimeOpen(item.timeOpen);
-                                    setTimeClose(item.timeClose);
-                                    setProviderBy(item.providerBy);
-                                    setPhonecall(item.phone_number);
-                                    setLat(item.latitude);
-                                    setLong(item.longitude);
+                                setTimeOpen(item.timeOpen);
+                                setTimeClose(item.timeClose);
+                                setProviderBy(item.providerBy);
+                                setPhonecall(item.phone_number);
+                                setLat(item.latitude);
+                                setLong(item.longitude);
+                                setMo(item.opening_mo);
+                                setTu(item.opening_tu);
+                                setWe(item.opening_we);
+                                setTh(item.opening_th);
+                                setFr(item.opening_fr);
+                                setSat(item.opening_sa);
+                                setSun(item.opening_su);
+
                             }}>
                             <Callout tooltip style={{ display: 'none' }}>
                                 <View>
@@ -328,8 +356,14 @@ const Home = () => {
                         PhoneCall={phoneCall}
                         latitude={lat}
                         longitude={long}
-                        >
-                    </DetailParking>
+                        mo={mo}
+                        tu={tu}
+                        we={we}
+                        th={th}
+                        fr={fr}
+                        sa={sat}
+                        su={sun}
+                        ></DetailParking>
                 </BottomSheetScrollView>
             </View>
             <PopupFilter

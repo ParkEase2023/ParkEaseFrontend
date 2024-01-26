@@ -1,7 +1,7 @@
 import { StatusBar, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Bell, Heart, MapTrifold, Plus, User } from 'phosphor-react-native';
+import { Bell, Bookmark, Heart, MapTrifold, Plus, User } from 'phosphor-react-native';
 import HomeStack from '../screens/Home';
 import MyList from '../screens/MyList';
 import AddParking from '../screens/AddParking';
@@ -91,7 +91,7 @@ const MenuStack = () => {
                     component={Notification}
                     options={{
                         tabBarIcon: ({ focused, color, size }) => (
-                            <Bell color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
+                            <Bookmark  color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
                         )
                     }}
                 />
