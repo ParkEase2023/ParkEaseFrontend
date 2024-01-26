@@ -39,6 +39,7 @@ import PopupFilter from '../components/PopupFiler';
 import BottomSheetScrollView, { BottomSheetMethods } from '../components/BottomSheetScrollView';
 import Comment from '../components/Comment';
 import DetailParking from '../components/DetailParking';
+import { mapStyle } from '../constants/Constants';
 
 interface Position {
     latitude: number;
@@ -55,240 +56,6 @@ enum MapType {
 }
 
 const mapNomal = [{}];
-
-const mapStyle = [
-    {
-        elementType: 'geometry',
-        stylers: [
-            {
-                color: '#1d2c4d'
-            }
-        ]
-    },
-    {
-        elementType: 'labels.text.fill',
-        stylers: [
-            {
-                color: '#8ec3b9'
-            }
-        ]
-    },
-    {
-        elementType: 'labels.text.stroke',
-        stylers: [
-            {
-                color: '#1a3646'
-            }
-        ]
-    },
-    {
-        featureType: 'administrative.country',
-        elementType: 'geometry.stroke',
-        stylers: [
-            {
-                color: '#4b6878'
-            }
-        ]
-    },
-    {
-        featureType: 'administrative.land_parcel',
-        elementType: 'labels.text.fill',
-        stylers: [
-            {
-                color: '#64779e'
-            }
-        ]
-    },
-    {
-        featureType: 'administrative.province',
-        elementType: 'geometry.stroke',
-        stylers: [
-            {
-                color: '#4b6878'
-            }
-        ]
-    },
-    {
-        featureType: 'landscape.man_made',
-        elementType: 'geometry.stroke',
-        stylers: [
-            {
-                color: '#334e87'
-            }
-        ]
-    },
-    {
-        featureType: 'landscape.natural',
-        elementType: 'geometry',
-        stylers: [
-            {
-                color: '#023e58'
-            }
-        ]
-    },
-    {
-        featureType: 'poi',
-        elementType: 'geometry',
-        stylers: [
-            {
-                color: '#283d6a'
-            }
-        ]
-    },
-    {
-        featureType: 'poi',
-        elementType: 'labels.text.fill',
-        stylers: [
-            {
-                color: '#6f9ba5'
-            }
-        ]
-    },
-    {
-        featureType: 'poi',
-        elementType: 'labels.text.stroke',
-        stylers: [
-            {
-                color: '#1d2c4d'
-            }
-        ]
-    },
-    {
-        featureType: 'poi.park',
-        elementType: 'geometry.fill',
-        stylers: [
-            {
-                color: '#023e58'
-            }
-        ]
-    },
-    {
-        featureType: 'poi.park',
-        elementType: 'labels.text.fill',
-        stylers: [
-            {
-                color: '#3C7680'
-            }
-        ]
-    },
-    {
-        featureType: 'road',
-        elementType: 'geometry',
-        stylers: [
-            {
-                color: '#304a7d'
-            }
-        ]
-    },
-    {
-        featureType: 'road',
-        elementType: 'labels.text.fill',
-        stylers: [
-            {
-                color: '#98a5be'
-            }
-        ]
-    },
-    {
-        featureType: 'road',
-        elementType: 'labels.text.stroke',
-        stylers: [
-            {
-                color: '#1d2c4d'
-            }
-        ]
-    },
-    {
-        featureType: 'road.highway',
-        elementType: 'geometry',
-        stylers: [
-            {
-                color: '#2c6675'
-            }
-        ]
-    },
-    {
-        featureType: 'road.highway',
-        elementType: 'geometry.stroke',
-        stylers: [
-            {
-                color: '#255763'
-            }
-        ]
-    },
-    {
-        featureType: 'road.highway',
-        elementType: 'labels.text.fill',
-        stylers: [
-            {
-                color: '#b0d5ce'
-            }
-        ]
-    },
-    {
-        featureType: 'road.highway',
-        elementType: 'labels.text.stroke',
-        stylers: [
-            {
-                color: '#023e58'
-            }
-        ]
-    },
-    {
-        featureType: 'transit',
-        elementType: 'labels.text.fill',
-        stylers: [
-            {
-                color: '#98a5be'
-            }
-        ]
-    },
-    {
-        featureType: 'transit',
-        elementType: 'labels.text.stroke',
-        stylers: [
-            {
-                color: '#1d2c4d'
-            }
-        ]
-    },
-    {
-        featureType: 'transit.line',
-        elementType: 'geometry.fill',
-        stylers: [
-            {
-                color: '#283d6a'
-            }
-        ]
-    },
-    {
-        featureType: 'transit.station',
-        elementType: 'geometry',
-        stylers: [
-            {
-                color: '#3a4762'
-            }
-        ]
-    },
-    {
-        featureType: 'water',
-        elementType: 'geometry',
-        stylers: [
-            {
-                color: '#0e1626'
-            }
-        ]
-    },
-    {
-        featureType: 'water',
-        elementType: 'labels.text.fill',
-        stylers: [
-            {
-                color: '#4e6d70'
-            }
-        ]
-    }
-];
 
 async function requestPermissions() {
     if (Platform.OS === 'ios') {
@@ -314,14 +81,22 @@ LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
 
 const Home = () => {
     const ref = useRef<SlideBarRefProps>(null);
-    const onPress = useCallback(() => {
-        const isActive = ref?.current?.isActive();
-        if (isActive) {
-            ref?.current?.scrollTo(0);
-        } else {
-            ref?.current?.scrollTo(-300);
-        }
-    }, []);
+    const [title, setTitle] = useState('');
+    const [price, setPrice] = useState('');
+    const [openingStatus, setOpeningStatus] = useState(false);
+    const [picture1, setPicture1] = useState(
+        'https://res.cloudinary.com/dqxh7vakw/image/upload/v1703827495/ParkEase/automatic-parking-6-1200x900_ukblma.jpg'
+    );
+    const [picture2, setPicture2] = useState(
+        'https://res.cloudinary.com/dqxh7vakw/image/upload/v1703827495/ParkEase/automatic-parking-6-1200x900_ukblma.jpg'
+    );
+    const [picture3, setPicture3] = useState(
+        'https://res.cloudinary.com/dqxh7vakw/image/upload/v1703827495/ParkEase/automatic-parking-6-1200x900_ukblma.jpg'
+    );
+    const [locationAddress, setLocationAddress] = useState('');
+    const [timeOpen, setTimeOpen] = useState('');
+    const [timeClose, setTimeClose] = useState('');
+    const [providerBy, setProviderBy] = useState('');
     const [parkingMarkers, setParkingMarkers] = useState<Position[]>([]);
     const mapRef = useRef<MapView | null>(null);
     const [pos, setPos] = useState<Position>({
@@ -409,7 +184,19 @@ const Home = () => {
                             }}
                             title={item.title}
                             description={item._id}
-                            onPress={pressHandler3}>
+                            onPress={() => {
+                                pressHandler3(),
+                                    setTitle(item.title),
+                                    setOpeningStatus(item.opening_status),
+                                    setPrice(item.price),
+                                    setPicture1(item.parking_picture1),
+                                    setPicture2(item.parking_picture2),
+                                    setPicture3(item.parking_picture3),
+                                    setLocationAddress(item.location_address);
+                                    setTimeOpen(item.timeOpen);
+                                    setTimeClose(item.timeClose);
+                                    setProviderBy(item.providerBy);
+                            }}>
                             <Callout tooltip style={{ display: 'none' }}>
                                 <View>
                                     <Text>Hidden</Text>
@@ -500,10 +287,10 @@ const Home = () => {
             </View>
             <View
                 style={{
-                    position: 'absolute', //use absolute position to show button on top of the map
-                    top: 25, //for center align
+                    position: 'absolute',
+                    top: 25,
                     right: 12,
-                    alignSelf: 'flex-end' //for align to right
+                    alignSelf: 'flex-end'
                 }}>
                 <SafeAreaView>
                     <TouchableOpacity style={styles.btnCrosshair} onPress={getCurrentPosition}>
@@ -521,7 +308,19 @@ const Home = () => {
                     snapTo={'50%'}
                     backgroundColor={'#10152F'}
                     backDropColor={'none'}>
-                    <DetailParking/>
+                    <DetailParking
+                        Title={title}
+                        Price={price}
+                        Opening_status={openingStatus}
+                        Parking_picture1={picture1}
+                        Parking_picture2={picture2}
+                        Parking_picture3={picture3}
+                        Location_address={locationAddress}
+                        TimeOpen={timeOpen}
+                        TimeClose={timeClose}
+                        ProviderBy={providerBy}
+                        >
+                    </DetailParking>
                 </BottomSheetScrollView>
             </View>
             <PopupFilter
@@ -615,5 +414,5 @@ const styles = StyleSheet.create({
         height: '100%',
         alignItems: 'center',
         justifyContent: 'center'
-    },
+    }
 });

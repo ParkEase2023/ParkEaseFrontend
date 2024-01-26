@@ -3,12 +3,40 @@ import React from 'react';
 import { CaretRight, Clock, CoinVertical, Heart, MapPin, NavigationArrow, Phone, Star, User } from 'phosphor-react-native';
 import Comment from './Comment';
 
-const DetailParking = () => {
+export interface IDetail {
+    Title: string;
+    Price: string;
+    Opening_status: boolean;
+    Parking_picture1: string;
+    Parking_picture2: string;
+    Parking_picture3: string;
+    Location_address: string;
+    TimeOpen: string;
+    TimeClose: string;
+    ProviderBy: string;
+}
+
+
+
+
+const DetailParking = (props:IDetail) => {
+    const ReaderBtn = (): JSX.Element | null => {
+        if (props.Opening_status == true) {
+            return (
+                <Text style={styles.textOC}>Open</Text>
+            );
+        } else {
+            return (
+                <Text style={styles.textclose}>Close</Text>
+            );
+        }
+    };
+
     return (
         <View style={styles.mainContainer}>
             <View style={{ minHeight: 500 }}>
                 <View style={styles.title}>
-                    <Text style={styles.textTitle}>อาคารจอดรถ 5 ชั้น</Text>
+                    <Text style={styles.textTitle}>{props.Title}</Text>
                     <View style={styles.rate}>
                         <Star size={12} weight="fill" color="#FFDE00" />
                         <Text style={styles.textRate}>4.5</Text>
@@ -18,9 +46,9 @@ const DetailParking = () => {
                 <View style={styles.rowCostOC}>
                     <View style={styles.coins}>
                         <CoinVertical size={20} weight="fill" color="#FFDE00" />
-                        <Text style={styles.textCoins}>10 Coins/hr</Text>
+                        <Text style={styles.textCoins}>{props.Price} Coins/hr</Text>
                     </View>
-                    <Text style={styles.textOC}>Open</Text>
+                    <ReaderBtn></ReaderBtn>
                 </View>
 
                 <TouchableOpacity style={styles.btnBooking}>
@@ -42,14 +70,14 @@ const DetailParking = () => {
                 </View>
 
                 <View style={styles.containerImg}>
-                    <Image source={require('../assets/IMGParking_1.jpg')} style={styles.imgLeft} />
+                    <Image source={{ uri: props.Parking_picture1 }} style={styles.imgLeft} />
                     <View style={styles.imgRight}>
                         <Image
-                            source={require('../assets/IMGParking_2.jpg')}
+                            source={{ uri: props.Parking_picture2 }}
                             style={styles.imgTop}
                         />
                         <Image
-                            source={require('../assets/IMGParking_3.jpg')}
+                            source={{ uri: props.Parking_picture3 }}
                             style={styles.imgLower}
                         />
                     </View>
@@ -58,20 +86,19 @@ const DetailParking = () => {
                 <View style={styles.location}>
                     <MapPin size={20} weight="fill" color="#EEF0FF" />
                     <Text style={styles.textLocation}>
-                        126 Pracha Uthit Rd, Khwaeng Bang Mot, Khet Thung Khru, Krung Thep Maha
-                        Nakhon 10140
+                        {props.Location_address}
                     </Text>
                 </View>
 
                 <View style={styles.time}>
                     <Clock size={20} weight="fill" color="#EEF0FF" />
-                    <Text style={styles.textTime}>Mo-Sat | 07:00 - 22:00</Text>
+                    <Text style={styles.textTime}>Mo-Sat | {props.TimeOpen} - {props.TimeClose}</Text>
                 </View>
 
                 <View style={styles.provider}>
                     <User size={20} weight="fill" color="#EEF0FF" />
                     <Text style={styles.textProvider}>Provider by </Text>
-                    <Text style={styles.textProviderName}>Brandon Stanton</Text>
+                    <Text style={styles.textProviderName}>{props.ProviderBy}</Text>
                 </View>
 
                 <Text style={styles.titleRateReview}>Rate & Review</Text>
@@ -158,6 +185,11 @@ const styles = StyleSheet.create({
         fontFamily: 'RedHatText-Regular',
         fontSize: 14,
         color: '#55FFAA'
+    },
+    textclose: {
+        fontFamily: 'RedHatText-Regular',
+        fontSize: 14,
+        color: 'red'
     },
 
     btnBooking: {
