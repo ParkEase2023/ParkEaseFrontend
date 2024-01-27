@@ -117,7 +117,6 @@ const Profile = () => {
                         </View>
                         <Text style={styles.textBody}>Verify Your Identity</Text>
                     </View>
-
                     <CheckCircle size={22} weight="fill" color="#7F85B2" />
                 </TouchableOpacity>
             );
@@ -451,7 +450,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#EEF0FF'
     },
     btnEdit: {
-        color: '#262D57',
         marginHorizontal: 13
     },
 
