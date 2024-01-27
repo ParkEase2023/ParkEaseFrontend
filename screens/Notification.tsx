@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Pressable } from 'react-native';
@@ -8,16 +8,35 @@ import { AuthTabParamList } from '../stack/AuthStack';
 import { ArrowLeft, Circle } from 'phosphor-react-native';
 import TabEditProfilePicture from '../components/TabEditProfilePicture';
 import Popupverify from '../components/Popupverify';
+import PopupFilter from '../components/PopupFiler';
 
 const Notification = () => {
     const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
+    const [show, setShow] = useState(false);
+    const [ticker, setTicker] = useState(false);
+
+    const handleOpen = () => {
+        setTicker(true);
+        setShow(!show);
+    };
     return (
         // <View style={{flex:1}}>
         //     <View style={styles.container}>
-        //         <TabEditProfilePicture></TabEditProfilePicture>
+        //         <Text>Noti</Text>
         //     </View>
         // </View>
-        <Popupverify></Popupverify>
+        
+        <View>
+            <TouchableOpacity onPress={handleOpen}>
+                <View>
+                    <Text>
+                        button
+                    </Text>
+                </View>
+            </TouchableOpacity>
+            {/* <PopupFilter setVisible={show} ticker={ticker}></PopupFilter> */}
+        </View>
+        
     );
 };
 

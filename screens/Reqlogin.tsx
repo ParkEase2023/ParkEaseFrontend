@@ -8,40 +8,52 @@ import {
     Image,
     StyleSheet,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView
 } from 'react-native';
 import { CaretLeft } from 'phosphor-react-native';
 import { RootStackList } from '../stack/RootStack';
 
-const { height: SCREEN_HEIGHT } = Dimensions.get('window')
+const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 function Reqlogin() {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
     return (
-        <SafeAreaView style={styles.container}>
-            <TouchableOpacity style={styles.btnBack} onPress={() => navigation.goBack()}>
-                <CaretLeft size={24} weight="bold" color="#262D57" />
-            </TouchableOpacity>
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            <ScrollView
+                contentContainerStyle={styles.scrollViewContainer}
+                keyboardShouldPersistTaps="handled">
+                <SafeAreaView>
+                    <View style={styles.circleBig} />
+                    <TouchableOpacity style={styles.btnBack} onPress={() => navigation.goBack()}>
+                        <CaretLeft size={24} weight="bold" color="#EEF0FF" />
+                    </TouchableOpacity>
 
-            <Image style={styles.reqLogIn} source={require('../assets/Login.png')} />
+                    <Image style={styles.reqLogIn} source={require('../assets/Login.png')} />
 
-            <Text style={styles.title}>Log In Now!</Text>
-            <Text style={styles.subtitle}>You must log in first to use this feature.</Text>
+                    <Text style={styles.title}>Log In Now!</Text>
+                    <Text style={styles.subtitle}>You must log in first to use this feature.</Text>
 
-            <View>
-                <TouchableOpacity
-                    style={styles.btnLogIn}
-                    onPress={() => navigation.navigate('AuthStack', { screen: 'SignIn' })}>
-                    <Text style={styles.textLogIn}>LOG IN</Text>
-                </TouchableOpacity>
+                    <View>
+                        <TouchableOpacity
+                            style={styles.btnLogIn}
+                            onPress={() => navigation.navigate('AuthStack', { screen: 'SignIn' })}>
+                            <Text style={styles.textLogIn}>LOG IN</Text>
+                        </TouchableOpacity>
 
-                <TouchableOpacity
-                    style={styles.btnSignUp}
-                    onPress={() => navigation.navigate('AuthStack', { screen: 'SignUp' })}>
-                    <Text style={styles.textSignUp}>SIGN UP</Text>
-                </TouchableOpacity>
-            </View>
-        </SafeAreaView>
+                        <TouchableOpacity
+                            style={styles.btnSignUp}
+                            onPress={() => navigation.navigate('AuthStack', { screen: 'SignUp' })}>
+                            <Text style={styles.textSignUp}>SIGN UP</Text>
+                        </TouchableOpacity>
+                    </View>
+                </SafeAreaView>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -49,29 +61,34 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#EEF0FF',
+    },
+    scrollViewContainer: {
+        flexGrow: 1,
         paddingHorizontal: 40
     },
     btnBack: {
-        marginTop: 40,
+        marginTop: 80
     },
     reqLogIn: {
         width: 320,
         height: 320,
         alignSelf: 'center',
-        marginTop: SCREEN_HEIGHT/30,
+        marginTop: SCREEN_HEIGHT / 30
     },
     title: {
         fontFamily: 'RedHatText-Bold',
         fontSize: 40,
         color: '#10152F',
-        marginTop: 45
+        marginTop: 45,
+        textAlign: 'center'
     },
     subtitle: {
         fontFamily: 'RedHatText-Regular',
         fontSize: 20,
         color: '#262D57',
         marginTop: 10,
-        marginBottom: 60
+        marginBottom: 60,
+        textAlign: 'center'
     },
     btnLogIn: {
         backgroundColor: '#10152F',
@@ -88,7 +105,8 @@ const styles = StyleSheet.create({
     btnSignUp: {
         backgroundColor: '#7F85B2',
         borderRadius: 12,
-        paddingVertical: 16
+        paddingVertical: 16,
+        marginBottom:10
     },
     textSignUp: {
         textAlign: 'center',
@@ -96,6 +114,25 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#fff'
     },
+    circleSmall: {
+        zIndex: -1,
+        position: 'absolute',
+        width: 95,
+        height: 95,
+        borderRadius: 100,
+        backgroundColor: '#262D57',
+        top: 15,
+        left: 8
+    },
+    circleBig: {
+        position: 'absolute',
+        width: 287,
+        height: 287,
+        borderRadius: 200,
+        backgroundColor: '#262D57',
+        top: -72,
+        left: -144
+    }
 });
 
 export default Reqlogin;

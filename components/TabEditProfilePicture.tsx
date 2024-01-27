@@ -2,14 +2,20 @@ import React from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { Camera, Image } from 'phosphor-react-native';
 
-const TabEditProfilePicture = () => {
+interface IEditpic {
+    takePhoto : (value: boolean) => void;
+    chooseImage: (value: boolean) => void;
+
+}
+const TabEditProfilePicture = (props:IEditpic) => {
+
     return (
             <View style={styles.mainContainer}>
                 <TouchableHighlight
                     style={styles.touchableHighlight}
                     activeOpacity={0.7}
-                    underlayColor="#EFEFEF" // Highlight color
-                    onPress={() => console.log('Take a new photo pressed')}>
+                    underlayColor="#EFEFEF"
+                    onPress={() => props.takePhoto(true)}>
                     <View style={styles.boxSizing}>
                         <Camera size={32} weight="fill" style={styles.icon} />
                         <Text style={styles.textbody}>Take a new photo</Text>
@@ -19,8 +25,8 @@ const TabEditProfilePicture = () => {
                 <TouchableHighlight
                     style={styles.touchableHighlight}
                     activeOpacity={0.7}
-                    underlayColor="#EFEFEF" // Highlight color
-                    onPress={() => console.log('Select a photo pressed')}>
+                    underlayColor="#EFEFEF"
+                    onPress={() => props.chooseImage(true)}>
                     <View style={styles.boxSizing}>
                         <Image size={32} weight="fill" style={styles.icon} />
                         <Text style={styles.textbody}>Select a photo from the gallery.</Text>
@@ -57,8 +63,8 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     touchableHighlight: {
-        borderRadius: 10, // Adjust as needed
-        overflow: 'hidden' // Clip the content to the borderRadius
+        borderRadius: 10, 
+        overflow: 'hidden',
     },
     icon: {
         marginRight: 20,

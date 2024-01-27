@@ -6,6 +6,7 @@ import SignIn from '../screens/SignIn';
 import ForgetPassword from '../screens/ForgetPassword'
 import VerifyYourEmail from '../screens/VerifyYourEmail';
 import CreateNewPassword from '../screens/CreateNewPassword';
+
 export type AuthTabParamList = {
     SignIn: undefined;
     SignUp: undefined;
