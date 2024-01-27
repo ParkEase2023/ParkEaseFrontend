@@ -53,6 +53,8 @@ const EditProfile = () => {
     const [textEntry, setTextEntry] = useState(true);
     const [isVisible, setIsVisible] = useState(false);
     const [isHidden, setIsHidden] = useState(true);
+    const [fnTakephoto, setFnTakephoto] = useState(false);
+    const [fnChosenPhoto, setFnCchosenPhoto] = useState(false);
     const translateY = new Animated.Value(100);
     const Entrypassword = (): JSX.Element | null => {
         if (textEntry == true) {
@@ -167,12 +169,31 @@ const EditProfile = () => {
         });
     };
 
+    useEffect(() => {
+        if (fnTakephoto === true) {
+            takePhoto();
+            setFnTakephoto(false);
+            setIsHidden(true);
+        } else if (fnChosenPhoto === true) {
+            chooseImage();
+            setFnCchosenPhoto(false);
+            setIsHidden(true);
+        }
+    }),
+        [fnTakephoto, fnChosenPhoto];
+
     const RenderTab = (): JSX.Element | null => {
         if (isHidden === false) {
             return (
                 <Animated.View
                     style={{ ...styles.boxview, flex: 1, transform: [{ translateY: translateY }] }}>
-                    <TabEditProfilePicture></TabEditProfilePicture>
+                    <TabEditProfilePicture
+                        takePhoto={value => {
+                            setFnTakephoto(value);
+                        }}
+                        chooseImage={value => {
+                            setFnCchosenPhoto(value);
+                        }}></TabEditProfilePicture>
                 </Animated.View>
             );
         } else {
@@ -188,19 +209,29 @@ const EditProfile = () => {
     }, [isVisible, translateY, isHidden]);
 
     const handleOpenTab = () => {
-        if(isHidden===true){
-            const duration = 30 * 1000;
+        if (isHidden === true) {
+            const duration = 10 * 1000;
             setIsHidden(false);
-    
+
             const timer = setTimeout(() => {
                 setIsHidden(true);
             }, duration);
-    
+
             return () => clearTimeout(timer);
-        }
-        else
-        {
+        } else {
             setIsHidden(true);
+        }
+    };
+
+    const Renderbg = (): JSX.Element | null => {
+        if (isHidden === false) {
+            return (
+                <TouchableOpacity
+                    onPress={() => setIsHidden(true)}
+                    style={styles.containerpopup}></TouchableOpacity>
+            );
+        } else {
+            return null;
         }
     };
 
@@ -321,6 +352,7 @@ const EditProfile = () => {
                     <View style={styles.circleSmall} />
                 </View>
                 <RenderTab></RenderTab>
+                <Renderbg></Renderbg>
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -332,6 +364,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#D7DAEF'
+    },
+    containerpopup: {
+        flex: 1,
+        backgroundColor: 'rgba(16, 21, 47, 0.8)',
+        height: 1000,
+        position: 'absolute',
+        width: '100%',
+        zindex: 3
     },
     mainContainer: {
         paddingHorizontal: 16,

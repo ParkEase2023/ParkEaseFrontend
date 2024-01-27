@@ -1,7 +1,7 @@
 import { StatusBar, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Bell, Heart, MapTrifold, Plus, User } from 'phosphor-react-native';
+import { Bell, Bookmark, Heart, MapTrifold, Plus, User } from 'phosphor-react-native';
 import HomeStack from '../screens/Home';
 import MyList from '../screens/MyList';
 import AddParking from '../screens/AddParking';
@@ -16,9 +16,9 @@ import ForgetPassword from '../screens/ForgetPassword';
 import CreateNewPassword from '../screens/CreateNewPassword';
 import SelectForVerify from '../screens/SelectForVerify';
 import VerifyYourIdentify from '../screens/VerifyYourIdentity';
-import AlertFiterSreach from '../screens/AlertFiterSreach';
-import { NavigatorScreenParams } from '@react-navigation/native';
+import { NavigatorScreenParams, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import ProfileStack, { ProfileParamList } from './ProfileStack';
+import Reqlogin from '../screens/Reqlogin';
 
 export type MenuParamList = {
     HomeStack: undefined;
@@ -91,24 +91,42 @@ const MenuStack = () => {
                     component={Notification}
                     options={{
                         tabBarIcon: ({ focused, color, size }) => (
-                            <Bell color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
+                            <Bookmark  color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
                         )
                     }}
                 />
                 <Stack.Screen
                     name="ProfileStack"
                     component={ProfileStack}
-                    options={{
+                    options={({ route }) => ({
+                        tabBarStyle: (() => {
+                            const routeName = getFocusedRouteNameFromRoute(route);
+
+                            if (routeName === 'EditProfile') {
+                                return { display: 'none' };
+                            }
+
+                            return { backgroundColor: '#10152F', height: 55 };
+                        })(),
                         tabBarIcon: ({ focused, color, size }) => (
                             <User color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
                         )
-                    }}
+                    })}
                 />
             </Stack.Navigator>
         </>
     );
 };
 
+// const getTabBarVisibility = (route: any) => {
+//     const routeName = route.state ? route.state.routes[route.state.index].name : '';
+
+//     if (routeName === 'EditProfile') {
+//         return false;
+//     }
+
+//     return true;
+// };
 
 export default MenuStack;
 
