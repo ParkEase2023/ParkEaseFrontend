@@ -119,7 +119,7 @@ const Profile = () => {
 
                         <TouchableOpacity onPress={handleEditProfile}>
                             <View style={styles.bgBtnEdit}>
-                                <PencilSimple size={24} weight="fill" style={styles.btnEdit} />
+                                <PencilSimple size={24} weight="fill" color="#262D57" style={styles.btnEdit} />
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -295,7 +295,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#EEF0FF'
     },
     btnEdit: {
-        color: '#262D57',
         marginHorizontal: 13
     },
 
