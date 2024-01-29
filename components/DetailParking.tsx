@@ -4,6 +4,8 @@ import { CaretRight, Clock, CoinVertical, Heart, MapPin, NavigationArrow, Phone,
 import Comment from './Comment';
 import {Linking} from 'react-native'
 import LaunchNavigator from 'react-native-launch-navigator';
+import { getProfile } from '../services/user';
+import { addMyList } from '../services/mylist';
 export interface IDetail {
     Title: string;
     Price: string;
@@ -25,15 +27,27 @@ export interface IDetail {
     fr:boolean;
     sa:boolean;
     su:boolean;
+    parkingId:string;
 }
 
-
-
-
-
 const DetailParking = (props:IDetail) => {
-
+    const [heart, setHeart] = useState(false);
+    const [userId, setUserId] = useState("");
     const [dayOpenAll, setDayOpenAll] = useState("");
+    const checkHeart = async () => {
+        const {data} = await getProfile();
+        setUserId(data._id);
+
+    };
+
+    const addmylist = async () => {
+        console.log(userId);
+        console.log(props.parkingId);
+        await addMyList({
+            userId: userId,
+            parkingId: props.parkingId
+        });
+    };
 
     useEffect(() => {
         const dayOpen = [];
@@ -62,16 +76,22 @@ const DetailParking = (props:IDetail) => {
         setDayOpenAll(result);
 
     }, [props.Title])
+
+
+    useEffect(() => {
+        checkHeart();
+    }, [props.Title])
+    
     
     LogBox.ignoreLogs(['new NativeEventEmitter']);
     const ReaderBtn = (): JSX.Element | null => {
         if (props.Opening_status == true) {
             return (
-                <Text style={styles.textopen}>Open</Text>
+                <Text style={styles.textOpen}>Open</Text>
             );
         } else {
             return (
-                <Text style={styles.textclose}>Close</Text>
+                <Text style={styles.textClose}>Close</Text>
             );
         }
     };
@@ -119,7 +139,7 @@ const DetailParking = (props:IDetail) => {
                         <Phone size={20} weight="fill" color="#262D57" />
                         <Text style={styles.textCall}>Call</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnHeart}>
+                    <TouchableOpacity style={styles.btnHeart} >
                         <Heart size={20} weight="fill" color="#EEF0FF" />
                     </TouchableOpacity>
                 </View>
@@ -236,12 +256,12 @@ const styles = StyleSheet.create({
         color: '#FEFA94',
         marginLeft: 6
     },
-    textopen: {
+    textOpen: {
         fontFamily: 'RedHatText-Regular',
         fontSize: 14,
         color: '#55FFAA'
     },
-    textclose: {
+    textClose: {
         fontFamily: 'RedHatText-Regular',
         fontSize: 14,
         color: '#FF6A6A'

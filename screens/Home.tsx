@@ -109,6 +109,7 @@ const Home = () => {
     const [fr, setFr] = useState(false);
     const [sat, setSat] = useState(false);
     const [sun, setSun] = useState(false);
+    const [parkingId, setParkingId] = useState('');
     const [parkingMarkers, setParkingMarkers] = useState<Position[]>([]);
     const mapRef = useRef<MapView | null>(null);
     const [pos, setPos] = useState<Position>({
@@ -208,6 +209,7 @@ const Home = () => {
                             title={item.title}
                             description={item._id}
                             onPress={() => {
+                                
                                 pressHandler3(),
                                     setTitle(item.title),
                                     setOpeningStatus(item.opening_status),
@@ -229,7 +231,7 @@ const Home = () => {
                                 setFr(item.opening_fr);
                                 setSat(item.opening_sa);
                                 setSun(item.opening_su);
-
+                                setParkingId(item._id);
                             }}>
                             <Callout tooltip style={{ display: 'none' }}>
                                 <View>
@@ -363,6 +365,7 @@ const Home = () => {
                         fr={fr}
                         sa={sat}
                         su={sun}
+                        parkingId={parkingId}
                         ></DetailParking>
                 </BottomSheetScrollView>
             </View>
