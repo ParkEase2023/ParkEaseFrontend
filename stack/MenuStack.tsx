@@ -19,6 +19,7 @@ import VerifyYourIdentify from '../screens/VerifyYourIdentity';
 import { NavigatorScreenParams, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import ProfileStack, { ProfileParamList } from './ProfileStack';
 import Reqlogin from '../screens/Reqlogin';
+// import RateReview from '../screens/RateReview';
 
 export type MenuParamList = {
     HomeStack: undefined;
