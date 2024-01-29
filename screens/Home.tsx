@@ -31,7 +31,6 @@ import { getAllParking } from '../services/parking';
 import caretLeft from '../assets/Icons/caretLeft.png';
 import crosshair from '../assets/Icons/crosshair.png';
 import funnel from '../assets/Icons/funnel.png';
-import SlideBar, { SlideBarRefProps } from '../components/SlideBar';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { LogBox } from 'react-native';
@@ -82,7 +81,6 @@ const height = width * aspectRatio;
 LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
 
 const Home = () => {
-    const ref = useRef<SlideBarRefProps>(null);
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
     const [openingStatus, setOpeningStatus] = useState(false);
