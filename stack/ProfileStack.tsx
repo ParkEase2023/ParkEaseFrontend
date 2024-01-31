@@ -6,6 +6,7 @@ import EditProfile from '../screens/EditProfile';
 import VerifyYourIdentify from '../screens/VerifyYourIdentity';
 import SelectForVerify from '../screens/SelectForVerify';
 import AddCoin from '../screens/AddCoin';
+import AddCoinQR from '../screens/AddCoinQR';
 
 export type ProfileParamList = {
     Profile: undefined;
@@ -22,6 +23,7 @@ export type ProfileParamList = {
   VerifyIdentity:{email: string};
   SelectForVerify:{email: string};
   AddCoin:undefined;
+  AddCoinQR:undefined;
 };
 
 const ProfileStack = () => {
@@ -37,6 +39,7 @@ const ProfileStack = () => {
       <Stack.Screen name="VerifyIdentity" component={VerifyYourIdentify} />
       <Stack.Screen name="SelectForVerify" component={SelectForVerify} />
       <Stack.Screen name="AddCoin" component={AddCoin} />
+      <Stack.Screen name="AddCoinQR" component={AddCoinQR} />
 
     </Stack.Navigator>
   )

@@ -247,8 +247,7 @@ const EditProfile = () => {
     }, []);
     return (
         <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            style={styles.container}>
             <ScrollView
                 contentContainerStyle={styles.scrollViewContainer}
                 keyboardShouldPersistTaps="handled">

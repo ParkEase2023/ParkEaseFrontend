@@ -102,7 +102,7 @@ const MenuStack = () => {
                             const routeName = getFocusedRouteNameFromRoute(route);
 
                             if (routeName === 'EditProfile' || routeName === 'AddCoin') {
-                                return { display: 'none' };
+                                return { display: 'none' , tabBarHideOnKeyboard: false };
                             }
 
                             return { backgroundColor: '#10152F', height: 55 };

@@ -7,7 +7,10 @@ import {
     TextInput,
     Image,
     TouchableOpacity,
-    Alert
+    Alert,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView
 } from 'react-native';
 import { ArrowLeft, CaretLeft, CoinVertical, Money } from 'phosphor-react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -40,82 +43,86 @@ const AddCoin = () => {
         setInputNumber(newNumber);
     };
 
-
     return (
-        <View style={styles.container}>
-            <View style={styles.headerContent}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <CaretLeft size={22} color="#10152F" />
-                </TouchableOpacity>
-                <Text style={styles.headerText}>Add coins to your account</Text>
-            </View>
-            <View style={styles.boxText}>
-                <View style={styles.rowTop}>
-                    <View style={styles.textIcon}>
-                        <CoinVertical size={24} weight="fill" color="#EEF0FF" />
-                        <Text style={styles.textMain}>Remaining Balance</Text>
-                    </View>
-                    <Text style={styles.textRight}>600 coins</Text>
+        <KeyboardAvoidingView
+            style={styles.container}>
+            <ScrollView
+                contentContainerStyle={styles.scrollViewContainer}
+                keyboardShouldPersistTaps="handled">
+                <View style={styles.headerContent}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <CaretLeft size={22} color="#10152F" />
+                    </TouchableOpacity>
+                    <Text style={styles.headerText}>Add coins to your account</Text>
                 </View>
-            </View>
-            <View style={styles.imageContrainer}>
-                <Image
-                    source={require('../assets/cointhb.png')}
-                    style={{ width: '100%', top: 90 }}
-                />
-            </View>
-            <View style={styles.mainContainer}>
-                <View style={[styles.textbox1]}>
-                    <View style={styles.row}>
-                        <Money size={26} />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Enter a number"
-                            keyboardType="numeric"
-                            onChangeText={text => {
-                                const parsedNumber = parseInt(text.replace(/[^0-9]/g, ''), 10);
-                                setInputNumber(isNaN(parsedNumber) ? 0 : parsedNumber);
-                            }}
-                            value={inputNumber.toLocaleString('en-US')}
-                        />
-                        <Text style={styles.textright1}>THB</Text>
+                <View style={styles.boxText}>
+                    <View style={styles.rowTop}>
+                        <View style={styles.textIcon}>
+                            <CoinVertical size={24} weight="fill" color="#EEF0FF" />
+                            <Text style={styles.textMain}>Remaining Balance</Text>
+                        </View>
+                        <Text style={styles.textRight}>600 coins</Text>
                     </View>
                 </View>
-                <View>
-                    <Text style={styles.textleft}>Minimum balance: 100 THB</Text>
+                <View style={styles.imageContrainer}>
+                    <Image
+                        source={require('../assets/cointhb.png')}
+                        style={{ width: '100%', top: 90 }}
+                    />
                 </View>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity
-                        onPress={handleButtonClick}
-                        style={[styles.button, styles.color]}>
-                        <Text style={styles.buttonText}>+100</Text>
-                    </TouchableOpacity>
+                <View style={styles.mainContainer}>
+                    <View style={[styles.textbox1]}>
+                        <View style={styles.row}>
+                            <Money size={26} />
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Enter a number"
+                                keyboardType="numeric"
+                                onChangeText={text => {
+                                    const parsedNumber = parseInt(text.replace(/[^0-9]/g, ''), 10);
+                                    setInputNumber(isNaN(parsedNumber) ? 0 : parsedNumber);
+                                }}
+                                value={inputNumber.toLocaleString('en-US')}
+                            />
+                            <Text style={styles.textright1}>THB</Text>
+                        </View>
+                    </View>
+                    <View>
+                        <Text style={styles.textleft}>Minimum balance: 100 THB</Text>
+                    </View>
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity
+                            onPress={handleButtonClick}
+                            style={[styles.button, styles.color]}>
+                            <Text style={styles.buttonText}>+100</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity
-                        onPress={handleButtonClick1}
-                        style={[styles.button, styles.color]}>
-                        <Text style={styles.buttonText}>+200</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={handleButtonClick1}
+                            style={[styles.button, styles.color]}>
+                            <Text style={styles.buttonText}>+200</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity
-                        onPress={handleButtonClick2}
-                        style={[styles.button, styles.color]}>
-                        <Text style={styles.buttonText}>+500</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={handleButtonClick2}
+                            style={[styles.button, styles.color]}>
+                            <Text style={styles.buttonText}>+500</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity
-                        onPress={handleButtonClick3}
-                        style={[styles.button, styles.color]}>
-                        <Text style={styles.buttonText}>+1,000</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={handleButtonClick3}
+                            style={[styles.button, styles.color]}>
+                            <Text style={styles.buttonText}>+1,000</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View>
+                        <TouchableOpacity style={styles.btnConfirm} onPress={()=>navigation.navigate("AddCoinQR")}>
+                            <Text style={styles.textConfirm}>CONFIRM</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View>
-                    <TouchableOpacity style={styles.btnConfirm}>
-                        <Text style={styles.textConfirm}>CONFIRM</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 };
 
@@ -127,9 +134,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#EEF0FF'
     },
     mainContainer: {
-        flex: 1,
         paddingHorizontal: 25,
         top: 124
+    },
+    main: {
+        flexGrow: 1
     },
     headerContent: {
         flexDirection: 'row',
@@ -182,6 +191,9 @@ const styles = StyleSheet.create({
         borderColor: '#10152F',
         // padding: 11,
         height: 60
+    },
+    scrollViewContainer: {
+        flexGrow: 1
     },
     input: {
         fontFamily: 'RedHatText-Regular',
