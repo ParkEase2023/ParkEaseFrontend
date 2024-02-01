@@ -1,5 +1,5 @@
 import { StyleSheet, View, Pressable } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Heart } from 'phosphor-react-native';
 import Animated, {
     Extrapolate,
@@ -19,6 +19,16 @@ interface Iheart {
 
 const ButtonHeart = (props: Iheart) => {
     const liked = useSharedValue(0);
+    const [ticker, setTicker] = useState(false);
+
+    // useEffect(() => {
+    //     if (props.heartIcon === true) {
+    //         setTicker(t)
+    //     } else {
+    //         liked.value = withSpring(0);
+    //     dsada}
+    // }, [props.heartIcon])
+    
     const outlineStyle = useAnimatedStyle(() => {
         return {
             transform: [

@@ -1,11 +1,21 @@
 import { Image, LogBox, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
-import { CaretRight, Clock, CoinVertical, Heart, MapPin, NavigationArrow, Phone, Star, User } from 'phosphor-react-native';
+import {
+    CaretRight,
+    Clock,
+    CoinVertical,
+    Heart,
+    MapPin,
+    NavigationArrow,
+    Phone,
+    Star,
+    User
+} from 'phosphor-react-native';
 import Comment from './Comment';
-import {Linking} from 'react-native'
+import { Linking } from 'react-native';
 import LaunchNavigator from 'react-native-launch-navigator';
 import { getProfile } from '../services/user';
-import { addMyList } from '../services/mylist';
+import { addMyList, getMyList } from '../services/mylist';
 import AuthContext from '../context/AuthContext';
 import ButtonHeartDisabled from './ButtonHeartDisabled';
 import ButtonHeart from './ButtonHeart';
@@ -20,37 +30,47 @@ export interface IDetail {
     TimeOpen: string;
     TimeClose: string;
     ProviderBy: string;
-    PhoneCall:string;
-    latitude:number;
-    longitude:number;
-    mo:boolean;
-    tu:boolean;
-    we:boolean;
-    th:boolean;
-    fr:boolean;
-    sa:boolean;
-    su:boolean;
-    parkingId:string;
+    PhoneCall: string;
+    latitude: number;
+    longitude: number;
+    mo: boolean;
+    tu: boolean;
+    we: boolean;
+    th: boolean;
+    fr: boolean;
+    sa: boolean;
+    su: boolean;
+    parkingId: string;
 }
 
-const DetailParking = (props:IDetail) => {
+const DetailParking = (props: IDetail) => {
     const [heart, setHeart] = useState(false);
-    const [userId, setUserId] = useState("");
-    const [dayOpenAll, setDayOpenAll] = useState("");
-    const {isLoggedIn} = useContext(AuthContext);
+    const [ticker, setTicker] = useState(false);
+    const [userId, setUserId] = useState('');
+    const [dayOpenAll, setDayOpenAll] = useState('');
+    const { isLoggedIn } = useContext(AuthContext);
+
+
+    useEffect(() => {
+        checkHeart();
+    }, [props.Title]);
+
     const checkHeart = async () => {
-        const {data} = await getProfile();
+        const { data } = await getProfile();
         setUserId(data._id);
-
-    };
-
-    const addmylist = async () => {
-        console.log(userId);
-        console.log(props.parkingId);
-        await addMyList({
-            userId: userId,
-            parkingId: props.parkingId
-        });
+        let list: any = await getMyList(data._id);
+        if (list.myList[0] !== undefined) {
+            {
+                list.myList.map((item: any, index: any) => {
+                        if (item.myList[0]._id === props.parkingId) {
+                            setHeart(true);
+                        }
+                        else {
+                            setHeart(false);
+                        }
+                });
+            }
+        };
     };
 
     useEffect(() => {
@@ -78,25 +98,16 @@ const DetailParking = (props:IDetail) => {
         }
         const result = dayOpen.join('-');
         setDayOpenAll(result);
+    }, [props.Title]);
 
-    }, [props.Title])
 
 
-    useEffect(() => {
-        checkHeart();
-    }, [props.Title])
-    
-    
     LogBox.ignoreLogs(['new NativeEventEmitter']);
     const ReaderBtn = (): JSX.Element | null => {
         if (props.Opening_status == true) {
-            return (
-                <Text style={styles.textOpen}>Open</Text>
-            );
+            return <Text style={styles.textOpen}>Open</Text>;
         } else {
-            return (
-                <Text style={styles.textClose}>Close</Text>
-            );
+            return <Text style={styles.textClose}>Close</Text>;
         }
     };
 
@@ -105,32 +116,27 @@ const DetailParking = (props:IDetail) => {
     };
 
     const Heart = (): JSX.Element | null => {
-        if(isLoggedIn===true){
-          return(
-            <>
-            <ButtonHeart
-              heartIcon={heart}
-              userId={userId}
-              parkingId={props.parkingId}
-              onSelected={value => {
-              setHeart(value);
-              }}
-            />
-            </>
-          )
-        }else{
-          return(
-            <ButtonHeartDisabled></ButtonHeartDisabled>
-          )
+        if (isLoggedIn === true) {
+            return (
+                <>
+                    <ButtonHeart
+                        heartIcon={heart}
+                        userId={userId}
+                        parkingId={props.parkingId}
+                        onSelected={value => {
+                            setHeart(value);
+                        }}
+                    />
+                </>
+            );
+        } else {
+            return <ButtonHeartDisabled></ButtonHeartDisabled>;
         }
-      }
-
-    
-    
+    };
 
     const navigate = () => {
         LaunchNavigator.navigate([props.latitude, props.longitude]);
-      };
+    };
 
     return (
         <View style={styles.mainContainer}>
@@ -164,7 +170,7 @@ const DetailParking = (props:IDetail) => {
                         <Phone size={20} weight="fill" color="#262D57" />
                         <Text style={styles.textCall}>Call</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnHeart} >
+                    <TouchableOpacity style={styles.btnHeart}>
                         {/* <Heart size={20} weight="fill" color="#EEF0FF" /> */}
                         <Heart></Heart>
                     </TouchableOpacity>
@@ -173,27 +179,21 @@ const DetailParking = (props:IDetail) => {
                 <View style={styles.containerImg}>
                     <Image source={{ uri: props.Parking_picture1 }} style={styles.imgLeft} />
                     <View style={styles.imgRight}>
-                        <Image
-                            source={{ uri: props.Parking_picture2 }}
-                            style={styles.imgTop}
-                        />
-                        <Image
-                            source={{ uri: props.Parking_picture3 }}
-                            style={styles.imgLower}
-                        />
+                        <Image source={{ uri: props.Parking_picture2 }} style={styles.imgTop} />
+                        <Image source={{ uri: props.Parking_picture3 }} style={styles.imgLower} />
                     </View>
                 </View>
 
                 <View style={styles.location}>
                     <MapPin size={20} weight="fill" color="#EEF0FF" />
-                    <Text style={styles.textLocation}>
-                        {props.Location_address}
-                    </Text>
+                    <Text style={styles.textLocation}>{props.Location_address}</Text>
                 </View>
 
                 <View style={styles.time}>
                     <Clock size={20} weight="fill" color="#EEF0FF" />
-                    <Text style={styles.textTime}>{dayOpenAll} | {props.TimeOpen} - {props.TimeClose}</Text>
+                    <Text style={styles.textTime}>
+                        {dayOpenAll} | {props.TimeOpen} - {props.TimeClose}
+                    </Text>
                 </View>
 
                 <View style={styles.provider}>
