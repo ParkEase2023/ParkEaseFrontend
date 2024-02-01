@@ -1,9 +1,24 @@
 import { Image, LogBox, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { CaretRight, Clock, CoinVertical, Heart, MapPin, NavigationArrow, Phone, Star, User } from 'phosphor-react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import {
+    CaretRight,
+    Clock,
+    CoinVertical,
+    Heart,
+    MapPin,
+    NavigationArrow,
+    Phone,
+    Star,
+    User
+} from 'phosphor-react-native';
 import Comment from './Comment';
-import {Linking} from 'react-native'
+import { Linking } from 'react-native';
 import LaunchNavigator from 'react-native-launch-navigator';
+import { getProfile } from '../services/user';
+import { addMyList, getMyList } from '../services/mylist';
+import AuthContext from '../context/AuthContext';
+import ButtonHeartDisabled from './ButtonHeartDisabled';
+import ButtonHeart from './ButtonHeart';
 export interface IDetail {
     Title: string;
     Price: string;
@@ -15,25 +30,48 @@ export interface IDetail {
     TimeOpen: string;
     TimeClose: string;
     ProviderBy: string;
-    PhoneCall:string;
-    latitude:number;
-    longitude:number;
-    mo:boolean;
-    tu:boolean;
-    we:boolean;
-    th:boolean;
-    fr:boolean;
-    sa:boolean;
-    su:boolean;
+    PhoneCall: string;
+    latitude: number;
+    longitude: number;
+    mo: boolean;
+    tu: boolean;
+    we: boolean;
+    th: boolean;
+    fr: boolean;
+    sa: boolean;
+    su: boolean;
+    parkingId: string;
 }
 
+const DetailParking = (props: IDetail) => {
+    const [heart, setHeart] = useState(false);
+    const [ticker, setTicker] = useState(false);
+    const [userId, setUserId] = useState('');
+    const [dayOpenAll, setDayOpenAll] = useState('');
+    const { isLoggedIn } = useContext(AuthContext);
 
 
+    useEffect(() => {
+        checkHeart();
+    }, [props.Title]);
 
-
-const DetailParking = (props:IDetail) => {
-
-    const [dayOpenAll, setDayOpenAll] = useState("");
+    const checkHeart = async () => {
+        const { data } = await getProfile();
+        setUserId(data._id);
+        let list: any = await getMyList(data._id);
+        if (list.myList[0] !== undefined) {
+            {
+                list.myList.map((item: any, index: any) => {
+                        if (item.myList[0]._id === props.parkingId) {
+                            setHeart(true);
+                        }
+                        else {
+                            setHeart(false);
+                        }
+                });
+            }
+        };
+    };
 
     useEffect(() => {
         const dayOpen = [];
@@ -60,19 +98,16 @@ const DetailParking = (props:IDetail) => {
         }
         const result = dayOpen.join('-');
         setDayOpenAll(result);
+    }, [props.Title]);
 
-    }, [props.Title])
-    
+
+
     LogBox.ignoreLogs(['new NativeEventEmitter']);
     const ReaderBtn = (): JSX.Element | null => {
         if (props.Opening_status == true) {
-            return (
-                <Text style={styles.textopen}>Open</Text>
-            );
+            return <Text style={styles.textOpen}>Open</Text>;
         } else {
-            return (
-                <Text style={styles.textclose}>Close</Text>
-            );
+            return <Text style={styles.textClose}>Close</Text>;
         }
     };
 
@@ -80,12 +115,28 @@ const DetailParking = (props:IDetail) => {
         Linking.openURL(`tel:${props.PhoneCall}`);
     };
 
-    
-    
+    const Heart = (): JSX.Element | null => {
+        if (isLoggedIn === true) {
+            return (
+                <>
+                    <ButtonHeart
+                        heartIcon={heart}
+                        userId={userId}
+                        parkingId={props.parkingId}
+                        onSelected={value => {
+                            setHeart(value);
+                        }}
+                    />
+                </>
+            );
+        } else {
+            return <ButtonHeartDisabled></ButtonHeartDisabled>;
+        }
+    };
 
     const navigate = () => {
         LaunchNavigator.navigate([props.latitude, props.longitude]);
-      };
+    };
 
     return (
         <View style={styles.mainContainer}>
@@ -120,34 +171,29 @@ const DetailParking = (props:IDetail) => {
                         <Text style={styles.textCall}>Call</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.btnHeart}>
-                        <Heart size={20} weight="fill" color="#EEF0FF" />
+                        {/* <Heart size={20} weight="fill" color="#EEF0FF" /> */}
+                        <Heart></Heart>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.containerImg}>
                     <Image source={{ uri: props.Parking_picture1 }} style={styles.imgLeft} />
                     <View style={styles.imgRight}>
-                        <Image
-                            source={{ uri: props.Parking_picture2 }}
-                            style={styles.imgTop}
-                        />
-                        <Image
-                            source={{ uri: props.Parking_picture3 }}
-                            style={styles.imgLower}
-                        />
+                        <Image source={{ uri: props.Parking_picture2 }} style={styles.imgTop} />
+                        <Image source={{ uri: props.Parking_picture3 }} style={styles.imgLower} />
                     </View>
                 </View>
 
                 <View style={styles.location}>
                     <MapPin size={20} weight="fill" color="#EEF0FF" />
-                    <Text style={styles.textLocation}>
-                        {props.Location_address}
-                    </Text>
+                    <Text style={styles.textLocation}>{props.Location_address}</Text>
                 </View>
 
                 <View style={styles.time}>
                     <Clock size={20} weight="fill" color="#EEF0FF" />
-                    <Text style={styles.textTime}>{dayOpenAll} | {props.TimeOpen} - {props.TimeClose}</Text>
+                    <Text style={styles.textTime}>
+                        {dayOpenAll} | {props.TimeOpen} - {props.TimeClose}
+                    </Text>
                 </View>
 
                 <View style={styles.provider}>
@@ -236,12 +282,12 @@ const styles = StyleSheet.create({
         color: '#FEFA94',
         marginLeft: 6
     },
-    textopen: {
+    textOpen: {
         fontFamily: 'RedHatText-Regular',
         fontSize: 14,
         color: '#55FFAA'
     },
-    textclose: {
+    textClose: {
         fontFamily: 'RedHatText-Regular',
         fontSize: 14,
         color: '#FF6A6A'

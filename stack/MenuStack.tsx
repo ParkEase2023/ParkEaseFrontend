@@ -18,6 +18,7 @@ import VerifyYourIdentify from '../screens/VerifyYourIdentity';
 import { NavigatorScreenParams, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import ProfileStack, { ProfileParamList } from './ProfileStack';
 import Reqlogin from '../screens/Reqlogin';
+import RateReview from '../screens/RateReview';
 
 export type MenuParamList = {
     HomeStack: undefined;
@@ -87,7 +88,7 @@ const MenuStack = () => {
                 />
                 <Stack.Screen
                     name="NotificationStack"
-                    component={Notification}
+                    component={RateReview}
                     options={{
                         tabBarIcon: ({ focused, color, size }) => (
                             <Bookmark  color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
