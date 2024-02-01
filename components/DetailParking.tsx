@@ -1,11 +1,14 @@
 import { Image, LogBox, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { CaretRight, Clock, CoinVertical, Heart, MapPin, NavigationArrow, Phone, Star, User } from 'phosphor-react-native';
 import Comment from './Comment';
 import {Linking} from 'react-native'
 import LaunchNavigator from 'react-native-launch-navigator';
 import { getProfile } from '../services/user';
 import { addMyList } from '../services/mylist';
+import AuthContext from '../context/AuthContext';
+import ButtonHeartDisabled from './ButtonHeartDisabled';
+import ButtonHeart from './ButtonHeart';
 export interface IDetail {
     Title: string;
     Price: string;
@@ -34,6 +37,7 @@ const DetailParking = (props:IDetail) => {
     const [heart, setHeart] = useState(false);
     const [userId, setUserId] = useState("");
     const [dayOpenAll, setDayOpenAll] = useState("");
+    const {isLoggedIn} = useContext(AuthContext);
     const checkHeart = async () => {
         const {data} = await getProfile();
         setUserId(data._id);
@@ -100,6 +104,27 @@ const DetailParking = (props:IDetail) => {
         Linking.openURL(`tel:${props.PhoneCall}`);
     };
 
+    const Heart = (): JSX.Element | null => {
+        if(isLoggedIn===true){
+          return(
+            <>
+            <ButtonHeart
+              heartIcon={heart}
+              userId={userId}
+              parkingId={props.parkingId}
+              onSelected={value => {
+              setHeart(value);
+              }}
+            />
+            </>
+          )
+        }else{
+          return(
+            <ButtonHeartDisabled></ButtonHeartDisabled>
+          )
+        }
+      }
+
     
     
 
@@ -140,7 +165,8 @@ const DetailParking = (props:IDetail) => {
                         <Text style={styles.textCall}>Call</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.btnHeart} >
-                        <Heart size={20} weight="fill" color="#EEF0FF" />
+                        {/* <Heart size={20} weight="fill" color="#EEF0FF" /> */}
+                        <Heart></Heart>
                     </TouchableOpacity>
                 </View>
 
