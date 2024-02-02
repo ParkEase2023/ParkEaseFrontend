@@ -198,7 +198,14 @@ const Profile = () => {
 
     const RemainingBalance = () => {
         if (fnAddCoins === true) {
-            navigationAddCoin.navigate('AddCoin')
+            navigationAddCoin.navigate('AddCoin',{
+                _id: profile._id,
+                firstname: profile.firstname,
+                lastname: profile.lastname,
+                email: profile.email,
+                coins: profile.coins
+            })
+
             setFnAddCoins(false);
         } else if (fnBindAccount === true) {
             console.log('fnBindAccount');

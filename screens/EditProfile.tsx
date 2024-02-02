@@ -243,7 +243,6 @@ const EditProfile = () => {
         setprofilePicture(params.profile_picture);
         setPassword(params.password);
         setConfirmPassword(params.password);
-        // console.log("data user")
     }, []);
     return (
         <KeyboardAvoidingView

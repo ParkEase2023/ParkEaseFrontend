@@ -13,13 +13,14 @@ import {
     ScrollView
 } from 'react-native';
 import { ArrowLeft, CaretLeft, CoinVertical, Money } from 'phosphor-react-native';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ProfileParamList } from '../stack/ProfileStack';
 
 const AddCoin = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
+    const { params } = useRoute<RouteProp<ProfileParamList, 'AddCoin'>>();
     const [inputNumber, setInputNumber] = useState<number>(0);
     const [inputStr, setInputStr] = useState('');
     const handleButtonClick = () => {
@@ -42,6 +43,7 @@ const AddCoin = () => {
         const newNumber = inputNumber + 1000;
         setInputNumber(newNumber);
     };
+    
 
     return (
         <KeyboardAvoidingView
@@ -61,7 +63,7 @@ const AddCoin = () => {
                             <CoinVertical size={24} weight="fill" color="#EEF0FF" />
                             <Text style={styles.textMain}>Remaining Balance</Text>
                         </View>
-                        <Text style={styles.textRight}>600 coins</Text>
+                        <Text style={styles.textRight}>{params.coins} coins</Text>
                     </View>
                 </View>
                 <View style={styles.imageContrainer}>
