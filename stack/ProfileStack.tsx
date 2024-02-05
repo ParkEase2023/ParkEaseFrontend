@@ -27,9 +27,11 @@ export type ProfileParamList = {
       firstname: string; 
       lastname: string; 
       email: string; 
-      coins: number 
+      coins: number;
+      phoneNumber: string; 
     };
-    AddCoinQR: undefined;
+    AddCoinQR: {qrCode:string};
+    // AddCoinQR:undefined;
 };
 
 const ProfileStack = () => {

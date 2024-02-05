@@ -17,6 +17,7 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ProfileParamList } from '../stack/ProfileStack';
+import { createdPromptPayQRCode } from '../services/omise';
 
 const AddCoin = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
@@ -42,6 +43,18 @@ const AddCoin = () => {
     const handleButtonClick3 = () => {
         const newNumber = inputNumber + 1000;
         setInputNumber(newNumber);
+    };
+
+
+    const handleAddCoin = async () => {
+        const res: any = await createdPromptPayQRCode({
+            amount: inputNumber,
+            phonenumber: params.phoneNumber
+        });
+        console.log('GenQr', res.data);
+        if(res){
+            navigation.navigate("AddCoinQR",{qrCode: res.data})
+        }
     };
     
 
@@ -118,7 +131,7 @@ const AddCoin = () => {
                         </TouchableOpacity>
                     </View>
                     <View>
-                        <TouchableOpacity style={styles.btnConfirm} onPress={()=>navigation.navigate("AddCoinQR")}>
+                        <TouchableOpacity style={styles.btnConfirm} onPress={handleAddCoin}>
                             <Text style={styles.textConfirm}>CONFIRM</Text>
                         </TouchableOpacity>
                     </View>

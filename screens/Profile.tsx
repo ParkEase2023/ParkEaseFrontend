@@ -203,7 +203,8 @@ const Profile = () => {
                 firstname: profile.firstname,
                 lastname: profile.lastname,
                 email: profile.email,
-                coins: profile.coins
+                coins: profile.coins,
+                phoneNumber: profile.phone_number
             })
 
             setFnAddCoins(false);

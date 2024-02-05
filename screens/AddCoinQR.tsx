@@ -12,7 +12,7 @@ import {
     Platform
 } from 'react-native';
 import { CaretLeft, DownloadSimple } from 'phosphor-react-native';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ProfileParamList } from '../stack/ProfileStack';
 import RNFS from 'react-native-fs';
@@ -20,10 +20,11 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 const AddCoinQR = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
+    const { params } = useRoute<RouteProp<ProfileParamList, 'AddCoinQR'>>();
+    const [isVisible, setIsVisible] = useState("https://api.omise.co/charges/chrg_test_5yo48yeud2kbp3ze500/documents/docu_test_5yo48ygmypagffsatjo/downloads/5A1FB23047E8EE1E");
 
     const saveImage = async () => {
-        let imgUrl =
-            'https://res.cloudinary.com/dqxh7vakw/image/upload/v1703827514/ParkEase/images_wu9kgt.jpg';
+        let imgUrl = params.qrCode
 
         let newImgUri = imgUrl.lastIndexOf('/');
         let imageName = imgUrl.substring(newImgUri);
@@ -34,7 +35,7 @@ const AddCoinQR = () => {
 
         RNFetchBlob.config({
             fileCache: true,
-            appendExt: 'png',
+            appendExt: 'jpg',
             indicator: true,
             IOSBackgroundTask: true,
             path: path,
@@ -50,6 +51,23 @@ const AddCoinQR = () => {
                 console.log(res, 'end downloaded');
             });
     };
+
+    // const saveImageFromBase64 = async (base64String:string) => {
+    //     let imageName = 'custom_image.jpg'; // You can provide a custom name for the image
+    
+    //     let dirs = RNFetchBlob.fs.dirs;
+    //     let path =
+    //         Platform.OS === 'ios' ? dirs['MainBundleDir'] + '/' + imageName : dirs.PictureDir + '/' + imageName;
+    
+    //     RNFetchBlob.fs
+    //         .writeFile(path, base64String, 'base64')
+    //         .then(() => {
+    //             console.log('Image saved successfully');
+    //         })
+    //         .catch((error) => {
+    //             console.error('Error saving image:', error);
+    //         });
+    // };
 
     const requestStoragePermission = async () => {
         try {
@@ -89,7 +107,8 @@ const AddCoinQR = () => {
             <View style={styles.line}></View>
             <View style={styles.qrcode}>
                 <Image
-                    source={require('../assets/Qrcod.png')}
+                    // source={require('../assets/Qrcod.png')}
+                    source={{ uri: params.qrCode }}
                     style={{
                         width: 300,
                         height: 300,
