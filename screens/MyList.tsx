@@ -1,9 +1,16 @@
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import RequireLogin from '../components/RequireLogin';
-import React from 'react';
+import React, { useState } from 'react';
 import ContentMyList from '../components/ContentMyList';
 
+interface myList {
+    parkingId: string;
+    userId: string;
+  }
+
 const MyList = () => {
+    const [myList, setMyList] = useState<myList[]>([]);
+    const [checkData, setCheckData] = useState('');
     return (
         <RequireLogin>
             <View style={styles.container}>
