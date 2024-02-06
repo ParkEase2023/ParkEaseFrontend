@@ -1,15 +1,63 @@
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CoinVertical, Heart, Star } from 'phosphor-react-native';
 
-const ContentMyList = () => {
+interface IContentMyList {
+    // myListId: string;
+    _id: string;
+    latitude: number;
+    longitude: number;
+    title: string;
+    phone_number: string;
+    price: string;
+    booking: boolean;
+    type: string;
+    opening_status: boolean;
+    timeOpen: string;
+    timeClose: string;
+    providerBy: string;
+    location_address: string;
+    parking_picture1: string;
+    parking_picture2: string;
+    parking_picture3: string;
+    opening_mo: boolean;
+    opening_tu: boolean;
+    opening_we: boolean;
+    opening_th: boolean;
+    opening_fr: boolean;
+    opening_sa: boolean;
+    opening_su: boolean;
+    // onSelected: (value: boolean) => void;
+    // onClick: (value: string) => void;
+  }
+
+const ContentMyList = (props: IContentMyList) => {
+    const [heart, setHeart] = useState(false);
+    const [myListID, setMyListID] = useState('');
+    const checkBtnHeart: boolean = true;
+    useEffect(() => {
+        if (heart === true) {
+          console.log(checkBtnHeart);
+        //   props.onSelected(checkBtnHeart);
+        //   props.onClick(myListID);
+        }
+      }, [Heart]);
+
+      const ReadreBtn = (): JSX.Element | null => {
+        if (props.opening_status == true) {
+            return <Text style={styles.textOpen}>Open</Text>;
+        } else {
+            return <Text style={styles.textClose}>Close</Text>;
+        }
+    };
+
     return (
         <TouchableOpacity style={styles.myListContainer}>
 
             <View style={styles.mainMyListContainer}>
                 <View style={styles.topRow}>
                     <View style={styles.nameLocation}>
-                        <Text style={styles.textNameLocation} numberOfLines={1}>อาคารจอดรถ 5 ชั้น</Text>
+                        <Text style={styles.textNameLocation} numberOfLines={1}>{props.title}</Text>
                     </View>
                     
                     <View style={styles.rate}>
@@ -21,9 +69,9 @@ const ContentMyList = () => {
                 <View style={styles.lowerRow}>
                     <View style={styles.coin}>
                         <CoinVertical size={20} weight="fill" color="#FFA800" />
-                        <Text style={styles.textCoins}>10 Coins/hr</Text>
+                        <Text style={styles.textCoins}>{props.price}</Text>
                     </View>
-                    <Text style={styles.textOpen}>Open</Text>
+                    <ReadreBtn></ReadreBtn>
                 </View>
             </View>
 
@@ -98,6 +146,13 @@ const styles = StyleSheet.create({
         fontFamily: 'RedHatText-Regular',
         fontSize: 14,
         color: '#239D60',
+        right: -38,
+    },
+    textClose: {
+        position: 'absolute',
+        fontFamily: 'RedHatText-Regular',
+        fontSize: 14,
+        color: '#FF6A6A',
         right: -38,
     },
     bgBtnLike: {
