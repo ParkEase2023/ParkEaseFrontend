@@ -77,10 +77,10 @@ const AddCoinQR = () => {
     }, []);
 
     const checkPayment = async () => {
-        console.log(params.id);
+        // console.log(params.id);
         const CheckPayment: any = await CheckCharge({ Id: params.id });
         if (CheckPayment.message === 'success') {
-            await showToast()
+            // await showToast()
             navigation.navigate('Profile');
         } else {
             console.log(CheckPayment.message);

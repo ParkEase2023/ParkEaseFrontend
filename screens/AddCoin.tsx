@@ -50,7 +50,7 @@ const AddCoin = () => {
             amount: inputNumber,
             phonenumber: params.phoneNumber
         });
-        console.log('GenQr', res.data);
+        // console.log('GenQr', res.data);
         if (res) {
             navigation.navigate('AddCoinQR', { qrCode: res.data, id: res.dataId });
         }
