@@ -9,7 +9,8 @@ import {
     TouchableOpacity,
     View,
     Text,
-    ScrollView
+    ScrollView,
+    RefreshControl
 } from 'react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Geolocation from 'react-native-geolocation-service';
@@ -40,6 +41,9 @@ import BottomSheetScrollView, { BottomSheetMethods } from '../components/BottomS
 import Comment from '../components/Comment';
 import DetailParking from '../components/DetailParking';
 import { mapStyle } from '../constants/Constants';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { MenuParamList } from '../stack/MenuStack';
 
 interface Position {
     latitude: number;
@@ -47,8 +51,6 @@ interface Position {
     latitudeDelta: number;
     longitudeDelta: number;
 }
-
-
 
 enum MapType {
     standard = 'standard',
@@ -84,6 +86,7 @@ LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
 const Home = () => {
     const ref = useRef<SlideBarRefProps>(null);
     const [title, setTitle] = useState('');
+    const [refreshing, setRefreshing] = useState(false);
     const [price, setPrice] = useState('');
     const [openingStatus, setOpeningStatus] = useState(false);
     const [picture1, setPicture1] = useState(
@@ -111,6 +114,7 @@ const Home = () => {
     const [sun, setSun] = useState(false);
     const [parkingId, setParkingId] = useState('');
     const [parkingMarkers, setParkingMarkers] = useState<Position[]>([]);
+    const navigation = useNavigation<NativeStackNavigationProp<MenuParamList>>();
     const mapRef = useRef<MapView | null>(null);
     const [pos, setPos] = useState<Position>({
         latitude: 0,
@@ -184,7 +188,6 @@ const Home = () => {
         setShow(!show);
     };
 
-
     const RenderParking = () => {
         return (
             <>
@@ -209,7 +212,6 @@ const Home = () => {
                             title={item.title}
                             description={item._id}
                             onPress={() => {
-                                
                                 pressHandler3(),
                                     setTitle(item.title),
                                     setOpeningStatus(item.opening_status),
@@ -287,97 +289,112 @@ const Home = () => {
         );
     };
 
+    const onRefresh = async () => {
+        setRefreshing(true);
+        setTimeout(() => {
+          setRefreshing(false);
+        }, 20);
+    };
+
+
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            onRefresh();
+        });
+        return unsubscribe;
+    }, [navigation]);
+
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <MapView
-                ref={mapRef}
-                showsUserLocation={true}
-                style={{ flex: 1 }}
-                minZoomLevel={15}
-                provider={PROVIDER_GOOGLE}
-                region={pos}
-                mapType={currentType}
-                // customMapStyle={mapStyle}
-                followsUserLocation={true}
-                showsMyLocationButton={false}
-                zoomControlEnabled={true}
-                showsBuildings={true}
-                toolbarEnabled={true}>
-                <RenderParking></RenderParking>
-            </MapView>
-            <View style={styles.container}>
-                <View style={styles.searchContainer}>
-                    <View style={styles.inner}>
-                        <TouchableOpacity style={styles.search}>
-                            <MagnifyingGlass size={22} weight="bold" color="#A6A6A6" />
-                        </TouchableOpacity>
-                        <TextInput
-                            style={styles.field}
-                            placeholder="Search"
-                            placeholderTextColor="#A6A6A6"
-                            // value={searchInput}
-                            // onChangeText={text => setSearchInput(text)}
-                        />
+                <MapView
+                    ref={mapRef}
+                    showsUserLocation={true}
+                    style={{ flex: 1 }}
+                    minZoomLevel={15}
+                    provider={PROVIDER_GOOGLE}
+                    region={pos}
+                    mapType={currentType}
+                    // customMapStyle={mapStyle}
+                    followsUserLocation={true}
+                    showsMyLocationButton={false}
+                    zoomControlEnabled={true}
+                    showsBuildings={true}
+                    toolbarEnabled={true}>
+                    <RenderParking></RenderParking>
+                </MapView>
+                <View style={styles.container}>
+                    <View style={styles.searchContainer}>
+                        <View style={styles.inner}>
+                            <TouchableOpacity style={styles.search}>
+                                <MagnifyingGlass size={22} weight="bold" color="#A6A6A6" />
+                            </TouchableOpacity>
+                            <TextInput
+                                style={styles.field}
+                                placeholder="Search"
+                                placeholderTextColor="#A6A6A6"
+                                // value={searchInput}
+                                // onChangeText={text => setSearchInput(text)}
+                            />
+                        </View>
                     </View>
                 </View>
-            </View>
-            <View
-                style={{
-                    position: 'absolute',
-                    top: 25,
-                    right: 12,
-                    alignSelf: 'flex-end'
-                }}>
-                <SafeAreaView>
-                    <TouchableOpacity style={styles.btnCrosshair} onPress={getCurrentPosition}>
-                        <Image source={crosshair} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnFunnel} onPress={handleOpen}>
-                        <Image source={funnel} />
-                    </TouchableOpacity>
-                </SafeAreaView>
-            </View>
-            <View style={styles.containerSlideBar}>
-                <StatusBar style="light" />
-                <BottomSheetScrollView
-                    ref={bottomSheetRef3}
-                    snapTo={'50%'}
-                    backgroundColor={'#10152F'}
-                    backDropColor={'none'}>
-                    <DetailParking
-                        Title={title}
-                        Price={price}
-                        Opening_status={openingStatus}
-                        Parking_picture1={picture1}
-                        Parking_picture2={picture2}
-                        Parking_picture3={picture3}
-                        Location_address={locationAddress}
-                        TimeOpen={timeOpen}
-                        TimeClose={timeClose}
-                        ProviderBy={providerBy}
-                        PhoneCall={phoneCall}
-                        latitude={lat}
-                        longitude={long}
-                        mo={mo}
-                        tu={tu}
-                        we={we}
-                        th={th}
-                        fr={fr}
-                        sa={sat}
-                        su={sun}
-                        parkingId={parkingId}
-                        ></DetailParking>
-                </BottomSheetScrollView>
-            </View>
-            <PopupFilter
-                setVisible={show}
-                ticker={ticker}
-                selectOpen={value => {
-                    setSelectedOpen(value);
-                }}
-                selectAvailable={value => {
-                    setSelectedBooking(value);
-                }}></PopupFilter>
+                <View
+                    style={{
+                        position: 'absolute',
+                        top: 25,
+                        right: 12,
+                        alignSelf: 'flex-end'
+                    }}>
+                    <SafeAreaView>
+                        <TouchableOpacity style={styles.btnCrosshair} onPress={getCurrentPosition}>
+                            <Image source={crosshair} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.btnFunnel} onPress={handleOpen}>
+                            <Image source={funnel} />
+                        </TouchableOpacity>
+                    </SafeAreaView>
+                </View>
+                <View style={styles.containerSlideBar}>
+                    <StatusBar style="light" />
+                    <BottomSheetScrollView
+                        ref={bottomSheetRef3}
+                        snapTo={'50%'}
+                        backgroundColor={'#10152F'}
+                        backDropColor={'none'}>
+                        <DetailParking
+                            Title={title}
+                            Price={price}
+                            Opening_status={openingStatus}
+                            Parking_picture1={picture1}
+                            Parking_picture2={picture2}
+                            Parking_picture3={picture3}
+                            Location_address={locationAddress}
+                            TimeOpen={timeOpen}
+                            TimeClose={timeClose}
+                            ProviderBy={providerBy}
+                            PhoneCall={phoneCall}
+                            latitude={lat}
+                            longitude={long}
+                            mo={mo}
+                            tu={tu}
+                            we={we}
+                            th={th}
+                            fr={fr}
+                            sa={sat}
+                            su={sun}
+                            parkingId={parkingId}></DetailParking>
+                    </BottomSheetScrollView>
+                </View>
+                <PopupFilter
+                    setVisible={show}
+                    ticker={ticker}
+                    selectOpen={value => {
+                        setSelectedOpen(value);
+                    }}
+                    selectAvailable={value => {
+                        setSelectedBooking(value);
+                    }}></PopupFilter>
         </GestureHandlerRootView>
     );
 };

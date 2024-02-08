@@ -13,7 +13,7 @@ interface IPopup {
     email:string;
 }
 
-const Popupverify = (props: IPopup) => {
+const PopupVerify = (props: IPopup) => {
     const [show, setShow] = useState(Boolean);
     useEffect(() => {
         if(props.ticker===true){
@@ -46,7 +46,7 @@ const Popupverify = (props: IPopup) => {
     );
 };
 
-export default Popupverify;
+export default PopupVerify;
 
 const styles = StyleSheet.create({
     modalContainer: {

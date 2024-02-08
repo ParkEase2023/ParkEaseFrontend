@@ -6,11 +6,13 @@ import { getProfile } from '../services/user';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MenuParamList } from '../stack/MenuStack';
-import { getMyList } from '../services/mylist';
+import { getMyList, deleteMyList } from '../services/mylist';
+import Modal from 'react-native-modal';
+import BreakHeart from '../assets/ฺBreakHeart.png';
 
 export interface IProfile {
     _id: string;
-  }
+}
 
 interface myList {
     parkingId: string;
@@ -21,28 +23,42 @@ const MyList = () => {
     const [myList, setMyList] = useState<myList[]>([]);
     const [checkData, setCheckData] = useState('');
     const navigation = useNavigation<NativeStackNavigationProp<MenuParamList>>();
+    const [modal, setModal] = useState(false);
+    const [myListID, setMyListID] = useState('');
 
-    const getUserProfile = async () => {
-        const {data} = await getProfile();
+    const getDataMyList = async () => {
+        const { data } = await getProfile();
         const list: any = await getMyList(data._id);
         await setMyList(list.myList);
         await setCheckData(list.message);
     };
-    
+
+    const setDelete = async() => {
+        console.log(myListID), 
+        await deleteMyList(myListID), 
+        setModal(false);
+    };
+
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-          getUserProfile();
+            getDataMyList();
         });
         return unsubscribe;
-      }, [navigation]);
+    }, [navigation]);
 
-      const RenderMyList = (): JSX.Element | null => {
+    useEffect(() => {
+        getDataMyList()
+    }, [modal])
+    
+
+    const RenderMyList = (): JSX.Element | null => {
         if (checkData === 'success' && myList[0] !== undefined) {
-            return(
+            return (
                 <>
-                     {myList.map((item: any, index) => {
-                            return(
-                                <ContentMyList
+                    {myList.map((item: any, index) => {
+                        // console.log(item._id);
+                        return (
+                            <ContentMyList
                                 key={index}
                                 _id={item.myList[0]._id}
                                 latitude={item.myList[0].latitude}
@@ -67,17 +83,24 @@ const MyList = () => {
                                 opening_fr={item.myList[0].opening_fr}
                                 opening_sa={item.myList[0].opening_sa}
                                 opening_su={item.myList[0].opening_su}
-                                />
-                            )
-                     })}
+                                myListId={item._id}
+                                onSelected={value => {
+                                    setModal(value);
+                                }}
+                                onClick={value => {
+                                    setMyListID(value);
+                                }}
+                            />
+                        );
+                    })}
                 </>
-            )
+            );
+        } else {
+            return null;
         }
-        else {
-            return null
-        }
-    }
-        
+    };
+
+    
 
     return (
         <RequireLogin>
@@ -90,6 +113,23 @@ const MyList = () => {
                     </ScrollView>
                     <View style={styles.circleSmall} />
                 </View>
+                <Modal isVisible={modal}>
+                    <View style={styles.modalContainer}>
+                        <Image source={BreakHeart} style={styles.imageBreakHeart} />
+                        <Text style={styles.titlePopup}>Remove parking</Text>
+                        <Text style={styles.labelPopup}>Do you want to remove this parking ?</Text>
+                        <View style={styles.rowBtn}>
+                            <TouchableOpacity
+                                style={styles.btnCancel}
+                                onPress={() => setModal(false)}>
+                                <Text style={styles.textCancel}>CANCEL</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={setDelete} style={styles.btnYes}>
+                                <Text style={styles.textYes}>YES, DELETE</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
             </View>
         </RequireLogin>
     );
@@ -132,5 +172,68 @@ const styles = StyleSheet.create({
         backgroundColor: '#7F85B2',
         bottom: 8,
         right: -20
+    },
+
+    // Modal
+    modalContainer: {
+        backgroundColor: '#EEF0FF',
+        borderRadius: 16,
+        padding: 16,
+        marginHorizontal: 32
+    },
+    imageBreakHeart: {
+        width: 220,
+        height: 180,
+        marginTop: -120,
+        alignSelf: 'center'
+    },
+    titlePopup: {
+        fontSize: 24,
+        fontFamily: 'RedHatText-Bold',
+        color: '#2C2F4A',
+        marginTop: 16,
+        textAlign: 'center'
+    },
+    labelPopup: {
+        fontSize: 16,
+        fontFamily: 'RedHatText-Regular',
+        color: '#2C2F4A',
+        marginTop: 12,
+        textAlign: 'center'
+    },
+    rowBtn: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 28
+    },
+    btnCancel: {
+        width: 130,
+        backgroundColor: '#fff',
+        borderWidth: 1,
+        borderColor: '#7F85B2',
+        paddingVertical: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 12
+    },
+    textCancel: {
+        fontSize: 16,
+        fontFamily: 'Fredoka-SemiBold',
+        color: '#2C2F4A'
+    },
+    btnYes: {
+        width: 130,
+        backgroundColor: '#EA4C4C',
+        borderWidth: 1,
+        borderColor: '#fff',
+        paddingVertical: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 12
+    },
+    textYes: {
+        fontSize: 16,
+        fontFamily: 'Fredoka-SemiBold',
+        color: '#F4F6FD'
     }
 });
