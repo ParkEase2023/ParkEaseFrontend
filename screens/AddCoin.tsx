@@ -1,21 +1,13 @@
 import React,{ useState } from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput, Image, TouchableOpacity, Alert} from 'react-native';
-import { ArrowLeft } from 'phosphor-react-native';
+import { View, Text, StyleSheet, Pressable, TextInput, Image, TouchableOpacity, Alert, Platform, KeyboardAvoidingView, ScrollView} from 'react-native';
+import { ArrowLeft, CaretLeft, CoinVertical } from 'phosphor-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { KeyboardAwareScrollView } from'react-native-keyboard-aware-scroll-view';
 import { AuthTabParamList } from '../stack/AuthStack';
 
-
-interface PopupProps {
-  onClose: () => void;
-}
-const AddCoin: React.FC<PopupProps> = ({ onClose }) => {
+const AddCoin = () => {
     const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
-    const [text, setText] = useState('');
-    // const [inputNumber, setInputNumber] = useState('');
     const [inputNumber, setInputNumber] = useState<number>(0); 
-    const [isModalVisible, setModalVisible] = useState(false);
     const handleButtonClick = () => {
       const newNumber = inputNumber + 100;
       setInputNumber(newNumber);
@@ -36,200 +28,208 @@ const AddCoin: React.FC<PopupProps> = ({ onClose }) => {
       setInputNumber(newNumber);
     };
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-      <View style={styles.headerContent}>
-          <Pressable onPress={() => navigation.goBack()}>
-            <ArrowLeft size={24} color="#565E8B" />
-          </Pressable>
-          <Text style={styles.headerText}>Add coins to your account</Text>
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    style={styles.container}>
+    <ScrollView
+        contentContainerStyle= {styles.scrollViewContainer}
+        keyboardShouldPersistTaps="handled">
+        <View style={styles.headerContent}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+                <CaretLeft size={22} color="#10152F"  />
+            </TouchableOpacity>
+                <Text style={styles.headerText}>Add coins to your account</Text>
         </View>
-      </View>
-      <View style={styles.boxtext}>
-        <View style={styles.row}>
-      <Image
-          source={require('../assets/Coin.png')}
-          style={{ width: 25, height: 25 , marginRight: 10, marginLeft: 10}}
-        />
-        <Text style={styles.textbox}>Remaining Balance</Text>
-        <Text style={styles.textright}>600 coins</Text>
-    </View>
-      </View>
-      <View style={ styles.textbox1}>
-      <View style={styles.row}>
-      <Image
-        source={require('../assets/Money.png')}
-        style={{ width: 30, height: 30 , marginRight: 10, marginLeft: 10}}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter a number"
-        keyboardType="numeric"
-        onChangeText={(text) => {
-          // Ensure the entered text is a valid number
-          const parsedNumber = parseFloat(text);
-          setInputNumber(isNaN(parsedNumber) ? 0 : parsedNumber);
-        }}
-        value={inputNumber.toString()} // Convert the number to a string for TextInput
-      />
-        <Text style={styles.textright1}>THB</Text>
+            <View style={styles.boxText}>
+                <View style={styles.rowTop}>
+                    <View style={styles.textIcon}>
+                        <CoinVertical size={24} weight='fill' color="#EEF0FF" />
+                        <Text style={styles.textMain}>Remaining Balance</Text>
+                    </View>
+                        <Text style={styles.textRight}>600 coins</Text>
+                </View>
+            </View>
+            <View style={styles.imageContrainer}>
+            <Image
+                source={require('../assets/cointhb.png')}
+                style={{width: '100%'}}
+            />
+            </View>
+            <View style={styles.mainContainer}>
+                <View style={[ styles.textbox1 ]}>
+                    <View style={styles.row}>
+                    <Image
+                        source={require('../assets/Money.png')}
+                    />
+                        <TextInput
+                                style={styles.input}
+                                placeholder="Enter a number"
+                                keyboardType="numeric"
+                                onChangeText={(text) => {
+                                    const parsedNumber = parseFloat(text.replace(/,/g, ''));
+                                    setInputNumber(isNaN(parsedNumber) ? 0 : parsedNumber);
+                                }}
+                                value={inputNumber.toLocaleString()}
+                        />
+                        <Text style={styles.textright1}>THB</Text>
+                </View>
+            </View>
+            <View>
+                <Text style={styles.textleft}>Minimum balance:  100 THB</Text>
+            </View>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity onPress={handleButtonClick} style={[styles.button, styles.color]}>
+                    <Text style={styles.buttonText}>+100</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity onPress={handleButtonClick1} style={[styles.button, styles.color]}>
+                    <Text style={styles.buttonText}>+200</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity onPress={handleButtonClick2} style={[styles.button, styles.color]}>
+                    <Text style={styles.buttonText}>+500</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity onPress={handleButtonClick3} style={[styles.button, styles.color]}>
+                    <Text style={styles.buttonText}>+1,000</Text>
+                </TouchableOpacity>
+            </View> 
+                <View>
+                    <TouchableOpacity style={styles.btnConfirm}>
+                        <Text style={styles.textConfirm}>CONFIRM</Text>
+                    </TouchableOpacity>
+                 </View>
         </View>
-      </View>
-      <View>
-      <View style={{margin:10, marginLeft:40}}>
-        <Text>Minimum balance:  100 THB</Text>
-      </View>
-      <View style={styles.buttonContainer}>
-      <TouchableOpacity onPress={handleButtonClick} style={styles.button}>
-        <Text style={styles.buttonText}>+100</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity onPress={handleButtonClick1} style={styles.button}>
-        <Text style={styles.buttonText}>+200</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity onPress={handleButtonClick2} style={styles.button}>
-        <Text style={styles.buttonText}>+500</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity onPress={handleButtonClick3} style={styles.button}>
-        <Text style={styles.buttonText}>1,000</Text>
-      </TouchableOpacity>
-      </View>
-      </View>
-      <View>
-      <TouchableOpacity onPress={onClose} style={styles.btnConfirm}>
-            <Text style={styles.textConfirm}>Confirm</Text>
-          </TouchableOpacity>
-        </View>
-    </View>
+        </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
+export default AddCoin;
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    paddingHorizontal: 25,
-    padding: 30,
-    backgroundColor: '#EEF0FF',
-  },
-  header: {
-    width: '100%',
-    paddingVertical: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#EEF0FF',
+        paddingVertical: 40,
+    },
+    scrollViewContainer: {
+        flexGrow: 1,
+    },
+    mainContainer: {
+        flex: 1,
+        paddingTop: 54,
+        paddingHorizontal: 25,
+    },
     headerContent: {
         flexDirection: 'row',
         alignItems: 'center',
-        width: '100%',
+        paddingHorizontal: 25,
+        paddingBottom: 12,
     },
-  headerText: {
-    fontFamily: 'RedHatText',
-    textAlign: 'center',
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#10152F',
-    marginLeft: 50,
-  },
-  input: {
-    height: 50,
-    borderColor: '#DAE0FF',
-    borderWidth: 1,
-    padding: 10,
-    paddingHorizontal: 10,
-    width: 200,
-    backgroundColor: '#DAE0FF',
-    borderRadius: 10,
-  },
-  boxtext: {
-    display: 'flex',
-    backgroundColor: '#565E8B',
-    height: 60,
-    padding: 15, 
-    width: 420,
-    marginBottom: 70,
-    flexDirection: 'row',
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  textbox: {
-    display: 'flex',
-    backgroundColor: '#565E8B',
-    fontFamily: 'RedHatText-Bold',
-    fontSize: 16,
-    color: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-  },
-  textbox1: {
-    display: 'flex',
-    backgroundColor: '#DAE0FF',
-    fontFamily: 'RedHatText-Bold',
-    fontSize: 14,
-    height: 60,
-    color: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-  },
-  textright: {
-    fontFamily: 'RedHatText-Bold',
-    fontSize: 16,
-    color: 'white',
-    textAlign: 'right',
-    marginLeft: 100,
-  },
-  textright1: {
-    fontFamily: 'RedHatText',
-    fontSize: 16,
-    color: 'black',
-    textAlign: 'right',
-    marginLeft: 90,
-    marginRight: 10,
-
-  },
-  buttonContainer: {
-    flexDirection: 'row', // Arrange children in a row
-    justifyContent: 'space-between', // Space evenly between children
-    padding: 30,
-  },
-  button: {
-    backgroundColor: '#DAE0FF',
-    color: 'black',
-    padding: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    borderRadius: 10,
-    marginHorizontal: 10,
-  },
-  buttonText: {
-    color: 'black',
-    textAlign: 'center',
-  },
-  textConfirm: {
-    textAlign: 'center',
-    fontFamily: 'RedHatText',
-    fontSize: 18,
-    color: '#FEFA94'
-  },
-  btnConfirm: {
-    backgroundColor: '#10152F',
-    borderRadius: 15,
-    padding: 10,
-    elevation: 2,
-    marginTop: 15,
-    // marginLeft: 100,
-    paddingVertical: 10,
-    paddingHorizontal: 140,
-    marginBottom: 5,
-  },
+    headerText: {
+        fontFamily: 'RedHatText-Bold',
+        textAlign: 'center',
+        fontSize: 16,
+        color: '#10152F',
+        paddingLeft: 50,
+    },
+    rowTop: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 25,
+        paddingVertical: 12,
+        paddingBottom: 16,
+    },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingLeft: 16,
+    },
+    textIcon: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    boxText: {
+        backgroundColor: '#565E8B',
+    },
+    textMain: {
+        fontFamily: 'RedHatText-Bold',
+        fontSize: 16,
+        color: '#EEF0FF',
+    },
+    textRight: {
+        fontFamily: 'RedHatText-Bold',
+        fontSize: 16,
+        color: '#EEF0FF',
+    },
+    textbox1: {
+        backgroundColor: '#DAE0FF',
+        borderRadius: 12,
+        borderColor: '#10152F',
+        height: 60,
+    },
+    input: {
+        fontFamily: 'RedHatText-Regular',
+        fontSize: 16,
+        color: '#10152F',
+        width: 250,
+        padding: 16,
+    },
+    textright1: {
+        fontFamily: 'RedHatText',
+        fontSize: 16,
+        color: '#10152F',
+        paddingRight: 16,
+    },
+    textleft: {
+        fontFamily: 'RedHatText-Regular',
+        fontSize: 14,
+        color: '#10152F',
+        paddingTop: 10,
+        paddingBottom: 25,
+    },
+    buttonContainer: {
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        paddingBottom: 50,
+    },
+    button: {
+        padding: 18,
+        paddingLeft: 18,
+        paddingRight: 18,
+        borderRadius: 23,
+        paddingVertical: 6,
+    },
+    buttonText: {
+        color: 'black',
+        textAlign: 'center',
+    },
+    textConfirm: {
+        textAlign: 'center',
+        fontFamily: 'RedHatText',
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: '#FEFA94',
+        top: 15,
+        letterSpacing: 0.64,
+    },
+    btnConfirm: {
+        backgroundColor: '#10152F',
+        borderRadius: 15,
+        elevation: 2,
+        marginTop: 40,
+        width: "100%",
+        height: 55,
+    },
+    color: {
+        borderWidth: 2, 
+        borderColor: '#7F85B2',
+    },
+    imageContrainer: {
+        alignItems: 'center',
+        paddingTop: 20,
+    },
 });
-
-export default AddCoin;

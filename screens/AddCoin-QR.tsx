@@ -1,119 +1,102 @@
-import React,{ useState } from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput, Image, TouchableOpacity, Alert} from 'react-native';
-import { ArrowLeft } from 'phosphor-react-native';
+import React,{  } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, PermissionsAndroid, ScrollView, Platform, GestureResponderEvent, Linking} from 'react-native';
+import { CaretLeft, DownloadSimple } from 'phosphor-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { KeyboardAwareScrollView } from'react-native-keyboard-aware-scroll-view';
 import { AuthTabParamList } from '../stack/AuthStack';
+import { CameraRoll } from "@react-native-camera-roll/camera-roll";
+import RNFS from 'react-native-fs';
 
-
-interface PopupProps {
-  onClose: () => void;
-}
-const AddCoinQR: React.FC<PopupProps> = ({ onClose }) => {
+const AddCoinQR = () => {
     const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-      <View style={styles.headerContent}>
-          <Pressable onPress={() => navigation.goBack()}>
-            <ArrowLeft size={24} color="#565E8B" />
-          </Pressable>
-          <Text style={styles.headerText}>Add coins to your account</Text>
+    const SaveImageToGallery = async () => {
+      const imageUrl = 'https://www.example.com/image.jpg';
+      try {
+        if (Platform.OS === 'android') {
+          await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            {
+              title: 'Storage Permission Required',
+              message: 'This app needs access to your storage to save images.',
+              buttonPositive: 'OK',
+            }
+          );
+          if ('granted' === PermissionsAndroid.RESULTS.GRANTED) {
+            // Proceed with the download if permission is granted
+            CameraRoll.saveAsset(imageUrl);
+          }
+        }
+      } catch (error) {
+        Alert.alert('Error', 'An error occurred while saving the image.');
+        console.error(error);
+      }
+    };
+return (
+      <ScrollView style={styles.container}>
+        <View style={styles.row}>
+          <View style={styles.caretLeft}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <CaretLeft size={22} color="#10152F"  />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.flexText}>
+            <Text style={styles.headerText}>Add coins to your account</Text>
+          </View>
+          <View style={styles.DownloadSimple}>
+            <TouchableOpacity onPress={SaveImageToGallery} >
+              <DownloadSimple size={22} color="#10152F" />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-      <View style={styles.line}></View>
-      <View style={styles.qrcode}>
-      <Image
-        source={require('../assets/Qrcod.png')}
-        style={{ width: 300, height: 300 , marginRight: 50, marginLeft: 50}}
-      />
-      </View>
-      <View>
-      <TouchableOpacity onPress={onClose} style={styles.btnConfirm}>
-            <Text style={styles.textConfirm}>Finished</Text>
-          </TouchableOpacity>
+        <View style={styles.line}></View>
+        <View style={styles.qrcode}>
+          <Image
+            source={require('../assets/Qrcod.png')}
+        />
         </View>
-    </View>
+      </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    paddingHorizontal: 25,
-    padding: 30,
     backgroundColor: '#EEF0FF',
+    flex: 1,
+    paddingVertical: 40,
   },
-  header: {
-    width: '100%',
-    paddingVertical: 10,
-    justifyContent: 'center',
+  row: {
+    paddingHorizontal: 25,
+    flexDirection: 'row',
+
+  },
+  caretLeft: {
+    flex: 1,
+  },
+  flexText: {
+    flex: 4,
     alignItems: 'center',
   },
-    headerContent: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%',
-    },
+  DownloadSimple: {
+    flex: 1,
+    alignItems: 'flex-end',
+  },
   headerText: {
     fontFamily: 'RedHatText',
-    textAlign: 'center',
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#10152F',
-    marginLeft: 50,
-  },
+    fontSize: 16,
+    color: '#10152F'
+ },
   line: {
+    borderBottomColor: '#CED2EA',
     borderBottomWidth: 1,
-    borderBottomColor: '#565E8B',
-    width: '150%',
-    // You can adjust the width, color, and other styles as needed
-  },
-  buttonContainer: {
-    flexDirection: 'row', // Arrange children in a row
-    justifyContent: 'space-between', // Space evenly between children
-    padding: 30,
-  },
-  button: {
-    backgroundColor: '#DAE0FF',
-    color: 'black',
-    padding: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    borderRadius: 10,
-    marginHorizontal: 10,
-  },
-  buttonText: {
-    color: 'black',
-    textAlign: 'center',
-  },
-  textConfirm: {
-    textAlign: 'center',
-    fontFamily: 'RedHatText',
-    fontSize: 18,
-    color: '#FEFA94'
-  },
-  btnConfirm: {
-    backgroundColor: '#10152F',
-    borderRadius: 15,
-    padding: 10,
-    elevation: 2,
-    marginTop: 15,
-    // marginLeft: 100,
-    paddingVertical: 10,
-    paddingHorizontal: 140,
-    marginBottom: 5,
+    width: '100%',
+    paddingTop: 10,
   },
   qrcode: {
-    padding: 150,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 50,
-  },
+    flex: 1,
+    paddingVertical: 100,
+  }
 });
 
 export default AddCoinQR;

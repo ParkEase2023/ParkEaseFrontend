@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { KeyboardAwareScrollView } from'react-native-keyboard-aware-scroll-view';
 import { AuthTabParamList } from '../stack/AuthStack';
 import PopupFilter from '../components/PopupFilter';
-import ChangePlan from '../components/ChangePlan';
+import ChangePlan from '../components/ChangeMember';
 
 const ApplyMember = () => {
     const navigation = useNavigation<NativeStackNavigationProp<AuthTabParamList>>();

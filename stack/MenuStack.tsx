@@ -1,7 +1,7 @@
 import { StatusBar, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Bell, Heart, MapTrifold, Plus, User } from 'phosphor-react-native';
+import { Bell, Heart, MapTrifold, Plus, Ticket, User } from 'phosphor-react-native';
 import HomeStack from '../screens/Home';
 import MyList from '../screens/MyList';
 import AddParking from '../screens/AddParking';
@@ -16,13 +16,19 @@ import ForgetPassword from '../screens/ForgetPassword';
 import CreateNewPassword from '../screens/CreateNewPassword';
 import SelectForVerify from '../screens/SelectForVerify';
 import VerifyYourIdentify from '../screens/VerifyYourIdentity';
-// import AlertFiterSreach from '../screens/AlertFiterSreach';
 import Popup from '../screens/Popup';
 import AddCoin from '../screens/AddCoin';
 import AddCoinQR from '../screens/AddCoin-QR';
 import BillingInfo from '../screens/BillingInformation';
-import ChangePlan from '../components/ChangePlan';
+import ChangePlan from '../components/ChangeMember';
 import ApplyMember from '../screens/ApplyMember';
+import ReviewReport from '../screens/ReviewReport';
+import InspectionInProgress from '../screens/InspectionInProgress';
+import BillingInformation from '../screens/BillingInformation';
+import { logIn } from '../services/auth';
+import Schedule from '../components/Schedule';
+import DateAndTime from '../components/DateTimePicker';
+import TimePicker from '../components/DateTimePicker';
 
 export type MenuParamList = {
   HomeStack: undefined;
@@ -30,6 +36,7 @@ export type MenuParamList = {
   AddParkingStack: undefined;
   NotificationStack: undefined;
   ProfileStack: undefined;
+  // ReviewReportStark: 
 };
 
 const MenuStack = () => {
@@ -43,8 +50,6 @@ const MenuStack = () => {
           headerShown: false,
           tabBarHideOnKeyboard: true,
           tabBarShowLabel: false,
-          // tabBarActiveTintColor: '#FFA897',
-          // tabBarInactiveTintColor: '#BABCCA',
           tabBarStyle: {
             backgroundColor: '#10152F',
             height: 55,
@@ -52,7 +57,7 @@ const MenuStack = () => {
         }}>
         <Stack.Screen
           name="HomeStack"
-          component={HomeStack}
+          component={ HomeStack }
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <MapTrifold
@@ -65,7 +70,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="MyList"
-          component={MyList}
+          component={ BillingInformation }
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <Heart
@@ -78,10 +83,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="AddParkingStack"
-          component={ ApplyMember }
-          // onPress={() =>
-          //   navigation.navigate('AddToiletStack', {screen: 'AddToilet'})
-          // }
+          component={ AddCoin }
           options={{
             tabBarStyle: { display: 'none' },
             tabBarHideOnKeyboard: true,
@@ -96,7 +98,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="NotificationStack"
-          component={ BillingInfo}
+          component={ AddCoinQR }
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <Bell
@@ -109,7 +111,7 @@ const MenuStack = () => {
         />
         <Stack.Screen
           name="ProfileStack"
-          component={Logout}
+          component={ Schedule }
           options={{
             tabBarIcon: ({ focused, color, size }) => (
               <User
