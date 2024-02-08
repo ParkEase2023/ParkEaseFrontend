@@ -53,6 +53,7 @@ export interface IProfile {
 const Profile = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
     const navigationEditProfile = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
+    const navigationAddCoin = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
     const [visible, setVisible] = useState(false);
     const [ticker, setTicker] = useState(false);
@@ -197,7 +198,15 @@ const Profile = () => {
 
     const RemainingBalance = () => {
         if (fnAddCoins === true) {
-            console.log('add coins');
+            navigationAddCoin.navigate('AddCoin',{
+                _id: profile._id,
+                firstname: profile.firstname,
+                lastname: profile.lastname,
+                email: profile.email,
+                coins: profile.coins,
+                phoneNumber: profile.phone_number
+            })
+
             setFnAddCoins(false);
         } else if (fnBindAccount === true) {
             console.log('fnBindAccount');

@@ -31,7 +31,6 @@ import { getAllParking } from '../services/parking';
 import caretLeft from '../assets/Icons/caretLeft.png';
 import crosshair from '../assets/Icons/crosshair.png';
 import funnel from '../assets/Icons/funnel.png';
-import SlideBar, { SlideBarRefProps } from '../components/SlideBar';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { LogBox } from 'react-native';
@@ -82,7 +81,6 @@ const height = width * aspectRatio;
 LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
 
 const Home = () => {
-    const ref = useRef<SlideBarRefProps>(null);
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
     const [openingStatus, setOpeningStatus] = useState(false);
@@ -109,6 +107,7 @@ const Home = () => {
     const [fr, setFr] = useState(false);
     const [sat, setSat] = useState(false);
     const [sun, setSun] = useState(false);
+    const [parkingId, setParkingId] = useState('');
     const [parkingMarkers, setParkingMarkers] = useState<Position[]>([]);
     const mapRef = useRef<MapView | null>(null);
     const [pos, setPos] = useState<Position>({
@@ -208,6 +207,7 @@ const Home = () => {
                             title={item.title}
                             description={item._id}
                             onPress={() => {
+                                
                                 pressHandler3(),
                                     setTitle(item.title),
                                     setOpeningStatus(item.opening_status),
@@ -229,7 +229,7 @@ const Home = () => {
                                 setFr(item.opening_fr);
                                 setSat(item.opening_sa);
                                 setSun(item.opening_su);
-
+                                setParkingId(item._id);
                             }}>
                             <Callout tooltip style={{ display: 'none' }}>
                                 <View>
@@ -363,6 +363,7 @@ const Home = () => {
                         fr={fr}
                         sa={sat}
                         su={sun}
+                        parkingId={parkingId}
                         ></DetailParking>
                 </BottomSheetScrollView>
             </View>

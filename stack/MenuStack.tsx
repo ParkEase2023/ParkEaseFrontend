@@ -11,7 +11,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import { SvgUri } from 'react-native-svg';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
-import Logout from '../screens/Logout';
 import ForgetPassword from '../screens/ForgetPassword';
 import CreateNewPassword from '../screens/CreateNewPassword';
 import SelectForVerify from '../screens/SelectForVerify';
@@ -19,6 +18,7 @@ import VerifyYourIdentify from '../screens/VerifyYourIdentity';
 import { NavigatorScreenParams, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import ProfileStack, { ProfileParamList } from './ProfileStack';
 import Reqlogin from '../screens/Reqlogin';
+import RateReview from '../screens/RateReview';
 
 export type MenuParamList = {
     HomeStack: undefined;
@@ -102,8 +102,8 @@ const MenuStack = () => {
                         tabBarStyle: (() => {
                             const routeName = getFocusedRouteNameFromRoute(route);
 
-                            if (routeName === 'EditProfile') {
-                                return { display: 'none' };
+                            if (routeName === 'EditProfile' || routeName === 'AddCoin') {
+                                return { display: 'none' , tabBarHideOnKeyboard: false };
                             }
 
                             return { backgroundColor: '#10152F', height: 55 };
