@@ -47,13 +47,18 @@ const DetailParking = (props: IDetail) => {
     const [heart, setHeart] = useState(false);
     const [ticker, setTicker] = useState(false);
     const [userId, setUserId] = useState('');
+    const [myListId, setMyListId] = useState('');
     const [dayOpenAll, setDayOpenAll] = useState('');
     const { isLoggedIn } = useContext(AuthContext);
-
 
     useEffect(() => {
         checkHeart();
     }, [props.Title]);
+
+    useEffect(() => {
+        reloadValue();
+    }, [heart])
+    
 
     const checkHeart = async () => {
         const { data } = await getProfile();
@@ -62,15 +67,28 @@ const DetailParking = (props: IDetail) => {
         if (list.myList[0] !== undefined) {
             {
                 list.myList.map((item: any, index: any) => {
-                        if (item.myList[0]._id === props.parkingId) {
-                            setHeart(true);
-                        }
-                        else {
-                            setHeart(false);
-                        }
+                    if (item.myList[0]._id === props.parkingId) {
+                        setHeart(true);
+                        setMyListId(item._id);
+                    } else {
+                        setHeart(false);
+                    }
                 });
             }
-        };
+        }
+    };
+
+    const reloadValue = async () => {
+        let list: any = await getMyList(userId);
+        if (list.myList[0] !== undefined) {
+            {
+                list.myList.map((item: any, index: any) => {
+                    if (item.myList[0]._id === props.parkingId) {
+                        setMyListId(item._id);
+                    }
+                });
+            }
+        }
     };
 
     useEffect(() => {
@@ -100,8 +118,6 @@ const DetailParking = (props: IDetail) => {
         setDayOpenAll(result);
     }, [props.Title]);
 
-
-
     LogBox.ignoreLogs(['new NativeEventEmitter']);
     const ReaderBtn = (): JSX.Element | null => {
         if (props.Opening_status == true) {
@@ -121,6 +137,7 @@ const DetailParking = (props: IDetail) => {
                 <>
                     <ButtonHeart
                         heartIcon={heart}
+                        myListId={myListId}
                         userId={userId}
                         parkingId={props.parkingId}
                         onSelected={value => {

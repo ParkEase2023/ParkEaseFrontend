@@ -14,3 +14,8 @@ export const getMyList = async (UserId: any) => {
     const res = await http.get('/mylist/getmylist/', {params: {userId: UserId}});
     return res;
 };
+
+export const deleteMyList = async (myListId: any) => {
+    const res = await http.delete('/mylist/deletemylist', {params: {_id: myListId}});
+    return res;
+};

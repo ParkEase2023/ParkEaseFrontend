@@ -8,12 +8,13 @@ import Animated, {
     useSharedValue,
     withSpring
 } from 'react-native-reanimated';
-import { addMyList } from '../services/mylist';
+import { addMyList, deleteMyList } from '../services/mylist';
 
 interface Iheart {
     heartIcon: Boolean;
     userId: string;
     parkingId: string;
+    myListId: string;
     onSelected: (value: boolean) => void;
 }
 
@@ -54,10 +55,11 @@ const ButtonHeart = (props: Iheart) => {
             });
             props.onSelected(true);
         }
-        // if(props.heartIcon===true){
-        //   deleteMyList(props.myListID);
-        //   props.onSelected(false);
-        // }
+        if(props.heartIcon===true){
+            console.log(props.myListId)
+          deleteMyList(props.myListId);
+          props.onSelected(false);
+        }
     };
 
     const HeartBotton = (): JSX.Element | null => {
