@@ -7,7 +7,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { AuthTabParamList } from '../stack/AuthStack';
 import { ArrowLeft, Circle } from 'phosphor-react-native';
 import TabEditProfilePicture from '../components/TabEditProfilePicture';
-import Popupverify from '../components/Popupverify';
+import PopupVerify from '../components/PopupVerify';
 import PopupFilter from '../components/PopupFiler';
 
 const Notification = () => {

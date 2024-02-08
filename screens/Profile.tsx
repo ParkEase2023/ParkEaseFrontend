@@ -35,7 +35,7 @@ import { RootStackList } from '../stack/RootStack';
 import AuthContext from '../context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProfileParamList } from '../stack/ProfileStack';
-import Popupverify from '../components/Popupverify';
+import PopupVerify from '../components/PopupVerify';
 import TabRemainingBalance from '../components/TabRemainingBalance';
 
 export interface IProfile {
@@ -353,10 +353,10 @@ const Profile = () => {
 
                         <View style={styles.circleSmall} />
                     </View>
-                    <Popupverify
+                    <PopupVerify
                         setVisible={visible}
                         ticker={ticker}
-                        email={profile.email}></Popupverify>
+                        email={profile.email}></PopupVerify>
                     <RenderTab></RenderTab>
                     <Renderbg></Renderbg>
                 </ScrollView>
