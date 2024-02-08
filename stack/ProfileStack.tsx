@@ -30,7 +30,7 @@ export type ProfileParamList = {
       coins: number;
       phoneNumber: string; 
     };
-    AddCoinQR: {qrCode:string};
+    AddCoinQR: {qrCode:string,id:string};
     // AddCoinQR:undefined;
 };
 

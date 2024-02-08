@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     Text,
@@ -17,14 +17,19 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ProfileParamList } from '../stack/ProfileStack';
 import RNFS from 'react-native-fs';
 import RNFetchBlob from 'rn-fetch-blob';
+import { CheckCharge } from '../services/omise';
+import Toast from 'react-native-toast-message';
 
 const AddCoinQR = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const { params } = useRoute<RouteProp<ProfileParamList, 'AddCoinQR'>>();
-    const [isVisible, setIsVisible] = useState("https://api.omise.co/charges/chrg_test_5yo48yeud2kbp3ze500/documents/docu_test_5yo48ygmypagffsatjo/downloads/5A1FB23047E8EE1E");
+    const [isVisible, setIsVisible] = useState(
+        'https://api.omise.co/charges/chrg_test_5yo48yeud2kbp3ze500/documents/docu_test_5yo48ygmypagffsatjo/downloads/5A1FB23047E8EE1E'
+    );
+    const [ToastC, setToastC] = useState(true);
 
     const saveImage = async () => {
-        let imgUrl = params.qrCode
+        let imgUrl = params.qrCode;
 
         let newImgUri = imgUrl.lastIndexOf('/');
         let imageName = imgUrl.substring(newImgUri);
@@ -52,22 +57,35 @@ const AddCoinQR = () => {
             });
     };
 
-    // const saveImageFromBase64 = async (base64String:string) => {
-    //     let imageName = 'custom_image.jpg'; // You can provide a custom name for the image
-    
-    //     let dirs = RNFetchBlob.fs.dirs;
-    //     let path =
-    //         Platform.OS === 'ios' ? dirs['MainBundleDir'] + '/' + imageName : dirs.PictureDir + '/' + imageName;
-    
-    //     RNFetchBlob.fs
-    //         .writeFile(path, base64String, 'base64')
-    //         .then(() => {
-    //             console.log('Image saved successfully');
-    //         })
-    //         .catch((error) => {
-    //             console.error('Error saving image:', error);
-    //         });
-    // };
+    const showToast = () => {
+        Toast.show({
+            type: 'success',
+            text1: '🥳  Add My Favorite Successfully!!!',
+            text2: 'Can you see my favorite.',
+            autoHide: true,
+            visibilityTime: 3000
+        });
+    };
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            checkPayment();
+            
+        }, 5000);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
+    const checkPayment = async () => {
+        console.log(params.id);
+        const CheckPayment: any = await CheckCharge({ Id: params.id });
+        if (CheckPayment.message === 'success') {
+            await showToast()
+            navigation.navigate('Profile');
+        } else {
+            console.log(CheckPayment.message);
+        }
+    };
 
     const requestStoragePermission = async () => {
         try {
@@ -95,6 +113,7 @@ const AddCoinQR = () => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.headerContent}>
+                    <Toast/>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <CaretLeft size={32} color="#011303" />
                     </TouchableOpacity>
@@ -118,7 +137,7 @@ const AddCoinQR = () => {
                     }}
                 />
             </View>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.btnConfirm}>
+            <TouchableOpacity onPress={showToast} style={styles.btnConfirm}>
                 <Text style={styles.textConfirm}>FINSHED</Text>
             </TouchableOpacity>
         </View>

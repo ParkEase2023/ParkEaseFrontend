@@ -45,22 +45,19 @@ const AddCoin = () => {
         setInputNumber(newNumber);
     };
 
-
     const handleAddCoin = async () => {
         const res: any = await createdPromptPayQRCode({
             amount: inputNumber,
             phonenumber: params.phoneNumber
         });
         console.log('GenQr', res.data);
-        if(res){
-            navigation.navigate("AddCoinQR",{qrCode: res.data})
+        if (res) {
+            navigation.navigate('AddCoinQR', { qrCode: res.data, id: res.dataId });
         }
     };
-    
 
     return (
-        <KeyboardAvoidingView
-            style={styles.container}>
+        <KeyboardAvoidingView style={styles.container}>
             <ScrollView
                 contentContainerStyle={styles.scrollViewContainer}
                 keyboardShouldPersistTaps="handled">
