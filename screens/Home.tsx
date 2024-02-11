@@ -82,6 +82,15 @@ const height = width * aspectRatio;
 
 LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
 
+
+// const Home = () => {
+//     const navigation = useNavigation<NativeStackNavigationProp<MenuParamList>>();
+//     const [key, setKey] = React.useState(0);
+//     const reload = React.useCallback(() => setKey(prevKey => prevKey + 1), []);
+//     return <Child reload={reload} key={key} />;
+// };
+
+
 const Home = () => {
     const [title, setTitle] = useState('');
     const [refreshing, setRefreshing] = useState(false);
@@ -97,6 +106,7 @@ const Home = () => {
         'https://res.cloudinary.com/dqxh7vakw/image/upload/v1703827495/ParkEase/automatic-parking-6-1200x900_ukblma.jpg'
     );
     const [locationAddress, setLocationAddress] = useState('');
+    const [reload, setReload] = useState(false)
     const [timeOpen, setTimeOpen] = useState('');
     const [timeClose, setTimeClose] = useState('');
     const [providerBy, setProviderBy] = useState('');
@@ -144,6 +154,10 @@ const Home = () => {
         bottomSheetRef3.current?.expand();
     }, []);
 
+    const pressHandler4 = useCallback(() => {
+        bottomSheetRef3.current?.close(); // or whatever method is used to collapse/close the bottom sheet
+    }, []);
+
     const [listparking, setListParking] = useState(parkingMarkers);
 
     useEffect(() => {
@@ -161,6 +175,13 @@ const Home = () => {
         };
         fetchData();
     }, [listparking]);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            pressHandler4();
+        });
+        return unsubscribe;
+    }, [navigation]);
 
     const [show, setShow] = useState(false);
     const [ticker, setTicker] = useState(false);
@@ -210,14 +231,15 @@ const Home = () => {
                             title={item.title}
                             description={item._id}
                             onPress={() => {
+                                setReload(!reload),
                                 pressHandler3(),
-                                    setTitle(item.title),
-                                    setOpeningStatus(item.opening_status),
-                                    setPrice(item.price),
-                                    setPicture1(item.parking_picture1),
-                                    setPicture2(item.parking_picture2),
-                                    setPicture3(item.parking_picture3),
-                                    setLocationAddress(item.location_address);
+                                setTitle(item.title),
+                                setOpeningStatus(item.opening_status),
+                                setPrice(item.price),
+                                setPicture1(item.parking_picture1),
+                                setPicture2(item.parking_picture2),
+                                setPicture3(item.parking_picture3),
+                                setLocationAddress(item.location_address);
                                 setTimeOpen(item.timeOpen);
                                 setTimeClose(item.timeClose);
                                 setProviderBy(item.providerBy);
@@ -287,21 +309,6 @@ const Home = () => {
         );
     };
 
-    const onRefresh = async () => {
-        setRefreshing(true);
-        setTimeout(() => {
-          setRefreshing(false);
-        }, 20);
-    };
-
-
-
-    useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            onRefresh();
-        });
-        return unsubscribe;
-    }, [navigation]);
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
@@ -361,6 +368,7 @@ const Home = () => {
                         backgroundColor={'#10152F'}
                         backDropColor={'none'}>
                         <DetailParking
+                            reload={reload}
                             Title={title}
                             Price={price}
                             Opening_status={openingStatus}

@@ -41,6 +41,7 @@ export interface IDetail {
     sa: boolean;
     su: boolean;
     parkingId: string;
+    reload: boolean;
 }
 
 const DetailParking = (props: IDetail) => {
@@ -53,7 +54,7 @@ const DetailParking = (props: IDetail) => {
 
     useEffect(() => {
         checkHeart();
-    }, [props.Title]);
+    }, [props.reload]);
 
     useEffect(() => {
         reloadValue();
