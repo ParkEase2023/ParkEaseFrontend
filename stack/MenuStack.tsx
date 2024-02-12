@@ -23,6 +23,7 @@ import Withdraw from '../screens/WithdrawMoney';
 import CheckInformation from '../screens/CheckInformation';
 import PaymentBill from '../components/PaymentBill';
 import WithdrawalReceipt from '../screens/WithdrawalReceipt';
+import WithdrawMoney from '../screens/WithdrawMoney';
 export type MenuParamList = {
     HomeStack: undefined;
     MyList: undefined;
@@ -100,7 +101,7 @@ const MenuStack = () => {
                 />
                 <Stack.Screen
                     name="ProfileStack"
-                    component={ProfileStack}
+                    component={ WithdrawMoney }
                     options={({ route }) => ({
                         tabBarStyle: (() => {
                             const routeName = getFocusedRouteNameFromRoute(route);

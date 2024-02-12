@@ -28,7 +28,7 @@ const PaymentBill = () => {
                     <View style={styles.VerticalLine} />
                 </View>
                 <View style={styles.arrowCirclePosition}>
-                    <ArrowCircleDown size={32} color="#156132" />
+                    <ArrowCircleDown size={32} color="#239D60" />
                 </View>
                 <View style={styles.lineContainer}>
                     <View style={styles.VerticalLine} />
@@ -36,7 +36,6 @@ const PaymentBill = () => {
             </View>
             <View style={styles.recipientRow}>
                 <View style={styles.logo}>
-                    {/* <View style={styles.circle} /> */}
                     <Image source={require('../assets/Kasikorn.png')} style={{width: 90, height: 90}}  />
                 </View>
                 <View style={styles.spaceText}>
@@ -83,7 +82,6 @@ const styles = StyleSheet.create({
     },
     bodyText: {
         fontFamily: 'RedHatText',
-        textAlign: 'center',
         fontSize: 14,
         color: '#262D57',
         marginTop: 10,
@@ -91,14 +89,15 @@ const styles = StyleSheet.create({
     linePosition: {
         paddingHorizontal: 45,
         paddingVertical: 12,
+        paddingTop: 25
     },
     lineContainer: {
         flexDirection: 'row',
         alignItems: 'center',
     },
     VerticalLine: {
-        borderBottomColor: '#156132',
-        borderBottomWidth: 40,
+        borderBottomColor: '#239D60',
+        borderBottomWidth: 20,
         width: '1%', 
         backgroundColor: '#262D57',
     },
