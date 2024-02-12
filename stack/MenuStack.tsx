@@ -20,6 +20,8 @@ import { NavigatorScreenParams, getFocusedRouteNameFromRoute } from '@react-navi
 import ProfileStack, { ProfileParamList } from './ProfileStack';
 import Reqlogin from '../screens/Reqlogin';
 import RateReview from '../screens/RateReview';
+import PopupMember from '../components/PopupMember';
+import ApplyForMembership from '../screens/ApplyForMembership';
 
 export type MenuParamList = {
     HomeStack: undefined;
@@ -89,7 +91,7 @@ const MenuStack = () => {
                 />
                 <Stack.Screen
                     name="NotificationStack"
-                    component={RateReview}
+                    component={ApplyForMembership}
                     options={{
                         tabBarIcon: ({ focused, color, size }) => (
                             <Bookmark  color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
