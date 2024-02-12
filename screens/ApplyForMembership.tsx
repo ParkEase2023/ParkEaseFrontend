@@ -6,14 +6,14 @@ const ApplyForMembership = () => {
     return (
         <View style={styles.bg}>
             <View style={styles.rowTopic}>
-                <CaretLeft weight='bold' color='#EEF0FF'/>
+                <CaretLeft size={22} weight='bold' color='#EEF0FF'/>
                 <Text style={styles.topic}>Apply For Membership</Text>
             </View>
             <View style={styles.line}/>
             <ScrollView style={styles.container}>
                 <View style={styles.member}>
                     <View style={styles.rowPrice}>
-                        <CoinVertical size={22} weight='fill' color='#FEFA94' />
+                        <CoinVertical size={36} weight='fill' color='#FEFA94' />
                         <Text style={styles.textPrice}>49</Text>
                         <Text style={styles.textMonth}>/mo</Text>
                     </View>
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#1E2139',
         borderRadius: 16,
         padding: 16,
-        marginBottom: 16
+        marginBottom: 25
     },
     partner: {
         backgroundColor: '#1E2139',
@@ -102,35 +102,36 @@ const styles = StyleSheet.create({
     },
     rowPrice: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     textPrice: {
         fontFamily: 'RedHatText-Bold',
-        fontSize: 24,
-        color: '#FEFA94',
+        fontSize: 64,
+        color: '#EEF0FF',
         marginLeft: 8
     },
     textMonth: {
-        fontFamily: 'RedHatText-Regular',
-        fontSize: 16,
-        color: '#BABCCA'
+        fontFamily: 'RedHatText-Medium',
+        fontSize: 20,
+        color: '#CED2EA'
     },
     title: {
-        fontFamily: 'RedHatText-Bold',
+        fontFamily: 'RedHatText-Medium',
         fontSize: 24,
-        color: '#EEF0FF',
+        color: '#DFE2F8',
         marginTop: 16
     },
     rowCondition: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 8
+        marginTop: 10
     },
     textCondition: {
         fontFamily: 'RedHatText-Regular',
         fontSize: 16,
-        color: '#EEF0FF',
-        marginLeft: 8
+        color: '#DFE2F8',
+        marginLeft: 12
     },
     btnStart: {
         backgroundColor: '#FEFA94',
