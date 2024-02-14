@@ -19,7 +19,11 @@ import { NavigatorScreenParams, getFocusedRouteNameFromRoute } from '@react-navi
 import ProfileStack, { ProfileParamList } from './ProfileStack';
 import Reqlogin from '../screens/Reqlogin';
 import RateReview from '../screens/RateReview';
-
+import Withdraw from '../screens/WithdrawMoney';
+import CheckInformation from '../screens/CheckInformation';
+import PaymentBill from '../components/PaymentBill';
+import WithdrawalReceipt from '../screens/WithdrawalReceipt';
+import WithdrawMoney from '../screens/WithdrawMoney';
 export type MenuParamList = {
     HomeStack: undefined;
     MyList: undefined;
@@ -74,7 +78,7 @@ const MenuStack = () => {
                 />
                 <Stack.Screen
                     name="AddParkingStack"
-                    component={AddParking}
+                    component={ WithdrawalReceipt }
                     // onPress={() =>
                     //   navigation.navigate('AddToiletStack', {screen: 'AddToilet'})
                     // }
@@ -88,7 +92,7 @@ const MenuStack = () => {
                 />
                 <Stack.Screen
                     name="NotificationStack"
-                    component={Notification}
+                    component={ CheckInformation }
                     options={{
                         tabBarIcon: ({ focused, color, size }) => (
                             <Bookmark  color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
@@ -97,7 +101,7 @@ const MenuStack = () => {
                 />
                 <Stack.Screen
                     name="ProfileStack"
-                    component={ProfileStack}
+                    component={ WithdrawMoney }
                     options={({ route }) => ({
                         tabBarStyle: (() => {
                             const routeName = getFocusedRouteNameFromRoute(route);
