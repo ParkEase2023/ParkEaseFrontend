@@ -52,7 +52,13 @@ const AddCoin = () => {
         });
         // console.log('GenQr', res.data);
         if (res) {
-            navigation.navigate('AddCoinQR', { qrCode: res.data, id: res.dataId });
+            navigation.navigate('AddCoinQR', {
+                qrCode: res.data,
+                id: res.dataId,
+                email: params.email,
+                coins: params.coins,
+                addcoins: inputNumber
+            });
         }
     };
 

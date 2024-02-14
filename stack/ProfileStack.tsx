@@ -22,16 +22,15 @@ export type ProfileParamList = {
 
     VerifyIdentity: { email: string };
     SelectForVerify: { email: string };
-    AddCoin: { 
-      _id: string; 
-      firstname: string; 
-      lastname: string; 
-      email: string; 
-      coins: number;
-      phoneNumber: string; 
+    AddCoin: {
+        _id: string;
+        firstname: string;
+        lastname: string;
+        email: string;
+        coins: number;
+        phoneNumber: string;
     };
-    AddCoinQR: {qrCode:string,id:string};
-    // AddCoinQR:undefined;
+    AddCoinQR: { qrCode: string; id: string; email: string; coins: number ; addcoins: number};
 };
 
 const ProfileStack = () => {

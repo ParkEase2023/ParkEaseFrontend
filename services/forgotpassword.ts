@@ -2,7 +2,7 @@ import { http } from '../config/axiosInstance';
 
 interface Iforgetpassword {
     password:string
-  }
+}
 
 export const checkemail = async (email:any) => {
     const res = await http.get('/forget/checkemail', {params: {email: email}});

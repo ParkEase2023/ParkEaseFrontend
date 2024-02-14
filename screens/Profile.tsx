@@ -85,6 +85,13 @@ const Profile = () => {
         getUserProfile();
     }, []);
 
+    // useEffect(() => {
+    //     const unsubscribe = navigation.addListener('focus', () => {
+    //         getUserProfile();
+    //     });
+    //     return unsubscribe;
+    // }, [navigation]);
+
     const handleLogout = async () => {
         setLoggedIn(false);
         await AsyncStorage.removeItem('token');

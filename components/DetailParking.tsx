@@ -54,6 +54,7 @@ const DetailParking = (props: IDetail) => {
 
     useEffect(() => {
         checkHeart();
+        console.log(props.reload);
     }, [props.reload]);
 
     useEffect(() => {
@@ -62,6 +63,7 @@ const DetailParking = (props: IDetail) => {
     
 
     const checkHeart = async () => {
+        console.log("checkHeart working")
         const { data } = await getProfile();
         setUserId(data._id);
         let list: any = await getMyList(data._id);
@@ -69,13 +71,18 @@ const DetailParking = (props: IDetail) => {
             {
                 list.myList.map((item: any, index: any) => {
                     if (item.myList[0]._id === props.parkingId) {
+                        console.log("checkHeart true")
                         setHeart(true);
                         setMyListId(item._id);
                     } else {
+                        console.log("checkHeart flase")
                         setHeart(false);
                     }
                 });
             }
+        }
+        else {
+            setHeart(false);
         }
     };
 
