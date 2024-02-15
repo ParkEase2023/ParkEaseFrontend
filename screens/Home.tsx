@@ -43,6 +43,7 @@ import { mapStyle } from '../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MenuParamList } from '../stack/MenuStack';
+import { getProfile } from '../services/user';
 
 interface Position {
     latitude: number;
@@ -90,6 +91,10 @@ LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
 //     return <Child reload={reload} key={key} />;
 // };
 
+export interface IProfile {
+    profile_picture: string;
+}
+
 
 const Home = () => {
     const [title, setTitle] = useState('');
@@ -130,6 +135,13 @@ const Home = () => {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
     });
+
+
+    const [profile, setProfile] = React.useState<IProfile>({
+        profile_picture:
+            'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png'
+    });
+
     useEffect(() => {
         requestPermissions();
         Geolocation.getCurrentPosition(
@@ -166,6 +178,15 @@ const Home = () => {
             setListParking(dataParking.data);
         };
         fetchData();
+    }, []);
+
+    const getUserProfile = async () => {
+        const { data } = await getProfile();
+        setProfile(data);
+    };
+
+    useEffect(() => {
+        getUserProfile();
     }, []);
 
     useEffect(() => {
@@ -368,6 +389,7 @@ const Home = () => {
                         backgroundColor={'#10152F'}
                         backDropColor={'none'}>
                         <DetailParking
+                            profile_picture={profile.profile_picture}
                             reload={reload}
                             Title={title}
                             Price={price}

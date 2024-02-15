@@ -19,6 +19,9 @@ import { addMyList, getMyList } from '../services/mylist';
 import AuthContext from '../context/AuthContext';
 import ButtonHeartDisabled from './ButtonHeartDisabled';
 import ButtonHeart from './ButtonHeart';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { HomeParamList } from '../stack/HomeStack';
 export interface IDetail {
     Title: string;
     Price: string;
@@ -42,6 +45,7 @@ export interface IDetail {
     su: boolean;
     parkingId: string;
     reload: boolean;
+    profile_picture: string;
 }
 
 const DetailParking = (props: IDetail) => {
@@ -51,6 +55,7 @@ const DetailParking = (props: IDetail) => {
     const [myListId, setMyListId] = useState('');
     const [dayOpenAll, setDayOpenAll] = useState('');
     const { isLoggedIn } = useContext(AuthContext);
+    const navigation = useNavigation<NativeStackNavigationProp<HomeParamList>>();
 
     useEffect(() => {
         checkHeart();
@@ -59,11 +64,10 @@ const DetailParking = (props: IDetail) => {
 
     useEffect(() => {
         reloadValue();
-    }, [heart])
-    
+    }, [heart]);
 
     const checkHeart = async () => {
-        console.log("checkHeart working")
+        console.log('checkHeart working');
         const { data } = await getProfile();
         setUserId(data._id);
         let list: any = await getMyList(data._id);
@@ -71,17 +75,16 @@ const DetailParking = (props: IDetail) => {
             {
                 list.myList.map((item: any, index: any) => {
                     if (item.myList[0]._id === props.parkingId) {
-                        console.log("checkHeart true")
+                        console.log('checkHeart true');
                         setHeart(true);
                         setMyListId(item._id);
                     } else {
-                        console.log("checkHeart flase")
+                        console.log('checkHeart flase');
                         setHeart(false);
                     }
                 });
             }
-        }
-        else {
+        } else {
             setHeart(false);
         }
     };
@@ -228,34 +231,35 @@ const DetailParking = (props: IDetail) => {
                 </View>
 
                 <Text style={styles.titleRateReview}>Rate & Review</Text>
-
-                <View style={styles.rowRateReview}>
-                    <View style={styles.rowItemLeft}>
-                        <Image
-                            source={require('../assets/smallProfile.png')}
-                            style={styles.smallProfile}
-                        />
-                        <View style={styles.rowBigStar}>
-                            <View style={styles.star}>
-                                <Star size={30} weight="regular" color="#565E8B" />
-                            </View>
-                            <View style={styles.star}>
-                                <Star size={30} weight="regular" color="#565E8B" />
-                            </View>
-                            <View style={styles.star}>
-                                <Star size={30} weight="regular" color="#565E8B" />
-                            </View>
-                            <View style={styles.star}>
-                                <Star size={30} weight="regular" color="#565E8B" />
-                            </View>
-                            <View style={styles.star}>
-                                <Star size={30} weight="regular" color="#565E8B" />
+                <TouchableOpacity onPress={()=>navigation.navigate("Review")}>
+                    <View style={styles.rowRateReview}>
+                        <View style={styles.rowItemLeft}>
+                            <Image
+                                source={{ uri: props.profile_picture }}
+                                style={styles.smallProfile}
+                            />
+                            <View style={styles.rowBigStar}>
+                                <View style={styles.star}>
+                                    <Star size={30} weight="regular" color="#565E8B" />
+                                </View>
+                                <View style={styles.star}>
+                                    <Star size={30} weight="regular" color="#565E8B" />
+                                </View>
+                                <View style={styles.star}>
+                                    <Star size={30} weight="regular" color="#565E8B" />
+                                </View>
+                                <View style={styles.star}>
+                                    <Star size={30} weight="regular" color="#565E8B" />
+                                </View>
+                                <View style={styles.star}>
+                                    <Star size={30} weight="regular" color="#565E8B" />
+                                </View>
                             </View>
                         </View>
-                    </View>
 
-                    <CaretRight size={24} weight="bold" color="#565E8B" />
-                </View>
+                        <CaretRight size={24} weight="bold" color="#565E8B" />
+                    </View>
+                </TouchableOpacity>
                 <View style={styles.line} />
                 <Comment />
             </View>

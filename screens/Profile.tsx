@@ -95,7 +95,8 @@ const Profile = () => {
     const handleLogout = async () => {
         setLoggedIn(false);
         await AsyncStorage.removeItem('token');
-        navigation.replace('MenuStack', { screen: 'HomeStack' });
+        navigation.replace('MenuStack', { state: undefined });
+
     };
 
     const handleEditProfile = async () => {
