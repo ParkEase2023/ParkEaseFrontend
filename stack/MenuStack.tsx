@@ -5,7 +5,6 @@ import { Bell, Bookmark, Heart, MapTrifold, Plus, User } from 'phosphor-react-na
 import HomeStack, { HomeParamList } from '../stack/HomeStack';
 import MyList from '../screens/MyList';
 import AddParking from '../screens/AddParking';
-import Notification from '../screens/Notification';
 import Profile from '../screens/Profile';
 import LinearGradient from 'react-native-linear-gradient';
 import { SvgUri } from 'react-native-svg';
