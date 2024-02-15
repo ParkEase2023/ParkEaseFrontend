@@ -1,11 +1,13 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { CaretLeft } from 'phosphor-react-native';
-import ContentNotification from '../components/ContentNotification';
+import ContentNotification from '../components/ContentNotificationAddCoins';
 import ContentNotificationWithdraw from '../components/ContentNotificationWithdraw';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ProfileParamList } from '../stack/ProfileStack';
+import ContentNotificationOutgoing from '../components/ContentNotificationOutgoing';
+import ContentNotificationIncoming from '../components/ContentNotificationIncoming';
 
 const Notification = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
@@ -21,6 +23,8 @@ const Notification = () => {
             <ScrollView style={styles.container}>
                 <ContentNotification />
                 <ContentNotificationWithdraw></ContentNotificationWithdraw>
+                <ContentNotificationOutgoing></ContentNotificationOutgoing>
+                <ContentNotificationIncoming></ContentNotificationIncoming>
             </ScrollView>
         </View>
     );

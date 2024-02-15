@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 
-const ContentNotification = () => {
+const ContentNotificationOutgoing = () => {
     return (
         <TouchableOpacity style={styles.NotificationContainer}>
             <View style={styles.row}>
@@ -25,7 +25,7 @@ const ContentNotification = () => {
     );
 };
 
-export default ContentNotification;
+export default ContentNotificationOutgoing;
 
 const styles = StyleSheet.create({
     NotificationContainer: {
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     },
     lastRow: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-between'
     },
     title: {
         fontFamily: 'RedHatText-Bold',

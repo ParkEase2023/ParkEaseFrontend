@@ -112,7 +112,7 @@ const MenuStack = () => {
                         tabBarStyle: (() => {
                             const routeName = getFocusedRouteNameFromRoute(route);
 
-                            if (routeName === 'EditProfile' || routeName === 'AddCoin') {
+                            if (routeName === 'EditProfile' || routeName === 'AddCoin' || routeName === 'Notification') {
                                 return { display: 'none' , tabBarHideOnKeyboard: false };
                             }
 
