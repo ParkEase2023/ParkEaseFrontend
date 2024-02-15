@@ -39,7 +39,7 @@ const PopupVerify = (props: IPopup) => {
                     {'\n'}and to apply for membership.
                 </Text>
                 <TouchableOpacity style={styles.btnSend} onPress={handleNevi}>
-                    <Text style={styles.textSend}>Verify</Text>
+                    <Text style={styles.textSend}>VERIFY</Text>
                 </TouchableOpacity>
             </View>
         </Modal>
@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
     },
     btnSend: {
         backgroundColor: '#10152F',
-        borderRadius: 16,
-        paddingVertical: 16,
+        borderRadius: 12,
+        paddingVertical: 12,
         width: '100%'
     },
     textSend: {
