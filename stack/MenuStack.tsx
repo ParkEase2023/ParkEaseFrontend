@@ -24,6 +24,9 @@ import CheckInformation from '../screens/CheckInformation';
 import PaymentBill from '../components/PaymentBill';
 import WithdrawalReceipt from '../screens/WithdrawalReceipt';
 import WithdrawMoney from '../screens/WithdrawMoney';
+import BindAnAccount from '../screens/BindAnAccount';
+import InspectionInProgress from '../screens/InspectionInProgress';
+import BankInformation from '../screens/BankInformation';
 export type MenuParamList = {
     HomeStack: undefined;
     MyList: undefined;
@@ -78,7 +81,7 @@ const MenuStack = () => {
                 />
                 <Stack.Screen
                     name="AddParkingStack"
-                    component={ WithdrawalReceipt }
+                    component={ InspectionInProgress }
                     // onPress={() =>
                     //   navigation.navigate('AddToiletStack', {screen: 'AddToilet'})
                     // }
@@ -92,7 +95,7 @@ const MenuStack = () => {
                 />
                 <Stack.Screen
                     name="NotificationStack"
-                    component={ CheckInformation }
+                    component={ BankInformation }
                     options={{
                         tabBarIcon: ({ focused, color, size }) => (
                             <Bookmark  color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
@@ -101,7 +104,7 @@ const MenuStack = () => {
                 />
                 <Stack.Screen
                     name="ProfileStack"
-                    component={ WithdrawMoney }
+                    component={ BindAnAccount }
                     options={({ route }) => ({
                         tabBarStyle: (() => {
                             const routeName = getFocusedRouteNameFromRoute(route);
