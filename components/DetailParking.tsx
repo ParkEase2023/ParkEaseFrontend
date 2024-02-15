@@ -185,6 +185,7 @@ const DetailParking = (props: IDetail) => {
     }, [props.Title]);
 
     LogBox.ignoreLogs(['new NativeEventEmitter']);
+    LogBox.ignoreLogs(['Cannot update a component (`DetailParking`)']);
     const ReaderBtn = (): JSX.Element | null => {
         if (props.Opening_status == true) {
             return <Text style={styles.textOpen}>Open</Text>;

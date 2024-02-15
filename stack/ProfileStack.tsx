@@ -30,7 +30,7 @@ export type ProfileParamList = {
         coins: number;
         phoneNumber: string;
     };
-    AddCoinQR: { qrCode: string; id: string; email: string; coins: number ; addcoins: number};
+    AddCoinQR: { qrCode: string; id: string; email: string; coins: number; addcoins: number ; userId:string};
 };
 
 const ProfileStack = () => {

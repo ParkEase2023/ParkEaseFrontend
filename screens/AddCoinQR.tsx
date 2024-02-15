@@ -23,6 +23,7 @@ import Modal from 'react-native-modal';
 import Toast from 'react-native-toast-message';
 import { addCoins } from '../services/transaction';
 import { sendEmailNoti } from '../services/email';
+import { createNotification } from '../services/notification';
 
 const AddCoinQR = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
@@ -61,16 +62,6 @@ const AddCoinQR = () => {
             });
     };
 
-    // const showToast = () => {
-    //     Toast.show({
-    //         type: 'success',
-    //         text1: '🥳  Add My Favorite Successfully!!!',
-    //         text2: 'Can you see my favorite.',
-    //         autoHide: true,
-    //         visibilityTime: 3000
-    //     });
-    // };
-
     const transactions = async () => {
         const body = {
             coins: params.coins,
@@ -86,6 +77,17 @@ const AddCoinQR = () => {
         });
     };
 
+    const createNoti = async () => {
+        const Notification : any = await createNotification({
+            userId: params.userId,
+            Topic: "Add coins",
+            Booking: false,
+            From: "",
+            Parking_name:"",
+            Coins:params.addcoins
+        });
+    };
+
     const handleOpenmodal = () => {
         const duration = 3 * 1000;
         setVisible(true);
@@ -93,6 +95,7 @@ const AddCoinQR = () => {
         const timer = setTimeout(() => {
             setVisible(false);
             transactions();
+            createNoti()
             navigation.replace('Profile');
         }, duration);
 
@@ -166,9 +169,6 @@ const AddCoinQR = () => {
                     }}
                 />
             </View>
-            {/* <TouchableOpacity onPress={showToast} style={styles.btnConfirm}>
-                <Text style={styles.textConfirm}>FINSHED</Text>
-            </TouchableOpacity> */}
 
             <Modal isVisible={visible} backdropOpacity={0.9} backdropColor="#262D57">
                 <View style={styles.modalContainer}>
