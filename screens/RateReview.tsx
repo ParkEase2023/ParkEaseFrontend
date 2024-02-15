@@ -9,12 +9,15 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Star, X } from 'phosphor-react-native';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeParamList } from '../stack/HomeStack';
 import RequireLogin from '../components/RequireLogin';
 import { getProfile } from '../services/user';
 import StarRating from '../components/StarRating';
+import { createComment } from '../services/comment';
+import Modal from 'react-native-modal';
+import Good from '../assets/Good.png';
 
 export interface IProfile {
     _id: string;
@@ -33,16 +36,40 @@ const RateReview = () => {
         profile_picture:
             'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png'
     });
+    const { params } = useRoute<RouteProp<HomeParamList, 'Review'>>();
     const [rating, setRating] = useState(0);
-
+    const [review, setReview] = useState('');
+    const [visible, setVisible] = useState(false);
     const getUserProfile = async () => {
         const { data } = await getProfile();
         setProfile(data);
     };
 
+    const handleOpenmodal = () => {
+        const duration = 3 * 1000;
+        setVisible(true);
+
+        const timer = setTimeout(() => {
+            setVisible(false);
+            postComment();
+            navigation.replace('Home');
+        }, duration);
+
+        return () => clearTimeout(timer);
+    };
+
     useEffect(() => {
         getUserProfile();
     }, []);
+
+    const postComment = async () => {
+        const createcomment: any = await createComment({
+            createBy: profile._id,
+            parkingId: params.parkingId,
+            comment: review,
+            rate: rating
+        });
+    };
 
     const navigation = useNavigation<NativeStackNavigationProp<HomeParamList>>();
     return (
@@ -52,7 +79,7 @@ const RateReview = () => {
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <X size={22} weight="bold" color="#EEF0FF" />
                     </TouchableOpacity>
-                    <Text style={styles.title}>อาคารจอดรถ 5 ชั้น</Text>
+                    <Text style={styles.title}>{params.parking_name}</Text>
                 </View>
 
                 <View style={styles.rowDetailComment}>
@@ -66,11 +93,6 @@ const RateReview = () => {
                 </View>
 
                 <View style={styles.rowStar}>
-                    {/* <Star size={34} weight="fill" color="#FFDE00" />
-                    <Star size={34} weight="fill" color="#FFDE00" />
-                    <Star size={34} weight="fill" color="#FFDE00" />
-                    <Star size={34} weight="fill" color="#FFDE00" />
-                    <Star size={34} weight="regular" color="#565E8B" /> */}
                     <StarRating
                         onSelected={value => {
                             setRating(value);
@@ -82,6 +104,7 @@ const RateReview = () => {
 
                 <View style={{ marginTop: 8 }}>
                     <TextInput
+                        onChangeText={text => setReview(text)}
                         style={styles.textInputMultiLine}
                         placeholder="What do you think about this place?"
                         placeholderTextColor="#7F85B2"
@@ -91,9 +114,17 @@ const RateReview = () => {
                     />
                 </View>
 
-                <TouchableOpacity style={styles.btnPost}>
+                <TouchableOpacity style={styles.btnPost} onPress={handleOpenmodal}>
                     <Text style={styles.textPost}>POST</Text>
                 </TouchableOpacity>
+
+                <Modal isVisible={visible} backdropOpacity={0.9} backdropColor="#262D57">
+                    <View style={styles.modalContainer}>
+                        <Image source={Good} style={styles.imageGood} />
+                        <Text style={styles.modalText}>Finished!</Text>
+                        <Text style={styles.modalText2}>Yahoo! You addcoin successfully.</Text>
+                    </View>
+                </Modal>
             </View>
         </RequireLogin>
     );
@@ -167,5 +198,30 @@ const styles = StyleSheet.create({
         color: '#262D57',
         fontSize: 16,
         fontWeight: 'bold'
+    },
+    modalContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#EEF0FF',
+        borderRadius: 16,
+        paddingHorizontal: 25,
+        marginHorizontal: 35
+    },
+    imageGood: {
+        marginTop: -115,
+        marginBottom: 16
+    },
+    modalText: {
+        fontFamily: 'RedHatText-Bold',
+        fontSize: 24,
+        color: '#10152F',
+        marginBottom: 16
+    },
+    modalText2: {
+        fontFamily: 'RedHatText-Regular',
+        fontSize: 16,
+        color: '#262D57',
+        textAlign: 'center',
+        marginBottom: 30
     }
 });

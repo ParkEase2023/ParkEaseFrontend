@@ -22,6 +22,7 @@ import ButtonHeart from './ButtonHeart';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeParamList } from '../stack/HomeStack';
+import { getComment } from '../services/comment';
 export interface IDetail {
     Title: string;
     Price: string;
@@ -48,14 +49,28 @@ export interface IDetail {
     profile_picture: string;
 }
 
+interface Comment {
+    CreateBy: string;
+    toiletId: string;
+    comment: string;
+    rate: number;
+    updatedAt: string;
+    result: any;
+}
+
 const DetailParking = (props: IDetail) => {
+    let Rate: number = 0;
+    let sumRate: number = 0;
     const [heart, setHeart] = useState(false);
     const [ticker, setTicker] = useState(false);
     const [userId, setUserId] = useState('');
     const [myListId, setMyListId] = useState('');
     const [dayOpenAll, setDayOpenAll] = useState('');
+    const [checkData, setCheckData] = useState('');
     const { isLoggedIn } = useContext(AuthContext);
+    const [comment, setComment] = useState<Comment[]>([]);
     const navigation = useNavigation<NativeStackNavigationProp<HomeParamList>>();
+    const [SumRate, setsumRate] = useState('');
 
     useEffect(() => {
         checkHeart();
@@ -63,8 +78,48 @@ const DetailParking = (props: IDetail) => {
     }, [props.reload]);
 
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const comments: any = await getComment(props.parkingId);
+                setComment(comments.Comment);
+                setCheckData(comments.message);
+            } catch (err: any) {
+                setCheckData(err.message);
+                console.log(err.message);
+            }
+        };
+        fetchData();
+    }, [props.reload]);
+
+    useEffect(() => {
         reloadValue();
     }, [heart]);
+
+    const RenderComment = (): JSX.Element | null => {
+        if (checkData === 'success' && comment[0] !== undefined) {
+            return (
+                <>
+                    {comment.map((item: any, index) => {
+                        Rate += item.rate;
+                        sumRate = Rate / comment.length;
+                        setsumRate(sumRate.toFixed(1));
+                        return (
+                            <Comment
+                                key={index}
+                                image={item.result[0].profile_picture}
+                                username={item.result[0].firstname + item.result[0].lastname}
+                                rating={item.rate}
+                                date={item.updatedAt}
+                                comment={item.comment}
+                            />
+                        );
+                    })}
+                </>
+            );
+        } else {
+            return null;
+        }
+    };
 
     const checkHeart = async () => {
         console.log('checkHeart working');
@@ -173,7 +228,7 @@ const DetailParking = (props: IDetail) => {
                     <Text style={styles.textTitle}>{props.Title}</Text>
                     <View style={styles.rate}>
                         <Star size={12} weight="fill" color="#FFDE00" />
-                        <Text style={styles.textRate}>4.5</Text>
+                        <Text style={styles.textRate}>{SumRate}</Text>
                     </View>
                 </View>
 
@@ -231,7 +286,13 @@ const DetailParking = (props: IDetail) => {
                 </View>
 
                 <Text style={styles.titleRateReview}>Rate & Review</Text>
-                <TouchableOpacity onPress={()=>navigation.navigate("Review")}>
+                <TouchableOpacity
+                    onPress={() =>
+                        navigation.navigate('Review', {
+                            parkingId: props.parkingId,
+                            parking_name: props.Title
+                        })
+                    }>
                     <View style={styles.rowRateReview}>
                         <View style={styles.rowItemLeft}>
                             <Image
@@ -261,7 +322,7 @@ const DetailParking = (props: IDetail) => {
                     </View>
                 </TouchableOpacity>
                 <View style={styles.line} />
-                <Comment />
+                <RenderComment></RenderComment>
             </View>
         </View>
     );

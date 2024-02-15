@@ -6,7 +6,7 @@ import RateReview from '../screens/RateReview';
 
 export type HomeParamList = {
     Home: undefined;
-    Review: undefined;
+    Review: {parkingId: string, parking_name: string};
 };
 
 const HomeStack = () => {
