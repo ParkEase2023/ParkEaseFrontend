@@ -12,70 +12,90 @@ const ApplyForMembership = () => {
             </View>
             <View style={styles.line} />
             <ScrollView style={styles.container}>
-                <View style={styles.member}>
-                    <View style={styles.rowPrice}>
-                        <CoinVertical size={36} weight="fill" color="#FEFA94" />
-                        <Text style={styles.textPrice}>49</Text>
-                        <Text style={styles.textMonth}>/mo</Text>
-                    </View>
-                    <Text style={styles.title}>Member</Text>
+                <LinearGradient
+                    start={{ x: 0, y: 0.5 }}
+                    end={{ x: 1, y: 0.5 }}
+                    colors={[
+                        '#FEFA94',
+                        'hsl(144.33962264150944, 98.14814814814815%, 78.82352941176471%)',
+                        '#95EDFF'
+                    ]}
+                    style={styles.borderLinearGradient}>
+                    <View style={styles.member}>
+                        <View style={styles.rowPrice}>
+                            <CoinVertical size={36} weight="fill" color="#FEFA94" />
+                            <Text style={styles.textPrice}>49</Text>
+                            <Text style={styles.textMonth}>/mo</Text>
+                        </View>
+                        <Text style={styles.title}>Member</Text>
 
-                    <View style={styles.rowCondition}>
-                        <Check size={20} weight="bold" color="#94FEBF" />
-                        <Text style={styles.textCondition}>Can reservations</Text>
-                    </View>
-                    <View style={styles.rowCondition}>
-                        <Check size={20} weight="bold" color="#94FEBF" />
-                        <Text style={styles.textCondition}>Can do transactions</Text>
-                    </View>
-                    <View style={styles.rowCondition}>
-                        <Check size={20} weight="bold" color="#94FEBF" />
-                        <Text style={styles.textCondition}>
-                            Can add parking locations for information
-                        </Text>
-                    </View>
+                        <View style={styles.rowCondition}>
+                            <Check size={20} weight="bold" color="#94FEBF" />
+                            <Text style={styles.textCondition}>Can reservations</Text>
+                        </View>
+                        <View style={styles.rowCondition}>
+                            <Check size={20} weight="bold" color="#94FEBF" />
+                            <Text style={styles.textCondition}>Can do transactions</Text>
+                        </View>
+                        <View style={styles.rowCondition}>
+                            <Check size={20} weight="bold" color="#94FEBF" />
+                            <Text style={styles.textCondition}>
+                                Can add parking locations for information
+                            </Text>
+                        </View>
 
-                    <TouchableOpacity>
-                        <LinearGradient
-                            start={{ x: 0, y: 0.5 }}
-                            end={{ x: 1, y: 0.5 }}
-                            colors={['#FEFA94', '#94FEBF', '#95EDFF']}
-                            style={styles.linearGradient}>
-                            <Text style={styles.textStart}>GET STARTED NOW</Text>
-                        </LinearGradient>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.partner}>
-                    <View style={styles.rowPrice}>
-                        <CoinVertical weight="fill" color="#FEFA94" />
-                        <Text style={styles.textPrice}>99</Text>
-                        <Text style={styles.textMonth}>/mo</Text>
+                        <TouchableOpacity>
+                            <LinearGradient
+                                start={{ x: 0, y: 0 }}
+                                end={{ x: 1, y: 0 }}
+                                colors={['#FEFA94', '#94FEBF', '#95EDFF']}
+                                style={styles.btnLinearGradient}>
+                                <Text style={styles.textStart}>GET STARTED NOW</Text>
+                            </LinearGradient>
+                        </TouchableOpacity>
                     </View>
-                    <Text style={styles.title}>Partner</Text>
+                </LinearGradient>
+                <LinearGradient
+                    start={{ x: 0, y: 0.5 }}
+                    end={{ x: 1, y: 0.5 }}
+                    colors={[
+                        '#FEFA94',
+                        'hsl(144.33962264150944, 98.14814814814815%, 78.82352941176471%)',
+                        '#95EDFF'
+                    ]}
+                    style={styles.borderLinearGradient}>
+                    <View style={styles.partner}>
+                        <View style={styles.rowPrice}>
+                            <CoinVertical weight="fill" color="#FEFA94" />
+                            <Text style={styles.textPrice}>99</Text>
+                            <Text style={styles.textMonth}>/mo</Text>
+                        </View>
+                        <Text style={styles.title}>Partner</Text>
 
-                    <View style={styles.rowCondition}>
-                        <Check weight="bold" color="#94FEBF" />
-                        <Text style={styles.textCondition}>
-                            Partner have the same rights as members.
-                        </Text>
-                    </View>
-                    <View style={styles.rowCondition}>
-                        <Check weight="bold" color="#94FEBF" />
-                        <Text style={styles.textCondition}>
-                            Can add parking locations for booking
-                        </Text>
-                    </View>
+                        <View style={styles.rowCondition}>
+                            <Check weight="bold" color="#94FEBF" />
+                            <Text style={styles.textCondition}>
+                                Partner have the same rights as members.
+                            </Text>
+                        </View>
+                        <View style={styles.rowCondition}>
+                            <Check weight="bold" color="#94FEBF" />
+                            <Text style={styles.textCondition}>
+                                Can add parking locations for booking
+                            </Text>
+                        </View>
 
-                    <TouchableOpacity>
-                        <LinearGradient
-                            start={{ x: 0, y: 0.5 }}
-                            end={{ x: 1, y: 0.5 }}
-                            colors={['#FEFA94', '#94FEBF', '#95EDFF']}
-                            style={styles.linearGradient}>
-                            <Text style={styles.textStart}>GET STARTED NOW</Text>
-                        </LinearGradient>
-                    </TouchableOpacity>
-                </View>
+                        <TouchableOpacity>
+                            <LinearGradient
+                                start={{ x: 0, y: 0.5 }}
+                                end={{ x: 1, y: 0.5 }}
+                                colors={['#FEFA94', '#94FEBF', '#95EDFF']}
+                                style={styles.btnLinearGradient}>
+                                <Text style={styles.textStart}>GET STARTED NOW</Text>
+                            </LinearGradient>
+                        </TouchableOpacity>
+                    </View>
+                </LinearGradient>
             </ScrollView>
         </View>
     );
@@ -108,14 +128,18 @@ const styles = StyleSheet.create({
         borderBottomColor: '#262D57',
         borderBottomWidth: 1
     },
-    member: {
-        backgroundColor: '#1E2139',
+    borderLinearGradient: {
         borderRadius: 16,
-        padding: 16,
+        padding: 3,
         marginBottom: 25
     },
+    member: {
+        backgroundColor: '#10152F',
+        borderRadius: 16,
+        padding: 16
+    },
     partner: {
-        backgroundColor: '#1E2139',
+        backgroundColor: '#10152F',
         borderRadius: 16,
         padding: 16
     },
@@ -153,7 +177,7 @@ const styles = StyleSheet.create({
         color: '#DFE2F8',
         marginLeft: 12
     },
-    linearGradient: {
+    btnLinearGradient: {
         borderRadius: 12,
         paddingVertical: 12,
         marginTop: 20
