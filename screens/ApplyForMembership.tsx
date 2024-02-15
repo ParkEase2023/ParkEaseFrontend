@@ -40,7 +40,7 @@ const ApplyForMembership = () => {
                         <View style={styles.rowCondition}>
                             <Check size={20} weight="bold" color="#94FEBF" />
                             <Text style={styles.textCondition}>
-                                Can add parking locations for information
+                                Can add parking locations for{'\n'}information
                             </Text>
                         </View>
 
@@ -75,13 +75,13 @@ const ApplyForMembership = () => {
                         <View style={styles.rowCondition}>
                             <Check weight="bold" color="#94FEBF" />
                             <Text style={styles.textCondition}>
-                                Partner have the same rights as members.
+                                Partner have the same rights as{'\n'}members.
                             </Text>
                         </View>
                         <View style={styles.rowCondition}>
                             <Check weight="bold" color="#94FEBF" />
                             <Text style={styles.textCondition}>
-                                Can add parking locations for booking
+                                Can add parking locations for{'\n'}booking
                             </Text>
                         </View>
 
