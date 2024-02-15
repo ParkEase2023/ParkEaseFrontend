@@ -24,11 +24,12 @@ import CheckInformation from '../screens/CheckInformation';
 import PaymentBill from '../components/PaymentBill';
 import WithdrawalReceipt from '../screens/WithdrawalReceipt';
 import WithdrawMoney from '../screens/WithdrawMoney';
+import MyBooking from '../screens/MyBooking';
 export type MenuParamList = {
     HomeStack: NavigatorScreenParams<HomeParamList>;
     MyList: undefined;
     AddParkingStack: undefined;
-    NotificationStack: undefined;
+    BookingStack: undefined;
     ProfileStack: NavigatorScreenParams<ProfileParamList>;
 };
 
@@ -96,8 +97,8 @@ const MenuStack = () => {
                     }}
                 />
                 <Stack.Screen
-                    name="NotificationStack"
-                    component={ Notification }
+                    name="BookingStack"
+                    component={ MyBooking }
                     options={{
                         tabBarIcon: ({ focused, color, size }) => (
                             <Bookmark  color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />

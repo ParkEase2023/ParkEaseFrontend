@@ -54,6 +54,7 @@ const Profile = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
     const navigationEditProfile = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const navigationAddCoin = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
+    const navigationNotification = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
     const [visible, setVisible] = useState(false);
     const [ticker, setTicker] = useState(false);
@@ -298,7 +299,7 @@ const Profile = () => {
                             </View>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.btnRectangle}>
+                        <TouchableOpacity style={styles.btnRectangle} onPress={() => navigationNotification.navigate("Notification")}>
                             <View style={styles.itemLeft}>
                                 <View style={styles.bgIcon}>
                                     <Bell size={22} weight="fill" color="#EEF0FF" />

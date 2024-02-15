@@ -7,6 +7,7 @@ import VerifyYourIdentify from '../screens/VerifyYourIdentity';
 import SelectForVerify from '../screens/SelectForVerify';
 import AddCoin from '../screens/AddCoin';
 import AddCoinQR from '../screens/AddCoinQR';
+import Notification from '../screens/Notification';
 
 export type ProfileParamList = {
     Profile: undefined;
@@ -19,7 +20,6 @@ export type ProfileParamList = {
         profile_picture: string;
         password: string;
     };
-
     VerifyIdentity: { email: string };
     SelectForVerify: { email: string };
     AddCoin: {
@@ -30,7 +30,15 @@ export type ProfileParamList = {
         coins: number;
         phoneNumber: string;
     };
-    AddCoinQR: { qrCode: string; id: string; email: string; coins: number; addcoins: number ; userId:string};
+    AddCoinQR: {
+        qrCode: string;
+        id: string;
+        email: string;
+        coins: number;
+        addcoins: number;
+        userId: string;
+    };
+    Notification: undefined
 };
 
 const ProfileStack = () => {
@@ -47,6 +55,7 @@ const ProfileStack = () => {
             <Stack.Screen name="SelectForVerify" component={SelectForVerify} />
             <Stack.Screen name="AddCoin" component={AddCoin} />
             <Stack.Screen name="AddCoinQR" component={AddCoinQR} />
+            <Stack.Screen name="Notification" component={Notification} />
         </Stack.Navigator>
     );
 };
