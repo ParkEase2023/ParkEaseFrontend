@@ -7,7 +7,9 @@ const ApplyForMembership = () => {
     return (
         <View style={styles.bg}>
             <View style={styles.rowTopic}>
-                <CaretLeft size={22} weight="bold" color="#EEF0FF" />
+                <TouchableOpacity>
+                    <CaretLeft size={22} weight="bold" color="#EEF0FF" />
+                </TouchableOpacity>
                 <Text style={styles.topic}>Apply For Membership</Text>
             </View>
             <View style={styles.line} />
@@ -105,8 +107,8 @@ export default ApplyForMembership;
 
 const styles = StyleSheet.create({
     bg: {
-        backgroundColor: '#10152F',
-        flex: 1
+        flex: 1,
+        backgroundColor: '#10152F'
     },
     container: {
         padding: 25
