@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     btnNextStepActive: {
         marginHorizontal: 25,
         backgroundColor: '#10152F',
-        paddingVertical: 16,
+        paddingVertical: 18,
         alignItems: 'center',
         borderRadius: 16
     },
