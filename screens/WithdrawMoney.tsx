@@ -124,6 +124,7 @@ const WithdrawMoney = () => {
                             <Text style={styles.textConfirm}>CONFIRM</Text>
                         </TouchableOpacity>
                     </View>
+                    
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
