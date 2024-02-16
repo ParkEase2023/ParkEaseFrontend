@@ -24,6 +24,7 @@ import PopupMember from '../components/PopupMember';
 import ApplyForMembership from '../screens/ApplyForMembership';
 import Member from '../screens/Member';
 import Partner from '../screens/Partner';
+import SelectParkingType from '../screens/SelectParkingType';
 
 export type MenuParamList = {
     HomeStack: undefined;
@@ -93,8 +94,9 @@ const MenuStack = () => {
                 />
                 <Stack.Screen
                     name="NotificationStack"
-                    component={Partner}
+                    component={SelectParkingType}
                     options={{
+                        tabBarStyle: { display: 'none' },
                         tabBarIcon: ({ focused, color, size }) => (
                             <Bookmark  color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
                         )
