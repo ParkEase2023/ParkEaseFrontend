@@ -299,7 +299,7 @@ const Profile = () => {
                             </View>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.btnRectangle} onPress={() => navigationNotification.navigate("Notification")}>
+                        <TouchableOpacity style={styles.btnRectangle} onPress={() => navigationNotification.navigate("Notification",{userId:profile._id})}>
                             <View style={styles.itemLeft}>
                                 <View style={styles.bgIcon}>
                                     <Bell size={22} weight="fill" color="#EEF0FF" />

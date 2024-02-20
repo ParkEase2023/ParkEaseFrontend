@@ -80,6 +80,7 @@ const AddCoinQR = () => {
     const createNoti = async () => {
         const Notification : any = await createNotification({
             userId: params.userId,
+            Parking_ownerId:params.userId,
             Topic: "Add coins",
             Booking: false,
             From: "",

@@ -38,7 +38,7 @@ export type ProfileParamList = {
         addcoins: number;
         userId: string;
     };
-    Notification: undefined
+    Notification: {userId:string}
 };
 
 const ProfileStack = () => {

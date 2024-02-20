@@ -1,16 +1,30 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
+import Moment from 'react-moment';
 
-const ContentNotificationAddCoins = () => {
+interface INotification {
+    coins: number;
+    date: string;
+}
+
+const ContentNotificationAddCoins = (props: INotification) => {
     return (
         <TouchableOpacity style={styles.NotificationContainer}>
             <View style={styles.row}>
                 <Text style={styles.title}>Add coins</Text>
-                <Text style={styles.price}>+ 500 Coins</Text>
+                <Text style={styles.price}>+ {props.coins} Coins</Text>
             </View>
 
             <View style={styles.rowDate}>
-                <Text style={styles.date}>21 Dec 2023 | 09:00</Text>
+                <Text style={styles.date}>
+                    <Moment format="DD/MM/YYYY" element={Text}>
+                        {props.date}
+                    </Moment>{' '}
+                    |{' '}
+                    <Moment format="HH:mm"  element={Text}>
+                        {props.date}
+                    </Moment>
+                </Text>
             </View>
         </TouchableOpacity>
     );
