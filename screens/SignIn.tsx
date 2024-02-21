@@ -42,7 +42,7 @@ const SignIn = () => {
                 AsyncStorage.setItem('token', res.token);
                 setLoggedIn(true);
                 console.log('token save to local storage successfully');
-                navigetAffterlogin.replace('MenuStack', { screen: 'HomeStack' });
+                navigetAffterlogin.replace('MenuStack', { state: undefined });
             }
         } catch (err: any) {
             setErrorsEmail('');

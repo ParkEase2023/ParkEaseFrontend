@@ -1,31 +1,46 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { DotsThreeVertical, Star } from 'phosphor-react-native';
+import Starsmall from './Starsmall';
+import Moment from 'react-moment';
 
-const Comment = () => {
+interface IComment {
+    image: string;
+    username: string;
+    rating: number;
+    date: string;
+    comment: string;
+}
+
+const Comment = (props: IComment) => {
+    const [rating, setRating] = useState(props.rating);
     return (
         <View>
             <View style={styles.rowComment}>
-                <Image source={require('../assets/smallProfile.png')} style={styles.smallProfile} />
+                <Image source={{uri: props.image}} style={styles.smallProfile} />
 
                 <View style={styles.rowDetailComment}>
-                    <Text style={styles.nameComment}>Charlie Gouse</Text>
+                    <Text style={styles.nameComment}>{props.username}</Text>
                     <View style={styles.rowLower}>
                         <View style={styles.rowSmallStar}>
-                            <Star size={12} weight="fill" color="#FFDE00" />
-                            <Star size={12} weight="fill" color="#FFDE00" />
-                            <Star size={12} weight="fill" color="#FFDE00" />
-                            <Star size={12} weight="fill" color="#FFDE00" />
-                            <Star size={12} weight="fill" color="#FFDE00" />
+                            <Text>
+                                {Array(5)
+                                    .fill(0)
+                                    .map((_, index) => (
+                                        <Starsmall key={index} filled={index < rating} />
+                                    ))}
+                            </Text>
                         </View>
-                        <Text style={styles.timeComment}>24/10/23</Text>
+                        <Moment format="DD/MM/YYYY" style={styles.timeComment} element={Text}>
+                            {props.date}
+                        </Moment>
                     </View>
                 </View>
 
                 <DotsThreeVertical size={24} weight="bold" color="#565E8B" />
             </View>
             <Text style={styles.textComment}>
-                ที่จอดรถดีมาก กว้าง สะอาด มีการดูแลเอาใจใส่ลูกค้าดีคร้าบ
+                {props.comment}
             </Text>
             <View style={styles.line2} />
         </View>

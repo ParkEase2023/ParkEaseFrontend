@@ -51,7 +51,14 @@ const AddCoin = () => {
             phonenumber: params.phoneNumber
         });
         if (res) {
-            navigation.navigate('AddCoinQR', { qrCode: res.data, id: res.dataId });
+            navigation.navigate('AddCoinQR', {
+                qrCode: res.data,
+                id: res.dataId,
+                userId: params._id,
+                email: params.email,
+                coins: params.coins,
+                addcoins: inputNumber
+            });
         }
     };
 
