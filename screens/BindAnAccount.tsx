@@ -41,17 +41,17 @@ const BindAnAccount = () => {
                 <View style={styles.mainContainer}>
                    <Text style={styles.headerTextbody}>Payer's Information</Text>
                     <View style={styles.row}>
-                            <View style={[styles.textboxName]}>
+                            <View style={styles.textboxName}>
                                 <TextInput
                                     style={styles.input}
-                                    placeholder="kierra"
+                                    placeholder="Name"
                                     keyboardType= "email-address"
                                 />
                             </View>
-                        <View style={[styles.textboxLastname]}>
+                        <View style={styles.textboxLastname}>
                             <TextInput
                                 style={styles.input}
-                                placeholder="Aminoff"
+                                placeholder="Last Name"
                                 keyboardType= "email-address"
                             />
                         </View> 
@@ -64,7 +64,7 @@ const BindAnAccount = () => {
                                 </View>
                                     <TextInput
                                         style={styles.inputBank}
-                                        placeholder="kierra.ami@gmail.com"
+                                        placeholder="Email"
                                         keyboardType= "email-address"
                                     />
                             </View>
@@ -80,7 +80,7 @@ const BindAnAccount = () => {
                                             placeholder="Tax ID  (13-digit ID card number)"
                                             keyboardType="email-address"
                                         /> 
-                                        <Eye size={32} />
+                                        <Eye size={32} weight='fill' color='gray' />
                                 </View>
                             </View>
                         </View>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { 
     View, 
     Text, 
@@ -7,9 +6,10 @@ import {
     TouchableOpacity,
     Image,
 } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
 import { CaretLeft, } from 'phosphor-react-native';
-
 const InspectionInProgress = () => {
+    const navigation = useNavigation();
     const handleConfirm = () => {
         console.log('Confirm');
     };
@@ -55,7 +55,9 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: '#EEF0FF'
+        backgroundColor: '#EEF0FF',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     mainContainer: {
         paddingHorizontal: 25,
@@ -70,10 +72,13 @@ const styles = StyleSheet.create({
     center: {
         flex: 1,
         alignItems: 'center',
+        justifyContent: 'center',
     },
     headerText: {
         fontSize: 18,
         color: '#10152F',
+        fontFamily: 'RedHatText-Bold',
+        textAlign: 'center',
     },
     line: {
         borderBottomColor: '#7F85B2',
@@ -85,16 +90,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 20,
-    },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    headerText: {
-        fontFamily: 'RedHatText-Bold',
-        fontSize: 20,
-        color: '#10152F',
     },
     bodyText: {
         fontFamily: 'RedHatText-Regular',
