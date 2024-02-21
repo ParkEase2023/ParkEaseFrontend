@@ -58,7 +58,7 @@ const MenuStack = () => {
                             const routeName = getFocusedRouteNameFromRoute(route);
 
                             if (routeName === 'Review') {
-                                return { display: 'none' , tabBarHideOnKeyboard: false };
+                                return { display: 'none', tabBarHideOnKeyboard: false };
                             }
 
                             return { backgroundColor: '#10152F', height: 55 };
@@ -83,10 +83,7 @@ const MenuStack = () => {
                 />
                 <Stack.Screen
                     name="AddParkingStack"
-                    component={ AddParking }
-                    // onPress={() =>
-                    //   navigation.navigate('AddToiletStack', {screen: 'AddToilet'})
-                    // }
+                    component={AddParking}
                     options={{
                         tabBarStyle: { display: 'none' },
                         tabBarHideOnKeyboard: true,
@@ -97,22 +94,31 @@ const MenuStack = () => {
                 />
                 <Stack.Screen
                     name="BookingStack"
-                    component={ MyBooking }
+                    component={MyBooking}
                     options={{
                         tabBarIcon: ({ focused, color, size }) => (
-                            <Bookmark  color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
+                            <Bookmark
+                                color={focused ? '#FEFA94' : '#BABCCA'}
+                                size={27}
+                                weight="fill"
+                            />
                         )
                     }}
                 />
                 <Stack.Screen
                     name="ProfileStack"
-                    component={ ProfileStack }
+                    component={ProfileStack}
                     options={({ route }) => ({
                         tabBarStyle: (() => {
                             const routeName = getFocusedRouteNameFromRoute(route);
 
-                            if (routeName === 'EditProfile' || routeName === 'AddCoin' || routeName === 'Notification') {
-                                return { display: 'none' , tabBarHideOnKeyboard: false };
+                            if (
+                                routeName === 'EditProfile' ||
+                                routeName === 'AddCoin' ||
+                                routeName === 'Notification' ||
+                                routeName === 'BindAnAccount'
+                            ) {
+                                return { display: 'none', tabBarHideOnKeyboard: false };
                             }
 
                             return { backgroundColor: '#10152F', height: 55 };
@@ -126,7 +132,6 @@ const MenuStack = () => {
         </>
     );
 };
-
 
 export default MenuStack;
 
