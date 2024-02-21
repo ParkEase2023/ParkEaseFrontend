@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     btnBuy: {
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 16,
+        paddingVertical: 18,
         marginTop: 25,
         borderRadius: 16,
         marginHorizontal: 16

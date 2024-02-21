@@ -24,6 +24,7 @@ import PaymentBill from '../components/PaymentBill';
 import WithdrawalReceipt from '../screens/WithdrawalReceipt';
 import WithdrawMoney from '../screens/WithdrawMoney';
 import MyBooking from '../screens/MyBooking';
+
 export type MenuParamList = {
     HomeStack: NavigatorScreenParams<HomeParamList>;
     MyList: undefined;
@@ -96,6 +97,7 @@ const MenuStack = () => {
                     name="BookingStack"
                     component={MyBooking}
                     options={{
+                        tabBarStyle: { display: 'none' },
                         tabBarIcon: ({ focused, color, size }) => (
                             <Bookmark
                                 color={focused ? '#FEFA94' : '#BABCCA'}
