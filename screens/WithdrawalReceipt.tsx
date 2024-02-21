@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
         top: 20
     },
     totalPrice: {
-        // flexDirection: 'row',
         backgroundColor: 'white',
         paddingHorizontal: 25,
         paddingVertical: 14,
