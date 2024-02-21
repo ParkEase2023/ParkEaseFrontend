@@ -13,7 +13,7 @@ interface IPopup {
     email:string;
 }
 
-const Popupverify = (props: IPopup) => {
+const PopupVerify = (props: IPopup) => {
     const [show, setShow] = useState(Boolean);
     useEffect(() => {
         if(props.ticker===true){
@@ -39,14 +39,14 @@ const Popupverify = (props: IPopup) => {
                     {'\n'}and to apply for membership.
                 </Text>
                 <TouchableOpacity style={styles.btnSend} onPress={handleNevi}>
-                    <Text style={styles.textSend}>Verify</Text>
+                    <Text style={styles.textSend}>VERIFY</Text>
                 </TouchableOpacity>
             </View>
         </Modal>
     );
 };
 
-export default Popupverify;
+export default PopupVerify;
 
 const styles = StyleSheet.create({
     modalContainer: {
@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
     },
     btnSend: {
         backgroundColor: '#10152F',
-        borderRadius: 16,
-        paddingVertical: 16,
+        borderRadius: 12,
+        paddingVertical: 12,
         width: '100%'
     },
     textSend: {

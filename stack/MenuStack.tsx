@@ -2,10 +2,9 @@ import { StatusBar, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Bell, Bookmark, Heart, MapTrifold, Plus, User } from 'phosphor-react-native';
-import HomeStack from '../screens/Home';
+import HomeStack, { HomeParamList } from '../stack/HomeStack';
 import MyList from '../screens/MyList';
 import AddParking from '../screens/AddParking';
-import Notification from '../screens/Notification';
 import Profile from '../screens/Profile';
 import LinearGradient from 'react-native-linear-gradient';
 import { SvgUri } from 'react-native-svg';
@@ -19,12 +18,17 @@ import { NavigatorScreenParams, getFocusedRouteNameFromRoute } from '@react-navi
 import ProfileStack, { ProfileParamList } from './ProfileStack';
 import Reqlogin from '../screens/Reqlogin';
 import RateReview from '../screens/RateReview';
-
+import Withdraw from '../screens/WithdrawMoney';
+import CheckInformation from '../screens/CheckInformation';
+import PaymentBill from '../components/PaymentBill';
+import WithdrawalReceipt from '../screens/WithdrawalReceipt';
+import WithdrawMoney from '../screens/WithdrawMoney';
+import MyBooking from '../screens/MyBooking';
 export type MenuParamList = {
-    HomeStack: undefined;
+    HomeStack: NavigatorScreenParams<HomeParamList>;
     MyList: undefined;
     AddParkingStack: undefined;
-    NotificationStack: undefined;
+    BookingStack: undefined;
     ProfileStack: NavigatorScreenParams<ProfileParamList>;
 };
 
@@ -49,15 +53,20 @@ const MenuStack = () => {
                 <Stack.Screen
                     name="HomeStack"
                     component={HomeStack}
-                    options={{
+                    options={({ route }) => ({
+                        tabBarStyle: (() => {
+                            const routeName = getFocusedRouteNameFromRoute(route);
+
+                            if (routeName === 'Review') {
+                                return { display: 'none', tabBarHideOnKeyboard: false };
+                            }
+
+                            return { backgroundColor: '#10152F', height: 55 };
+                        })(),
                         tabBarIcon: ({ focused, color, size }) => (
-                            <MapTrifold
-                                color={focused ? '#FEFA94' : '#BABCCA'}
-                                size={27}
-                                weight="fill"
-                            />
+                            <User color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
                         )
-                    }}
+                    })}
                 />
                 <Stack.Screen
                     name="MyList"
@@ -75,9 +84,6 @@ const MenuStack = () => {
                 <Stack.Screen
                     name="AddParkingStack"
                     component={AddParking}
-                    // onPress={() =>
-                    //   navigation.navigate('AddToiletStack', {screen: 'AddToilet'})
-                    // }
                     options={{
                         tabBarStyle: { display: 'none' },
                         tabBarHideOnKeyboard: true,
@@ -87,11 +93,15 @@ const MenuStack = () => {
                     }}
                 />
                 <Stack.Screen
-                    name="NotificationStack"
-                    component={Notification}
+                    name="BookingStack"
+                    component={MyBooking}
                     options={{
                         tabBarIcon: ({ focused, color, size }) => (
-                            <Bookmark  color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
+                            <Bookmark
+                                color={focused ? '#FEFA94' : '#BABCCA'}
+                                size={27}
+                                weight="fill"
+                            />
                         )
                     }}
                 />
@@ -102,8 +112,13 @@ const MenuStack = () => {
                         tabBarStyle: (() => {
                             const routeName = getFocusedRouteNameFromRoute(route);
 
-                            if (routeName === 'EditProfile' || routeName === 'AddCoin') {
-                                return { display: 'none' , tabBarHideOnKeyboard: false };
+                            if (
+                                routeName === 'EditProfile' ||
+                                routeName === 'AddCoin' ||
+                                routeName === 'Notification' ||
+                                routeName === 'BindAnAccount'
+                            ) {
+                                return { display: 'none', tabBarHideOnKeyboard: false };
                             }
 
                             return { backgroundColor: '#10152F', height: 55 };
@@ -117,16 +132,6 @@ const MenuStack = () => {
         </>
     );
 };
-
-// const getTabBarVisibility = (route: any) => {
-//     const routeName = route.state ? route.state.routes[route.state.index].name : '';
-
-//     if (routeName === 'EditProfile') {
-//         return false;
-//     }
-
-//     return true;
-// };
 
 export default MenuStack;
 

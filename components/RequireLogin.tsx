@@ -17,7 +17,6 @@ const RequireLogin = (props: IProps) => {
 
   useEffect(() => {}, [isLoggedIn]);
 
-  // user is not loggedIn
   if (isLoggedIn === false) {
     return (
       <View style={{flex: 1}}>

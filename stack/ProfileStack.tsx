@@ -7,6 +7,9 @@ import VerifyYourIdentify from '../screens/VerifyYourIdentity';
 import SelectForVerify from '../screens/SelectForVerify';
 import AddCoin from '../screens/AddCoin';
 import AddCoinQR from '../screens/AddCoinQR';
+import Notification from '../screens/Notification';
+import BindAnAccount from '../screens/BindAnAccount';
+import WithdrawMoney from '../screens/WithdrawMoney';
 
 export type ProfileParamList = {
     Profile: undefined;
@@ -19,19 +22,27 @@ export type ProfileParamList = {
         profile_picture: string;
         password: string;
     };
-
     VerifyIdentity: { email: string };
     SelectForVerify: { email: string };
-    AddCoin: { 
-      _id: string; 
-      firstname: string; 
-      lastname: string; 
-      email: string; 
-      coins: number;
-      phoneNumber: string; 
+    AddCoin: {
+        _id: string;
+        firstname: string;
+        lastname: string;
+        email: string;
+        coins: number;
+        phoneNumber: string;
     };
-    AddCoinQR: {qrCode:string,id:string};
-    // AddCoinQR:undefined;
+    AddCoinQR: {
+        qrCode: string;
+        id: string;
+        email: string;
+        coins: number;
+        addcoins: number;
+        userId: string;
+    };
+    Notification: {userId:string}
+    BindAnAccount:undefined;
+    WithdrawMoney:undefined;
 };
 
 const ProfileStack = () => {
@@ -48,6 +59,9 @@ const ProfileStack = () => {
             <Stack.Screen name="SelectForVerify" component={SelectForVerify} />
             <Stack.Screen name="AddCoin" component={AddCoin} />
             <Stack.Screen name="AddCoinQR" component={AddCoinQR} />
+            <Stack.Screen name="Notification" component={Notification} />
+            <Stack.Screen name="BindAnAccount" component={BindAnAccount} />
+            <Stack.Screen name="WithdrawMoney" component={WithdrawMoney} />
         </Stack.Navigator>
     );
 };

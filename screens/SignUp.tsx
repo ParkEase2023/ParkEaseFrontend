@@ -77,7 +77,7 @@ const SignUp = () => {
                     AsyncStorage.setItem('token', res.token);
                     setLoggedIn(true);
                     console.log('token kkkkkkkkkk');
-                    navigetAffterSignUp.replace('MenuStack', { screen: 'HomeStack' });
+                    navigetAffterSignUp.replace('MenuStack', { state: undefined });
                 }
                 console.log(res);
             } else {

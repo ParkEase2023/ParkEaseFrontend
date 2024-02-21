@@ -19,11 +19,10 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { ProfileParamList } from '../stack/ProfileStack';
 import { createdPromptPayQRCode } from '../services/omise';
 
-const AddCoin = () => {
+const WithdrawMoney = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const { params } = useRoute<RouteProp<ProfileParamList, 'AddCoin'>>();
     const [inputNumber, setInputNumber] = useState<number>(0);
-    const [inputStr, setInputStr] = useState('');
     const handleButtonClick = () => {
         const newNumber = inputNumber + 100;
 
@@ -45,23 +44,15 @@ const AddCoin = () => {
         setInputNumber(newNumber);
     };
 
-    const handleAddCoin = async () => {
-        const res: any = await createdPromptPayQRCode({
-            amount: inputNumber,
-            phonenumber: params.phoneNumber
-        });
-        // console.log('GenQr', res.data);
-        if (res) {
-            navigation.navigate('AddCoinQR', {
-                qrCode: res.data,
-                id: res.dataId,
-                userId: params._id,
-                email: params.email,
-                coins: params.coins,
-                addcoins: inputNumber
-            });
-        }
-    };
+    // const handleAddCoin = async () => {
+    //     const res: any = await createdPromptPayQRCode({
+    //         amount: inputNumber,
+    //         phonenumber: params.phoneNumber
+    //     });
+    //     if (res) {
+    //         navigation.navigate('AddCoinQR', { qrCode: res.data, id: res.dataId });
+    //     }
+    // };
 
     return (
         <KeyboardAvoidingView style={styles.container}>
@@ -72,7 +63,7 @@ const AddCoin = () => {
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <CaretLeft size={22} color="#10152F" />
                     </TouchableOpacity>
-                    <Text style={styles.headerText}>Add coins to your account</Text>
+                    <Text style={styles.headerText}>Withdraw Money</Text>
                 </View>
                 <View style={styles.boxText}>
                     <View style={styles.rowTop}>
@@ -80,14 +71,8 @@ const AddCoin = () => {
                             <CoinVertical size={24} weight="fill" color="#EEF0FF" />
                             <Text style={styles.textMain}>Remaining Balance</Text>
                         </View>
-                        <Text style={styles.textRight}>{params.coins} coins</Text>
+                        <Text style={styles.textRight}>coins</Text>
                     </View>
-                </View>
-                <View style={styles.imageContrainer}>
-                    <Image
-                        source={require('../assets/cointhb.png')}
-                        style={{ width: '100%', top: 90 }}
-                    />
                 </View>
                 <View style={styles.mainContainer}>
                     <View style={[styles.textbox1]}>
@@ -135,17 +120,18 @@ const AddCoin = () => {
                         </TouchableOpacity>
                     </View>
                     <View>
-                        <TouchableOpacity style={styles.btnConfirm} onPress={handleAddCoin}>
+                        <TouchableOpacity style={styles.btnConfirm} >
                             <Text style={styles.textConfirm}>CONFIRM</Text>
                         </TouchableOpacity>
                     </View>
+                    
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
     );
 };
 
-export default AddCoin;
+export default WithdrawMoney;
 
 const styles = StyleSheet.create({
     container: {
@@ -170,7 +156,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 18,
         color: '#10152F',
-        paddingLeft: 50
+        paddingLeft: 90
     },
     rowTop: {
         flexDirection: 'row',
@@ -271,8 +257,4 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#7F85B2'
     },
-    imageContrainer: {
-        alignItems: 'center',
-        top: -16
-    }
 });
