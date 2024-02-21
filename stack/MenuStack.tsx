@@ -25,6 +25,7 @@ import ApplyForMembership from '../screens/ApplyForMembership';
 import Member from '../screens/Member';
 import Partner from '../screens/Partner';
 import SelectParkingType from '../screens/SelectParkingType';
+import AddParkingDetails from '../screens/AddParkingDetails';
 
 export type MenuParamList = {
     HomeStack: undefined;
@@ -94,7 +95,7 @@ const MenuStack = () => {
                 />
                 <Stack.Screen
                     name="NotificationStack"
-                    component={SelectParkingType}
+                    component={AddParkingDetails}
                     options={{
                         tabBarStyle: { display: 'none' },
                         tabBarIcon: ({ focused, color, size }) => (
