@@ -1,12 +1,12 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 
-const ContentNotification = () => {
+const ContentNotificationWithdraw = () => {
     return (
         <TouchableOpacity style={styles.NotificationContainer}>
             <View style={styles.row}>
-                <Text style={styles.title}>Outgoing coins list</Text>
-                <Text style={styles.price}>- 610 Coins</Text>
+                <Text style={styles.title}>Withdraw Money</Text>
+                <Text style={styles.price}>- 200 Coins</Text>
             </View>
 
             <View style={styles.row}>
@@ -16,16 +16,11 @@ const ContentNotification = () => {
                 </View>
                 <Text style={styles.date}>21 Dec 2023 | 09:00</Text>
             </View>
-
-            <View style={styles.lastRow}>
-                <Text style={styles.description}>You have made a reservation at</Text>
-                <Text style={styles.location}>“อาคารจอดรถ 5 ชั้น”</Text>
-            </View>
         </TouchableOpacity>
     );
 };
 
-export default ContentNotification;
+export default ContentNotificationWithdraw;
 
 const styles = StyleSheet.create({
     NotificationContainer: {
@@ -41,7 +36,7 @@ const styles = StyleSheet.create({
     },
     lastRow: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-between'
     },
     title: {
         fontFamily: 'RedHatText-Bold',

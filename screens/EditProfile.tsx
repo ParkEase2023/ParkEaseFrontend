@@ -243,12 +243,10 @@ const EditProfile = () => {
         setprofilePicture(params.profile_picture);
         setPassword(params.password);
         setConfirmPassword(params.password);
-        // console.log("data user")
     }, []);
     return (
         <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            style={styles.container}>
             <ScrollView
                 contentContainerStyle={styles.scrollViewContainer}
                 keyboardShouldPersistTaps="handled">

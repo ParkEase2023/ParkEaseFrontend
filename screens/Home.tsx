@@ -32,7 +32,6 @@ import { getAllParking } from '../services/parking';
 import caretLeft from '../assets/Icons/caretLeft.png';
 import crosshair from '../assets/Icons/crosshair.png';
 import funnel from '../assets/Icons/funnel.png';
-import SlideBar, { SlideBarRefProps } from '../components/SlideBar';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { LogBox } from 'react-native';
@@ -44,6 +43,7 @@ import { mapStyle } from '../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MenuParamList } from '../stack/MenuStack';
+import { getProfile } from '../services/user';
 
 interface Position {
     latitude: number;
@@ -83,8 +83,20 @@ const height = width * aspectRatio;
 
 LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
 
+
+// const Home = () => {
+//     const navigation = useNavigation<NativeStackNavigationProp<MenuParamList>>();
+//     const [key, setKey] = React.useState(0);
+//     const reload = React.useCallback(() => setKey(prevKey => prevKey + 1), []);
+//     return <Child reload={reload} key={key} />;
+// };
+
+export interface IProfile {
+    profile_picture: string;
+}
+
+
 const Home = () => {
-    const ref = useRef<SlideBarRefProps>(null);
     const [title, setTitle] = useState('');
     const [refreshing, setRefreshing] = useState(false);
     const [price, setPrice] = useState('');
@@ -99,6 +111,7 @@ const Home = () => {
         'https://res.cloudinary.com/dqxh7vakw/image/upload/v1703827495/ParkEase/automatic-parking-6-1200x900_ukblma.jpg'
     );
     const [locationAddress, setLocationAddress] = useState('');
+    const [reload, setReload] = useState(false)
     const [timeOpen, setTimeOpen] = useState('');
     const [timeClose, setTimeClose] = useState('');
     const [providerBy, setProviderBy] = useState('');
@@ -122,6 +135,13 @@ const Home = () => {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
     });
+
+
+    const [profile, setProfile] = React.useState<IProfile>({
+        profile_picture:
+            'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png'
+    });
+
     useEffect(() => {
         requestPermissions();
         Geolocation.getCurrentPosition(
@@ -146,6 +166,10 @@ const Home = () => {
         bottomSheetRef3.current?.expand();
     }, []);
 
+    const pressHandler4 = useCallback(() => {
+        bottomSheetRef3.current?.close(); // or whatever method is used to collapse/close the bottom sheet
+    }, []);
+
     const [listparking, setListParking] = useState(parkingMarkers);
 
     useEffect(() => {
@@ -156,6 +180,15 @@ const Home = () => {
         fetchData();
     }, []);
 
+    const getUserProfile = async () => {
+        const { data } = await getProfile();
+        setProfile(data);
+    };
+
+    useEffect(() => {
+        getUserProfile();
+    }, []);
+
     useEffect(() => {
         const fetchData = async () => {
             const dataParking: any = await getAllParking();
@@ -163,6 +196,13 @@ const Home = () => {
         };
         fetchData();
     }, [listparking]);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            pressHandler4();
+        });
+        return unsubscribe;
+    }, [navigation]);
 
     const [show, setShow] = useState(false);
     const [ticker, setTicker] = useState(false);
@@ -212,14 +252,15 @@ const Home = () => {
                             title={item.title}
                             description={item._id}
                             onPress={() => {
+                                setReload(!reload),
                                 pressHandler3(),
-                                    setTitle(item.title),
-                                    setOpeningStatus(item.opening_status),
-                                    setPrice(item.price),
-                                    setPicture1(item.parking_picture1),
-                                    setPicture2(item.parking_picture2),
-                                    setPicture3(item.parking_picture3),
-                                    setLocationAddress(item.location_address);
+                                setTitle(item.title),
+                                setOpeningStatus(item.opening_status),
+                                setPrice(item.price),
+                                setPicture1(item.parking_picture1),
+                                setPicture2(item.parking_picture2),
+                                setPicture3(item.parking_picture3),
+                                setLocationAddress(item.location_address);
                                 setTimeOpen(item.timeOpen);
                                 setTimeClose(item.timeClose);
                                 setProviderBy(item.providerBy);
@@ -289,21 +330,6 @@ const Home = () => {
         );
     };
 
-    const onRefresh = async () => {
-        setRefreshing(true);
-        setTimeout(() => {
-          setRefreshing(false);
-        }, 20);
-    };
-
-
-
-    useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            onRefresh();
-        });
-        return unsubscribe;
-    }, [navigation]);
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
@@ -363,6 +389,8 @@ const Home = () => {
                         backgroundColor={'#10152F'}
                         backDropColor={'none'}>
                         <DetailParking
+                            profile_picture={profile.profile_picture}
+                            reload={reload}
                             Title={title}
                             Price={price}
                             Opening_status={openingStatus}

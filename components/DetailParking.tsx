@@ -19,6 +19,10 @@ import { addMyList, getMyList } from '../services/mylist';
 import AuthContext from '../context/AuthContext';
 import ButtonHeartDisabled from './ButtonHeartDisabled';
 import ButtonHeart from './ButtonHeart';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { HomeParamList } from '../stack/HomeStack';
+import { getComment } from '../services/comment';
 export interface IDetail {
     Title: string;
     Price: string;
@@ -41,26 +45,84 @@ export interface IDetail {
     sa: boolean;
     su: boolean;
     parkingId: string;
+    reload: boolean;
+    profile_picture: string;
+}
+
+interface Comment {
+    CreateBy: string;
+    toiletId: string;
+    comment: string;
+    rate: number;
+    updatedAt: string;
+    result: any;
 }
 
 const DetailParking = (props: IDetail) => {
+    let Rate: number = 0;
+    let sumRate: number = 0;
     const [heart, setHeart] = useState(false);
     const [ticker, setTicker] = useState(false);
     const [userId, setUserId] = useState('');
     const [myListId, setMyListId] = useState('');
     const [dayOpenAll, setDayOpenAll] = useState('');
+    const [checkData, setCheckData] = useState('');
     const { isLoggedIn } = useContext(AuthContext);
+    const [comment, setComment] = useState<Comment[]>([]);
+    const navigation = useNavigation<NativeStackNavigationProp<HomeParamList>>();
+    const [SumRate, setsumRate] = useState('');
 
     useEffect(() => {
         checkHeart();
-    }, [props.Title]);
+        console.log(props.reload);
+    }, [props.reload]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const comments: any = await getComment(props.parkingId);
+                setComment(comments.Comment);
+                setCheckData(comments.message);
+            } catch (err: any) {
+                setCheckData(err.message);
+                console.log(err.message);
+            }
+        };
+        fetchData();
+    }, [props.reload]);
 
     useEffect(() => {
         reloadValue();
-    }, [heart])
-    
+    }, [heart]);
+
+    const RenderComment = (): JSX.Element | null => {
+        if (checkData === 'success' && comment[0] !== undefined) {
+            return (
+                <>
+                    {comment.map((item: any, index) => {
+                        Rate += item.rate;
+                        sumRate = Rate / comment.length;
+                        setsumRate(sumRate.toFixed(1));
+                        return (
+                            <Comment
+                                key={index}
+                                image={item.result[0].profile_picture}
+                                username={item.result[0].firstname + item.result[0].lastname}
+                                rating={item.rate}
+                                date={item.updatedAt}
+                                comment={item.comment}
+                            />
+                        );
+                    })}
+                </>
+            );
+        } else {
+            return null;
+        }
+    };
 
     const checkHeart = async () => {
+        console.log('checkHeart working');
         const { data } = await getProfile();
         setUserId(data._id);
         let list: any = await getMyList(data._id);
@@ -68,13 +130,17 @@ const DetailParking = (props: IDetail) => {
             {
                 list.myList.map((item: any, index: any) => {
                     if (item.myList[0]._id === props.parkingId) {
+                        console.log('checkHeart true');
                         setHeart(true);
                         setMyListId(item._id);
                     } else {
+                        console.log('checkHeart flase');
                         setHeart(false);
                     }
                 });
             }
+        } else {
+            setHeart(false);
         }
     };
 
@@ -119,6 +185,7 @@ const DetailParking = (props: IDetail) => {
     }, [props.Title]);
 
     LogBox.ignoreLogs(['new NativeEventEmitter']);
+    LogBox.ignoreLogs(['Cannot update a component (`DetailParking`)']);
     const ReaderBtn = (): JSX.Element | null => {
         if (props.Opening_status == true) {
             return <Text style={styles.textOpen}>Open</Text>;
@@ -162,7 +229,7 @@ const DetailParking = (props: IDetail) => {
                     <Text style={styles.textTitle}>{props.Title}</Text>
                     <View style={styles.rate}>
                         <Star size={12} weight="fill" color="#FFDE00" />
-                        <Text style={styles.textRate}>4.5</Text>
+                        <Text style={styles.textRate}>{SumRate}</Text>
                     </View>
                 </View>
 
@@ -220,36 +287,43 @@ const DetailParking = (props: IDetail) => {
                 </View>
 
                 <Text style={styles.titleRateReview}>Rate & Review</Text>
-
-                <View style={styles.rowRateReview}>
-                    <View style={styles.rowItemLeft}>
-                        <Image
-                            source={require('../assets/smallProfile.png')}
-                            style={styles.smallProfile}
-                        />
-                        <View style={styles.rowBigStar}>
-                            <View style={styles.star}>
-                                <Star size={30} weight="regular" color="#565E8B" />
-                            </View>
-                            <View style={styles.star}>
-                                <Star size={30} weight="regular" color="#565E8B" />
-                            </View>
-                            <View style={styles.star}>
-                                <Star size={30} weight="regular" color="#565E8B" />
-                            </View>
-                            <View style={styles.star}>
-                                <Star size={30} weight="regular" color="#565E8B" />
-                            </View>
-                            <View style={styles.star}>
-                                <Star size={30} weight="regular" color="#565E8B" />
+                <TouchableOpacity
+                    onPress={() =>
+                        navigation.navigate('Review', {
+                            parkingId: props.parkingId,
+                            parking_name: props.Title
+                        })
+                    }>
+                    <View style={styles.rowRateReview}>
+                        <View style={styles.rowItemLeft}>
+                            <Image
+                                source={{ uri: props.profile_picture }}
+                                style={styles.smallProfile}
+                            />
+                            <View style={styles.rowBigStar}>
+                                <View style={styles.star}>
+                                    <Star size={30} weight="regular" color="#565E8B" />
+                                </View>
+                                <View style={styles.star}>
+                                    <Star size={30} weight="regular" color="#565E8B" />
+                                </View>
+                                <View style={styles.star}>
+                                    <Star size={30} weight="regular" color="#565E8B" />
+                                </View>
+                                <View style={styles.star}>
+                                    <Star size={30} weight="regular" color="#565E8B" />
+                                </View>
+                                <View style={styles.star}>
+                                    <Star size={30} weight="regular" color="#565E8B" />
+                                </View>
                             </View>
                         </View>
-                    </View>
 
-                    <CaretRight size={24} weight="bold" color="#565E8B" />
-                </View>
+                        <CaretRight size={24} weight="bold" color="#565E8B" />
+                    </View>
+                </TouchableOpacity>
                 <View style={styles.line} />
-                <Comment />
+                <RenderComment></RenderComment>
             </View>
         </View>
     );
