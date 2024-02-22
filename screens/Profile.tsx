@@ -35,7 +35,7 @@ import { RootStackList } from '../stack/RootStack';
 import AuthContext from '../context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProfileParamList } from '../stack/ProfileStack';
-import Popupverify from '../components/Popupverify';
+import PopupVerify from '../components/PopupVerify';
 import TabRemainingBalance from '../components/TabRemainingBalance';
 
 export interface IProfile {
@@ -48,12 +48,15 @@ export interface IProfile {
     password: string;
     profile_picture: string;
     verification_status: boolean;
+    account_linked: boolean;
 }
 
 const Profile = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
     const navigationEditProfile = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const navigationAddCoin = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
+    const navigationNotification = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
+    const navigationBindAnAccount = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
     const [visible, setVisible] = useState(false);
     const [ticker, setTicker] = useState(false);
@@ -73,7 +76,8 @@ const Profile = () => {
         password: '',
         profile_picture:
             'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png',
-        verification_status: false
+        verification_status: false,
+        account_linked: false
     });
     const getUserProfile = async () => {
         const { data } = await getProfile();
@@ -85,10 +89,17 @@ const Profile = () => {
         getUserProfile();
     }, []);
 
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            getUserProfile();
+        });
+        return unsubscribe;
+    }, [navigation]);
+
     const handleLogout = async () => {
         setLoggedIn(false);
         await AsyncStorage.removeItem('token');
-        navigation.replace('MenuStack', { screen: 'HomeStack' });
+        navigation.replace('MenuStack', { state: undefined });
     };
 
     const handleEditProfile = async () => {
@@ -188,8 +199,7 @@ const Profile = () => {
             return (
                 <TouchableOpacity
                     onPress={() => setIsHidden(true)}
-                    style={styles.containerpopup}>
-                </TouchableOpacity>
+                    style={styles.containerpopup}></TouchableOpacity>
             );
         } else {
             return null;
@@ -198,37 +208,39 @@ const Profile = () => {
 
     const RemainingBalance = () => {
         if (fnAddCoins === true) {
-            navigationAddCoin.navigate('AddCoin',{
+            navigationAddCoin.navigate('AddCoin', {
                 _id: profile._id,
                 firstname: profile.firstname,
                 lastname: profile.lastname,
                 email: profile.email,
                 coins: profile.coins,
                 phoneNumber: profile.phone_number
-            })
+            });
 
             setFnAddCoins(false);
         } else if (fnBindAccount === true) {
-            console.log('fnBindAccount');
+            navigationBindAnAccount.navigate('BindAnAccount');
             setFnBindAccount(false);
         } else if (fnWithdrawMoney === true) {
-            console.log('fnWithdrawMoney');
-            setFnWithdrawMoney(false);
+            if (profile.account_linked === true) {
+                navigationBindAnAccount.navigate('WithdrawMoney');
+                setFnWithdrawMoney(false);
+            } else {
+                navigationBindAnAccount.navigate('BindAnAccount');
+                setFnWithdrawMoney(false);
+            }
         }
     };
     const handleBalance = () => {
-        if(profile.verification_status === true){
+        if (profile.verification_status === true) {
             handleOpenTab();
-        }
-        else if (profile.verification_status === false){
+        } else if (profile.verification_status === false) {
             handleVrify();
         }
     };
     useEffect(() => {
         RemainingBalance();
-    }, [fnAddCoins,fnBindAccount,fnWithdrawMoney])
-    
-
+    }, [fnAddCoins, fnBindAccount, fnWithdrawMoney]);
 
     return (
         <RequireLogin>
@@ -290,7 +302,13 @@ const Profile = () => {
                             </View>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.btnRectangle}>
+                        <TouchableOpacity
+                            style={styles.btnRectangle}
+                            onPress={() =>
+                                navigationNotification.navigate('Notification', {
+                                    userId: profile._id
+                                })
+                            }>
                             <View style={styles.itemLeft}>
                                 <View style={styles.bgIcon}>
                                     <Bell size={22} weight="fill" color="#EEF0FF" />
@@ -353,10 +371,10 @@ const Profile = () => {
 
                         <View style={styles.circleSmall} />
                     </View>
-                    <Popupverify
+                    <PopupVerify
                         setVisible={visible}
                         ticker={ticker}
-                        email={profile.email}></Popupverify>
+                        email={profile.email}></PopupVerify>
                     <RenderTab></RenderTab>
                     <Renderbg></Renderbg>
                 </ScrollView>

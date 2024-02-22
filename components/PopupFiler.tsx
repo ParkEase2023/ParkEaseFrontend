@@ -6,7 +6,7 @@ import Modal from 'react-native-modal';
 interface IPopup {
     setVisible: boolean;
     ticker: boolean;
-    selectOpen : (value: boolean) => void;
+    selectOpen: (value: boolean) => void;
     selectAvailable: (value: boolean) => void;
 }
 
@@ -21,41 +21,35 @@ const PopupFilter = (props: IPopup) => {
         }
     }, [props.setVisible]);
     return (
-        <Modal isVisible={show} backdropOpacity={0.9} backdropColor="#262D57">
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text style={styles.textFilter}> Filter </Text>
-                    <View style={styles.hairline} />
-                    <View style={styles.option1}>
-                        <View style={styles.container}>
-                            <Text style={styles.optionText}>Parking Open </Text>
-                        </View>
-                        <View style={styles.btnOptions}>
-                            <RadioButton
-                                value="first"
-                                status={parkingOpen === true ? 'checked' : 'unchecked'}
-                                onPress={() => {setParkingOpen(!parkingOpen),props.selectOpen(!parkingOpen)}}
-                                color={parkingOpen ? '#239D60' : 'black'}
-                            />
-                        </View>
-                    </View>
-                    <View style={styles.option2}>
-                        <View style={styles.container}>
-                            <Text style={styles.optionText}>Available Booking</Text>
-                        </View>
-                        <View style={styles.btnOptions}>
-                            <RadioButton
-                                value="second"
-                                status={available === true ? 'checked' : 'unchecked'}
-                                onPress={() => {setAvailable(!available),props.selectAvailable(!available)}}
-                                color={available ? '#239D60' : 'black'}
-                            />
-                        </View>
-                    </View>
-                    <TouchableOpacity style={styles.btnLogIn} onPress={() => setShow(!show)}>
-                        <Text style={styles.textSave}>Save</Text>
-                    </TouchableOpacity>
+        <Modal isVisible={show} backdropOpacity={0.6} backdropColor="#000">
+            <View style={styles.container}>
+                <Text style={styles.textFilter}>Filter</Text>
+                <View style={styles.hairline} />
+                <View style={styles.option1}>
+                    <Text style={styles.optionText}>Parking Open</Text>
+                    <RadioButton
+                        value="first"
+                        status={parkingOpen === true ? 'checked' : 'unchecked'}
+                        onPress={() => {
+                            setParkingOpen(!parkingOpen), props.selectOpen(!parkingOpen);
+                        }}
+                        color={parkingOpen ? '#239D60' : 'black'}
+                    />
                 </View>
+                <View style={styles.option2}>
+                    <Text style={styles.optionText}>Available Booking</Text>
+                    <RadioButton
+                        value="second"
+                        status={available === true ? 'checked' : 'unchecked'}
+                        onPress={() => {
+                            setAvailable(!available), props.selectAvailable(!available);
+                        }}
+                        color={available ? '#239D60' : 'black'}
+                    />
+                </View>
+                <TouchableOpacity style={styles.btnLogIn} onPress={() => setShow(!show)}>
+                    <Text style={styles.textSave}>SAVE</Text>
+                </TouchableOpacity>
             </View>
         </Modal>
     );
@@ -63,74 +57,54 @@ const PopupFilter = (props: IPopup) => {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
-        paddingHorizontal:5,
-        paddingRight:10,
-        textAlign: 'left',
-        fontFamily: 'RedHatText',
-        fontSize: 14,
-        color: '#10152F',
-        paddingBottom: 15
+        marginHorizontal: 40,
+        backgroundColor: '#EEF0FF',
+        borderRadius: 16,
+        padding: 16
     },
     optionText: {
         color: '#10152F',
-        fontFamily: 'RedHatText',
-        fontWeight:"400",
+        fontFamily: 'RedHatText-Regular',
         fontSize: 16
-    },
-    centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    modalView: {
-        backgroundColor: '#EEF0FF',
-        borderRadius: 10,
-        padding: 16,
-    },
-    closeButton: {
-        marginTop: 20
     },
     btnLogIn: {
         backgroundColor: '#10152F',
         borderRadius: 12,
-        padding: 10,
-        elevation: 2,
-        marginTop: 15,
-        paddingVertical: 10,
-        paddingHorizontal: 75,
-        marginBottom: 5
+        paddingVertical: 12
     },
     textFilter: {
         textAlign: 'center',
-        fontFamily: 'RedHatText-Bold',
+        fontFamily: 'RedHatText-Medium',
         fontSize: 20,
         color: '#10152F',
-        paddingBottom:16
+        paddingBottom: 16
     },
     hairline: {
-        backgroundColor: '#DAE0FF',
+        backgroundColor: '#CED2EA',
         height: 1,
-        width: 200
+        width: '100%'
     },
     textSave: {
         textAlign: 'center',
         fontFamily: 'RedHatText-Bold',
-        fontSize: 18,
+        fontSize: 16,
         color: '#FEFA94'
     },
     option1: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
+        marginHorizontal: 16,
+        marginTop: 25,
+        marginBottom: 16
     },
     option2: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-    },
-    btnOptions: {
-        marginTop: 12,
+        alignItems: 'center',
+        marginHorizontal: 16,
+        marginBottom: 25
     }
-
 });
 
 export default PopupFilter;

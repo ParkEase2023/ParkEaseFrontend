@@ -1,9 +1,10 @@
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { CoinVertical, Heart, Star } from 'phosphor-react-native';
+import BottonHeartMylist from './ButtonHeartMyList';
 
 interface IContentMyList {
-    // myListId: string;
+    myListId: string;
     _id: string;
     latitude: number;
     longitude: number;
@@ -27,23 +28,24 @@ interface IContentMyList {
     opening_fr: boolean;
     opening_sa: boolean;
     opening_su: boolean;
-    // onSelected: (value: boolean) => void;
-    // onClick: (value: string) => void;
-  }
+    onSelected: (value: boolean) => void;
+    onClick: (value: string) => void;
+}
 
 const ContentMyList = (props: IContentMyList) => {
     const [heart, setHeart] = useState(false);
-    const [myListID, setMyListID] = useState('');
+    const [myListID, setMyListID] = useState(props.myListId);
+    const [ticker, setTicker] = useState(false);
     const checkBtnHeart: boolean = true;
     useEffect(() => {
         if (heart === true) {
-          console.log(checkBtnHeart);
-        //   props.onSelected(checkBtnHeart);
-        //   props.onClick(myListID);
+            // console.log('line42',checkBtnHeart);
+            props.onSelected(checkBtnHeart);
+            props.onClick(myListID);
         }
-      }, [Heart]);
+    }, [heart]);
 
-      const ReadreBtn = (): JSX.Element | null => {
+    const ReadreBtn = (): JSX.Element | null => {
         if (props.opening_status == true) {
             return <Text style={styles.textOpen}>Open</Text>;
         } else {
@@ -53,13 +55,14 @@ const ContentMyList = (props: IContentMyList) => {
 
     return (
         <TouchableOpacity style={styles.myListContainer}>
-
             <View style={styles.mainMyListContainer}>
                 <View style={styles.topRow}>
                     <View style={styles.nameLocation}>
-                        <Text style={styles.textNameLocation} numberOfLines={1}>{props.title}</Text>
+                        <Text style={styles.textNameLocation} numberOfLines={1}>
+                            {props.title}
+                        </Text>
                     </View>
-                    
+
                     <View style={styles.rate}>
                         <Star size={12} weight="fill" color="#FFA800" />
                         <Text style={styles.textRate}>4.5</Text>
@@ -76,11 +79,19 @@ const ContentMyList = (props: IContentMyList) => {
             </View>
 
             <TouchableOpacity>
-                <View style={styles.bgBtnLike}>
-                    <Heart size={20} weight="fill" color="#EA4C4C" style={styles.btnLike} />
-                </View>
+                <BottonHeartMylist
+                    myListId={props.myListId}
+                    onSelected={value => {
+                        setHeart(value);
+                    }}
+                    onSelected2={value => {
+                        setTicker(value);
+                    }}
+                    onClick={value => {
+                        setMyListID(value);
+                    }}
+                />
             </TouchableOpacity>
-
         </TouchableOpacity>
     );
 };
@@ -98,16 +109,16 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     mainMyListContainer: {
-        padding: 16,
+        padding: 16
     },
     topRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 6,
+        marginBottom: 6
     },
     nameLocation: {
-        width: '76%',
+        width: '76%'
     },
     textNameLocation: {
         fontFamily: 'RedHatText-Regular',
@@ -118,7 +129,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         flexDirection: 'row',
         alignItems: 'center',
-        right: -38,
+        right: -38
     },
     textRate: {
         fontFamily: 'RedHatText-Regular',
@@ -129,7 +140,7 @@ const styles = StyleSheet.create({
     lowerRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     coin: {
         flexDirection: 'row',
@@ -146,24 +157,24 @@ const styles = StyleSheet.create({
         fontFamily: 'RedHatText-Regular',
         fontSize: 14,
         color: '#239D60',
-        right: -38,
+        right: -38
     },
     textClose: {
         position: 'absolute',
         fontFamily: 'RedHatText-Regular',
         fontSize: 14,
         color: '#FF6A6A',
-        right: -38,
-    },
-    bgBtnLike: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 81,
-        borderTopRightRadius: 12,
-        borderBottomRightRadius: 12,
-        backgroundColor: '#EEF0FF'
-    },
-    btnLike: {
-        marginHorizontal: 12,
-    },
+        right: -38
+    }
+    // bgBtnLike: {
+    //     alignItems: 'center',
+    //     justifyContent: 'center',
+    //     height: 81,
+    //     borderTopRightRadius: 12,
+    //     borderBottomRightRadius: 12,
+    //     backgroundColor: '#EEF0FF'
+    // },
+    // btnLike: {
+    //     marginHorizontal: 12,
+    // },
 });

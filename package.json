@@ -24,6 +24,7 @@
     "nativewind": "^2.0.11",
     "phosphor-react-native": "^2.0.0",
     "react": "18.2.0",
+    "react-moment": "^1.1.3",
     "react-native": "0.72.4",
     "react-native-calendar-picker": "^8.0.1",
     "react-native-calendars": "^1.1303.0",

@@ -15,10 +15,15 @@ import { CaretLeft, DownloadSimple } from 'phosphor-react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ProfileParamList } from '../stack/ProfileStack';
+import Good from '../assets/Good.png';
 import RNFS from 'react-native-fs';
 import RNFetchBlob from 'rn-fetch-blob';
 import { CheckCharge } from '../services/omise';
+import Modal from 'react-native-modal';
 import Toast from 'react-native-toast-message';
+import { addCoins } from '../services/transaction';
+import { sendEmailNoti } from '../services/email';
+import { createNotification } from '../services/notification';
 
 const AddCoinQR = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
@@ -27,7 +32,7 @@ const AddCoinQR = () => {
         'https://api.omise.co/charges/chrg_test_5yo48yeud2kbp3ze500/documents/docu_test_5yo48ygmypagffsatjo/downloads/5A1FB23047E8EE1E'
     );
     const [ToastC, setToastC] = useState(true);
-
+    const [visible, setVisible] = useState(false);
     const saveImage = async () => {
         let imgUrl = params.qrCode;
 
@@ -57,31 +62,59 @@ const AddCoinQR = () => {
             });
     };
 
-    const showToast = () => {
-        Toast.show({
-            type: 'success',
-            text1: '🥳  Add My Favorite Successfully!!!',
-            text2: 'Can you see my favorite.',
-            autoHide: true,
-            visibilityTime: 3000
+    const transactions = async () => {
+        const body = {
+            coins: params.coins,
+            addcoins: params.addcoins
+        };
+        await addCoins(params.email, body);
+        await sendEmailNoti({
+            email: params.email,
+            text:
+                'Dear parkease users, you have successfully addcoins \n in your account is the total amount ' +
+                (params.addcoins) + 
+                ' at '
         });
+    };
+
+    const createNoti = async () => {
+        const Notification : any = await createNotification({
+            userId: params.userId,
+            Parking_ownerId:params.userId,
+            Topic: "Add coins",
+            Booking: false,
+            From: "",
+            Parking_name:"",
+            Coins:params.addcoins
+        });
+    };
+
+    const handleOpenmodal = () => {
+        const duration = 3 * 1000;
+        setVisible(true);
+
+        const timer = setTimeout(() => {
+            setVisible(false);
+            transactions();
+            createNoti()
+            navigation.replace('Profile');
+        }, duration);
+
+        return () => clearTimeout(timer);
     };
 
     useEffect(() => {
         const intervalId = setInterval(() => {
             checkPayment();
-            
         }, 5000);
 
         return () => clearInterval(intervalId);
     }, []);
 
     const checkPayment = async () => {
-        // console.log(params.id);
         const CheckPayment: any = await CheckCharge({ Id: params.id });
         if (CheckPayment.message === 'success') {
-            // await showToast()
-            navigation.navigate('Profile');
+            handleOpenmodal();
         } else {
             console.log(CheckPayment.message);
         }
@@ -113,7 +146,7 @@ const AddCoinQR = () => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.headerContent}>
-                    <Toast/>
+                    <Toast />
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <CaretLeft size={32} color="#011303" />
                     </TouchableOpacity>
@@ -137,9 +170,14 @@ const AddCoinQR = () => {
                     }}
                 />
             </View>
-            <TouchableOpacity onPress={showToast} style={styles.btnConfirm}>
-                <Text style={styles.textConfirm}>FINSHED</Text>
-            </TouchableOpacity>
+
+            <Modal isVisible={visible} backdropOpacity={0.9} backdropColor="#262D57">
+                <View style={styles.modalContainer}>
+                    <Image source={Good} style={styles.imageGood} />
+                    <Text style={styles.modalText}>Finished!</Text>
+                    <Text style={styles.modalText2}>Yahoo! You addcoin successfully.</Text>
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -179,8 +217,8 @@ const styles = StyleSheet.create({
         width: '150%'
     },
     buttonContainer: {
-        flexDirection: 'row', // Arrange children in a row
-        justifyContent: 'space-between', // Space evenly between children
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         padding: 30
     },
     button: {
@@ -217,6 +255,31 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 80
+    },
+    modalContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#EEF0FF',
+        borderRadius: 16,
+        paddingHorizontal: 25,
+        marginHorizontal: 35
+    },
+    imageGood: {
+        marginTop: -115,
+        marginBottom: 16
+    },
+    modalText: {
+        fontFamily: 'RedHatText-Bold',
+        fontSize: 24,
+        color: '#10152F',
+        marginBottom: 16
+    },
+    modalText2: {
+        fontFamily: 'RedHatText-Regular',
+        fontSize: 16,
+        color: '#262D57',
+        textAlign: 'center',
+        marginBottom: 30
     }
 });
 

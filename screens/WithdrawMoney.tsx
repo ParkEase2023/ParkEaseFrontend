@@ -44,15 +44,15 @@ const WithdrawMoney = () => {
         setInputNumber(newNumber);
     };
 
-    const handleAddCoin = async () => {
-        const res: any = await createdPromptPayQRCode({
-            amount: inputNumber,
-            phonenumber: params.phoneNumber
-        });
-        if (res) {
-            navigation.navigate('AddCoinQR', { qrCode: res.data, id: res.dataId });
-        }
-    };
+    // const handleAddCoin = async () => {
+    //     const res: any = await createdPromptPayQRCode({
+    //         amount: inputNumber,
+    //         phonenumber: params.phoneNumber
+    //     });
+    //     if (res) {
+    //         navigation.navigate('AddCoinQR', { qrCode: res.data, id: res.dataId });
+    //     }
+    // };
 
     return (
         <KeyboardAvoidingView style={styles.container}>
@@ -120,7 +120,7 @@ const WithdrawMoney = () => {
                         </TouchableOpacity>
                     </View>
                     <View>
-                        <TouchableOpacity style={styles.btnConfirm} onPress={handleAddCoin}>
+                        <TouchableOpacity style={styles.btnConfirm} >
                             <Text style={styles.textConfirm}>CONFIRM</Text>
                         </TouchableOpacity>
                     </View>
