@@ -3,11 +3,11 @@ import React from 'react';
 import Modal from 'react-native-modal';
 import Bin from '../assets/Bin.png';
 
-const DeleteMyParking = () => {
-    return (
-        <Modal isVisible={true}>
+const PopupDeleteMyParking = () => {
+  return (
+    <Modal isVisible={true}>
             <View style={styles.modalContainer}>
-                <Image source={Bin} style={styles.imageBreakHeart} />
+                <Image source={Bin} style={styles.imageBin} />
                 <Text style={styles.titlePopup}>Delete parking</Text>
                 <Text style={styles.labelPopup}>Do you want to delete this parking ?</Text>
                 <View style={styles.rowBtn}>
@@ -20,10 +20,10 @@ const DeleteMyParking = () => {
                 </View>
             </View>
         </Modal>
-    );
-};
+  )
+}
 
-export default DeleteMyParking;
+export default PopupDeleteMyParking
 
 const styles = StyleSheet.create({
     modalContainer: {
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         padding: 16,
         marginHorizontal: 32
     },
-    imageBreakHeart: {
+    imageBin: {
         width: 300,
         height: 200,
         marginTop: -150,
@@ -87,4 +87,4 @@ const styles = StyleSheet.create({
         fontFamily: 'Fredoka-SemiBold',
         color: '#F4F6FD'
     }
-});
+})
