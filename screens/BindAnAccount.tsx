@@ -32,10 +32,12 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { ProfileParamList } from '../stack/ProfileStack';
 import { createdPromptPayQRCode, createdRecipient } from '../services/omise';
 import TabSelectBank from '../components/TabSelectBank';
+import { createRecipienOnDB } from '../services/recipien';
+import { accountLinked } from '../services/user';
 
 const BindAnAccount = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
-    const { params } = useRoute<RouteProp<ProfileParamList, 'AddCoin'>>();
+    const { params } = useRoute<RouteProp<ProfileParamList, 'BindAnAccount'>>();
     const [inputNumber, setInputNumber] = useState<number>(0);
     const [isHidden, setIsHidden] = useState(true);
     const translateY = new Animated.Value(100);
@@ -46,8 +48,10 @@ const BindAnAccount = () => {
     const [email, setEmail] = useState('');
     const [accountName, setAccountName] = useState('');
     const [accountNumber, setAccountNumber] = useState('');
+    const [recipienId, setRecipienId] = useState('');
     const [isVisible, setIsVisible] = useState(false);
     const [textEntry, setTextEntry] = useState(true);
+
     const createRecipien = async () => {
         const Recipien: any = await createdRecipient({
             firstname: firstname,
@@ -56,8 +60,38 @@ const BindAnAccount = () => {
             taxId: TaxID,
             bank: selectBank,
             accountname: accountName,
-            accountnumber: accountNumber,
+            accountnumber: accountNumber
         });
+        if (Recipien.message === 'created') {
+            createRecipienDB(Recipien.data);
+        }
+    };
+
+
+    
+
+    const createRecipienDB = async (recipienID:string) => {
+        const RecipienOnDB: any = await createRecipienOnDB({
+            useId: params.userId,
+            recipienId: recipienID,
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            taxId: TaxID,
+            bank: selectBank,
+            accountname: accountName,
+            accountnumber: accountNumber
+        });
+        if (RecipienOnDB.message === 'created') {
+            bankLinked();
+        }
+    };
+
+    const bankLinked = async () => {
+        const Linked: any = await accountLinked(email);
+        if (Linked.message === 'created') {
+            navigation.navigate('InspectionInProgress');
+        }
     };
 
     useEffect(() => {

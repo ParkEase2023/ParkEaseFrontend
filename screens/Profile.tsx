@@ -219,14 +219,14 @@ const Profile = () => {
 
             setFnAddCoins(false);
         } else if (fnBindAccount === true) {
-            navigationBindAnAccount.navigate('BindAnAccount');
+            navigationBindAnAccount.navigate('BindAnAccount',{userId: profile._id});
             setFnBindAccount(false);
         } else if (fnWithdrawMoney === true) {
-            if (profile.account_linked === true) {
+            if (profile.account_linked === true ) {
                 navigationBindAnAccount.navigate('WithdrawMoney');
                 setFnWithdrawMoney(false);
             } else {
-                navigationBindAnAccount.navigate('BindAnAccount');
+                navigationBindAnAccount.navigate('BindAnAccount',{userId: profile._id});
                 setFnWithdrawMoney(false);
             }
         }

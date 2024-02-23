@@ -65,7 +65,7 @@ const MenuStack = () => {
                             return { backgroundColor: '#10152F', height: 55 };
                         })(),
                         tabBarIcon: ({ focused, color, size }) => (
-                            <User color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
+                            <MapTrifold color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
                         )
                     })}
                 />

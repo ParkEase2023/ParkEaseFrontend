@@ -10,6 +10,7 @@ import AddCoinQR from '../screens/AddCoinQR';
 import Notification from '../screens/Notification';
 import BindAnAccount from '../screens/BindAnAccount';
 import WithdrawMoney from '../screens/WithdrawMoney';
+import InspectionInProgress from '../screens/InspectionInProgress';
 
 export type ProfileParamList = {
     Profile: undefined;
@@ -41,8 +42,9 @@ export type ProfileParamList = {
         userId: string;
     };
     Notification: {userId:string}
-    BindAnAccount:undefined;
+    BindAnAccount:{userId:string};
     WithdrawMoney:undefined;
+    InspectionInProgress:undefined;
 };
 
 const ProfileStack = () => {
@@ -62,6 +64,7 @@ const ProfileStack = () => {
             <Stack.Screen name="Notification" component={Notification} />
             <Stack.Screen name="BindAnAccount" component={BindAnAccount} />
             <Stack.Screen name="WithdrawMoney" component={WithdrawMoney} />
+            <Stack.Screen name="InspectionInProgress" component={InspectionInProgress} />
         </Stack.Navigator>
     );
 };

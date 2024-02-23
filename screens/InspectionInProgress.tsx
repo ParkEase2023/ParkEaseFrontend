@@ -1,63 +1,56 @@
-import { 
-    View, 
-    Text, 
-    ScrollView, 
-    StyleSheet, 
-    TouchableOpacity,
-    Image,
-} from 'react-native';
-import { useNavigation } from "@react-navigation/native";
-import { CaretLeft, } from 'phosphor-react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { CaretLeft } from 'phosphor-react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ProfileParamList } from '../stack/ProfileStack';
+
+
 const InspectionInProgress = () => {
-    const navigation = useNavigation();
-    const handleConfirm = () => {
-        console.log('Confirm');
-    };
+    const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     return (
         <ScrollView
             contentContainerStyle={styles.scrollViewContainer}
             keyboardShouldPersistTaps="handled">
             <View style={styles.headerContent}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
                     <CaretLeft size={22} color="#10152F" />
                 </TouchableOpacity>
                 <View style={styles.center}>
                     <Text style={styles.headerText}>Bind An Account</Text>
                 </View>
             </View>
-                <View style={styles.line}></View>
-                <View style={styles.container}>
-                    <View style={styles.ImageContainer}>
+            <View style={styles.line}></View>
+            <View style={styles.container}>
+                <View style={styles.ImageContainer}>
                     <Image
                         source={require('../assets/Hourglass.png')}
-                        style={{ width: 300,height: 300 }}
+                        style={{ width: 300, height: 300 }}
                     />
-                    </View>
-                    <Text style={styles.headerText}>Inspection In Progress</Text>
-                    <View style={styles.space}></View>
-                    <Text style={styles.bodyText}> Please wait about 2 - 3 days to proceed.</Text>
-                    
                 </View>
-                <View style={styles.buttonContrainer}>
-                    <TouchableOpacity style={styles.btnConfirm} onPress={handleConfirm}>
-                        <Text style={styles.textConfirm}>Confirm</Text>
-                    </TouchableOpacity>   
-                </View>
+                <Text style={styles.headerText}>Inspection In Progress</Text>
+                <View style={styles.space}></View>
+                <Text style={styles.bodyText}> Please wait about 2 - 3 days to proceed.</Text>
+            </View>
+            <View style={styles.buttonContrainer}>
+                <TouchableOpacity style={styles.btnConfirm} onPress={() => navigation.navigate("Profile")}>
+                    <Text style={styles.textConfirm}>Confirm</Text>
+                </TouchableOpacity>
+            </View>
         </ScrollView>
     );
-}
+};
 export default InspectionInProgress;
 
 const styles = StyleSheet.create({
     scrollViewContainer: {
         flexGrow: 1,
-        backgroundColor: '#EEF0FF',
+        backgroundColor: '#EEF0FF'
     },
     container: {
         flex: 1,
         backgroundColor: '#EEF0FF',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     mainContainer: {
         paddingHorizontal: 25,
@@ -72,13 +65,13 @@ const styles = StyleSheet.create({
     center: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     headerText: {
         fontSize: 18,
         color: '#10152F',
         fontFamily: 'RedHatText-Bold',
-        textAlign: 'center',
+        textAlign: 'center'
     },
     line: {
         borderBottomColor: '#7F85B2',
@@ -89,36 +82,35 @@ const styles = StyleSheet.create({
     ImageContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 20,
+        paddingVertical: 20
     },
     bodyText: {
         fontFamily: 'RedHatText-Regular',
         fontSize: 16,
         color: '#10152F',
-        textAlign: 'center',
+        textAlign: 'center'
     },
     buttonContrainer: {
         flex: 1,
         justifyContent: 'flex-end',
-        marginBottom: 50,
+        marginBottom: 50
     },
     btnConfirm: {
         backgroundColor: '#10152F',
         borderRadius: 10,
         padding: 15,
         marginHorizontal: 25,
-        alignItems: 'center',
+        alignItems: 'center'
     },
     textConfirm: {
         fontFamily: 'RedHatText-Bold',
         fontSize: 18,
-        color: '#FEFA94',
+        color: '#FEFA94'
     },
     spaceInLine: {
-        paddingVertical: 10,
+        paddingVertical: 10
     },
     space: {
-        paddingVertical: 10,
-    },
-
+        paddingVertical: 10
+    }
 });
