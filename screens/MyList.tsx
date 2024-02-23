@@ -125,7 +125,7 @@ const MyList = () => {
                                 <Text style={styles.textCancel}>CANCEL</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={setDelete} style={styles.btnYes}>
-                                <Text style={styles.textYes}>YES, DELETE</Text>
+                                <Text style={styles.textYes}>YES, REMOVE</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

@@ -13,17 +13,17 @@ import TicketParkEase from '../assets/TicketParkEase.png';
 import LinearGradient from 'react-native-linear-gradient';
 import LogoParkEase2 from '../assets/LogoParkEase2.png';
 
-const MyBooking = () => {
+const RetrospectiveBooking = () => {
     return (
         <View style={styles.bg}>
             <View style={styles.rowTopic}>
                 <TouchableOpacity>
                     <CaretLeft size={28} weight="bold" color="#10152F" />
                 </TouchableOpacity>
-                <Text style={styles.topic}>My Booking</Text>
+                <Text style={styles.topic}>Retrospective Booking</Text>
             </View>
+            <View style={styles.line}/>
             <View style={styles.flexHeader} />
-            <View style={styles.circleBig} />
             <View style={styles.flexMain}>
                 <ScrollView style={styles.container}>
                     <View style={styles.ticketContainer}>
@@ -131,7 +131,7 @@ const MyBooking = () => {
     );
 };
 
-export default MyBooking;
+export default RetrospectiveBooking;
 
 const styles = StyleSheet.create({
     bg: {
@@ -155,20 +155,17 @@ const styles = StyleSheet.create({
         marginHorizontal: 16
     },
     topic: {
-        marginLeft: 16,
-        fontSize: 24,
-        fontFamily: 'RedHatText-Bold',
+        flex: 1,
+        textAlign: 'center',
+        marginLeft: -28,
+        fontSize: 20,
+        fontFamily: 'RedHatText-Medium',
         color: '#10152F'
     },
-    circleBig: {
-        position: 'absolute',
-        width: 332,
-        height: 332,
-        borderRadius: 200,
-        backgroundColor: '#CED2EA',
-        top: -170,
-        left: -105,
-        zIndex: -1
+    line: {
+        width: '100%',
+        height: 1,
+        backgroundColor: '#CED2EA'
     },
     container: {
         paddingHorizontal: 25
