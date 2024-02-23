@@ -24,3 +24,10 @@ export const verifyIdentity = async (email: string) => {
   return res;
 };
 
+export const accountLinked = async (email: string) => {
+  const res = await http.put('/user/accountLinked/' + email);
+  console.log('res  accountLinked', res);
+  return res;
+};
+
+

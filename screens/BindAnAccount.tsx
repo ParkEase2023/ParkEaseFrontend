@@ -30,7 +30,7 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ProfileParamList } from '../stack/ProfileStack';
-import { createdPromptPayQRCode } from '../services/omise';
+import { createdPromptPayQRCode, createdRecipient } from '../services/omise';
 import TabSelectBank from '../components/TabSelectBank';
 
 const BindAnAccount = () => {
@@ -41,9 +41,24 @@ const BindAnAccount = () => {
     const translateY = new Animated.Value(100);
     const [TaxID, setTaxID] = useState('');
     const [selectBank, setSelectBank] = useState('');
+    const [firstname, setFirstname] = useState('');
+    const [lastname, setLastname] = useState('');
+    const [email, setEmail] = useState('');
+    const [accountName, setAccountName] = useState('');
+    const [accountNumber, setAccountNumber] = useState('');
     const [isVisible, setIsVisible] = useState(false);
     const [textEntry, setTextEntry] = useState(true);
-    const handleConfirm = async () => {};
+    const createRecipien = async () => {
+        const Recipien: any = await createdRecipient({
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            taxId: TaxID,
+            bank: selectBank,
+            accountname: accountName,
+            accountnumber: accountNumber,
+        });
+    };
 
     useEffect(() => {
         Animated.timing(translateY, {
@@ -141,15 +156,15 @@ const BindAnAccount = () => {
                         <View style={styles.textboxName}>
                             <TextInput
                                 style={styles.input}
-                                placeholder="Name"
-                                keyboardType="email-address"
+                                placeholder="Frist Name"
+                                onChangeText={text => setFirstname(text)}
                             />
                         </View>
                         <View style={styles.textboxLastname}>
                             <TextInput
                                 style={styles.input}
                                 placeholder="Last Name"
-                                keyboardType="email-address"
+                                onChangeText={text => setLastname(text)}
                             />
                         </View>
                     </View>
@@ -162,6 +177,7 @@ const BindAnAccount = () => {
                                 <TextInput
                                     style={styles.inputBank}
                                     placeholder="Email"
+                                    onChangeText={text => setEmail(text)}
                                 />
                             </View>
                         </View>
@@ -193,7 +209,6 @@ const BindAnAccount = () => {
                                         editable={false}
                                         placeholder="Choose a bank"
                                         value={selectBank}
-                                        keyboardType="email-address"
                                     />
                                     <View>
                                         <CaretDown size={32} />
@@ -207,7 +222,7 @@ const BindAnAccount = () => {
                                     <TextInput
                                         style={styles.input}
                                         placeholder="Account Name"
-                                        keyboardType="email-address"
+                                        onChangeText={text => setAccountName(text)}
                                     />
                                 </View>
                             </View>
@@ -218,14 +233,14 @@ const BindAnAccount = () => {
                                     <TextInput
                                         style={styles.input}
                                         placeholder="Account Number"
-                                        keyboardType="email-address"
+                                        onChangeText={text => setAccountNumber(text)}
                                     />
                                 </View>
                             </View>
                         </View>
                     </View>
                     <View>
-                        <TouchableOpacity style={styles.btnConfirm} onPress={handleConfirm}>
+                        <TouchableOpacity style={styles.btnConfirm} onPress={createRecipien}>
                             <Text style={styles.textConfirm}>CONFIRM</Text>
                         </TouchableOpacity>
                     </View>
