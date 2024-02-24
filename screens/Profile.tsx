@@ -85,7 +85,7 @@ const Profile = () => {
         account_linked: false
     });
     const [myRecipien, setMyRecipien] = useState<myRecipien>({
-        approve_status: true,
+        approve_status: true
     });
     const [checkData, setCheckData] = useState('');
     const getUserProfile = async () => {
@@ -106,9 +106,8 @@ const Profile = () => {
     }, [navigation]);
 
     useEffect(() => {
-        getDataRecipien()
-    }, [profile._id])
-    
+        getDataRecipien();
+    }, [profile._id]);
 
     const handleLogout = async () => {
         setLoggedIn(false);
@@ -135,7 +134,7 @@ const Profile = () => {
 
     const getDataRecipien = async () => {
         const list: any = await getRecipienOnDB(profile._id);
-        console.log(list)
+        console.log(list);
         await setMyRecipien(list.myData[0]);
         await setCheckData(list.message);
     };
@@ -239,25 +238,23 @@ const Profile = () => {
             });
 
             setFnAddCoins(false);
-        } else if (fnBindAccount === true ) {
-            if (profile.account_linked === true &&  myRecipien.approve_status === false){
+        } else if (fnBindAccount === true) {
+            if (profile.account_linked === true && myRecipien.approve_status === false) {
                 navigationBindAnAccount.navigate('InspectionInProgress');
                 setFnBindAccount(false);
-            }
-            else{
-                navigationBindAnAccount.navigate('BindAnAccount',{userId: profile._id});
+            } else {
+                navigationBindAnAccount.navigate('BindAnAccount', { userId: profile._id });
                 setFnBindAccount(false);
             }
         } else if (fnWithdrawMoney === true) {
             if (profile.account_linked === true && myRecipien.approve_status === true) {
                 navigationBindAnAccount.navigate('WithdrawMoney');
                 setFnWithdrawMoney(false);
-            } else if (profile.account_linked === true && myRecipien.approve_status === false){
+            } else if (profile.account_linked === true && myRecipien.approve_status === false) {
                 navigationBindAnAccount.navigate('InspectionInProgress');
                 setFnWithdrawMoney(false);
-            }
-            else{
-                navigationBindAnAccount.navigate('BindAnAccount',{userId: profile._id});
+            } else {
+                navigationBindAnAccount.navigate('BindAnAccount', { userId: profile._id });
                 setFnBindAccount(false);
             }
         }
