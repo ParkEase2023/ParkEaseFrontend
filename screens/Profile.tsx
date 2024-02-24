@@ -37,6 +37,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProfileParamList } from '../stack/ProfileStack';
 import PopupVerify from '../components/PopupVerify';
 import TabRemainingBalance from '../components/TabRemainingBalance';
+import { getRecipienOnDB } from '../services/recipien';
 
 export interface IProfile {
     _id: string;
@@ -49,6 +50,10 @@ export interface IProfile {
     profile_picture: string;
     verification_status: boolean;
     account_linked: boolean;
+}
+
+interface myRecipien {
+    approve_status: boolean;
 }
 
 const Profile = () => {
@@ -79,6 +84,10 @@ const Profile = () => {
         verification_status: false,
         account_linked: false
     });
+    const [myRecipien, setMyRecipien] = useState<myRecipien>({
+        approve_status: true,
+    });
+    const [checkData, setCheckData] = useState('');
     const getUserProfile = async () => {
         const { data } = await getProfile();
         // console.log('user profile ', data);
@@ -95,6 +104,11 @@ const Profile = () => {
         });
         return unsubscribe;
     }, [navigation]);
+
+    useEffect(() => {
+        getDataRecipien()
+    }, [profile._id])
+    
 
     const handleLogout = async () => {
         setLoggedIn(false);
@@ -117,6 +131,13 @@ const Profile = () => {
     const handleVrify = () => {
         setTicker(true);
         setVisible(!visible);
+    };
+
+    const getDataRecipien = async () => {
+        const list: any = await getRecipienOnDB(profile._id);
+        console.log(list)
+        await setMyRecipien(list.myData[0]);
+        await setCheckData(list.message);
     };
 
     const ContentVerify = (): JSX.Element | null => {
@@ -218,16 +239,26 @@ const Profile = () => {
             });
 
             setFnAddCoins(false);
-        } else if (fnBindAccount === true) {
-            navigationBindAnAccount.navigate('BindAnAccount',{userId: profile._id});
-            setFnBindAccount(false);
+        } else if (fnBindAccount === true ) {
+            if (profile.account_linked === true &&  myRecipien.approve_status === false){
+                navigationBindAnAccount.navigate('InspectionInProgress');
+                setFnBindAccount(false);
+            }
+            else{
+                navigationBindAnAccount.navigate('BindAnAccount',{userId: profile._id});
+                setFnBindAccount(false);
+            }
         } else if (fnWithdrawMoney === true) {
-            if (profile.account_linked === true ) {
+            if (profile.account_linked === true && myRecipien.approve_status === true) {
                 navigationBindAnAccount.navigate('WithdrawMoney');
                 setFnWithdrawMoney(false);
-            } else {
-                navigationBindAnAccount.navigate('BindAnAccount',{userId: profile._id});
+            } else if (profile.account_linked === true && myRecipien.approve_status === false){
+                navigationBindAnAccount.navigate('InspectionInProgress');
                 setFnWithdrawMoney(false);
+            }
+            else{
+                navigationBindAnAccount.navigate('BindAnAccount',{userId: profile._id});
+                setFnBindAccount(false);
             }
         }
     };
