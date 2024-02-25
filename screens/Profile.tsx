@@ -242,6 +242,9 @@ const Profile = () => {
             if (profile.account_linked === true && myRecipien.approve_status === false) {
                 navigationBindAnAccount.navigate('InspectionInProgress');
                 setFnBindAccount(false);
+            } else if (profile.account_linked === true && myRecipien.approve_status === true) {
+                navigationBindAnAccount.navigate('BankInformation',{userId: profile._id});
+                setFnBindAccount(false);
             } else {
                 navigationBindAnAccount.navigate('BindAnAccount', { userId: profile._id });
                 setFnBindAccount(false);

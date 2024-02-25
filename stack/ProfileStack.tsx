@@ -11,6 +11,7 @@ import Notification from '../screens/Notification';
 import BindAnAccount from '../screens/BindAnAccount';
 import WithdrawMoney from '../screens/WithdrawMoney';
 import InspectionInProgress from '../screens/InspectionInProgress';
+import BankInformation from '../screens/BankInformation';
 
 export type ProfileParamList = {
     Profile: undefined;
@@ -45,6 +46,7 @@ export type ProfileParamList = {
     BindAnAccount:{userId:string};
     WithdrawMoney:undefined;
     InspectionInProgress:undefined;
+    BankInformation:{userId:string};
 };
 
 const ProfileStack = () => {
@@ -65,6 +67,7 @@ const ProfileStack = () => {
             <Stack.Screen name="BindAnAccount" component={BindAnAccount} />
             <Stack.Screen name="WithdrawMoney" component={WithdrawMoney} />
             <Stack.Screen name="InspectionInProgress" component={InspectionInProgress} />
+            <Stack.Screen name="BankInformation" component={BankInformation} />
         </Stack.Navigator>
     );
 };
