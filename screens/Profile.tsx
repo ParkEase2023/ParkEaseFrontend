@@ -100,8 +100,8 @@ const Profile = () => {
     }, []);
 
     useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            getUserProfile();
+        const unsubscribe = navigation.addListener('focus', async () => {
+            await getUserProfile();
             getDataRecipien();
         });
         return unsubscribe;
