@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { ProfileParamList } from '../stack/ProfileStack';
 import { Bank, CaretLeft, EnvelopeSimple, IdentificationCard } from 'phosphor-react-native';
-import { getRecipienOnDB } from '../services/recipien';
+import { destroyRecipien, getRecipienOnDB } from '../services/recipien';
 import Modal from 'react-native-modal';
 import Good from '../assets/Good.png';
 
@@ -23,7 +23,14 @@ const BankInformation = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const { params } = useRoute<RouteProp<ProfileParamList, 'BankInformation'>>();
     const handleConfirm = async () => {
-        console.log('confirm');
+        const destroy: any = await destroyRecipien({
+            userId:params.userId,
+            recipienId:myRecipien.recipienId,
+        })
+        if(destroy.message === 'success')
+        {
+            navigation.navigate("BindAnAccount",{userId:params.userId})
+        }
     };
 
     const [visible, setVisible] = useState(false);

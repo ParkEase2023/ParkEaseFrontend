@@ -72,7 +72,7 @@ const BindAnAccount = () => {
 
     const createRecipienDB = async (recipienID:string) => {
         const RecipienOnDB: any = await createRecipienOnDB({
-            useId: params.userId,
+            userId: params.userId,
             recipienId: recipienID,
             firstname: firstname,
             lastname: lastname,

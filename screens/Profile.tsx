@@ -84,6 +84,7 @@ const Profile = () => {
         verification_status: false,
         account_linked: false
     });
+    const [tickerP, setTickerP] = useState(false)
     const [myRecipien, setMyRecipien] = useState<myRecipien>({
         approve_status: true
     });
@@ -101,6 +102,7 @@ const Profile = () => {
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             getUserProfile();
+            getDataRecipien();
         });
         return unsubscribe;
     }, [navigation]);
@@ -108,6 +110,10 @@ const Profile = () => {
     useEffect(() => {
         getDataRecipien();
     }, [profile._id]);
+
+    useEffect(() => {
+        getDataRecipien();
+    }, [tickerP]);
 
     const handleLogout = async () => {
         setLoggedIn(false);
