@@ -14,7 +14,6 @@ interface myNotification {
     userId: string;
 }
 
-
 const Notification = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const { params } = useRoute<RouteProp<ProfileParamList, 'Notification'>>();
@@ -39,7 +38,7 @@ const Notification = () => {
             return (
                 <>
                     {myNotification.map((item: any, index) => {
-                        if(item.Booking === false && item.Topic === "Add coins"){
+                        if (item.Booking === false && item.Topic === 'Add coins') {
                             return (
                                 <ContentNotificationAddCoins
                                     key={index}
@@ -47,8 +46,16 @@ const Notification = () => {
                                     date={item.updatedAt}
                                 />
                             );
+                        } else if (item.Booking === false && item.Topic === 'Withdraw Money') {
+                            return (
+                                <ContentNotificationWithdraw
+                                    key={index}
+                                    coins={item.Coins}
+                                    date={item.updatedAt}
+                                    to={item.From}
+                                />
+                            );
                         }
-
                     })}
                 </>
             );
@@ -56,7 +63,6 @@ const Notification = () => {
             return null;
         }
     };
-
 
     return (
         <View style={styles.bg}>
@@ -69,9 +75,6 @@ const Notification = () => {
             <View style={styles.line} />
             <ScrollView style={styles.container}>
                 <RenderMyNotification></RenderMyNotification>
-                {/* <ContentNotificationWithdraw></ContentNotificationWithdraw>
-                <ContentNotificationOutgoing></ContentNotificationOutgoing>
-                <ContentNotificationIncoming></ContentNotificationIncoming> */}
             </ScrollView>
         </View>
     );
@@ -108,5 +111,5 @@ const styles = StyleSheet.create({
         fontFamily: 'RedHatText-Bold',
         fontSize: 16,
         color: '#10152F'
-    },
+    }
 });

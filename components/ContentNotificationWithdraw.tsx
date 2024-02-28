@@ -1,20 +1,34 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
+import Moment from 'react-moment';
+interface INotification {
+    coins: number;
+    date: string;
+    to: string;
+}
 
-const ContentNotificationWithdraw = () => {
+const ContentNotificationWithdraw = (props: INotification) => {
     return (
         <TouchableOpacity style={styles.NotificationContainer}>
             <View style={styles.row}>
                 <Text style={styles.title}>Withdraw Money</Text>
-                <Text style={styles.price}>- 200 Coins</Text>
+                <Text style={styles.price}>- {props.coins} Coins</Text>
             </View>
 
             <View style={styles.row}>
                 <View style={styles.rowName}>
                     <Text style={styles.conjunction}>To</Text>
-                    <Text style={styles.name}>Brandon Stanton</Text>
+                    <Text style={styles.name}>{props.to}</Text>
                 </View>
-                <Text style={styles.date}>21 Dec 2023 | 09:00</Text>
+                <Text style={styles.date}>
+                    <Moment format="DD/MM/YYYY" element={Text}>
+                        {props.date}
+                    </Moment>{' '}
+                    |{' '}
+                    <Moment format="HH:mm" element={Text}>
+                        {props.date}
+                    </Moment>
+                </Text>
             </View>
         </TouchableOpacity>
     );

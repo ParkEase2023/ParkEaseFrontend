@@ -12,9 +12,9 @@ const InspectionInProgress = () => {
             contentContainerStyle={styles.scrollViewContainer}
             keyboardShouldPersistTaps="handled">
             <View style={styles.headerContent}>
-                <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+                {/* <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
                     <CaretLeft size={22} color="#10152F" />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <View style={styles.center}>
                     <Text style={styles.headerText}>Bind An Account</Text>
                 </View>

@@ -15,9 +15,12 @@ import { useEffect, useState } from 'react';
 import { createTransfersOnDB, withdrawMoney } from '../services/transaction';
 import { getRecipienOnDB } from '../services/recipien';
 import { Transfers } from '../services/omise';
+import { createNotification } from '../services/notification';
 
 interface myRecipien {
     recipienId: string;
+    firstname:string;
+    lastname:string;
 }
 
 const CheckInformation = () => {
@@ -25,28 +28,40 @@ const CheckInformation = () => {
     const { params } = useRoute<RouteProp<ProfileParamList, 'CheckInformation'>>();
     const [myRecipien, setMyRecipien] = useState<myRecipien>({
         recipienId: '',
+        firstname:'',
+        lastname:'',
+
     });
-    const [recipienId, setRecipienId] = useState("");
+    const [recipienId, setRecipienId] = useState('');
     const handleWithdrawmoney = async () => {
         const body = {
             coins: params.coins,
             withdrawmoney: params.withdrawMoney,
-            recipienId:myRecipien.recipienId
+            recipienId: myRecipien.recipienId
         };
         const body2 = {
             withdrawmoney: params.withdrawMoney,
-            recipienId:myRecipien.recipienId
+            recipienId: myRecipien.recipienId
         };
         await withdrawMoney(params.email, body);
-        const data:any = await Transfers(body2);
-        if(data.message === 'created'){
+        const data: any = await Transfers(body2);
+        if (data.message === 'created') {
             const body3 = {
-                transferId:data.data.id,
-                amount:params.withdrawMoney,
-                email:params.email
+                transferId: data.data.id,
+                amount: params.withdrawMoney,
+                email: params.email
             };
-            await createTransfersOnDB(body3)
-
+            const res: any = await createTransfersOnDB(body3);
+            if (res.message === 'created') {
+                await createNoti()
+                navigation.navigate('WithdrawalReceipt',{_id: params._id,
+                    firstname: params.firstname,
+                    lastname: params.lastname,
+                    email: params.email,
+                    withdrawMoney: params.withdrawMoney,
+                    coins: params.coins,
+                    phoneNumber: params.phoneNumber})
+            }
         }
     };
 
@@ -56,10 +71,22 @@ const CheckInformation = () => {
         await setMyRecipien(list.myData[0]);
     };
 
+    const createNoti = async () => {
+        const Notification : any = await createNotification({
+            userId: params._id,
+            Parking_ownerId:params._id,
+            Topic: "Withdraw Money",
+            Booking: false,
+            From: myRecipien.firstname+' '+myRecipien.lastname,
+            Parking_name:"",
+            Coins:params.withdrawMoney
+        });
+    };
+
     useEffect(() => {
-        getDataRecipien()
-    }, [])
-    
+        getDataRecipien();
+    }, []);
+
     return (
         <ScrollView
             style={styles.container}
@@ -74,10 +101,7 @@ const CheckInformation = () => {
                     userId={params._id}
                     firstname={params.firstname}
                     lastname={params.lastname}
-                    phoneNumber={params.phoneNumber}
-                    recipienId={value => {
-                        setRecipienId(value);
-                    }}></PaymentBill>
+                    phoneNumber={params.phoneNumber}></PaymentBill>
             </View>
             <View style={styles.totalPrice}>
                 <View style={styles.textRow}>

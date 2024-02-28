@@ -12,7 +12,6 @@ interface PaymentBillProps {
     firstname:string;
     lastname:string;
     phoneNumber:string;
-    recipienId : (value: string) => void;
 }
 
 interface myRecipien {
@@ -37,7 +36,6 @@ const PaymentBill = (props:PaymentBillProps) => {
         const list: any = await getRecipienOnDB(props.userId);
         console.log(list);
         await setMyRecipien(list.myData[0]);
-        props.recipienId(myRecipien.recipienId)
     };
     useEffect(() => {
         getDataRecipien();
