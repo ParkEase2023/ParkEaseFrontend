@@ -12,6 +12,7 @@ import BindAnAccount from '../screens/BindAnAccount';
 import WithdrawMoney from '../screens/WithdrawMoney';
 import InspectionInProgress from '../screens/InspectionInProgress';
 import BankInformation from '../screens/BankInformation';
+import CheckInformation from '../screens/CheckInformation';
 
 export type ProfileParamList = {
     Profile: undefined;
@@ -42,11 +43,27 @@ export type ProfileParamList = {
         addcoins: number;
         userId: string;
     };
-    Notification: {userId:string}
-    BindAnAccount:{userId:string};
-    WithdrawMoney:undefined;
-    InspectionInProgress:undefined;
-    BankInformation:{userId:string};
+    Notification: { userId: string };
+    BindAnAccount: { userId: string };
+    WithdrawMoney: {
+        _id: string;
+        firstname: string;
+        lastname: string;
+        email: string;
+        coins: number;
+        phoneNumber: string;
+    };
+    InspectionInProgress: undefined;
+    BankInformation: { userId: string };
+    CheckInformation: {
+        _id: string;
+        firstname: string;
+        lastname: string;
+        email: string;
+        withdrawMoney: number;
+        coins: number;
+        phoneNumber: string;
+    };
 };
 
 const ProfileStack = () => {
@@ -68,6 +85,7 @@ const ProfileStack = () => {
             <Stack.Screen name="WithdrawMoney" component={WithdrawMoney} />
             <Stack.Screen name="InspectionInProgress" component={InspectionInProgress} />
             <Stack.Screen name="BankInformation" component={BankInformation} />
+            <Stack.Screen name="CheckInformation" component={CheckInformation} />
         </Stack.Navigator>
     );
 };

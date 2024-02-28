@@ -84,7 +84,7 @@ const Profile = () => {
         verification_status: false,
         account_linked: false
     });
-    const [tickerP, setTickerP] = useState(false)
+    const [tickerP, setTickerP] = useState(false);
     const [myRecipien, setMyRecipien] = useState<myRecipien>({
         approve_status: true
     });
@@ -249,7 +249,7 @@ const Profile = () => {
                 navigationBindAnAccount.navigate('InspectionInProgress');
                 setFnBindAccount(false);
             } else if (profile.account_linked === true && myRecipien.approve_status === true) {
-                navigationBindAnAccount.navigate('BankInformation',{userId: profile._id});
+                navigationBindAnAccount.navigate('BankInformation', { userId: profile._id });
                 setFnBindAccount(false);
             } else {
                 navigationBindAnAccount.navigate('BindAnAccount', { userId: profile._id });
@@ -257,7 +257,14 @@ const Profile = () => {
             }
         } else if (fnWithdrawMoney === true) {
             if (profile.account_linked === true && myRecipien.approve_status === true) {
-                navigationBindAnAccount.navigate('WithdrawMoney');
+                navigationBindAnAccount.navigate('WithdrawMoney', {
+                    _id: profile._id,
+                    firstname: profile.firstname,
+                    lastname: profile.lastname,
+                    email: profile.email,
+                    coins: profile.coins,
+                    phoneNumber: profile.phone_number
+                });
                 setFnWithdrawMoney(false);
             } else if (profile.account_linked === true && myRecipien.approve_status === false) {
                 navigationBindAnAccount.navigate('InspectionInProgress');
