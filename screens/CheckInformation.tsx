@@ -12,8 +12,9 @@ import {
 import { ProfileParamList } from '../stack/ProfileStack';
 import PaymentBill from '../components/PaymentBill';
 import { useEffect, useState } from 'react';
-import { withdrawMoney } from '../services/transaction';
+import { createTransfersOnDB, withdrawMoney } from '../services/transaction';
 import { getRecipienOnDB } from '../services/recipien';
+import { Transfers } from '../services/omise';
 
 interface myRecipien {
     recipienId: string;
@@ -32,8 +33,21 @@ const CheckInformation = () => {
             withdrawmoney: params.withdrawMoney,
             recipienId:myRecipien.recipienId
         };
-        const transfer:any = await withdrawMoney(params.email, body);
-        console.log(transfer);
+        const body2 = {
+            withdrawmoney: params.withdrawMoney,
+            recipienId:myRecipien.recipienId
+        };
+        await withdrawMoney(params.email, body);
+        const data:any = await Transfers(body2);
+        if(data.message === 'created'){
+            const body3 = {
+                transferId:data.data.id,
+                amount:params.withdrawMoney,
+                email:params.email
+            };
+            await createTransfersOnDB(body3)
+
+        }
     };
 
     const getDataRecipien = async () => {
