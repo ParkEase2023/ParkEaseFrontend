@@ -14,6 +14,9 @@ import InspectionInProgress from '../screens/InspectionInProgress';
 import BankInformation from '../screens/BankInformation';
 import CheckInformation from '../screens/CheckInformation';
 import WithdrawalReceipt from '../screens/WithdrawalReceipt';
+import ApplyForMembership from '../screens/ApplyForMembership';
+import Member from '../screens/Member';
+import Partner from '../screens/Partner';
 
 export type ProfileParamList = {
     Profile: undefined;
@@ -73,7 +76,10 @@ export type ProfileParamList = {
         withdrawMoney: number;
         coins: number;
         phoneNumber: string;
-    }
+    };
+    ApplyForMembership:undefined;
+    Member:undefined;
+    Partner:undefined;
 };
 
 const ProfileStack = () => {
@@ -97,6 +103,9 @@ const ProfileStack = () => {
             <Stack.Screen name="BankInformation" component={BankInformation} />
             <Stack.Screen name="CheckInformation" component={CheckInformation} />
             <Stack.Screen name="WithdrawalReceipt" component={WithdrawalReceipt} />
+            <Stack.Screen name="ApplyForMembership" component={ApplyForMembership} />
+            <Stack.Screen name="Member" component={Member} />
+            <Stack.Screen name="Partner" component={Partner} />
         </Stack.Navigator>
     );
 };

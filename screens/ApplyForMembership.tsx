@@ -2,13 +2,17 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import React from 'react';
 import { CaretLeft, CoinVertical, Check } from 'phosphor-react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ProfileParamList } from '../stack/ProfileStack';
 
 const ApplyForMembership = () => {
+    const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     return (
         <View style={styles.bg}>
             <View style={styles.rowTopic}>
-                <TouchableOpacity>
-                    <CaretLeft size={22} weight="bold" color="#EEF0FF" />
+                <TouchableOpacity onPress={()=>navigation.goBack()}>
+                    <CaretLeft size={22} weight="bold" color="#EEF0FF"/>
                 </TouchableOpacity>
                 <Text style={styles.topic}>Apply For Membership</Text>
             </View>
@@ -46,7 +50,7 @@ const ApplyForMembership = () => {
                             </Text>
                         </View>
 
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={()=>navigation.navigate("Member")}>
                             <LinearGradient
                                 start={{ x: 0, y: 0 }}
                                 end={{ x: 1, y: 0 }}
@@ -87,7 +91,7 @@ const ApplyForMembership = () => {
                             </Text>
                         </View>
 
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={()=>navigation.navigate("Partner")}>
                             <LinearGradient
                                 start={{ x: 0, y: 0.5 }}
                                 end={{ x: 1, y: 0.5 }}

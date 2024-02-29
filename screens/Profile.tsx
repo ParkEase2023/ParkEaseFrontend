@@ -38,6 +38,7 @@ import { ProfileParamList } from '../stack/ProfileStack';
 import PopupVerify from '../components/PopupVerify';
 import TabRemainingBalance from '../components/TabRemainingBalance';
 import { getRecipienOnDB } from '../services/recipien';
+import PopupMember from '../components/PopupMember';
 
 export interface IProfile {
     _id: string;
@@ -63,6 +64,7 @@ const Profile = () => {
     const navigationNotification = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const navigationBindAnAccount = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
+    const [showpopup, setShowpopup] = useState(false);
     const [visible, setVisible] = useState(false);
     const [ticker, setTicker] = useState(false);
     const [isHidden, setIsHidden] = useState(true);
@@ -85,6 +87,7 @@ const Profile = () => {
         account_linked: false
     });
     const [tickerP, setTickerP] = useState(false);
+    const [tickerpopup, setTickerpopup] = useState(false);
     const [myRecipien, setMyRecipien] = useState<myRecipien>({
         approve_status: true
     });
@@ -391,7 +394,9 @@ const Profile = () => {
 
                         <ContentVerify></ContentVerify>
 
-                        <TouchableOpacity style={styles.btnRectangle}>
+                        <TouchableOpacity
+                            style={styles.btnRectangle}
+                            onPress={() => {setShowpopup(!showpopup),setTickerpopup(true)}}>
                             <View style={styles.itemLeft}>
                                 <View style={styles.bgIcon}>
                                     <UserList size={22} weight="bold" color="#EEF0FF" />
@@ -421,6 +426,7 @@ const Profile = () => {
                         email={profile.email}></PopupVerify>
                     <RenderTab></RenderTab>
                     <Renderbg></Renderbg>
+                    <PopupMember setVisible={showpopup} ticker={tickerpopup}></PopupMember>
                 </ScrollView>
             </KeyboardAvoidingView>
         </RequireLogin>
