@@ -1,15 +1,48 @@
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { CaretLeft } from 'phosphor-react-native';
 import Honeycomb_yellow from '../assets/Honeycomb_yellow.png';
 import King from '../assets/King.png';
 import LinearGradient from 'react-native-linear-gradient';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { ProfileParamList } from '../stack/ProfileStack';
+import Good from '../assets/Good.png';
+import Modal from 'react-native-modal';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { applyPartner } from '../services/membership';
 
 const Partner = () => {
+    const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
+    const { params } = useRoute<RouteProp<ProfileParamList, 'Partner'>>();
+    const [visible, setVisible] = useState(false);
+
+    const handleapplyMember = async () => {
+        const body = {
+            coins: params.coins,
+            price: 99,
+            roles: params.roles,
+        }
+        const res:any = await applyPartner(params.email,body)
+        if(res.message === "created"){
+            handleOpenmodal()
+        }
+    };
+    const handleOpenmodal = () => {
+        const duration = 3 * 1000;
+        setVisible(true);
+
+        const timer = setTimeout(() => {
+            setVisible(false);
+            navigation.navigate('Profile');
+        }, duration);
+
+        return () => clearTimeout(timer);
+    };
+
     return (
         <View style={styles.bg}>
             <View style={styles.rowTopic}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.goBack()}>
                     <CaretLeft size={22} weight="bold" color="#EEF0FF" />
                 </TouchableOpacity>
                 <Text style={styles.topic}>Choose New Plan</Text>
@@ -33,7 +66,7 @@ const Partner = () => {
                         at any time.
                     </Text>
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handleapplyMember}>
                     <LinearGradient
                         start={{ x: 0, y: 0.5 }}
                         end={{ x: 1, y: 0.5 }}
@@ -43,6 +76,15 @@ const Partner = () => {
                     </LinearGradient>
                 </TouchableOpacity>
             </ScrollView>
+            <Modal isVisible={visible} backdropOpacity={0.9} backdropColor="#262D57">
+                <View style={styles.modalContainer}>
+                    <Image source={Good} style={styles.imageGood} />
+                    <Text style={styles.modalText}>Success !</Text>
+                    <Text style={styles.modalText2}>
+                    Welcome to becoming a partner.
+                    </Text>
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -130,5 +172,30 @@ const styles = StyleSheet.create({
         color: '#10152F',
         fontSize: 18,
         fontFamily: 'RedHatText-Bold'
+    },
+    modalContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#EEF0FF',
+        borderRadius: 16,
+        paddingHorizontal: 25,
+        marginHorizontal: 35
+    },
+    imageGood: {
+        marginTop: -115,
+        marginBottom: 16
+    },
+    modalText: {
+        fontFamily: 'RedHatText-Bold',
+        fontSize: 24,
+        color: '#10152F',
+        marginBottom: 16
+    },
+    modalText2: {
+        fontFamily: 'RedHatText-Regular',
+        fontSize: 16,
+        color: '#262D57',
+        textAlign: 'center',
+        marginBottom: 30
     }
 });

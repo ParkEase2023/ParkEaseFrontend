@@ -1,15 +1,15 @@
 import { http } from '../config/axiosInstance'; 
 
 interface IApplyMember {
-    coins:string;
-    price:string;
-    roles:number;
+    coins:number;
+    price:number;
+    roles:any;
 }
 
 interface IApplyPartner {
-    coins:string;
-    price:string;
-    roles:number;
+    coins:number;
+    price:number;
+    roles:any;
 }
 
 export const applyMember = async (email: string, body: IApplyMember) => {

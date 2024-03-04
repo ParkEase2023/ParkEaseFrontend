@@ -68,7 +68,7 @@ export type ProfileParamList = {
         coins: number;
         phoneNumber: string;
     };
-    WithdrawalReceipt:{
+    WithdrawalReceipt: {
         _id: string;
         firstname: string;
         lastname: string;
@@ -77,9 +77,17 @@ export type ProfileParamList = {
         coins: number;
         phoneNumber: string;
     };
-    ApplyForMembership:undefined;
-    Member:undefined;
-    Partner:undefined;
+    ApplyForMembership: undefined;
+    Member: {
+        coins: number;
+        email: string;
+        roles: any;
+    };
+    Partner:  {
+        coins: number;
+        email: string;
+        roles: any;
+    };
 };
 
 const ProfileStack = () => {
