@@ -10,12 +10,13 @@ import Good from '../assets/Good.png';
 import Modal from 'react-native-modal';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { applyPartner } from '../services/membership';
+import Moment from 'react-moment';
 
 const Partner = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const { params } = useRoute<RouteProp<ProfileParamList, 'Partner'>>();
     const [visible, setVisible] = useState(false);
-
+    const today = new Date();
     const handleapplyMember = async () => {
         const body = {
             coins: params.coins,
@@ -55,7 +56,10 @@ const Partner = () => {
                 <View style={styles.description}>
                     <View style={styles.row}>
                         <Text style={styles.billingStart}>
-                            Monthly charge{'\n'}Billing starts: Dec 21, 2023
+                            Monthly charge{'\n'}Billing starts: {' '}
+                            <Moment format="MMM DD, YYYY" element={Text}>
+                                {today}
+                            </Moment>
                         </Text>
                         <Text style={styles.price}>99.00/mo</Text>
                     </View>

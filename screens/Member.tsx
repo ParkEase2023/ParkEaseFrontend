@@ -10,20 +10,22 @@ import Good from '../assets/Good.png';
 import Modal from 'react-native-modal';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { applyMember } from '../services/membership';
+import Moment from 'react-moment';
 
 const Member = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const { params } = useRoute<RouteProp<ProfileParamList, 'Member'>>();
     const [visible, setVisible] = useState(false);
+    const today = new Date();
     const handleapplyMember = async () => {
         const body = {
             coins: params.coins,
             price: 49,
-            roles: params.roles,
-        }
-        const res:any = await applyMember(params.email,body)
-        if(res.message === "created"){
-            handleOpenmodal()
+            roles: params.roles
+        };
+        const res: any = await applyMember(params.email, body);
+        if (res.message === 'created') {
+            handleOpenmodal();
         }
     };
     const handleOpenmodal = () => {
@@ -41,7 +43,7 @@ const Member = () => {
     return (
         <View style={styles.bg}>
             <View style={styles.rowTopic}>
-                <TouchableOpacity onPress={()=>navigation.goBack()}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
                     <CaretLeft size={22} weight="bold" color="#EEF0FF" />
                 </TouchableOpacity>
                 <Text style={styles.topic}>Choose New Plan</Text>
@@ -54,7 +56,10 @@ const Member = () => {
                 <View style={styles.description}>
                     <View style={styles.row}>
                         <Text style={styles.billingStart}>
-                            Monthly charge{'\n'}Billing starts: Dec 21, 2023
+                            Monthly charge{'\n'}Billing starts:{' '}
+                            <Moment format="MMM DD, YYYY" element={Text}>
+                                {today}
+                            </Moment>
                         </Text>
                         <Text style={styles.price}>49.00/mo</Text>
                     </View>
@@ -79,9 +84,7 @@ const Member = () => {
                 <View style={styles.modalContainer}>
                     <Image source={Good} style={styles.imageGood} />
                     <Text style={styles.modalText}>Success !</Text>
-                    <Text style={styles.modalText2}>
-                        Welcome to becoming a member.
-                    </Text>
+                    <Text style={styles.modalText2}>Welcome to becoming a member.</Text>
                 </View>
             </Modal>
         </View>
@@ -93,7 +96,7 @@ export default Member;
 const styles = StyleSheet.create({
     bg: {
         flex: 1,
-        backgroundColor: '#10152F',
+        backgroundColor: '#10152F'
     },
     rowTopic: {
         flexDirection: 'row',
@@ -132,12 +135,12 @@ const styles = StyleSheet.create({
         marginTop: 16,
         paddingVertical: 12,
         paddingHorizontal: 25,
-        backgroundColor: '#262D57',
+        backgroundColor: '#262D57'
     },
     row: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'space-between'
     },
     billingStart: {
         color: '#EEF0FF',
@@ -157,7 +160,7 @@ const styles = StyleSheet.create({
     textDescription: {
         flex: 1,
         color: '#EEF0FF',
-        fontSize: 14,
+        fontSize: 14
     },
     btnBuy: {
         alignItems: 'center',

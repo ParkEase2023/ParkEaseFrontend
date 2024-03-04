@@ -17,6 +17,7 @@ import WithdrawalReceipt from '../screens/WithdrawalReceipt';
 import ApplyForMembership from '../screens/ApplyForMembership';
 import Member from '../screens/Member';
 import Partner from '../screens/Partner';
+import BillingInfo from '../screens/BillingInformation';
 
 export type ProfileParamList = {
     Profile: undefined;
@@ -88,6 +89,12 @@ export type ProfileParamList = {
         email: string;
         roles: any;
     };
+    BillingInfo: {
+        email: string;
+        Exptime:string;
+        roles: any;
+    };
+
 };
 
 const ProfileStack = () => {
@@ -114,6 +121,8 @@ const ProfileStack = () => {
             <Stack.Screen name="ApplyForMembership" component={ApplyForMembership} />
             <Stack.Screen name="Member" component={Member} />
             <Stack.Screen name="Partner" component={Partner} />
+            <Stack.Screen name="BillingInfo" component={BillingInfo} />
+
         </Stack.Navigator>
     );
 };

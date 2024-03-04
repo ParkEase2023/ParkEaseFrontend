@@ -51,6 +51,8 @@ export interface IProfile {
     profile_picture: string;
     verification_status: boolean;
     account_linked: boolean;
+    roles: any;
+    Exptime: string;
 }
 
 interface myRecipien {
@@ -84,7 +86,9 @@ const Profile = () => {
         profile_picture:
             'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png',
         verification_status: false,
-        account_linked: false
+        account_linked: false,
+        roles: [],
+        Exptime: ''
     });
     const [tickerP, setTickerP] = useState(false);
     const [tickerpopup, setTickerpopup] = useState(false);
@@ -232,6 +236,48 @@ const Profile = () => {
             );
         } else {
             return null;
+        }
+    };
+
+    const RenderTabMembership = (): JSX.Element | null => {
+        if (profile.roles.length === 2) {
+            return (
+                <TouchableOpacity
+                    style={styles.btnRectangle}
+                    onPress={() =>
+                        navigationEditProfile.navigate('BillingInfo', {
+                            email: profile.email,
+                            Exptime: profile.Exptime,
+                            roles: profile.roles
+                        })
+                    }>
+                    <View style={styles.itemLeft}>
+                        <View style={styles.bgIcon}>
+                            <UserList size={22} weight="bold" color="#EEF0FF" />
+                        </View>
+                        <Text style={styles.textBody}>Billing Information</Text>
+                    </View>
+
+                    <CaretRight size={22} weight="bold" color="#7F85B2" />
+                </TouchableOpacity>
+            );
+        } else {
+            return (
+                <TouchableOpacity
+                    style={styles.btnRectangle}
+                    onPress={() => {
+                        setShowpopup(!showpopup), setTickerpopup(true);
+                    }}>
+                    <View style={styles.itemLeft}>
+                        <View style={styles.bgIcon}>
+                            <UserList size={22} weight="bold" color="#EEF0FF" />
+                        </View>
+                        <Text style={styles.textBody}>Apply For Membership</Text>
+                    </View>
+
+                    <CaretRight size={22} weight="bold" color="#7F85B2" />
+                </TouchableOpacity>
+            );
         }
     };
 
@@ -394,18 +440,7 @@ const Profile = () => {
 
                         <ContentVerify></ContentVerify>
 
-                        <TouchableOpacity
-                            style={styles.btnRectangle}
-                            onPress={() => {setShowpopup(!showpopup),setTickerpopup(true)}}>
-                            <View style={styles.itemLeft}>
-                                <View style={styles.bgIcon}>
-                                    <UserList size={22} weight="bold" color="#EEF0FF" />
-                                </View>
-                                <Text style={styles.textBody}>Apply For Membership</Text>
-                            </View>
-
-                            <CaretRight size={22} weight="bold" color="#7F85B2" />
-                        </TouchableOpacity>
+                        <RenderTabMembership></RenderTabMembership>
 
                         <TouchableOpacity style={styles.btnRectangle} onPress={handleLogout}>
                             <View style={styles.itemLeft}>
