@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     CaretLeft,
     CaretRight,
@@ -9,8 +9,64 @@ import {
     Phone,
     PlusCircle
 } from 'phosphor-react-native';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { AddParkingParamList } from '../stack/AddparkingStack';
+import { getProfile } from '../services/user';
+import PopupTimeOpen from '../components/PopupTimeOpen';
+import PopupTimeClose from '../components/PopupTimeClose';
+
+export interface IProfile {
+    _id: string;
+    firstname: string;
+    lastname: string;
+}
 
 const AddParkingDetails = () => {
+    const { params } = useRoute<RouteProp<AddParkingParamList, 'AddParkingDetails'>>();
+    const [providername, setProvidername] = useState('');
+    const [timeOpen, setTimeOpen] = useState('Open');
+    const [timeClose, setTimeClose] = useState('Close');
+    const [profile, setProfile] = React.useState<IProfile>({
+        _id: '',
+        firstname: '',
+        lastname: ''
+    });
+    const [visible, setVisible] = useState(false);
+    const [ticker, setTicker] = useState(false);
+    const [visibleC, setVisibleC] = useState(false);
+    const [tickerC, setTickerC] = useState(false);
+
+    const getUserProfile = async () => {
+        const { data } = await getProfile();
+        setProfile(data);
+    };
+    useEffect(() => {
+        getUserProfile();
+    }, []);
+
+    const popUpopen = () => {
+        setTicker(true);
+        setVisible(!visible);
+    };
+
+    const popUpclose = () => {
+        setTickerC(true);
+        setVisibleC(!visibleC);
+    };
+
+    const RenderInput = (): JSX.Element | null => {
+        if (params.type === 'Booking') {
+            return (
+                <View style={styles.simpleTextBox}>
+                    <CoinVertical size={24} color="#565E8B" />
+                    <TextInput placeholder="Price" style={styles.lastTextInput} />
+                    <Text style={styles.textCoin}>Coin/hr</Text>
+                </View>
+            );
+        } else {
+            return null;
+        }
+    };
     return (
         <View style={styles.bg}>
             <View style={styles.rowTopic}>
@@ -60,24 +116,29 @@ const AddParkingDetails = () => {
 
                 <View style={styles.rowTimeOC}>
                     <Text style={styles.titleTime}>Time</Text>
-                    <TouchableOpacity style={styles.btnTimeOpen}>
+                    <TouchableOpacity style={styles.btnTimeOpen} onPress={popUpopen}>
                         <View style={styles.rowTime}>
                             <Clock size={20} weight="fill" color="#239D60" />
-                            <Text style={styles.textOpen}>Open</Text>
+                            <Text style={styles.textOpen}>{timeOpen}</Text>
                         </View>
                         <CaretRight size={14} weight="bold" color="#7F85B2" />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnTimeClose}>
+                    <TouchableOpacity style={styles.btnTimeClose} onPress={popUpclose}>
                         <View style={styles.rowTime}>
                             <Clock size={20} weight="fill" color="#EA4C4C" />
-                            <Text style={styles.textClose}>Open</Text>
+                            <Text style={styles.textClose}>{timeClose}</Text>
                         </View>
                         <CaretRight size={14} weight="bold" color="#7F85B2" />
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.noIconTextBox}>
-                    <TextInput placeholder="Provider name" style={styles.noIconTextInput} />
+                    <TextInput
+                        placeholder="Provider name"
+                        style={styles.noIconTextInput}
+                        value={profile.firstname + ' ' + profile.lastname}
+                        editable={false}
+                    />
                 </View>
                 <View style={styles.simpleTextBox}>
                     <Phone size={24} color="#565E8B" />
@@ -95,15 +156,23 @@ const AddParkingDetails = () => {
                     multiline={true}
                     numberOfLines={500}
                 />
-                <View style={styles.simpleTextBox}>
-                    <CoinVertical size={24} color="#565E8B" />
-                    <TextInput placeholder="Price" style={styles.lastTextInput} />
-                    <Text style={styles.textCoin}>Coin/hr</Text>
-                </View>
+                <RenderInput></RenderInput>
                 <TouchableOpacity style={styles.btnConfirm}>
                     <Text style={styles.textConfirm}>CONFIRM</Text>
                 </TouchableOpacity>
             </ScrollView>
+            <PopupTimeOpen
+                setVisible={visible}
+                ticker={ticker}
+                timeOpen={value => {
+                    setTimeOpen(value);
+                }}></PopupTimeOpen>
+            <PopupTimeClose
+                setVisible={visibleC}
+                ticker={tickerC}
+                timeClose={value => {
+                    setTimeClose(value);
+                }}></PopupTimeClose>
         </View>
     );
 };

@@ -1,10 +1,57 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
-import React from 'react';
-import { CaretLeft, Circle } from 'phosphor-react-native';
+import React, { useState } from 'react';
+import { CaretLeft, Circle, CheckCircle } from 'phosphor-react-native';
 import ForBooking from '../assets/ForBooking.png';
 import ForInformation from '../assets/ForInformation.png';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AddParkingParamList } from '../stack/AddparkingStack';
 
 const SelectParkingType = () => {
+    const [isPressed, setIsPressed] = useState(true);
+    const [isPressed2, setIsPressed2] = useState(false);
+    const navigation = useNavigation<NativeStackNavigationProp<AddParkingParamList>>();
+    const { params } = useRoute<RouteProp<AddParkingParamList, 'SelectParkingType'>>();
+    const handlePress = () => {
+        setIsPressed(!isPressed);
+        setIsPressed2(!isPressed2);
+    };
+
+    const addDetails = () => {
+        if (isPressed === true) {
+            navigation.navigate('AddParkingDetails', {
+                type: 'Booking',
+                latitude: params.latitude,
+                longitude: params.longitude
+            });
+        }
+        else if (isPressed2 === true) {
+            navigation.navigate('AddParkingDetails', {
+                type: 'Information',
+                latitude: params.latitude,
+                longitude: params.longitude
+            });
+        }
+    };
+
+    const RenderIconBK = (): JSX.Element | null => {
+        if (isPressed === false) {
+            return <Circle size={32} weight="fill" color="#CED2EA" style={styles.check} />;
+        } else if (isPressed === true) {
+            return <CheckCircle size={32} weight="fill" color="#262D57" style={styles.check} />;
+        } else {
+            return null;
+        }
+    };
+    const RenderIconIF = (): JSX.Element | null => {
+        if (isPressed2 === false) {
+            return <Circle size={32} weight="fill" color="#CED2EA" style={styles.check} />;
+        } else if (isPressed2 === true) {
+            return <CheckCircle size={32} weight="fill" color="#262D57" style={styles.check} />;
+        } else {
+            return null;
+        }
+    };
     return (
         <View style={styles.bg}>
             <View style={styles.rowTopic}>
@@ -18,23 +65,17 @@ const SelectParkingType = () => {
                 <View style={styles.mainFlex}>
                     <View>
                         <ScrollView style={styles.container}>
-                            <TouchableOpacity style={styles.btnForBIActive}>
-                                <Circle
-                                    size={32}
-                                    weight="fill"
-                                    color="#CED2EA"
-                                    style={styles.check}
-                                />
+                            <TouchableOpacity
+                                style={[styles.btnForBI, isPressed ? styles.btnForBIActive : null]}
+                                onPress={handlePress}>
+                                <RenderIconBK></RenderIconBK>
                                 <Image source={ForBooking} style={styles.imageForBooking} />
                                 <Text style={styles.textForBooking}>For Booking</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.btnForBI}>
-                                <Circle
-                                    size={32}
-                                    weight="fill"
-                                    color="#CED2EA"
-                                    style={styles.check}
-                                />
+                            <TouchableOpacity
+                                style={[styles.btnForBI, isPressed2 ? styles.btnForBIActive : null]}
+                                onPress={handlePress}>
+                                <RenderIconIF></RenderIconIF>
                                 <Image source={ForInformation} style={styles.imageForInformation} />
                                 <Text style={styles.textForInformation}>For Information</Text>
                             </TouchableOpacity>
@@ -42,7 +83,9 @@ const SelectParkingType = () => {
                     </View>
                 </View>
                 <View style={styles.btnFlex}>
-                    <TouchableOpacity style={styles.btnNextStepActive}>
+                    <TouchableOpacity
+                        style={styles.btnNextStepActive}
+                        onPress={addDetails}>
                         <Text style={styles.textNextStepActive}>NEXT STEP</Text>
                     </TouchableOpacity>
                 </View>
