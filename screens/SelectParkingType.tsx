@@ -20,14 +20,14 @@ const SelectParkingType = () => {
     const addDetails = () => {
         if (isPressed === true) {
             navigation.navigate('AddParkingDetails', {
-                type: 'Booking',
+                type: 'BK',
                 latitude: params.latitude,
                 longitude: params.longitude
             });
         }
         else if (isPressed2 === true) {
             navigation.navigate('AddParkingDetails', {
-                type: 'Information',
+                type: 'IF',
                 latitude: params.latitude,
                 longitude: params.longitude
             });
