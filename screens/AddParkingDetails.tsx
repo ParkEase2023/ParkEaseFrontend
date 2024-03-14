@@ -17,13 +17,14 @@ import {
     Phone,
     PlusCircle
 } from 'phosphor-react-native';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { AddParkingParamList } from '../stack/AddparkingStack';
 import { getProfile } from '../services/user';
 import PopupTimeOpen from '../components/PopupTimeOpen';
 import PopupTimeClose from '../components/PopupTimeClose';
 import { createparking } from '../services/parking';
 import { launchImageLibrary } from 'react-native-image-picker';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export interface IProfile {
     _id: string;
@@ -32,6 +33,7 @@ export interface IProfile {
 }
 
 const AddParkingDetails = () => {
+    const navigation = useNavigation<NativeStackNavigationProp<AddParkingParamList>>();
     const { params } = useRoute<RouteProp<AddParkingParamList, 'AddParkingDetails'>>();
     const [providername, setProvidername] = useState('');
     const [timeOpen, setTimeOpen] = useState('Open');
@@ -189,7 +191,8 @@ const AddParkingDetails = () => {
             opening_sa: day6,
             opening_su: day7
         });
-        if (data.message === 'created') {
+        if (data.message === 'created parking By user') {
+            navigation.navigate("MyParking")
         }
     };
 
