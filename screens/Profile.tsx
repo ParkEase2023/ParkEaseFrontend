@@ -60,7 +60,6 @@ interface myRecipien {
     approve_status: boolean;
 }
 
-
 const Profile = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
     const navigationMyparking = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
@@ -430,7 +429,14 @@ const Profile = () => {
                             <CaretRight size={22} weight="bold" color="#7F85B2" />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.btnRectangle} onPress={()=>navigationMyparking.navigate("MyParking")}>
+                        <TouchableOpacity
+                            style={styles.btnRectangle}
+                            onPress={() =>
+                                navigationMyparking.navigate('MyParking', {
+                                    userId: profile._id,
+                                    navi: 'profile'
+                                })
+                            }>
                             <View style={styles.itemLeft}>
                                 <View style={styles.bgIcon}>
                                     <Car size={22} weight="fill" color="#EEF0FF" />

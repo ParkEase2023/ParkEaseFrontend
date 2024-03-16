@@ -47,7 +47,7 @@ const AddParkingDetails = () => {
     const [day7, setDay7] = useState(false);
     const [title, setTitle] = useState('');
     const [phone, setPhone] = useState('');
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState('');
     const [openingStatus, setOpeningStatus] = useState(true);
     const [booking, setBooking] = useState(false);
     const [locationAddress, setLocationAddress] = useState('');
@@ -172,7 +172,7 @@ const AddParkingDetails = () => {
             longitude: params.longitude,
             title: title,
             phone: phone,
-            price: price,
+            price: parseInt(price, 10),
             booking: booking,
             type: params.type,
             opening_status: openingStatus,
@@ -192,16 +192,17 @@ const AddParkingDetails = () => {
             opening_su: day7
         });
         if (data.message === 'created parking By user') {
-            navigation.navigate("MyParking")
+            navigation.navigate('MyParking', { userId: profile._id, navi: 'parking' });
         }
     };
 
     const RenderInput = (): JSX.Element | null => {
-        if (params.type === 'Booking') {
+        if (params.type === 'BK') {
             return (
                 <View style={styles.simpleTextBox}>
                     <CoinVertical size={24} color="#565E8B" />
-                    <TextInput placeholder="Price" style={styles.lastTextInput} />
+                    <TextInput placeholder="Price" style={styles.lastTextInput} 
+                    onChangeText={text => setPrice(text)}/>
                     <Text style={styles.textCoin}>Coin/hr</Text>
                 </View>
             );
@@ -212,7 +213,7 @@ const AddParkingDetails = () => {
     return (
         <View style={styles.bg}>
             <View style={styles.rowTopic}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.goBack()}>
                     <CaretLeft size={28} weight="bold" color="#EEF0FF" />
                 </TouchableOpacity>
                 <Text style={styles.topic}>Add Parking Details</Text>
@@ -313,10 +314,15 @@ const AddParkingDetails = () => {
                 </View>
                 <View style={styles.simpleTextBox}>
                     <Phone size={24} color="#565E8B" />
-                    <TextInput placeholder="Phone Number" style={styles.textInput} />
+                    <TextInput placeholder="Phone Number" style={styles.textInput} 
+                    onChangeText={text => setPhone(text)}/>
                 </View>
                 <View style={styles.noIconTextBox}>
-                    <TextInput placeholder="Parking place name" style={styles.noIconTextInput} />
+                    <TextInput
+                        placeholder="Parking place name"
+                        style={styles.noIconTextInput}
+                        onChangeText={text => setTitle(text)}
+                    />
                 </View>
 
                 <TextInput
@@ -326,6 +332,7 @@ const AddParkingDetails = () => {
                     cursorColor={'#10152F'}
                     multiline={true}
                     numberOfLines={500}
+                    onChangeText={text => setLocationAddress(text)}
                 />
                 <RenderInput></RenderInput>
                 <TouchableOpacity style={styles.btnConfirm} onPress={handleAddparking}>

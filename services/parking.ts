@@ -37,3 +37,10 @@ export const createparking = async (body: IParking) => {
     console.log('res createparking ', res);
     return res;
 };
+
+export const getMyparking = async (CreateBy: any) => {
+    const res = await http.get('/parking/getMyparking', {
+        params: { createBy: CreateBy }
+    });
+    return res;
+};

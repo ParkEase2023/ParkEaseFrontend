@@ -55,7 +55,7 @@ const SelectParkingType = () => {
     return (
         <View style={styles.bg}>
             <View style={styles.rowTopic}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=> navigation.goBack()}>
                     <CaretLeft size={28} weight="bold" color="#10152F" />
                 </TouchableOpacity>
                 <Text style={styles.topic}>Select Parking Type</Text>

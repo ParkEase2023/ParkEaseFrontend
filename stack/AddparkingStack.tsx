@@ -10,7 +10,7 @@ export type AddParkingParamList = {
     AddParking: undefined;
     SelectParkingType: {latitude: number; longitude: number };
     AddParkingDetails: {type: string; latitude: number; longitude: number};
-    MyParking: undefined;
+    MyParking: {userId:string; navi:string};
 };
 
 const AddParkingStack = () => {

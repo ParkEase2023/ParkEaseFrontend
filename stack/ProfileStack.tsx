@@ -97,7 +97,7 @@ export type ProfileParamList = {
         Exptime:string;
         roles: any;
     };
-    MyParking:undefined;
+    MyParking: {userId:string; navi:string};
     AddParkingStack: NavigatorScreenParams<AddParkingParamList>;
 
 };
