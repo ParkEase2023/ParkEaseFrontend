@@ -18,6 +18,9 @@ import ApplyForMembership from '../screens/ApplyForMembership';
 import Member from '../screens/Member';
 import Partner from '../screens/Partner';
 import BillingInfo from '../screens/BillingInformation';
+import MyParking from '../screens/MyParking';
+import { NavigatorScreenParams } from '@react-navigation/native';
+import AddParkingStack, { AddParkingParamList } from './AddparkingStack';
 
 export type ProfileParamList = {
     Profile: undefined;
@@ -94,6 +97,8 @@ export type ProfileParamList = {
         Exptime:string;
         roles: any;
     };
+    MyParking:undefined;
+    AddParkingStack: NavigatorScreenParams<AddParkingParamList>;
 
 };
 
@@ -122,7 +127,8 @@ const ProfileStack = () => {
             <Stack.Screen name="Member" component={Member} />
             <Stack.Screen name="Partner" component={Partner} />
             <Stack.Screen name="BillingInfo" component={BillingInfo} />
-
+            <Stack.Screen name="MyParking" component={MyParking} />
+            <Stack.Screen name="AddParkingStack" component={AddParkingStack} />
         </Stack.Navigator>
     );
 };

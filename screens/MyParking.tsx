@@ -5,6 +5,8 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ProfileParamList } from "../stack/ProfileStack";
 import ContentMyParking from "../components/ContentMyParking";
+import { AddParkingParamList } from "../stack/AddparkingStack";
+import { MenuParamList } from "../stack/MenuStack";
 
 const MyParking = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
@@ -18,7 +20,7 @@ const MyParking = () => {
                         <CaretLeft size={24} weight="bold" color="white" />
                     </TouchableOpacity>
                     <Text style={styles.title}>My Parking</Text>
-                    <TouchableOpacity style={styles.circleWhite}>
+                    <TouchableOpacity style={styles.circleWhite} onPress={()=>navigation.navigate('AddParkingStack', { state: undefined })}>
                         <Plus size={24} weight="bold" />
                     </TouchableOpacity>
                 </View>

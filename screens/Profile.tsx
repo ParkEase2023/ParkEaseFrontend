@@ -39,6 +39,7 @@ import PopupVerify from '../components/PopupVerify';
 import TabRemainingBalance from '../components/TabRemainingBalance';
 import { getRecipienOnDB } from '../services/recipien';
 import PopupMember from '../components/PopupMember';
+import { AddParkingParamList } from '../stack/AddparkingStack';
 
 export interface IProfile {
     _id: string;
@@ -59,8 +60,10 @@ interface myRecipien {
     approve_status: boolean;
 }
 
+
 const Profile = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
+    const navigationMyparking = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const navigationEditProfile = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const navigationAddCoin = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const navigationNotification = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
@@ -427,7 +430,7 @@ const Profile = () => {
                             <CaretRight size={22} weight="bold" color="#7F85B2" />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.btnRectangle}>
+                        <TouchableOpacity style={styles.btnRectangle} onPress={()=>navigationMyparking.navigate("MyParking")}>
                             <View style={styles.itemLeft}>
                                 <View style={styles.bgIcon}>
                                     <Car size={22} weight="fill" color="#EEF0FF" />

@@ -10,7 +10,7 @@ export type AddParkingParamList = {
     AddParking: undefined;
     SelectParkingType: {latitude: number; longitude: number };
     AddParkingDetails: {type: string; latitude: number; longitude: number};
-    MyParking:undefined;
+    MyParking: undefined;
 };
 
 const AddParkingStack = () => {
@@ -24,7 +24,7 @@ const AddParkingStack = () => {
             <Stack.Screen name="AddParking" component={AddParking} />
             <Stack.Screen name="SelectParkingType" component={SelectParkingType} />
             <Stack.Screen name="AddParkingDetails" component={AddParkingDetails} />
-            <Stack.Screen name="MyParking" component={MyParking} />
+            <Stack.Screen name="MyParking" component={MyParking} />    
         </Stack.Navigator>
     );
 };
