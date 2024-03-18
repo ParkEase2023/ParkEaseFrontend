@@ -9,12 +9,16 @@ import {
     Phone,
     PlusCircle
 } from 'phosphor-react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ProfileParamList } from '../stack/ProfileStack';
 
 const EditParkingDetails = () => {
+    const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     return (
         <View style={styles.bg}>
             <View style={styles.rowTopic}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.goBack()}>
                     <CaretLeft size={28} weight="bold" color="#EEF0FF" />
                 </TouchableOpacity>
                 <Text style={styles.topic}>Edit Parking Details</Text>

@@ -50,4 +50,14 @@ export const deleteMyparking = async (myParkingId: any) => {
     return res;
 };
 
+export const openParking = async (id: string) => {
+    const res = await http.put('/parking/openParking/' + id);
+    // console.log('res  openParking ', res);
+    return res;
+};
 
+export const closeParking = async (id: string) => {
+    const res = await http.put('/parking/closeParking/' + id);
+    // console.log('res  closeParking ', res);
+    return res;
+};

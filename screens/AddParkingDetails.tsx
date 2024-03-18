@@ -35,6 +35,7 @@ export interface IProfile {
 
 const AddParkingDetails = () => {
     const navigation = useNavigation<NativeStackNavigationProp<AddParkingParamList>>();
+    const navigationProfile = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const { params } = useRoute<RouteProp<AddParkingParamList, 'AddParkingDetails'>>();
     const [providername, setProvidername] = useState('');
     const [timeOpen, setTimeOpen] = useState('Open');
@@ -216,7 +217,7 @@ const AddParkingDetails = () => {
     return (
         <View style={styles.bg}>
             <View style={styles.rowTopic}>
-                <TouchableOpacity onPress={()=>navigation.goBack()}>
+                <TouchableOpacity onPress={()=>navigationProfile.navigate("Profile")}>
                     <CaretLeft size={28} weight="bold" color="#EEF0FF" />
                 </TouchableOpacity>
                 <Text style={styles.topic}>Add Parking Details</Text>

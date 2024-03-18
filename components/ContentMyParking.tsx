@@ -3,6 +3,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { CoinVertical, PencilSimple, Star, Trash } from 'phosphor-react-native';
 import Switch from './Switch';
 import { getComment } from '../services/comment';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ProfileParamList } from '../stack/ProfileStack';
+import { closeParking, openParking } from '../services/parking';
 
 interface IContentMyParking {
     id: string;
@@ -38,6 +42,7 @@ interface Comment {
 }
 
 const ContentMyParking = (props: IContentMyParking) => {
+    const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     let Rate: number = 0;
     let sumRate: number = 0;
     const [isActive, setIsActive] = useState(props.opening_status);
@@ -46,8 +51,15 @@ const ContentMyParking = (props: IContentMyParking) => {
     const [ticker, setTicker] = useState(false);
 
     const [SumRate, setsumRate] = useState('0');
-    const handlePress = () => {
-        setIsActive(!isActive);
+    const handlePress = async () => {
+        if(isActive === true){
+            await closeParking(props.id)
+            setIsActive(!isActive);
+        } else {
+            await openParking(props.id)
+            setIsActive(!isActive);
+        }
+        
     };
 
     useEffect(() => {
@@ -75,6 +87,10 @@ const ContentMyParking = (props: IContentMyParking) => {
     useEffect(() => {
         addValue();
     }, [comment]);
+
+    const Navi = () => {
+        navigation.navigate("EditParkingDetails")
+    };
 
 
     return (
@@ -108,7 +124,7 @@ const ContentMyParking = (props: IContentMyParking) => {
                 </View>
                 <View style={styles.bottomContainer}>
                     <View style={[styles.row, styles.textContainer]}>
-                        <TouchableOpacity style={[styles.button, styles.row]}>
+                        <TouchableOpacity style={[styles.button, styles.row]} onPress={Navi}>
                             <PencilSimple size={24} weight="fill" color="#262D57" />
                             <Text style={styles.textBody}>Edit</Text>
                         </TouchableOpacity>
