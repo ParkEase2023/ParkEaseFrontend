@@ -172,13 +172,21 @@ const Home = () => {
 
     const [listparking, setListParking] = useState(parkingMarkers);
 
+    const fetchData = async () => {
+        const dataParking: any = await getAllParking();
+        setListParking(dataParking.data);
+    };
+    
     useEffect(() => {
-        const fetchData = async () => {
-            const dataParking: any = await getAllParking();
-            setListParking(dataParking.data);
-        };
         fetchData();
     }, []);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            fetchData();
+        });
+        return unsubscribe;
+    }, [navigation]);
 
     const getUserProfile = async () => {
         const { data } = await getProfile();

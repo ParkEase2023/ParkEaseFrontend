@@ -25,6 +25,7 @@ import PopupTimeClose from '../components/PopupTimeClose';
 import { createparking } from '../services/parking';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ProfileParamList } from '../stack/ProfileStack';
 
 export interface IProfile {
     _id: string;
@@ -47,7 +48,7 @@ const AddParkingDetails = () => {
     const [day7, setDay7] = useState(false);
     const [title, setTitle] = useState('');
     const [phone, setPhone] = useState('');
-    const [price, setPrice] = useState('');
+    const [price, setPrice] = useState('0');
     const [openingStatus, setOpeningStatus] = useState(true);
     const [booking, setBooking] = useState(false);
     const [locationAddress, setLocationAddress] = useState('');
@@ -59,12 +60,13 @@ const AddParkingDetails = () => {
     const [profile, setProfile] = React.useState<IProfile>({
         _id: '',
         firstname: '',
-        lastname: ''
+        lastname: '',
     });
     const [visible, setVisible] = useState(false);
     const [ticker, setTicker] = useState(false);
     const [visibleC, setVisibleC] = useState(false);
     const [tickerC, setTickerC] = useState(false);
+    const [disable, setDisable] = useState(false);
 
     const getUserProfile = async () => {
         const { data } = await getProfile();
@@ -77,6 +79,7 @@ const AddParkingDetails = () => {
 
     const addValue = () => {
         if (params.type === 'BK') {
+            setDisable(true)
             setBooking(true);
         } else {
             setBooking(false);
@@ -202,7 +205,7 @@ const AddParkingDetails = () => {
                 <View style={styles.simpleTextBox}>
                     <CoinVertical size={24} color="#565E8B" />
                     <TextInput placeholder="Price" style={styles.lastTextInput} 
-                    onChangeText={text => setPrice(text)}/>
+                    onChangeText={setPrice} value={price}/>
                     <Text style={styles.textCoin}>Coin/hr</Text>
                 </View>
             );
@@ -334,7 +337,15 @@ const AddParkingDetails = () => {
                     numberOfLines={500}
                     onChangeText={text => setLocationAddress(text)}
                 />
-                <RenderInput></RenderInput>
+                <View>
+                {/* <RenderInput></RenderInput> */}
+                <View style={styles.simpleTextBox}>
+                    <CoinVertical size={24} color="#565E8B" />
+                    <TextInput placeholder="Price" style={styles.lastTextInput} 
+                    onChangeText={setPrice} value={price} editable={disable}/>
+                    <Text style={styles.textCoin}>Coin/hr</Text>
+                </View>
+                </View>
                 <TouchableOpacity style={styles.btnConfirm} onPress={handleAddparking}>
                     <Text style={styles.textConfirm}>CONFIRM</Text>
                 </TouchableOpacity>

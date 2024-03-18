@@ -44,3 +44,10 @@ export const getMyparking = async (CreateBy: any) => {
     });
     return res;
 };
+
+export const deleteMyparking = async (myParkingId: any) => {
+    const res = await http.delete('/parking/deleteMyparking', {params: {_id: myParkingId}});
+    return res;
+};
+
+

@@ -10,8 +10,13 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 import { getProfile } from '../services/user';
 import { AddParkingParamList } from '../stack/AddparkingStack';
+import { ProfileParamList } from '../stack/ProfileStack';
+import RequireLogin from '../components/RequireLogin';
 export interface IProfile {
     _id: string;
+    roles: any;
+    verification_status: boolean;
+    email: string;
 }
 
 interface Position {
@@ -23,25 +28,45 @@ interface Position {
 
 const AddParking = () => {
     const navigation = useNavigation<NativeStackNavigationProp<AddParkingParamList>>();
-
+    const navigationVerify = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const [profile, setProfile] = React.useState<IProfile>({
-        _id: ''
+        _id: '',
+        roles: [],
+        verification_status: false,
+        email: ''
     });
     const getUserProfile = async () => {
         const { data } = await getProfile();
         setProfile(data);
     };
+
+
     useEffect(() => {
-        getUserProfile();
-    }, []);
+        checkVerificationStatus();
+    }, [profile])
+    
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', async () => {
+            await getUserProfile();
+        });
+        return unsubscribe;
+    }, [navigation]);
 
     const gotoAddParking = () => {
-        console.log('latitude',pos.latitude);
-        console.log('longitude',pos.longitude);
+        console.log('latitude', pos.latitude);
+        console.log('longitude', pos.longitude);
         navigation.navigate('SelectParkingType', {
             latitude: pos.latitude,
             longitude: pos.longitude
         });
+    };
+
+    const checkVerificationStatus = async () => {
+        if (profile.verification_status === false && profile._id != '') {
+            navigationVerify.navigate('SelectForVerify', { email: profile.email });
+        }else if (profile.verification_status === true && profile.roles.length === 1){
+            navigationVerify.navigate('ApplyForMembership');
+        }
     };
 
     const [pos, setPos] = useState<Position>({
@@ -70,31 +95,33 @@ const AddParking = () => {
     }, []);
 
     return (
-        <View style={{ flex: 1 }}>
-            <View style={styles.header}>
-                <TouchableOpacity style={styles.btnBack} onPress={() => navigation.goBack()}>
-                    <CaretLeft size={24} color="#F4F6FD" />
-                </TouchableOpacity>
-                <Text style={styles.headerTitle}>Adding a toilet</Text>
+        <RequireLogin>
+            <View style={{ flex: 1 }}>
+                <View style={styles.header}>
+                    <TouchableOpacity style={styles.btnBack} onPress={() => navigation.goBack()}>
+                        <CaretLeft size={24} color="#F4F6FD" />
+                    </TouchableOpacity>
+                    <Text style={styles.headerTitle}>Adding a toilet</Text>
+                </View>
+                <MapView
+                    showsUserLocation={true}
+                    style={{ flex: 1 }}
+                    provider={PROVIDER_GOOGLE}
+                    region={pos}
+                    mapType={'standard'}
+                    followsUserLocation={true}
+                    showsMyLocationButton={true}
+                    showsBuildings={true}>
+                    <Marker coordinate={pos} />
+                </MapView>
+                <View style={styles.container}>
+                    <TouchableOpacity style={styles.btnNext} onPress={gotoAddParking}>
+                        <Text style={styles.txtSubmit}>NEXT</Text>
+                        <CaretRight size={22} color="#F4F6FD" />
+                    </TouchableOpacity>
+                </View>
             </View>
-            <MapView
-                showsUserLocation={true}
-                style={{ flex: 1 }}
-                provider={PROVIDER_GOOGLE}
-                region={pos}
-                mapType={'standard'}
-                followsUserLocation={true}
-                showsMyLocationButton={true}
-                showsBuildings={true}>
-                <Marker coordinate={pos} />
-            </MapView>
-            <View style={styles.container}>
-                <TouchableOpacity style={styles.btnNext} onPress={gotoAddParking}>
-                    <Text style={styles.txtSubmit}>NEXT</Text>
-                    <CaretRight size={22} color="#F4F6FD" />
-                </TouchableOpacity>
-            </View>
-        </View>
+        </RequireLogin>
     );
 };
 

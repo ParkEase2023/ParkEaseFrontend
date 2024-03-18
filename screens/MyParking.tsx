@@ -9,6 +9,7 @@ import { AddParkingParamList } from '../stack/AddparkingStack';
 import { MenuParamList } from '../stack/MenuStack';
 import { getMyparking } from '../services/parking';
 import { ScrollView } from 'react-native-gesture-handler';
+import PopupDeleteMyParking from '../components/PopupDeleteMyParking';
 
 interface Myparking {
     id: string;
@@ -45,6 +46,10 @@ const MyParking = () => {
     const [userId, setUserId] = useState('');
     const [myParking, setMyparking] = useState<Myparking[]>([]);
     const [checkData, setCheckData] = useState('');
+    const [modal, setModal] = useState(false);
+    const [parkingID, setParkingID] = useState('');
+    const [visible, setVisible] = useState(false);
+    const [ticker, setTicker] = useState(false);
 
     useEffect(() => {
         addValue();
@@ -116,7 +121,7 @@ const MyParking = () => {
                         return (
                             <TouchableOpacity key={index}>
                                 <ContentMyParking
-                                    id={item.id}
+                                    id={item._id}
                                     latitude={item.latitude}
                                     longitude={item.longitude}
                                     title={item.title}
@@ -139,12 +144,15 @@ const MyParking = () => {
                                     opening_fr={item.opening_fr}
                                     opening_sa={item.opening_sa}
                                     opening_su={item.opening_su}
-                                    //   onSelected={value => {
-                                    //     setModal(value);
-                                    //   }}
-                                    //   onSelected2={value => {
-                                    //     settoiletID(value);
-                                    //   }}
+                                    onSelected={value => {
+                                        setModal(value);
+                                    }}
+                                    onSelected2={value => {
+                                        setTicker(value);
+                                    }}
+                                    onSelected3={value => {
+                                        setParkingID(value);
+                                    }}
                                 />
                             </TouchableOpacity>
                         );
@@ -156,13 +164,17 @@ const MyParking = () => {
         }
     };
 
+    useEffect(() => {
+        fetchData()
+    }, [modal]);
+
     return (
         <View style={styles.container}>
             <View style={styles.mainContainer}>
                 <View style={styles.circleBig} />
                 <View style={styles.circleSmallBotton} />
                 <View style={styles.row}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
                         <CaretLeft size={24} weight="bold" color="white" />
                     </TouchableOpacity>
                     <Text style={styles.title}>My Parking</Text>
@@ -171,9 +183,19 @@ const MyParking = () => {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.bodyContainer}>
-                        <RenderMyparking></RenderMyparking>
+                    <RenderMyparking></RenderMyparking>
                 </View>
             </View>
+            <PopupDeleteMyParking
+                setVisible={modal}
+                ticker={ticker}
+                parkingID={parkingID}
+                onDelete={value => {
+                    setModal(value);
+                }}
+                onTicker={value => {
+                    setTicker(value);
+                }}></PopupDeleteMyParking>
         </View>
     );
 };
