@@ -1,9 +1,8 @@
 import { http } from '../config/axiosInstance';
 
 interface Irecipien {
-    useId: string;
+    userId: string;
     recipienId: string;
-    approve_status: boolean;
     firstname: string;
     lastname:string;
     email: string;
@@ -13,8 +12,23 @@ interface Irecipien {
     accountnumber:string;
 }
 
+interface Idestroy {
+    userId: string;
+    recipienId: string;
+}
+
+
 export const createRecipienOnDB = async (body: Irecipien) => {
     const res = await http.post('/recipien/createrecipienOnDB', body);
-    // console.log('res createComment ', res);
+    return res;
+};
+
+export const getRecipienOnDB = async (UserId: any) => {
+    const res = await http.get('/recipien/getRecipienOnDB/', {params: {userId: UserId}});
+    return res;
+};
+
+export const destroyRecipien = async (body: Idestroy) => {
+    const res = await http.post('/recipien/destroyRecipien', body);
     return res;
 };

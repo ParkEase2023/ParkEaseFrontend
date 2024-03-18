@@ -20,6 +20,11 @@ interface Irecipien {
     accountnumber:string;
 }
 
+interface ITransfers {
+    withdrawmoney:number;
+    recipienId:string;
+}
+
 
 export const createdPromptPayQRCode = async (body: Iaddcoin) => {
     const res = await http.post('/omise/created/', body);
@@ -37,3 +42,8 @@ export const createdRecipient = async (body: Irecipien) => {
     return res;
 };
 
+export const Transfers = async (body: ITransfers) => {
+    const res = await http.post('/omise/transfers/', body);
+    console.log('res  transfers ', res);
+    return res;
+};

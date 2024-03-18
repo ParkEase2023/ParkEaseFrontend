@@ -22,13 +22,13 @@ const Switch = ({activeColor, inActiveColor, active, onPress}: ISwitch) => {
     return withTiming(active ? 22 : 0);
   });
   useEffect(() => {
-    console.log(active);
+    // console.log(active);
     if (active) {
       switchTranslate.value = 22;
-      console.log('true');
+      // console.log('true');
     } else {
       switchTranslate.value = 4;
-      console.log('false');
+      // console.log('false');
     }
   }, [active]);
 
