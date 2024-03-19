@@ -11,7 +11,7 @@ import {
 import { Calendar } from 'react-native-calendars';
 import SelectDropdown from 'react-native-select-dropdown'
 
-const MyCalendarPicker = () => {
+const CalenderPickerEnd = () => {
     const [selectedDate, setSelectedDate] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
     const currentDate = new Date().toISOString().split('T')[0];
@@ -128,7 +128,7 @@ const MyCalendarPicker = () => {
     );
 };
 
-export default MyCalendarPicker;
+export default CalenderPickerEnd;
 
 const styles = StyleSheet.create({
     container: {

@@ -83,7 +83,6 @@ const height = width * aspectRatio;
 
 LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
 
-
 // const Home = () => {
 //     const navigation = useNavigation<NativeStackNavigationProp<MenuParamList>>();
 //     const [key, setKey] = React.useState(0);
@@ -93,8 +92,9 @@ LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
 
 export interface IProfile {
     profile_picture: string;
+    verification_status: boolean;
+    roles: any;
 }
-
 
 const Home = () => {
     const [title, setTitle] = useState('');
@@ -111,7 +111,8 @@ const Home = () => {
         'https://res.cloudinary.com/dqxh7vakw/image/upload/v1703827495/ParkEase/automatic-parking-6-1200x900_ukblma.jpg'
     );
     const [locationAddress, setLocationAddress] = useState('');
-    const [reload, setReload] = useState(false)
+    const [booking, setBooking] = useState(false);
+    const [reload, setReload] = useState(false);
     const [timeOpen, setTimeOpen] = useState('');
     const [timeClose, setTimeClose] = useState('');
     const [providerBy, setProviderBy] = useState('');
@@ -125,6 +126,7 @@ const Home = () => {
     const [fr, setFr] = useState(false);
     const [sat, setSat] = useState(false);
     const [sun, setSun] = useState(false);
+    const [parkingownerId, setParkingownerId] = useState('')
     const [parkingId, setParkingId] = useState('');
     const [parkingMarkers, setParkingMarkers] = useState<Position[]>([]);
     const navigation = useNavigation<NativeStackNavigationProp<MenuParamList>>();
@@ -136,10 +138,11 @@ const Home = () => {
         longitudeDelta: 0.0421
     });
 
-
     const [profile, setProfile] = React.useState<IProfile>({
         profile_picture:
-            'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png'
+            'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png',
+        roles: [],
+        verification_status: false
     });
 
     useEffect(() => {
@@ -176,7 +179,8 @@ const Home = () => {
         const dataParking: any = await getAllParking();
         setListParking(dataParking.data);
     };
-    
+
+
     useEffect(() => {
         fetchData();
     }, []);
@@ -260,15 +264,16 @@ const Home = () => {
                             title={item.title}
                             description={item._id}
                             onPress={() => {
+                                setParkingownerId(item.createBy)
                                 setReload(!reload),
-                                pressHandler3(),
-                                setTitle(item.title),
-                                setOpeningStatus(item.opening_status),
-                                setPrice(item.price),
-                                setPicture1(item.parking_picture1),
-                                setPicture2(item.parking_picture2),
-                                setPicture3(item.parking_picture3),
-                                setLocationAddress(item.location_address);
+                                    pressHandler3(),
+                                    setTitle(item.title),
+                                    setOpeningStatus(item.opening_status),
+                                    setPrice(item.price),
+                                    setPicture1(item.parking_picture1),
+                                    setPicture2(item.parking_picture2),
+                                    setPicture3(item.parking_picture3),
+                                    setLocationAddress(item.location_address);
                                 setTimeOpen(item.timeOpen);
                                 setTimeClose(item.timeClose);
                                 setProviderBy(item.providerBy);
@@ -283,6 +288,7 @@ const Home = () => {
                                 setSat(item.opening_sa);
                                 setSun(item.opening_su);
                                 setParkingId(item._id);
+                                setBooking(item.booking);
                             }}>
                             <Callout tooltip style={{ display: 'none' }}>
                                 <View>
@@ -338,99 +344,102 @@ const Home = () => {
         );
     };
 
-
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-                <MapView
-                    ref={mapRef}
-                    showsUserLocation={true}
-                    style={{ flex: 1 }}
-                    minZoomLevel={15}
-                    provider={PROVIDER_GOOGLE}
-                    region={pos}
-                    mapType={currentType}
-                    // customMapStyle={mapStyle}
-                    followsUserLocation={true}
-                    showsMyLocationButton={false}
-                    zoomControlEnabled={true}
-                    showsBuildings={true}
-                    toolbarEnabled={true}>
-                    <RenderParking></RenderParking>
-                </MapView>
-                <View style={styles.container}>
-                    <View style={styles.searchContainer}>
-                        <View style={styles.inner}>
-                            <TouchableOpacity style={styles.search}>
-                                <MagnifyingGlass size={22} weight="bold" color="#A6A6A6" />
-                            </TouchableOpacity>
-                            <TextInput
-                                style={styles.field}
-                                placeholder="Search"
-                                placeholderTextColor="#A6A6A6"
-                                // value={searchInput}
-                                // onChangeText={text => setSearchInput(text)}
-                            />
-                        </View>
+            <MapView
+                ref={mapRef}
+                showsUserLocation={true}
+                style={{ flex: 1 }}
+                minZoomLevel={15}
+                provider={PROVIDER_GOOGLE}
+                region={pos}
+                mapType={currentType}
+                // customMapStyle={mapStyle}
+                followsUserLocation={true}
+                showsMyLocationButton={false}
+                zoomControlEnabled={true}
+                showsBuildings={true}
+                toolbarEnabled={true}>
+                <RenderParking></RenderParking>
+            </MapView>
+            <View style={styles.container}>
+                <View style={styles.searchContainer}>
+                    <View style={styles.inner}>
+                        <TouchableOpacity style={styles.search}>
+                            <MagnifyingGlass size={22} weight="bold" color="#A6A6A6" />
+                        </TouchableOpacity>
+                        <TextInput
+                            style={styles.field}
+                            placeholder="Search"
+                            placeholderTextColor="#A6A6A6"
+                            // value={searchInput}
+                            // onChangeText={text => setSearchInput(text)}
+                        />
                     </View>
                 </View>
-                <View
-                    style={{
-                        position: 'absolute',
-                        top: 25,
-                        right: 12,
-                        alignSelf: 'flex-end'
-                    }}>
-                    <SafeAreaView>
-                        <TouchableOpacity style={styles.btnCrosshair} onPress={getCurrentPosition}>
-                            <Image source={crosshair} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.btnFunnel} onPress={handleOpen}>
-                            <Image source={funnel} />
-                        </TouchableOpacity>
-                    </SafeAreaView>
-                </View>
-                <View style={styles.containerSlideBar}>
-                    <StatusBar style="light" />
-                    <BottomSheetScrollView
-                        ref={bottomSheetRef3}
-                        snapTo={'50%'}
-                        backgroundColor={'#10152F'}
-                        backDropColor={'none'}>
-                        <DetailParking
-                            profile_picture={profile.profile_picture}
-                            reload={reload}
-                            Title={title}
-                            Price={price}
-                            Opening_status={openingStatus}
-                            Parking_picture1={picture1}
-                            Parking_picture2={picture2}
-                            Parking_picture3={picture3}
-                            Location_address={locationAddress}
-                            TimeOpen={timeOpen}
-                            TimeClose={timeClose}
-                            ProviderBy={providerBy}
-                            PhoneCall={phoneCall}
-                            latitude={lat}
-                            longitude={long}
-                            mo={mo}
-                            tu={tu}
-                            we={we}
-                            th={th}
-                            fr={fr}
-                            sa={sat}
-                            su={sun}
-                            parkingId={parkingId}></DetailParking>
-                    </BottomSheetScrollView>
-                </View>
-                <PopupFilter
-                    setVisible={show}
-                    ticker={ticker}
-                    selectOpen={value => {
-                        setSelectedOpen(value);
-                    }}
-                    selectAvailable={value => {
-                        setSelectedBooking(value);
-                    }}></PopupFilter>
+            </View>
+            <View
+                style={{
+                    position: 'absolute',
+                    top: 25,
+                    right: 12,
+                    alignSelf: 'flex-end'
+                }}>
+                <SafeAreaView>
+                    <TouchableOpacity style={styles.btnCrosshair} onPress={getCurrentPosition}>
+                        <Image source={crosshair} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.btnFunnel} onPress={handleOpen}>
+                        <Image source={funnel} />
+                    </TouchableOpacity>
+                </SafeAreaView>
+            </View>
+            <View style={styles.containerSlideBar}>
+                <StatusBar style="light" />
+                <BottomSheetScrollView
+                    ref={bottomSheetRef3}
+                    snapTo={'50%'}
+                    backgroundColor={'#10152F'}
+                    backDropColor={'none'}>
+                    <DetailParking
+                        parkingownerId={parkingownerId}
+                        verification_status={profile.verification_status}
+                        roles={profile.roles}
+                        profile_picture={profile.profile_picture}
+                        reload={reload}
+                        Title={title}
+                        Price={price}
+                        Opening_status={openingStatus}
+                        Parking_picture1={picture1}
+                        Parking_picture2={picture2}
+                        Parking_picture3={picture3}
+                        Location_address={locationAddress}
+                        TimeOpen={timeOpen}
+                        TimeClose={timeClose}
+                        ProviderBy={providerBy}
+                        PhoneCall={phoneCall}
+                        latitude={lat}
+                        longitude={long}
+                        mo={mo}
+                        tu={tu}
+                        we={we}
+                        th={th}
+                        fr={fr}
+                        sa={sat}
+                        su={sun}
+                        parkingId={parkingId}
+                        booking={booking}></DetailParking>
+                </BottomSheetScrollView>
+            </View>
+            <PopupFilter
+                setVisible={show}
+                ticker={ticker}
+                selectOpen={value => {
+                    setSelectedOpen(value);
+                }}
+                selectAvailable={value => {
+                    setSelectedBooking(value);
+                }}></PopupFilter>
         </GestureHandlerRootView>
     );
 };

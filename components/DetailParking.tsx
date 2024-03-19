@@ -23,6 +23,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeParamList } from '../stack/HomeStack';
 import { getComment } from '../services/comment';
+import { RootStackList } from '../stack/RootStack';
 export interface IDetail {
     Title: string;
     Price: string;
@@ -47,6 +48,10 @@ export interface IDetail {
     parkingId: string;
     reload: boolean;
     profile_picture: string;
+    booking: boolean;
+    verification_status: boolean;
+    roles: any;
+    parkingownerId: string;
 }
 
 interface Comment {
@@ -223,6 +228,62 @@ const DetailParking = (props: IDetail) => {
         LaunchNavigator.navigate([props.latitude, props.longitude]);
     };
 
+    const Renerbtn = (): JSX.Element | null => {
+        if (isLoggedIn === true) {
+            return <Checkbtn></Checkbtn>;
+        } else if (isLoggedIn === false) {
+            return (
+                <TouchableOpacity
+                    style={styles.btnNonBooking}
+                    onPress={() => navigation.navigate('Reqlogin')}>
+                    <Text style={styles.textBooking}>BOOKING</Text>
+                </TouchableOpacity>
+            );
+        } else {
+            return null;
+        }
+    };
+    const Checkbtn = (): JSX.Element | null => {
+        if (props.booking === true && props.Opening_status === true) {
+            return (
+                <TouchableOpacity style={styles.btnBooking} onPress={Navi}>
+                    <Text style={styles.textBooking}>BOOKING</Text>
+                </TouchableOpacity>
+            );
+        } else if (props.booking === false || props.Opening_status === false) {
+            return (
+                <View style={styles.btnNonBooking}>
+                    <Text style={styles.textBooking}>BOOKING</Text>
+                </View>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const Navi = () => {
+        if (props.verification_status === true && props.roles.length === 2) {
+            navigation.navigate('Booking', {
+                Title: props.Title,
+                Price: props.Price,
+                Location_address: props.Location_address,
+                TimeOpen: props.TimeOpen,
+                TimeClose: props.TimeClose,
+                ProviderBy: props.ProviderBy,
+                PhoneCall: props.PhoneCall,
+                mo: props.mo,
+                tu: props.tu,
+                we: props.we,
+                th: props.th,
+                fr: props.fr,
+                sa: props.sa,
+                su: props.su,
+                parkingId: props.parkingId,
+                parkingownerId: props.parkingownerId
+            });
+        }
+    };
+
     return (
         <View style={styles.mainContainer}>
             <View style={{ minHeight: 500 }}>
@@ -242,9 +303,7 @@ const DetailParking = (props: IDetail) => {
                     <ReaderBtn></ReaderBtn>
                 </View>
 
-                <TouchableOpacity style={styles.btnBooking}>
-                    <Text style={styles.textBooking}>BOOKING</Text>
-                </TouchableOpacity>
+                <Renerbtn></Renerbtn>
 
                 <View style={styles.containerBtn}>
                     <TouchableOpacity style={styles.btnNavigate} onPress={navigate}>
@@ -256,7 +315,6 @@ const DetailParking = (props: IDetail) => {
                         <Text style={styles.textCall}>Call</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.btnHeart}>
-                        {/* <Heart size={20} weight="fill" color="#EEF0FF" /> */}
                         <Heart></Heart>
                     </TouchableOpacity>
                 </View>
@@ -387,6 +445,14 @@ const styles = StyleSheet.create({
 
     btnBooking: {
         backgroundColor: '#FEFA94',
+        paddingVertical: 12,
+        borderRadius: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 8
+    },
+    btnNonBooking: {
+        backgroundColor: '#818181',
         paddingVertical: 12,
         borderRadius: 12,
         justifyContent: 'center',
