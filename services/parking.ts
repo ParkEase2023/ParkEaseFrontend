@@ -26,6 +26,26 @@ interface IParking {
     opening_su: boolean;
 }
 
+interface IEditparking {
+    id: string;
+    title: string;
+    phone: string;
+    price: number;
+    timeOpen: string;
+    timeClose: string;
+    location_address: string;
+    parking_picture1: string;
+    parking_picture2: string;
+    parking_picture3: string;
+    opening_mo: boolean;
+    opening_tu: boolean;
+    opening_we: boolean;
+    opening_th: boolean;
+    opening_fr: boolean;
+    opening_sa: boolean;
+    opening_su: boolean;
+}
+
 export const getAllParking = async () => {
     const res = await http.get('/parking/getallparking');
     // console.log('res', res);
@@ -61,3 +81,8 @@ export const closeParking = async (id: string) => {
     // console.log('res  closeParking ', res);
     return res;
 };
+
+export const updateParking = async (body: IEditparking) => {
+    const res = await http.put('/parking/updateParking', body);
+    return res;
+  };

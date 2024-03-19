@@ -1,18 +1,37 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-native-modal';
 import { X } from 'phosphor-react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ProfileParamList } from '../stack/ProfileStack';
 
-const PopupBackButton = () => {
+interface IPopup {
+    setVisible: boolean;
+    ticker:boolean;
+}
+
+
+
+const PopupBackButton = (props:IPopup) => {
+    const [show, setShow] = useState(Boolean);
+    const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
+    
+    useEffect(() => {
+        if(props.ticker===true){
+            setShow(true)
+        }
+    }, [props.setVisible]);
+
     return (
-        <Modal isVisible={true} backdropOpacity={0.6} backdropColor="#000">
+        <Modal isVisible={show} backdropOpacity={0.6} backdropColor="#000">
             <View style={styles.modalContainer}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>setShow(!show)}>
                     <X size={24} weight="bold" color='#262D57' style={styles.icon} />
                 </TouchableOpacity>
                 <Text style={styles.modalText}>Are you sure?</Text>
                 <Text style={styles.modalText2}>Your edited data will not be saved.</Text>
-                <TouchableOpacity style={styles.btnSend}>
+                <TouchableOpacity style={styles.btnSend} onPress={()=>navigation.goBack()}>
                     <Text style={styles.textSure}>SURE</Text>
                 </TouchableOpacity>
             </View>
