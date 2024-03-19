@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     CaretLeft,
     CaretRight,
@@ -9,16 +9,189 @@ import {
     Phone,
     PlusCircle
 } from 'phosphor-react-native';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ProfileParamList } from '../stack/ProfileStack';
+import PopupTimeOpen from '../components/PopupTimeOpen';
+import PopupTimeClose from '../components/PopupTimeClose';
+import PopupBackButton from '../components/PopupBackButton';
+import { launchImageLibrary } from 'react-native-image-picker';
+import { updateParking } from '../services/parking';
 
 const EditParkingDetails = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
+    const { params } = useRoute<RouteProp<ProfileParamList, 'EditParkingDetails'>>();
+
+    const [providername, setProvidername] = useState('');
+    const [timeOpen, setTimeOpen] = useState('');
+    const [timeClose, setTimeClose] = useState('');
+    const [day1, setDay1] = useState(false);
+    const [day2, setDay2] = useState(false);
+    const [day3, setDay3] = useState(false);
+    const [day4, setDay4] = useState(false);
+    const [day5, setDay5] = useState(false);
+    const [day6, setDay6] = useState(false);
+    const [day7, setDay7] = useState(false);
+    const [title, setTitle] = useState('');
+    const [phone, setPhone] = useState('');
+    const [price, setPrice] = useState('0');
+    const [locationAddress, setLocationAddress] = useState('');
+    const [picture1, setPicture1] = useState(
+        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.sanook.com%2Fnews%2F&psig=AOvVaw2LozT_eZjCaKky5wHekfdr&ust=1675358692831000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCPD1ltLr9PwCFQAAAAAdAAAAABAE'
+    );
+    const [picture2, setPicture2] = useState('');
+    const [picture3, setPicture3] = useState('');
+    const [visible, setVisible] = useState(false);
+    const [ticker, setTicker] = useState(false);
+    const [visibleC, setVisibleC] = useState(false);
+    const [tickerC, setTickerC] = useState(false);
+    const [modal, setModal] = useState(false);
+    const [tickerModal, setTickerModal] = useState(false);
+    const [disable, setDisable] = useState(false);
+
+    const popUpopen = () => {
+        setTicker(true);
+        setVisible(!visible);
+    };
+
+    const openModal = () => {
+        setTickerModal(true);
+        setModal(!modal);
+    };
+
+    const popUpclose = () => {
+        setTickerC(true);
+        setVisibleC(!visibleC);
+    };
+
+    useEffect(() => {
+        setProvidername(params.providerBy);
+        setTimeOpen(params.timeOpen);
+        setTimeClose(params.timeClose);
+        setDay1(params.opening_mo);
+        setDay2(params.opening_tu);
+        setDay3(params.opening_we);
+        setDay4(params.opening_th);
+        setDay5(params.opening_fr);
+        setDay6(params.opening_su);
+        setDay7(params.opening_sa);
+        setTitle(params.title);
+        setPhone(params.phone_number);
+        setPrice(params.price.toString());
+        setLocationAddress(params.location_address);
+        setPicture1(params.parking_picture1);
+        setPicture2(params.parking_picture2);
+        setPicture3(params.parking_picture3);
+        addValue();
+    }, []);
+
+    const addValue = () => {
+        if (params.type === 'BK') {
+            setDisable(true);
+        }
+    };
+
+    const chooseImage1 = async () => {
+        let options: any = {
+            includeBase64: true,
+            title: 'Select Image',
+            customButtons: [{ name: 'customOptionKey', title: 'Choose Photo from Custom Option' }],
+            storageOptions: {
+                skipBackup: true,
+                path: 'images'
+            }
+        };
+        launchImageLibrary(options, async (response: any) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            } else {
+                const source: any = 'data:image/jpeg;base64,' + response.assets[0].base64;
+                setPicture1(source);
+            }
+        });
+    };
+
+    const chooseImage2 = async () => {
+        let options: any = {
+            includeBase64: true,
+            title: 'Select Image',
+            customButtons: [{ name: 'customOptionKey', title: 'Choose Photo from Custom Option' }],
+            storageOptions: {
+                skipBackup: true,
+                path: 'images'
+            }
+        };
+        launchImageLibrary(options, async (response: any) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            } else {
+                const source: any = 'data:image/jpeg;base64,' + response.assets[0].base64;
+                setPicture2(source);
+            }
+        });
+    };
+
+    const chooseImage3 = async () => {
+        let options: any = {
+            includeBase64: true,
+            title: 'Select Image',
+            customButtons: [{ name: 'customOptionKey', title: 'Choose Photo from Custom Option' }],
+            storageOptions: {
+                skipBackup: true,
+                path: 'images'
+            }
+        };
+        launchImageLibrary(options, async (response: any) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            } else {
+                const source: any = 'data:image/jpeg;base64,' + response.assets[0].base64;
+                setPicture3(source);
+            }
+        });
+    };
+
+    const handleEdit = async () => {
+        const Editparking : any = await updateParking({
+            id: params.id,
+            title: title,
+            phone: phone,
+            price: parseInt(price, 10),
+            timeOpen: timeOpen,
+            timeClose: timeClose,
+            location_address: locationAddress,
+            parking_picture1: picture1,
+            parking_picture2: picture2,
+            parking_picture3: picture3,
+            opening_mo: day1,
+            opening_tu: day2,
+            opening_we: day3,
+            opening_th: day4,
+            opening_fr: day5,
+            opening_sa: day6,
+            opening_su: day7
+        });
+        navigation.goBack();
+        
+    };
+
+
     return (
         <View style={styles.bg}>
             <View style={styles.rowTopic}>
-                <TouchableOpacity onPress={()=>navigation.goBack()}>
+                <TouchableOpacity onPress={openModal}>
                     <CaretLeft size={28} weight="bold" color="#EEF0FF" />
                 </TouchableOpacity>
                 <Text style={styles.topic}>Edit Parking Details</Text>
@@ -27,87 +200,155 @@ const EditParkingDetails = () => {
             <ScrollView style={styles.container}>
                 <Text style={styles.titlePicture}>Picture of parking place</Text>
                 <View style={styles.row}>
-                    <TouchableOpacity style={styles.btnAddPicture}>
+                    <TouchableOpacity style={styles.btnAddPicture} onPress={chooseImage1}>
+                        {/* <Image source={{ uri: picture1 }} /> */}
                         <PlusCircle size={24} weight="bold" color="#fff" />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnAddPicture}>
+                    <TouchableOpacity style={styles.btnAddPicture} onPress={chooseImage2}>
                         <PlusCircle size={24} weight="bold" color="#fff" />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnAddPicture}>
+                    <TouchableOpacity style={styles.btnAddPicture} onPress={chooseImage3}>
                         <PlusCircle size={24} weight="bold" color="#fff" />
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.titleDate}>Opening Date</Text>
                 <View style={styles.row}>
-                    <TouchableOpacity style={styles.btnDate}>
-                        <Text style={styles.textDate}>Su</Text>
+                    <TouchableOpacity
+                        style={[styles.btnDate, day1 ? styles.btnDateActive : null]}
+                        onPress={() => setDay1(!day1)}>
+                        <Text style={[styles.textDate, day1 ? styles.textDateActive : null]}>
+                            Su
+                        </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnDate}>
-                        <Text style={styles.textDate}>Mo</Text>
+                    <TouchableOpacity
+                        style={[styles.btnDate, day2 ? styles.btnDateActive : null]}
+                        onPress={() => setDay2(!day2)}>
+                        <Text style={[styles.textDate, day2 ? styles.textDateActive : null]}>
+                            Mo
+                        </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnDate}>
-                        <Text style={styles.textDate}>Tu</Text>
+                    <TouchableOpacity
+                        style={[styles.btnDate, day3 ? styles.btnDateActive : null]}
+                        onPress={() => setDay3(!day3)}>
+                        <Text style={[styles.textDate, day3 ? styles.textDateActive : null]}>
+                            Tu
+                        </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnDate}>
-                        <Text style={styles.textDate}>We</Text>
+                    <TouchableOpacity
+                        style={[styles.btnDate, day4 ? styles.btnDateActive : null]}
+                        onPress={() => setDay4(!day4)}>
+                        <Text style={[styles.textDate, day4 ? styles.textDateActive : null]}>
+                            We
+                        </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnDate}>
-                        <Text style={styles.textDate}>Th</Text>
+                    <TouchableOpacity
+                        style={[styles.btnDate, day5 ? styles.btnDateActive : null]}
+                        onPress={() => setDay5(!day5)}>
+                        <Text style={[styles.textDate, day5 ? styles.textDateActive : null]}>
+                            Th
+                        </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnDate}>
-                        <Text style={styles.textDate}>Fr</Text>
+                    <TouchableOpacity
+                        style={[styles.btnDate, day6 ? styles.btnDateActive : null]}
+                        onPress={() => setDay6(!day6)}>
+                        <Text style={[styles.textDate, day6 ? styles.textDateActive : null]}>
+                            Fr
+                        </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnDate}>
-                        <Text style={styles.textDate}>Sa</Text>
+                    <TouchableOpacity
+                        style={[styles.btnDate, day7 ? styles.btnDateActive : null]}
+                        onPress={() => setDay7(!day7)}>
+                        <Text style={[styles.textDate, day7 ? styles.textDateActive : null]}>
+                            Sa
+                        </Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.rowTimeOC}>
                     <Text style={styles.titleTime}>Time</Text>
-                    <TouchableOpacity style={styles.btnTimeOpen}>
+                    <TouchableOpacity style={styles.btnTimeOpen} onPress={popUpopen}>
                         <View style={styles.rowTime}>
                             <Clock size={20} weight="fill" color="#239D60" />
-                            <Text style={styles.textOpen}>Open</Text>
+                            <Text style={styles.textOpen}>{timeOpen}</Text>
                         </View>
                         <CaretRight size={14} weight="bold" color="#7F85B2" />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnTimeClose}>
+                    <TouchableOpacity style={styles.btnTimeClose} onPress={popUpclose}>
                         <View style={styles.rowTime}>
                             <Clock size={20} weight="fill" color="#EA4C4C" />
-                            <Text style={styles.textClose}>Open</Text>
+                            <Text style={styles.textClose}>{timeClose}</Text>
                         </View>
                         <CaretRight size={14} weight="bold" color="#7F85B2" />
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.noIconTextBox}>
-                    <TextInput placeholder="Provider name" style={styles.noIconTextInput} />
+                    <TextInput
+                        placeholder="Provider name"
+                        style={styles.noIconTextInput}
+                        value={providername}
+                        editable={false}
+                    />
                 </View>
                 <View style={styles.simpleTextBox}>
                     <Phone size={24} color="#565E8B" />
-                    <TextInput placeholder="Phone Number" style={styles.textInput} />
+                    <TextInput
+                        placeholder="Phone Number"
+                        value={phone}
+                        style={styles.textInput}
+                        onChangeText={text => setPhone(text)}
+                    />
                 </View>
                 <View style={styles.noIconTextBox}>
-                    <TextInput placeholder="Parking place name" style={styles.noIconTextInput} />
+                    <TextInput
+                        value={title}
+                        placeholder="Parking place name"
+                        style={styles.noIconTextInput}
+                        onChangeText={text => setTitle(text)}
+                    />
                 </View>
 
                 <TextInput
+                    value={locationAddress}
                     style={styles.textInputMultiLine}
                     placeholder="Location"
                     placeholderTextColor="#565E8B"
                     cursorColor={'#10152F'}
                     multiline={true}
                     numberOfLines={500}
+                    onChangeText={text => setLocationAddress(text)}
                 />
-                <View style={styles.simpleTextBox}>
-                    <CoinVertical size={24} color="#565E8B" />
-                    <TextInput placeholder="Price" style={styles.lastTextInput} />
-                    <Text style={styles.textCoin}>Coin/hr</Text>
+                <View>
+                    {/* <RenderInput></RenderInput> */}
+                    <View style={styles.simpleTextBox}>
+                        <CoinVertical size={24} color="#565E8B" />
+                        <TextInput
+                            placeholder="Price"
+                            style={styles.lastTextInput}
+                            onChangeText={setPrice}
+                            value={price}
+                            editable={disable}
+                        />
+                        <Text style={styles.textCoin}>Coin/hr</Text>
+                    </View>
                 </View>
-                <TouchableOpacity style={styles.btnConfirm}>
+                <TouchableOpacity style={styles.btnConfirm} onPress={handleEdit}>
                     <Text style={styles.textConfirm}>SAVE</Text>
                 </TouchableOpacity>
             </ScrollView>
+            <PopupTimeOpen
+                setVisible={visible}
+                ticker={ticker}
+                timeOpen={value => {
+                    setTimeOpen(value);
+                }}></PopupTimeOpen>
+            <PopupTimeClose
+                setVisible={visibleC}
+                ticker={tickerC}
+                timeClose={value => {
+                    setTimeClose(value);
+                }}></PopupTimeClose>
+            <PopupBackButton setVisible={modal} ticker={tickerModal}></PopupBackButton>
         </View>
     );
 };
@@ -150,6 +391,17 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: 12
     },
+    btnDateActive: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        borderColor: '#7F85B2',
+        backgroundColor: '#7F85B2',
+        borderWidth: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 10
+    },
     btnAddPicture: {
         width: 106,
         height: 106,
@@ -168,6 +420,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginTop: 12
+    },
+    textDateActive: {
+        color: '#ffffff',
+        fontFamily: 'RedHatText-Regular',
+        fontSize: 14
     },
     btnDate: {
         width: 40,

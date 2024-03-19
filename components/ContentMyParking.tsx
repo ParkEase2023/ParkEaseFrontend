@@ -52,14 +52,13 @@ const ContentMyParking = (props: IContentMyParking) => {
 
     const [SumRate, setsumRate] = useState('0');
     const handlePress = async () => {
-        if(isActive === true){
-            await closeParking(props.id)
+        if (isActive === true) {
+            await closeParking(props.id);
             setIsActive(!isActive);
         } else {
-            await openParking(props.id)
+            await openParking(props.id);
             setIsActive(!isActive);
         }
-        
     };
 
     useEffect(() => {
@@ -89,9 +88,32 @@ const ContentMyParking = (props: IContentMyParking) => {
     }, [comment]);
 
     const Navi = () => {
-        navigation.navigate("EditParkingDetails")
+        navigation.navigate('EditParkingDetails', {
+            id: props.id,
+            latitude: props.latitude,
+            longitude: props.longitude,
+            title: props.title,
+            phone_number: props.phone_number,
+            price: props.price,
+            booking: props.booking,
+            type: props.type,
+            opening_status: props.opening_status,
+            timeOpen: props.timeOpen,
+            timeClose: props.timeClose,
+            providerBy: props.providerBy,
+            location_address: props.location_address,
+            parking_picture1: props.parking_picture1,
+            parking_picture2: props.parking_picture2,
+            parking_picture3: props.parking_picture3,
+            opening_mo: props.opening_mo,
+            opening_tu: props.opening_tu,
+            opening_we: props.opening_we,
+            opening_th: props.opening_th,
+            opening_fr: props.opening_fr,
+            opening_sa: props.opening_sa,
+            opening_su: props.opening_su
+        });
     };
-
 
     return (
         <View style={styles.container}>
@@ -132,8 +154,8 @@ const ContentMyParking = (props: IContentMyParking) => {
                             style={[styles.button, styles.row]}
                             onPress={() => {
                                 props.onSelected(true),
-                                props.onSelected2(true),
-                                props.onSelected3(props.id);
+                                    props.onSelected2(true),
+                                    props.onSelected3(props.id);
                             }}>
                             <Trash size={24} weight="fill" color="#262D57" />
                             <Text style={styles.textBody}>Delete</Text>

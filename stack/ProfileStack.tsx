@@ -88,20 +88,43 @@ export type ProfileParamList = {
         email: string;
         roles: any;
     };
-    Partner:  {
+    Partner: {
         coins: number;
         email: string;
         roles: any;
     };
     BillingInfo: {
         email: string;
-        Exptime:string;
+        Exptime: string;
         roles: any;
     };
-    MyParking: {userId:string; navi:string};
+    MyParking: { userId: string; navi: string };
     AddParkingStack: NavigatorScreenParams<AddParkingParamList>;
-    EditParkingDetails:undefined;
-
+    EditParkingDetails: {
+        id: string;
+        latitude: number;
+        longitude: number;
+        title: string;
+        phone_number: string;
+        price: number;
+        booking: boolean;
+        type: string;
+        opening_status: boolean;
+        timeOpen: string;
+        timeClose: string;
+        providerBy: string;
+        location_address: string;
+        parking_picture1: string;
+        parking_picture2: string;
+        parking_picture3: string;
+        opening_mo: boolean;
+        opening_tu: boolean;
+        opening_we: boolean;
+        opening_th: boolean;
+        opening_fr: boolean;
+        opening_sa: boolean;
+        opening_su: boolean;
+    };
 };
 
 const ProfileStack = () => {

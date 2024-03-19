@@ -22,7 +22,7 @@ const PopupDeleteMyParking = (props: IPopup) => {
     }, [props.setVisible]);
 
     const handleDelete = async () => {
-        await deleteMyparking(props.parkingID);
+        deleteMyparking(props.parkingID);
         setShow(false); 
         props.onDelete(false); 
         props.onTicker(false);
