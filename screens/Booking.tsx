@@ -1,15 +1,61 @@
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Bank, CalendarPlus, CaretDown, CaretLeft, CaretRight, Clock, CoinVertical, IdentificationCard, MapPin, Phone, Scroll, User } from "phosphor-react-native";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput } from "react-native";
-import { ProfileParamList } from "../stack/ProfileStack";
 import MyCalendarPicker from "../components/CalenderPicker";
+import React, { useEffect } from "react";
+import { getProfile } from "../services/user";
+import { HomeParamList } from "../stack/HomeStack";
+
+export interface IProfile {
+    _id: string;
+    firstname: string;
+    lastname: string;
+    phone_number: string;
+    email: string;
+    coins: number;
+    password: string;
+    profile_picture: string;
+    verification_status: boolean;
+    account_linked: boolean;
+    roles: any;
+    Exptime: string;
+}
+
 
 const Booking = () => {
-    const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
+    const navigation = useNavigation<NativeStackNavigationProp<HomeParamList>>();
+    const { params } = useRoute<RouteProp<HomeParamList, 'Booking'>>();
     const handleBook = async () => {
         console.log('book');
     };
+
+    const [profile, setProfile] = React.useState<IProfile>({
+        _id: '',
+        firstname: '',
+        lastname: '',
+        phone_number: '',
+        email: '',
+        coins: 0,
+        password: '',
+        profile_picture:
+            'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png',
+        verification_status: false,
+        account_linked: false,
+        roles: [],
+        Exptime: ''
+    });
+
+    const getUserProfile = async () => {
+        const { data } = await getProfile();
+        // console.log('user profile ', data);
+        setProfile(data);
+    };
+
+    useEffect(() => {
+        getUserProfile();
+    }, []);
+    
     return (
         <View style={styles.container}>
             <View style={styles.headerContent}>
@@ -23,19 +69,19 @@ const Booking = () => {
             <View style={styles.line}></View>
         <ScrollView>
             <View style={styles.content}>
-                <Text style={styles.headerText}>อาคารจอดรถ 5 ชั้น</Text>
+                <Text style={styles.headerText}>{params.Title}</Text>
                 <View style={styles.space}></View>
                     <View style={styles.boxText}>
                         <View style={styles.iconPosition}>
                             <CoinVertical size={24} color="#262D57" weight="fill"/>
                         </View>
-                        <Text style={styles.bodytext}>10 Coins / hr</Text>
+                        <Text style={styles.bodytext}>{params.Price} Coins / hr</Text>
                     </View>
                     <View style={styles.boxText}>
                         <View style={styles.iconPosition}>
                             <MapPin size={24} color="#262D57" weight="fill"/>
                         </View>
-                        <Text style={styles.bodytext}>126 Pracha Uthit Rd, Khwaeng Bang Mot, Khet Thung Khru, Krung Thep Maha Nakhon 10140</Text>
+                        <Text style={styles.bodytext}>{params.Location_address}</Text>
                     </View>
                     <View style={styles.boxText}>
                         <View style={styles.iconPosition}>
@@ -49,14 +95,14 @@ const Booking = () => {
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.bodytext}>Provider by </Text>
-                            <Text style={styles.headerText}>Brandon Stanton</Text>
+                            <Text style={styles.headerText}>{params.ProviderBy}</Text>
                         </View>
                     </View>
                     <View style={styles.boxText}>
                         <View style={styles.iconPosition}>
                             <Phone size={24} color="#262D57" weight="fill"/>
                         </View>
-                        <Text style={styles.headerText}>085-678-268</Text>
+                        <Text style={styles.headerText}>{params.PhoneCall}</Text>
                     </View>
                     <View style={[styles.textbox1]}>
                         <View style={styles.iconPosition}>
@@ -163,6 +209,7 @@ const Booking = () => {
                     </TouchableOpacity>
                 </View> 
             </View>
+            <MyCalendarPicker></MyCalendarPicker>
         </View>
     );
 }
