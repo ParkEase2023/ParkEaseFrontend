@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { http } from '../config/axiosInstance';
-// import axios from 'axios';
 
 
 interface ISignUp {

@@ -24,11 +24,12 @@ import PaymentBill from '../components/PaymentBill';
 import WithdrawalReceipt from '../screens/WithdrawalReceipt';
 import WithdrawMoney from '../screens/WithdrawMoney';
 import MyBooking from '../screens/MyBooking';
+import AddParkingStack, { AddParkingParamList } from './AddparkingStack';
 
 export type MenuParamList = {
     HomeStack: NavigatorScreenParams<HomeParamList>;
     MyList: undefined;
-    AddParkingStack: undefined;
+    AddParkingStack: NavigatorScreenParams<AddParkingParamList>;
     BookingStack: undefined;
     ProfileStack: NavigatorScreenParams<ProfileParamList>;
 };
@@ -65,7 +66,7 @@ const MenuStack = () => {
                             return { backgroundColor: '#10152F', height: 55 };
                         })(),
                         tabBarIcon: ({ focused, color, size }) => (
-                            <User color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
+                            <MapTrifold color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
                         )
                     })}
                 />
@@ -84,7 +85,7 @@ const MenuStack = () => {
                 />
                 <Stack.Screen
                     name="AddParkingStack"
-                    component={AddParking}
+                    component={AddParkingStack}
                     options={{
                         tabBarStyle: { display: 'none' },
                         tabBarHideOnKeyboard: true,

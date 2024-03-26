@@ -37,6 +37,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProfileParamList } from '../stack/ProfileStack';
 import PopupVerify from '../components/PopupVerify';
 import TabRemainingBalance from '../components/TabRemainingBalance';
+import { getRecipienOnDB } from '../services/recipien';
+import PopupMember from '../components/PopupMember';
+import { AddParkingParamList } from '../stack/AddparkingStack';
 
 export interface IProfile {
     _id: string;
@@ -49,15 +52,23 @@ export interface IProfile {
     profile_picture: string;
     verification_status: boolean;
     account_linked: boolean;
+    roles: any;
+    Exptime: string;
+}
+
+interface myRecipien {
+    approve_status: boolean;
 }
 
 const Profile = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
+    const navigationMyparking = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const navigationEditProfile = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const navigationAddCoin = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const navigationNotification = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const navigationBindAnAccount = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
+    const [showpopup, setShowpopup] = useState(false);
     const [visible, setVisible] = useState(false);
     const [ticker, setTicker] = useState(false);
     const [isHidden, setIsHidden] = useState(true);
@@ -77,8 +88,16 @@ const Profile = () => {
         profile_picture:
             'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png',
         verification_status: false,
-        account_linked: false
+        account_linked: false,
+        roles: [],
+        Exptime: ''
     });
+    const [tickerP, setTickerP] = useState(false);
+    const [tickerpopup, setTickerpopup] = useState(false);
+    const [myRecipien, setMyRecipien] = useState<myRecipien>({
+        approve_status: true
+    });
+    const [checkData, setCheckData] = useState('');
     const getUserProfile = async () => {
         const { data } = await getProfile();
         // console.log('user profile ', data);
@@ -90,11 +109,20 @@ const Profile = () => {
     }, []);
 
     useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            getUserProfile();
+        const unsubscribe = navigation.addListener('focus', async () => {
+            await getUserProfile();
+            getDataRecipien();
         });
         return unsubscribe;
     }, [navigation]);
+
+    useEffect(() => {
+        getDataRecipien();
+    }, [profile._id]);
+
+    useEffect(() => {
+        getDataRecipien();
+    }, [tickerP]);
 
     const handleLogout = async () => {
         setLoggedIn(false);
@@ -117,6 +145,13 @@ const Profile = () => {
     const handleVrify = () => {
         setTicker(true);
         setVisible(!visible);
+    };
+
+    const getDataRecipien = async () => {
+        const list: any = await getRecipienOnDB(profile._id);
+        console.log(list);
+        await setMyRecipien(list.myData[0]);
+        await setCheckData(list.message);
     };
 
     const ContentVerify = (): JSX.Element | null => {
@@ -206,6 +241,48 @@ const Profile = () => {
         }
     };
 
+    const RenderTabMembership = (): JSX.Element | null => {
+        if (profile.roles.length === 2) {
+            return (
+                <TouchableOpacity
+                    style={styles.btnRectangle}
+                    onPress={() =>
+                        navigationEditProfile.navigate('BillingInfo', {
+                            email: profile.email,
+                            Exptime: profile.Exptime,
+                            roles: profile.roles
+                        })
+                    }>
+                    <View style={styles.itemLeft}>
+                        <View style={styles.bgIcon}>
+                            <UserList size={22} weight="bold" color="#EEF0FF" />
+                        </View>
+                        <Text style={styles.textBody}>Billing Information</Text>
+                    </View>
+
+                    <CaretRight size={22} weight="bold" color="#7F85B2" />
+                </TouchableOpacity>
+            );
+        } else {
+            return (
+                <TouchableOpacity
+                    style={styles.btnRectangle}
+                    onPress={() => {
+                        setShowpopup(!showpopup), setTickerpopup(true);
+                    }}>
+                    <View style={styles.itemLeft}>
+                        <View style={styles.bgIcon}>
+                            <UserList size={22} weight="bold" color="#EEF0FF" />
+                        </View>
+                        <Text style={styles.textBody}>Apply For Membership</Text>
+                    </View>
+
+                    <CaretRight size={22} weight="bold" color="#7F85B2" />
+                </TouchableOpacity>
+            );
+        }
+    };
+
     const RemainingBalance = () => {
         if (fnAddCoins === true) {
             navigationAddCoin.navigate('AddCoin', {
@@ -219,15 +296,33 @@ const Profile = () => {
 
             setFnAddCoins(false);
         } else if (fnBindAccount === true) {
-            navigationBindAnAccount.navigate('BindAnAccount');
-            setFnBindAccount(false);
+            if (profile.account_linked === true && myRecipien.approve_status === false) {
+                navigationBindAnAccount.navigate('InspectionInProgress');
+                setFnBindAccount(false);
+            } else if (profile.account_linked === true && myRecipien.approve_status === true) {
+                navigationBindAnAccount.navigate('BankInformation', { userId: profile._id });
+                setFnBindAccount(false);
+            } else {
+                navigationBindAnAccount.navigate('BindAnAccount', { userId: profile._id });
+                setFnBindAccount(false);
+            }
         } else if (fnWithdrawMoney === true) {
-            if (profile.account_linked === true) {
-                navigationBindAnAccount.navigate('WithdrawMoney');
+            if (profile.account_linked === true && myRecipien.approve_status === true) {
+                navigationBindAnAccount.navigate('WithdrawMoney', {
+                    _id: profile._id,
+                    firstname: profile.firstname,
+                    lastname: profile.lastname,
+                    email: profile.email,
+                    coins: profile.coins,
+                    phoneNumber: profile.phone_number
+                });
+                setFnWithdrawMoney(false);
+            } else if (profile.account_linked === true && myRecipien.approve_status === false) {
+                navigationBindAnAccount.navigate('InspectionInProgress');
                 setFnWithdrawMoney(false);
             } else {
-                navigationBindAnAccount.navigate('BindAnAccount');
-                setFnWithdrawMoney(false);
+                navigationBindAnAccount.navigate('BindAnAccount', { userId: profile._id });
+                setFnBindAccount(false);
             }
         }
     };
@@ -334,7 +429,14 @@ const Profile = () => {
                             <CaretRight size={22} weight="bold" color="#7F85B2" />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.btnRectangle}>
+                        <TouchableOpacity
+                            style={styles.btnRectangle}
+                            onPress={() =>
+                                navigationMyparking.navigate('MyParking', {
+                                    userId: profile._id,
+                                    navi: 'profile'
+                                })
+                            }>
                             <View style={styles.itemLeft}>
                                 <View style={styles.bgIcon}>
                                     <Car size={22} weight="fill" color="#EEF0FF" />
@@ -347,16 +449,7 @@ const Profile = () => {
 
                         <ContentVerify></ContentVerify>
 
-                        <TouchableOpacity style={styles.btnRectangle}>
-                            <View style={styles.itemLeft}>
-                                <View style={styles.bgIcon}>
-                                    <UserList size={22} weight="bold" color="#EEF0FF" />
-                                </View>
-                                <Text style={styles.textBody}>Apply For Membership</Text>
-                            </View>
-
-                            <CaretRight size={22} weight="bold" color="#7F85B2" />
-                        </TouchableOpacity>
+                        <RenderTabMembership></RenderTabMembership>
 
                         <TouchableOpacity style={styles.btnRectangle} onPress={handleLogout}>
                             <View style={styles.itemLeft}>
@@ -377,6 +470,7 @@ const Profile = () => {
                         email={profile.email}></PopupVerify>
                     <RenderTab></RenderTab>
                     <Renderbg></Renderbg>
+                    <PopupMember setVisible={showpopup} ticker={tickerpopup}></PopupMember>
                 </ScrollView>
             </KeyboardAvoidingView>
         </RequireLogin>

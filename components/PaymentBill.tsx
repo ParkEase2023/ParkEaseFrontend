@@ -4,13 +4,43 @@ import { ArrowCircleDown, CaretLeft} from "phosphor-react-native";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import { ProfileParamList } from "../stack/ProfileStack";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useEffect, useState } from "react";
+import { getRecipienOnDB } from "../services/recipien";
 
 interface PaymentBillProps {
+    userId:string;
+    firstname:string;
+    lastname:string;
+    phoneNumber:string;
 }
 
+interface myRecipien {
+    recipienId: string;
+    firstname: string;
+    lastname: string;
+    bank: string;
+    accountnumber: string;
+}
 
-const PaymentBill = () => {
+const PaymentBill = (props:PaymentBillProps) => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
+    const [myRecipien, setMyRecipien] = useState<myRecipien>({
+        recipienId: '',
+        firstname: '',
+        lastname: '',
+        bank: '',
+        accountnumber: ''
+    });
+
+    const getDataRecipien = async () => {
+        const list: any = await getRecipienOnDB(props.userId);
+        console.log(list);
+        await setMyRecipien(list.myData[0]);
+    };
+    useEffect(() => {
+        getDataRecipien();
+    }, [])
+    
     return (
         <View style={styles.container}>
             <View style={styles.row}>
@@ -19,8 +49,8 @@ const PaymentBill = () => {
                     <Image source={require('../assets/LogoPark_DarkMode.png')} style={{width: 50, height: 50}}  />
                 </View>
                 <View style={styles.spaceTextSender}>
-                    <Text style={styles.headerText}>Kierra Aminoff</Text>
-                    <Text style={styles.bodyText}>089-555-0120</Text>
+                    <Text style={styles.headerText}>{props.firstname} {props.lastname}</Text>
+                    <Text style={styles.bodyText}>{props.phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3')}</Text>
                 </View>
             </View>
             <View style={styles.linePosition}>
@@ -39,9 +69,9 @@ const PaymentBill = () => {
                     <Image source={require('../assets/Kasikorn.png')} style={{width: 90, height: 90}}  />
                 </View>
                 <View style={styles.spaceText}>
-                    <Text style={styles.headerText}>Kierra Aminoff</Text>
-                    <Text style={styles.bodyText}>Kasikorn Bank</Text>
-                    <Text style={styles.bodyText}>089-555-0120</Text>
+                    <Text style={styles.headerText}>{myRecipien.firstname} {myRecipien.lastname}</Text>
+                    <Text style={styles.bodyText}>{myRecipien.bank}</Text>
+                    <Text style={styles.bodyText}>XXX-X-X{myRecipien.accountnumber.slice(5, 9)}-X</Text>
                 </View>
             </View>
         </View>

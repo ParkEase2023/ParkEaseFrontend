@@ -42,6 +42,7 @@ const TabRemainingBalance = (props: IEditpic) => {
                     <Text style={styles.textbody}>Withdraw Money</Text>
                 </View>
             </TouchableHighlight>
+
         </View>
     );
 };

@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CaretLeft } from "phosphor-react-native";
 import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -7,6 +7,7 @@ import PaymentBill from "../components/PaymentBill";
 
 const WithdrawalReceipt = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
+    const { params } = useRoute<RouteProp<ProfileParamList, 'WithdrawalReceipt'>>();
     const handleAddCoin = async () => {
     };
     return (
@@ -15,35 +16,37 @@ const WithdrawalReceipt = () => {
             contentContainerStyle={styles.scrollViewContainer}
             keyboardShouldPersistTaps="handled">
             <View style={styles.headerContent}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <CaretLeft size={22} color="#141414" />
-                </TouchableOpacity>
+                
                 <Text style={styles.headerText}>Withdrawal Receipt</Text>
             </View>
             <View style={styles.line}></View>
             <View style={styles.mainContainer}>
                 <View style={styles.square}>
-                <PaymentBill></PaymentBill>
+                <PaymentBill
+                    userId={params._id}
+                    firstname={params.firstname}
+                    lastname={params.lastname}
+                    phoneNumber={params.phoneNumber}></PaymentBill>
                 <View style={styles.space}>
                     <View style={styles.totalPrice}>
                         <Text style={styles.bodytext}>amount:</Text>
-                        <Text style={styles.textleft}>500 THB</Text>
+                        <Text style={styles.textleft}>{params.withdrawMoney} THB</Text>
                         <View style={styles.lineInPayment}></View>
                     </View>
                     <View style={styles.totalPrice}>
                         <Text style={styles.bodytext}>fee:</Text>
-                        <Text style={styles.textleft}>0 THB</Text>
+                        <Text style={styles.textleft}>30 THB</Text>
                         <View style={styles.lineInPayment}></View>
                     </View>
                 </View>
             </View>
             <View>
                 <View>
-                    <Text style={styles.bodytextNoBlod}>Remaining Balance: 290 Coins</Text>
+                    <Text style={styles.bodytextNoBlod}>Remaining Balance: {params.coins-params.withdrawMoney} Coins</Text>
                 </View>
             </View>
             <View>
-                <TouchableOpacity style={styles.btnConfirm} onPress={handleAddCoin}>
+                <TouchableOpacity style={styles.btnConfirm} onPress={()=>navigation.navigate("Profile")}>
                     <Text style={styles.textConfirm}>FINISHED</Text>
                 </TouchableOpacity>
             </View>
@@ -101,7 +104,6 @@ const styles = StyleSheet.create({
         top: 20
     },
     totalPrice: {
-        // flexDirection: 'row',
         backgroundColor: 'white',
         paddingHorizontal: 25,
         paddingVertical: 14,

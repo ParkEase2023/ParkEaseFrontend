@@ -117,6 +117,7 @@ const DetailParking = (props: IDetail) => {
                 </>
             );
         } else {
+            setsumRate('0');
             return null;
         }
     };

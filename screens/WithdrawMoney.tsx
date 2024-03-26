@@ -21,7 +21,7 @@ import { createdPromptPayQRCode } from '../services/omise';
 
 const WithdrawMoney = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
-    const { params } = useRoute<RouteProp<ProfileParamList, 'AddCoin'>>();
+    const { params } = useRoute<RouteProp<ProfileParamList, 'WithdrawMoney'>>();
     const [inputNumber, setInputNumber] = useState<number>(0);
     const handleButtonClick = () => {
         const newNumber = inputNumber + 100;
@@ -44,15 +44,17 @@ const WithdrawMoney = () => {
         setInputNumber(newNumber);
     };
 
-    // const handleAddCoin = async () => {
-    //     const res: any = await createdPromptPayQRCode({
-    //         amount: inputNumber,
-    //         phonenumber: params.phoneNumber
-    //     });
-    //     if (res) {
-    //         navigation.navigate('AddCoinQR', { qrCode: res.data, id: res.dataId });
-    //     }
-    // };
+    const handleWithdrawMoney = () => {
+        navigation.navigate('CheckInformation', {
+            _id: params._id,
+            firstname: params.firstname,
+            lastname: params.lastname,
+            email: params.email,
+            withdrawMoney: inputNumber,
+            coins: params.coins,
+            phoneNumber: params.phoneNumber
+        });
+    };
 
     return (
         <KeyboardAvoidingView style={styles.container}>
@@ -71,7 +73,7 @@ const WithdrawMoney = () => {
                             <CoinVertical size={24} weight="fill" color="#EEF0FF" />
                             <Text style={styles.textMain}>Remaining Balance</Text>
                         </View>
-                        <Text style={styles.textRight}>coins</Text>
+                        <Text style={styles.textRight}>{params.coins} coins</Text>
                     </View>
                 </View>
                 <View style={styles.mainContainer}>
@@ -120,11 +122,10 @@ const WithdrawMoney = () => {
                         </TouchableOpacity>
                     </View>
                     <View>
-                        <TouchableOpacity style={styles.btnConfirm} >
+                        <TouchableOpacity style={styles.btnConfirm} onPress={handleWithdrawMoney}>
                             <Text style={styles.textConfirm}>CONFIRM</Text>
                         </TouchableOpacity>
                     </View>
-                    
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
@@ -256,5 +257,5 @@ const styles = StyleSheet.create({
     color: {
         borderWidth: 2,
         borderColor: '#7F85B2'
-    },
+    }
 });

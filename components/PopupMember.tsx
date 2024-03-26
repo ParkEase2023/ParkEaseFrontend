@@ -1,14 +1,36 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-native-modal';
 import { X } from 'phosphor-react-native';
 import Membership from '../assets/Membership.png';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ProfileParamList } from '../stack/ProfileStack';
 
-const PopupMember = () => {
+interface IPopup {
+    setVisible: boolean;
+    ticker: boolean;
+}
+
+
+const PopupMember = (props:IPopup) => {
+    const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
+    const [show, setShow] = useState(Boolean);
+    useEffect(() => {
+        if (props.ticker === true) {
+            setShow(true);
+        }
+    }, [props.setVisible]);
+
+    const handleNevi = () => {
+        navigation.navigate("ApplyForMembership")
+        setShow(false);
+    };
+    
     return (
-        <Modal isVisible={true} backdropOpacity={0.6} backdropColor="#000">
+        <Modal isVisible={show} backdropOpacity={0.6} backdropColor="#000">
             <View style={styles.modalContainer}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => setShow(!show)}>
                     <X size={24} weight="bold" style={styles.icon} />
                 </TouchableOpacity>
                 <Image source={Membership} style={styles.imageMembership} />
@@ -17,7 +39,7 @@ const PopupMember = () => {
                     Unable to make a reservation{'\n'}because you are not a member.
                     {'\n'}Would you like to become a{'\n'}member?
                 </Text>
-                <TouchableOpacity style={styles.btnSend}>
+                <TouchableOpacity style={styles.btnSend} onPress={handleNevi}>
                     <Text style={styles.textSend}>VIEW</Text>
                 </TouchableOpacity>
             </View>

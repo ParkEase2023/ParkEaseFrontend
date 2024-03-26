@@ -1,29 +1,57 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-native-modal';
 import Bin from '../assets/Bin.png';
+import { deleteMyparking } from '../services/parking';
 
-const PopupDeleteMyParking = () => {
-  return (
-    <Modal isVisible={true}>
+interface IPopup {
+    setVisible: boolean;
+    ticker: boolean;
+    parkingID: string;
+    onDelete: (value: boolean) => void;
+    onTicker: (value: boolean) => void;
+}
+
+const PopupDeleteMyParking = (props: IPopup) => {
+    const [show, setShow] = useState(Boolean);
+
+    useEffect(() => {
+        if (props.ticker === true) {
+            setShow(true);
+        }
+    }, [props.setVisible]);
+
+    const handleDelete = async () => {
+        deleteMyparking(props.parkingID);
+        setShow(false); 
+        props.onDelete(false); 
+        props.onTicker(false);
+    };
+
+    return (
+        <Modal isVisible={show}>
             <View style={styles.modalContainer}>
                 <Image source={Bin} style={styles.imageBin} />
                 <Text style={styles.titlePopup}>Delete parking</Text>
                 <Text style={styles.labelPopup}>Do you want to delete this parking ?</Text>
                 <View style={styles.rowBtn}>
-                    <TouchableOpacity style={styles.btnCancel}>
+                    <TouchableOpacity
+                        style={styles.btnCancel}
+                        onPress={() => {
+                            setShow(false), props.onDelete(false), props.onTicker(false);
+                        }}>
                         <Text style={styles.textCancel}>CANCEL</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnYes}>
+                    <TouchableOpacity style={styles.btnYes} onPress={handleDelete}>
                         <Text style={styles.textYes}>YES, DELETE</Text>
                     </TouchableOpacity>
                 </View>
             </View>
         </Modal>
-  )
-}
+    );
+};
 
-export default PopupDeleteMyParking
+export default PopupDeleteMyParking;
 
 const styles = StyleSheet.create({
     modalContainer: {
@@ -87,4 +115,4 @@ const styles = StyleSheet.create({
         fontFamily: 'Fredoka-SemiBold',
         color: '#F4F6FD'
     }
-})
+});
