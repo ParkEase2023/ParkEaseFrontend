@@ -12,7 +12,10 @@ const ForgetPassword = () => {
   const [errorsEmail, setErrorsEmail] = useState('');
   const chackemail = async () => {
     try {
-      const res: any = await checkemail(email);
+      const body = {
+        email: email,
+      }
+      const res: any = await checkemail(body);
       console.log(res.message);
       await sendOTPtoEmail(email);
       navigation.navigate("VerifyYourEmail", { Email: email });
