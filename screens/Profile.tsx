@@ -40,6 +40,8 @@ import TabRemainingBalance from '../components/TabRemainingBalance';
 import { getRecipienOnDB } from '../services/recipien';
 import PopupMember from '../components/PopupMember';
 import { AddParkingParamList } from '../stack/AddparkingStack';
+import Nobility from '../assets/Nobility.png';
+import King from '../assets/King.png';
 
 export interface IProfile {
     _id: string;
@@ -355,6 +357,13 @@ const Profile = () => {
                                     source={{ uri: profile.profile_picture }}
                                     style={styles.imageProfile}
                                 />
+                                <View style={styles.bgMember}>
+                                    <Image source={Nobility} style={styles.imageNobility} />
+                                </View>
+                                <View style={styles.bgPartner}>
+                                    <Image source={King} style={styles.imageKing} />
+                                </View>
+                                
 
                                 <View style={styles.dataProfile}>
                                     <Text style={styles.name}>
@@ -363,14 +372,16 @@ const Profile = () => {
 
                                     <View style={styles.email}>
                                         <EnvelopeSimple size={20} weight="fill" color="#7F85B2" />
-                                        <Text style={styles.textProfile}>{profile.email}</Text>
+                                        <View style={{ width: 160 }}>
+                                            <Text style={styles.textEmail} numberOfLines={1}>
+                                                {profile.email}
+                                            </Text>
+                                        </View>
                                     </View>
 
                                     <View style={styles.phone}>
                                         <Phone size={20} weight="fill" color="#7F85B2" />
-                                        <Text style={styles.textProfile}>
-                                            {profile.phone_number}
-                                        </Text>
+                                        <Text style={styles.textPhone}>{profile.phone_number}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -536,6 +547,31 @@ const styles = StyleSheet.create({
         height: 81,
         borderRadius: 100
     },
+    bgMember: {
+        position: 'absolute',
+        backgroundColor: '#94FEBF',
+        borderRadius: 100,
+        padding: 6,
+        left: 61,
+        top: 72
+    },
+    imageNobility: {
+        width: 18,
+        height: 16,
+        left: 1.75,
+    },
+    bgPartner: {
+        position: 'absolute',
+        backgroundColor: '#FEFA94',
+        borderRadius: 100,
+        padding: 6,
+        left: 61,
+        top: 72
+    },
+    imageKing: {
+        width: 18,
+        height: 16,
+    },
 
     dataProfile: {
         marginHorizontal: 25
@@ -555,7 +591,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-    textProfile: {
+    textEmail: {
+        fontFamily: 'RedHatText-Regular',
+        fontSize: 14,
+        color: '#7F85B2',
+        marginLeft: 8
+    },
+    textPhone: {
         fontFamily: 'RedHatText-Regular',
         fontSize: 14,
         color: '#7F85B2',
@@ -629,7 +671,7 @@ const styles = StyleSheet.create({
     },
     boxview: {
         width: '100%',
-        height: 160,
+        height: 196,
         position: 'absolute',
         bottom: 0,
         zIndex: 2

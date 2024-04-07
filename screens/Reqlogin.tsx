@@ -16,19 +16,13 @@ import {
 import { CaretLeft } from 'phosphor-react-native';
 import { RootStackList } from '../stack/RootStack';
 
-const { height: SCREEN_HEIGHT } = Dimensions.get('window');
-
 function Reqlogin() {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
     return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <ScrollView
-                contentContainerStyle={styles.scrollViewContainer}
-                keyboardShouldPersistTaps="handled">
-                <SafeAreaView>
-                    <View style={styles.circleBig} />
+        <View style={styles.bg}>
+            <View style={styles.circleBig} />
+            <View style={styles.flexMain}>
+                <ScrollView style={styles.container}>
                     <TouchableOpacity style={styles.btnBack} onPress={() => navigation.goBack()}>
                         <CaretLeft size={24} weight="bold" color="#EEF0FF" />
                     </TouchableOpacity>
@@ -38,48 +32,57 @@ function Reqlogin() {
                     <Text style={styles.title}>Log In Now!</Text>
                     <Text style={styles.subtitle}>You must log in first to use this feature.</Text>
 
-                    <View>
-                        <TouchableOpacity
-                            style={styles.btnLogIn}
-                            onPress={() => navigation.navigate('AuthStack', { screen: 'SignIn' })}>
-                            <Text style={styles.textLogIn}>LOG IN</Text>
-                        </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.btnLogIn}
+                        onPress={() => navigation.navigate('AuthStack', { screen: 'SignIn' })}>
+                        <Text style={styles.textLogIn}>LOG IN</Text>
+                    </TouchableOpacity>
 
-                        <TouchableOpacity
-                            style={styles.btnSignUp}
-                            onPress={() => navigation.navigate('AuthStack', { screen: 'SignUp' })}>
-                            <Text style={styles.textSignUp}>SIGN UP</Text>
-                        </TouchableOpacity>
-                    </View>
-                </SafeAreaView>
-            </ScrollView>
-        </KeyboardAvoidingView>
+                    <TouchableOpacity
+                        style={styles.btnSignUp}
+                        onPress={() => navigation.navigate('AuthStack', { screen: 'SignUp' })}>
+                        <Text style={styles.textSignUp}>SIGN UP</Text>
+                    </TouchableOpacity>
+                </ScrollView>
+            </View>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    bg: {
         flex: 1,
-        backgroundColor: '#EEF0FF',
+        backgroundColor: '#EEF0FF'
     },
-    scrollViewContainer: {
-        flexGrow: 1,
+    container: {
         paddingHorizontal: 40
     },
+    circleBig: {
+        position: 'absolute',
+        width: 287,
+        height: 287,
+        borderRadius: 200,
+        backgroundColor: '#262D57',
+        top: -72,
+        left: -144
+    },
+    flexMain: {
+        flex: 8
+    },
     btnBack: {
-        marginTop: 80
+        marginTop: 40
     },
     reqLogIn: {
         width: 320,
         height: 320,
         alignSelf: 'center',
-        marginTop: SCREEN_HEIGHT / 30
+        marginTop: 30
     },
     title: {
         fontFamily: 'RedHatText-Bold',
         fontSize: 40,
         color: '#10152F',
-        marginTop: 45,
+        marginTop: 40,
         textAlign: 'center'
     },
     subtitle: {
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#262D57',
         marginTop: 10,
-        marginBottom: 60,
+        marginBottom: 55,
         textAlign: 'center'
     },
     btnLogIn: {
@@ -106,7 +109,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#7F85B2',
         borderRadius: 12,
         paddingVertical: 16,
-        marginBottom:10
+        marginBottom: 10
     },
     textSignUp: {
         textAlign: 'center',
@@ -123,15 +126,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#262D57',
         top: 15,
         left: 8
-    },
-    circleBig: {
-        position: 'absolute',
-        width: 287,
-        height: 287,
-        borderRadius: 200,
-        backgroundColor: '#262D57',
-        top: -72,
-        left: -144
     }
 });
 

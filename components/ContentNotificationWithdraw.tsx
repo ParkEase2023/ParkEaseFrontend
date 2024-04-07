@@ -15,7 +15,7 @@ const ContentNotificationWithdraw = (props: INotification) => {
                 <Text style={styles.price}>- {props.coins} Coins</Text>
             </View>
 
-            <View style={styles.row}>
+            <View style={styles.row2}>
                 <View style={styles.rowName}>
                     <Text style={styles.conjunction}>To</Text>
                     <Text style={styles.name}>{props.to}</Text>
@@ -47,6 +47,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 8
+    },
+    row2: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     lastRow: {
         flexDirection: 'row',

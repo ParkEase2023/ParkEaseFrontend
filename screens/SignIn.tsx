@@ -107,12 +107,7 @@ const SignIn = () => {
                         <EnvelopeSimple size={24} color="#565E8B" />
                         <TextInput
                             placeholder="Email"
-                            style={{
-                                padding: 16,
-                                fontFamily: 'RedHatText-Regular',
-                                fontSize: 16,
-                                color: '#565E8B'
-                            }}
+                            style={styles.longTextInput}
                             onChangeText={text => setEmail(text)}
                         />
                     </View>
@@ -124,12 +119,7 @@ const SignIn = () => {
                             <TextInput
                                 placeholder="Password"
                                 secureTextEntry={textEntry}
-                                style={{
-                                    padding: 16,
-                                    fontFamily: 'RedHatText-Regular',
-                                    fontSize: 16,
-                                    color: '#565E8B'
-                                }}
+                                style={styles.longTextInput}
                                 onChangeText={text => setPassword(text)}
                             />
                         </View>
@@ -168,7 +158,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#10152F'
     },
     scrollViewContainer: {
-      flexGrow: 1,
+        flexGrow: 1
     },
     Logo: {
         flex: 1,
@@ -226,10 +216,11 @@ const styles = StyleSheet.create({
         color: '#10152F'
     },
     longTextInput: {
+        flex: 1,
         padding: 16,
         fontFamily: 'RedHatText-Regular',
         fontSize: 16,
-        color: '#10152F'
+        color: '#565E8B'
     },
     email: {
         flexDirection: 'row',
