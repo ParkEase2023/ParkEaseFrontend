@@ -1,4 +1,4 @@
-import { StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, Touchable, TouchableOpacity, View, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { CaretLeft, Plus } from 'phosphor-react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
@@ -8,7 +8,6 @@ import ContentMyParking from '../components/ContentMyParking';
 import { AddParkingParamList } from '../stack/AddparkingStack';
 import { MenuParamList } from '../stack/MenuStack';
 import { getMyparking } from '../services/parking';
-import { ScrollView } from 'react-native-gesture-handler';
 import PopupDeleteMyParking from '../components/PopupDeleteMyParking';
 
 interface Myparking {
@@ -212,12 +211,12 @@ const styles = StyleSheet.create({
     },
     circleBig: {
         position: 'absolute',
-        width: 380,
-        height: 380,
+        width: 370,
+        height: 370,
         borderRadius: 200,
         backgroundColor: '#262D57',
-        top: -72,
-        left: -144
+        top: -80,
+        left: -120
     },
     row: {
         flexDirection: 'row',
@@ -247,12 +246,11 @@ const styles = StyleSheet.create({
         height: 100,
         borderRadius: 100,
         backgroundColor: '#262D57',
-        bottom: 52,
-        right: 25
+        bottom: 15,
+        right: 15
     },
     bodyContainer: {
         flex: 1,
-        // marginTop: 25,
         paddingHorizontal: 25
     }
 });

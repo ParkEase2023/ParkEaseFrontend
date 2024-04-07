@@ -62,7 +62,7 @@ const BankInformation = () => {
             keyboardShouldPersistTaps="handled">
             <View style={styles.headerContent}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <CaretLeft size={22} color="#10152F" />
+                    <CaretLeft size={22} weight='bold' color="#10152F" />
                 </TouchableOpacity>
                 <View style={styles.center}>
                     <Text style={styles.headerText}>Bank Information</Text>
@@ -75,24 +75,24 @@ const BankInformation = () => {
                         <Text style={styles.headerTextbody}>Payer’s Information</Text>
                     </View>
                     <View style={styles.boxText}>
-                        <Text style={styles.bodytext}>First Name :</Text>
-                        <Text style={styles.textleft}>{myRecipien.firstname}</Text>
+                        <Text style={styles.bodytext}>FIRST NAME :</Text>
+                        <Text numberOfLines={1} style={styles.textleft}>{myRecipien.firstname}</Text>
                     </View>
                     <View style={styles.boxText}>
-                        <Text style={styles.bodytext}>Last Name :</Text>
-                        <Text style={styles.textleft}>{myRecipien.lastname}</Text>
+                        <Text style={styles.bodytext}>LAST NAME :</Text>
+                        <Text numberOfLines={1} style={styles.textleft}>{myRecipien.lastname}</Text>
                     </View>
                     <View style={styles.boxText}>
                         <EnvelopeSimple size={24} color="#565E8B" />
                         <View style={styles.spaceInLine}></View>
-                        <Text style={styles.bodytext}>Email :</Text>
-                        <Text style={styles.textleftEmailandID}>{myRecipien.email}</Text>
+                        <Text style={styles.bodytext}>EMAIL :</Text>
+                        <Text numberOfLines={1} style={styles.textleftEmailandID}>{myRecipien.email}</Text>
                     </View>
                     <View style={styles.boxText}>
                         <IdentificationCard size={24} color="#565E8B" />
                         <View style={styles.spaceInLine}></View>
-                        <Text style={styles.bodytext}>Tax ID :</Text>
-                        <Text style={styles.textleftEmailandID}>
+                        <Text style={styles.bodytext}>TAX ID :</Text>
+                        <Text numberOfLines={1} style={styles.textleftEmailandID}>
                             {myRecipien.taxId.replace(
                                 /(\d{1})(\d{4})(\d{5})(\d{3})/,
                                 '$1-$2-$3-$4'
@@ -116,12 +116,12 @@ const BankInformation = () => {
                     </View>
                     <View style={styles.boxText}>
                         <Text style={styles.bodytext}>Account Name:</Text>
-                        <Text style={styles.textleft}>{myRecipien.accountname}</Text>
+                        <Text numberOfLines={1} style={styles.textleft}>{myRecipien.accountname}</Text>
                     </View>
 
                     <View style={styles.boxText}>
                         <Text style={styles.bodytext}>Account Number:</Text>
-                        <Text style={styles.textleft}>
+                        <Text numberOfLines={1} style={styles.textleft}>
                             {myRecipien.accountnumber.slice(0, 3) +
                                 '-' +
                                 myRecipien.accountnumber[3] +
@@ -206,6 +206,7 @@ const styles = StyleSheet.create({
         fontFamily: 'RedHatText',
         fontSize: 16,
         color: '#565E8B'
+        
     },
     textleftEmailandID: {
         flex: 1.75,

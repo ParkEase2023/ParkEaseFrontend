@@ -237,7 +237,7 @@ const BindAnAccount = () => {
                         <View style={[styles.textbox1]}>
                             <View style={styles.iconPosition}>
                                 <TouchableOpacity style={styles.row} onPress={handleOpenTab}>
-                                    <Bank size={32} />
+                                    <Bank size={32} weight='bold' />
                                     <TextInput
                                         style={styles.inputBank}
                                         editable={false}
