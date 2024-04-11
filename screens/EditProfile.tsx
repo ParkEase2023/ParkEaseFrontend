@@ -258,7 +258,7 @@ const EditProfile = () => {
                             <TouchableOpacity onPress={() => navigation.goBack()}>
                                 <X size={28} weight="bold" color="#fff" />
                             </TouchableOpacity>
-                            <Text style={styles.title}>EditProfile</Text>
+                            <Text style={styles.title}>Edit Profile</Text>
                         </View>
                         <TouchableOpacity onPress={onSubmit}>
                             <View style={styles.itemRightHead}>
@@ -557,10 +557,8 @@ const styles = StyleSheet.create({
     },
     boxview: {
         width: '100%',
-        height: 120,
         position: 'absolute',
         bottom: 0,
         zIndex: 2
-        // paddingHorizontal: 10,
     }
 });

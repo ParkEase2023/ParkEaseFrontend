@@ -671,7 +671,6 @@ const styles = StyleSheet.create({
     },
     boxview: {
         width: '100%',
-        height: 196,
         position: 'absolute',
         bottom: 0,
         zIndex: 2

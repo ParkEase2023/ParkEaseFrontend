@@ -1,8 +1,8 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
-import { DotsThreeVertical, Star } from 'phosphor-react-native';
 import Starsmall from './Starsmall';
 import Moment from 'react-moment';
+import BtnReportReview from './BtnReportReview';
 
 interface IComment {
     image: string;
@@ -17,7 +17,7 @@ const Comment = (props: IComment) => {
     return (
         <View>
             <View style={styles.rowComment}>
-                <Image source={{uri: props.image}} style={styles.smallProfile} />
+                <Image source={{ uri: props.image }} style={styles.smallProfile} />
 
                 <View style={styles.rowDetailComment}>
                     <Text style={styles.nameComment}>{props.username}</Text>
@@ -36,12 +36,11 @@ const Comment = (props: IComment) => {
                         </Moment>
                     </View>
                 </View>
-
-                <DotsThreeVertical size={24} weight="bold" color="#565E8B" />
+                
+                <BtnReportReview />
+                {/* <DotsThreeVertical size={24} weight="bold" color="#565E8B" /> */}
             </View>
-            <Text style={styles.textComment}>
-                {props.comment}
-            </Text>
+            <Text style={styles.textComment}>{props.comment}</Text>
             <View style={styles.line2} />
         </View>
     );
