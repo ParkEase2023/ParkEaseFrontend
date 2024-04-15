@@ -12,10 +12,9 @@ import {
     Platform,
     ScrollView
 } from 'react-native';
-import { ArrowLeft, CaretLeft, CoinVertical, Money } from 'phosphor-react-native';
+import { CaretLeft, CoinVertical, Money } from 'phosphor-react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ProfileParamList } from '../stack/ProfileStack';
 import { createdPromptPayQRCode } from '../services/omise';
 
