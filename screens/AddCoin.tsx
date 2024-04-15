@@ -142,6 +142,7 @@ const AddCoin = () => {
         </KeyboardAvoidingView>
     );
 };
+///ioperghoie
 
 export default AddCoin;
 
