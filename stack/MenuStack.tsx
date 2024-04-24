@@ -66,7 +66,7 @@ const MenuStack = () => {
                             return { backgroundColor: '#10152F', height: 55 };
                         })(),
                         tabBarIcon: ({ focused, color, size }) => (
-                            <MapTrifold color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
+                            <MapTrifold color={focused ? '#FEFA94' : '#CED2EA'} size={27} weight="fill" />
                         )
                     })}
                 />
@@ -76,7 +76,7 @@ const MenuStack = () => {
                     options={{
                         tabBarIcon: ({ focused, color, size }) => (
                             <Heart
-                                color={focused ? '#FEFA94' : '#BABCCA'}
+                                color={focused ? '#FEFA94' : '#CED2EA'}
                                 size={27}
                                 weight="fill"
                             />
@@ -90,7 +90,7 @@ const MenuStack = () => {
                         tabBarStyle: { display: 'none' },
                         tabBarHideOnKeyboard: true,
                         tabBarIcon: ({ focused, color, size }) => (
-                            <Plus color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
+                            <Plus color={focused ? '#FEFA94' : '#CED2EA'} size={27} weight="fill" />
                         )
                     }}
                 />
@@ -101,7 +101,7 @@ const MenuStack = () => {
                         tabBarStyle: { display: 'none' },
                         tabBarIcon: ({ focused, color, size }) => (
                             <Bookmark
-                                color={focused ? '#FEFA94' : '#BABCCA'}
+                                color={focused ? '#FEFA94' : '#CED2EA'}
                                 size={27}
                                 weight="fill"
                             />
@@ -127,7 +127,7 @@ const MenuStack = () => {
                             return { backgroundColor: '#10152F', height: 55 };
                         })(),
                         tabBarIcon: ({ focused, color, size }) => (
-                            <User color={focused ? '#FEFA94' : '#BABCCA'} size={27} weight="fill" />
+                            <User color={focused ? '#FEFA94' : '#CED2EA'} size={27} weight="fill" />
                         )
                     })}
                 />

@@ -13,7 +13,8 @@ import {
     CaretRight,
     Clock,
     CoinVertical,
-    MapPin,
+    Car,
+    User,
     Phone,
     PlusCircle
 } from 'phosphor-react-native';
@@ -226,15 +227,17 @@ const AddParkingDetails = () => {
             <ScrollView style={styles.container}>
                 <Text style={styles.titlePicture}>Picture of parking place</Text>
                 <View style={styles.row}>
-                    <TouchableOpacity style={styles.btnAddPicture} onPress={chooseImage1}>
-                        <Image source={{ uri: picture1 }} />
-                        <PlusCircle size={24} weight="bold" color="#fff" />
+                    <TouchableOpacity onPress={chooseImage1}>
+                        <Image source={{ uri: picture1 }} style={styles.btnAddPicture} />
+                        <PlusCircle size={24} weight="bold" color="#fff" style={styles.iconPlus} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnAddPicture} onPress={chooseImage2}>
-                        <PlusCircle size={24} weight="bold" color="#fff" />
+                    <TouchableOpacity onPress={chooseImage2}>
+                        <Image source={{ uri: picture2 }} style={styles.btnAddPicture} />
+                        <PlusCircle size={24} weight="bold" color="#fff" style={styles.iconPlus} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnAddPicture} onPress={chooseImage3}>
-                        <PlusCircle size={24} weight="bold" color="#fff" />
+                    <TouchableOpacity onPress={chooseImage3}>
+                        <Image source={{ uri: picture3 }} style={styles.btnAddPicture} />
+                        <PlusCircle size={24} weight="bold" color="#fff" style={styles.iconPlus} />
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.titleDate}>Opening Date</Text>
@@ -308,10 +311,11 @@ const AddParkingDetails = () => {
                     </TouchableOpacity>
                 </View>
 
-                <View style={styles.noIconTextBox}>
+                <View style={styles.simpleTextBox}>
+                    <User size={24} color="#565E8B" />
                     <TextInput
                         placeholder="Provider name"
-                        style={styles.noIconTextInput}
+                        style={styles.textInput}
                         value={profile.firstname + ' ' + profile.lastname}
                         editable={false}
                     />
@@ -321,10 +325,11 @@ const AddParkingDetails = () => {
                     <TextInput placeholder="Phone Number" style={styles.textInput} 
                     onChangeText={text => setPhone(text)}/>
                 </View>
-                <View style={styles.noIconTextBox}>
+                <View style={styles.simpleTextBox}>
+                    <Car size={24} color="#565E8B" />
                     <TextInput
                         placeholder="Parking place name"
-                        style={styles.noIconTextInput}
+                        style={styles.textInput}
                         onChangeText={text => setTitle(text)}
                     />
                 </View>
@@ -413,6 +418,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    iconPlus: {
+        position: 'absolute',
+        top: 40,
+        left: 40
+    },
     titleDate: {
         color: '#262D57',
         fontFamily: 'RedHatText-Bold',
@@ -429,6 +439,7 @@ const styles = StyleSheet.create({
         height: 40,
         borderRadius: 20,
         borderColor: '#7F85B2',
+        backgroundColor: '#EEF0FF',
         borderWidth: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -502,13 +513,6 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
 
-    noIconTextBox: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#DAE0FF',
-        borderRadius: 12,
-        marginTop: 20
-    },
     simpleTextBox: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -516,13 +520,6 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         paddingHorizontal: 16,
         marginTop: 20
-    },
-    noIconTextInput: {
-        flex: 1,
-        color: '#565E8B',
-        fontFamily: 'RedHatText-Regular',
-        fontSize: 16,
-        marginHorizontal: 16
     },
     textInput: {
         flex: 1,

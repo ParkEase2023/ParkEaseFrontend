@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
     rowDate: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        marginBottom: 8
     },
     lastRow: {
         flexDirection: 'row',

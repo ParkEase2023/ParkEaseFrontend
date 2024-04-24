@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     bgTopic: {
         backgroundColor: '#dddddd',
         paddingTop: 20,
-        paddingBottom: 6,
+        paddingBottom: 8,
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
         width: 285

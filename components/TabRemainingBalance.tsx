@@ -16,8 +16,8 @@ const TabRemainingBalance = (props: IEditpic) => {
                 underlayColor="#EFEFEF"
                 onPress={() => props.addCoins(true)}>
                 <View style={styles.boxSizing}>
-                    <Coins size={32} weight="fill" style={styles.icon} />
-                    <Text style={styles.textbody}>Add Coins</Text>
+                    <Coins size={32} weight="fill" color='#10152F' />
+                    <Text style={styles.textBody}>Add Coins</Text>
                 </View>
             </TouchableHighlight>
 
@@ -27,8 +27,8 @@ const TabRemainingBalance = (props: IEditpic) => {
                 underlayColor="#EFEFEF"
                 onPress={() => props.BindAccount(true)}>
                 <View style={styles.boxSizing}>
-                    <Bank size={32} weight="fill" style={styles.icon} />
-                    <Text style={styles.textbody}>Bind An Account</Text>
+                    <Bank size={32} weight="fill" color='#10152F' />
+                    <Text style={styles.textBody}>Bind An Account</Text>
                 </View>
             </TouchableHighlight>
 
@@ -38,8 +38,8 @@ const TabRemainingBalance = (props: IEditpic) => {
                 underlayColor="#EFEFEF"
                 onPress={() => props.WithdrawMoney(true)}>
                 <View style={styles.boxSizing}>
-                    <HandCoins size={32} weight="fill" style={styles.icon} />
-                    <Text style={styles.textbody}>Withdraw Money</Text>
+                    <HandCoins size={32} weight="fill" color='#10152F' />
+                    <Text style={styles.textBody}>Withdraw Money</Text>
                 </View>
             </TouchableHighlight>
 
@@ -53,32 +53,24 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
         paddingHorizontal: 25,
-        paddingTop: 25,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 12 },
-        shadowOpacity: 0.58,
-        shadowRadius: 16.0,
-        elevation: 24
+        paddingVertical: 20,
     },
-    textbody: {
-        textAlign: 'center',
+    textBody: {
+        marginLeft: 16,
+        alignSelf: 'center',
         fontFamily: 'RedHatText-Regular',
         fontSize: 16,
         color: '#10152F'
     },
     boxSizing: {
         flexDirection: 'row',
-        justifyContent: 'flex-start',
-        marginBottom: 20
+        alignSelf: 'flex-start',
+        paddingVertical: 10,
     },
     touchableHighlight: {
         borderRadius: 10,
         overflow: 'hidden'
     },
-    icon: {
-        marginRight: 20,
-        marginTop: -5
-    }
 });
 
 export default TabRemainingBalance;
