@@ -61,19 +61,19 @@ const BillingInfo = () => {
                         <Text style={styles.headerSmallTextBody}> {dynamicValue2}</Text>
                     </View>
                     <View style={styles.line}>
-                        <Check size={32} color="#11bb25" />
+                        <Check size={32} weight="bold" color="#11bb25" />
                         <Text style={styles.textBody}>Can see parking details</Text>
                     </View>
                     <View style={styles.line}>
-                        <Check size={32} color="#11bb25" />
+                        <Check size={32} weight="bold" color="#11bb25" />
                         <Text style={styles.textBody}>Can reservations</Text>
                     </View>
                     <View style={styles.line}>
-                        <Check size={32} color="#11bb25" />
+                        <Check size={32} weight="bold" color="#11bb25" />
                         <Text style={styles.textBody}>Can do transactions</Text>
                     </View>
                     <View style={styles.line}>
-                        <Check size={32} color="#11bb25" />
+                        <Check size={32} weight="bold" color="#11bb25" />
                         <Text style={styles.textBody}>Can add parking locations</Text>
                     </View>
                 </>
@@ -86,7 +86,7 @@ const BillingInfo = () => {
             <View style={styles.contentHeader}>
                 <View style={styles.caretLeft}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <CaretLeft size={22} color="#10152F" />
+                        <CaretLeft size={24} weight="bold" color="#10152F" />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.flexText}>
@@ -100,7 +100,6 @@ const BillingInfo = () => {
                 <RenderMain></RenderMain>
                 <View style={styles.space}>
                     <Text style={styles.headerTextBody}>Subscription renews on</Text>
-                    {/* <Text style={styles.headerSmallTextBody}> 21 Dec 2023 </Text> */}
                     <Text style={styles.headerSmallTextBody}>
                         <Moment format="DD MMM YYYY" element={Text}>
                             {params.Exptime}
@@ -111,7 +110,7 @@ const BillingInfo = () => {
                     <TouchableOpacity  style={styles.btnConfirm} onPress={() => {
                                 setShowpopupChange(!showpopupChange), setTickerpopupChange(true);
                             }}>
-                        <Text style={styles.textConfirm}>Change Plan</Text>
+                        <Text style={styles.textConfirm}>CHANCE PLAN</Text>
                     </TouchableOpacity>
                     <View style={styles.LineSpace}>
                         <TouchableOpacity
@@ -185,7 +184,7 @@ const styles = StyleSheet.create({
     textBody: {
         fontFamily: 'RedHatText',
         fontSize: 16,
-        color: '#10152F',
+        color: '#565E8B',
         paddingLeft: 16
     },
     space: {
@@ -197,7 +196,6 @@ const styles = StyleSheet.create({
     btnConfirm: {
         backgroundColor: '#10152F',
         borderRadius: 16,
-        width: 343,
         height: 65,
         justifyContent: 'center',
         alignItems: 'center'

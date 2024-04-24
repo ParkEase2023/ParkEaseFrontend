@@ -63,7 +63,7 @@ const WithdrawMoney = () => {
                 keyboardShouldPersistTaps="handled">
                 <View style={styles.headerContent}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <CaretLeft size={22} color="#10152F" />
+                        <CaretLeft weight='bold' size={22} color="#10152F" />
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Withdraw Money</Text>
                 </View>
@@ -73,8 +73,13 @@ const WithdrawMoney = () => {
                             <CoinVertical size={24} weight="fill" color="#EEF0FF" />
                             <Text style={styles.textMain}>Remaining Balance</Text>
                         </View>
-                        <Text style={styles.textRight}>{params.coins} coins</Text>
+                        <Text style={styles.textRight}>{params.coins} Coins</Text>
                     </View>
+                </View>
+                <View style={styles.imageContainer}>
+                    <Image
+                        source={require('../assets/withdrawMoney.png')}
+                    />
                 </View>
                 <View style={styles.mainContainer}>
                     <View style={[styles.textbox1]}>
@@ -141,7 +146,7 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         paddingHorizontal: 25,
-        top: 124
+        paddingVertical: 50
     },
     main: {
         flexGrow: 1
@@ -191,11 +196,16 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#EEF0FF'
     },
+    imageContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: 80,
+        width: '100%'
+    },
     textbox1: {
         backgroundColor: '#DAE0FF',
         borderRadius: 12,
         borderColor: '#10152F',
-        // padding: 11,
         height: 60
     },
     scrollViewContainer: {
