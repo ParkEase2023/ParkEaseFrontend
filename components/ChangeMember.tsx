@@ -31,15 +31,17 @@ const ChangePlan = (props: ChangePlanProps) => {
                 <View style={styles.modalTextContent}>
                     <View style={styles.modalIcon}>
                         <TouchableOpacity onPress={() => setShow(!show)}>
-                            <X size={22} color="#141414" />
+                            <X size={15} weight='bold' color="#141414" />
                         </TouchableOpacity>
                     </View>
                     <Text style={styles.headerText}>Confirm</Text>
                     <Text style={styles.headerText}>Your Changes</Text>
-                    <Text style={styles.text}>If you change your current</Text>
-                    <Text style={styles.text}>membership, your current</Text>
-                    <Text style={styles.text}>membership will be changed</Text>
-                    <Text style={styles.text}>immediately.</Text>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.text}>If you change your current</Text>
+                        <Text style={styles.text}>membership, your current</Text>
+                        <Text style={styles.text}>membership will be changed</Text>
+                        <Text style={styles.text}>immediately.</Text>
+                    </View>
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity style={styles.button} onPress={Navi}>
                             <Text style={styles.buttonText}>CONFIRM</Text>
@@ -58,7 +60,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.5)'
+        paddingHorizontal: 25,
+        paddingVertical: 25
     },
     modalIcon: {
         flexDirection: 'row',
@@ -67,8 +70,6 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     modalContent: {
-        backgroundColor: '#EEF0FF',
-        padding: 20,
         borderRadius: 10,
         width: '80%',
         alignItems: 'center',
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
     },
     modalTextContent: {
         backgroundColor: '#EEF0FF',
-        padding: 20,
+        padding: 25,
         borderRadius: 10,
         width: '80%',
         alignItems: 'center',
@@ -89,12 +90,15 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#10152F'
     },
+    textContainer: {
+        width: '100%',
+        paddingVertical: 20
+    },
     text: {
         fontFamily: 'RedHatText',
         textAlign: 'center',
         fontSize: 14,
         color: '#262D57',
-        marginTop: 10
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -102,15 +106,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         paddingHorizontal: 10,
-        marginTop: 20
     },
     button: {
         backgroundColor: '#10152F',
-        padding: 10,
         width: '100%',
         paddingVertical: 10,
         borderRadius: 10,
-        marginHorizontal: 10
     },
     buttonText: {
         textAlign: 'center',
@@ -121,8 +122,6 @@ const styles = StyleSheet.create({
     btnConfirm: {
         backgroundColor: '#10152F',
         borderRadius: 16,
-        width: 343,
-        height: 65,
         justifyContent: 'center',
         alignItems: 'center'
     },

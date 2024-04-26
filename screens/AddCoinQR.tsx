@@ -148,18 +148,17 @@ const AddCoinQR = () => {
                 <View style={styles.headerContent}>
                     <Toast />
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <CaretLeft size={32} color="#011303" />
+                        <CaretLeft size={24} weight="bold" />
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Add coins to your account</Text>
                     <TouchableOpacity onPress={saveImage}>
-                        <DownloadSimple size={32} color="#011303" style={{ paddingLeft: 80 }} />
+                        <DownloadSimple size={24} color="#011303" weight="bold" style={{ paddingLeft: 130 }} />
                     </TouchableOpacity>
                 </View>
             </View>
             <View style={styles.line}></View>
             <View style={styles.qrcode}>
                 <Image
-                    // source={require('../assets/Qrcod.png')}
                     source={{ uri: params.qrCode }}
                     style={{
                         width: 300,

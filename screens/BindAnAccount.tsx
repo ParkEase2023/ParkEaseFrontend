@@ -66,11 +66,7 @@ const BindAnAccount = () => {
             createRecipienDB(Recipien.data);
         }
     };
-
-
-    
-
-    const createRecipienDB = async (recipienID:string) => {
+    const createRecipienDB = async (recipienID: string) => {
         const RecipienOnDB: any = await createRecipienOnDB({
             userId: params.userId,
             recipienId: recipienID,
@@ -179,7 +175,7 @@ const BindAnAccount = () => {
                 keyboardShouldPersistTaps="handled">
                 <View style={styles.headerContent}>
                     <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-                        <CaretLeft size={22} color="#10152F" />
+                        <CaretLeft weight='bold' size={24} color="#10152F" />
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Bind An Account</Text>
                 </View>
@@ -189,13 +185,15 @@ const BindAnAccount = () => {
                     <View style={styles.rowInputName}>
                         <View style={styles.textboxName}>
                             <TextInput
+                                numberOfLines={1}
                                 style={styles.input}
-                                placeholder="Frist Name"
+                                placeholder="First Name"
                                 onChangeText={text => setFirstname(text)}
                             />
                         </View>
                         <View style={styles.textboxLastname}>
                             <TextInput
+                                numberOfLines={1}
                                 style={styles.input}
                                 placeholder="Last Name"
                                 onChangeText={text => setLastname(text)}
@@ -209,6 +207,7 @@ const BindAnAccount = () => {
                                     <EnvelopeSimple size={32} />
                                 </View>
                                 <TextInput
+                                    numberOfLines={1}
                                     style={styles.inputBank}
                                     placeholder="Email"
                                     onChangeText={text => setEmail(text)}
@@ -225,10 +224,12 @@ const BindAnAccount = () => {
                                 <TextInput
                                     style={styles.input}
                                     secureTextEntry={textEntry}
-                                    placeholder="Tax ID  (13-digit ID card number)"
+                                    placeholder="Tax ID"
                                     onChangeText={text => setTaxID(text)}
                                 />
-                                <Entrypassword></Entrypassword>
+                                <View style={styles.entrypassword}>
+                                    <Entrypassword></Entrypassword>
+                                </View>
                             </View>
                         </View>
                     </View>
@@ -237,7 +238,7 @@ const BindAnAccount = () => {
                         <View style={[styles.textbox1]}>
                             <View style={styles.iconPosition}>
                                 <TouchableOpacity style={styles.row} onPress={handleOpenTab}>
-                                    <Bank size={32} />
+                                    <Bank size={32} weight='bold' />
                                     <TextInput
                                         style={styles.inputBank}
                                         editable={false}
@@ -317,7 +318,7 @@ const styles = StyleSheet.create({
         paddingLeft: 90
     },
     line: {
-        borderBottomColor: '#7F85B2',
+        borderBottomColor: '#CED2EA',
         borderBottomWidth: 1,
         paddingTop: 15,
         width: '100%'
@@ -385,6 +386,10 @@ const styles = StyleSheet.create({
         color: '#10152F',
         padding: 16,
         flex: 9
+    },
+    entrypassword: {
+        flex: 1,
+        paddingRight: 16
     },
     inputBank: {
         fontFamily: 'RedHatText',

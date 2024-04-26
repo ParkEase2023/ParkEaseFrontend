@@ -255,7 +255,7 @@ const Home = () => {
                     };
                     return (
                         <Marker
-                            image={require('../assets/PinParkRemoveBG.png')}
+                            image={require('../assets/PinSmall.png')}
                             key={index}
                             coordinate={{
                                 latitude: item.latitude,
@@ -366,12 +366,12 @@ const Home = () => {
                 <View style={styles.searchContainer}>
                     <View style={styles.inner}>
                         <TouchableOpacity style={styles.search}>
-                            <MagnifyingGlass size={22} weight="bold" color="#A6A6A6" />
+                            <MagnifyingGlass size={22} weight="bold" color="#7F85B2" />
                         </TouchableOpacity>
                         <TextInput
                             style={styles.field}
                             placeholder="Search"
-                            placeholderTextColor="#A6A6A6"
+                            placeholderTextColor="#7F85B2"
                             // value={searchInput}
                             // onChangeText={text => setSearchInput(text)}
                         />
@@ -453,7 +453,7 @@ const styles = StyleSheet.create({
         height: 48,
         backgroundColor: '#10152F',
         marginTop: 42,
-        right: 0,
+        right: 3,
         elevation: 3,
         justifyContent: 'center',
         alignItems: 'center',
@@ -466,19 +466,7 @@ const styles = StyleSheet.create({
         height: 48,
         backgroundColor: '#10152F',
         marginTop: 98,
-        right: 0,
-        elevation: 3,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 12
-    },
-    btnCaretLeft: {
-        position: 'absolute',
-        width: 48,
-        height: 48,
-        backgroundColor: '#10152F',
-        marginTop: 40,
-        right: 0,
+        right: 3,
         elevation: 3,
         justifyContent: 'center',
         alignItems: 'center',
@@ -493,8 +481,7 @@ const styles = StyleSheet.create({
     },
     searchContainer: {
         position: 'absolute',
-        marginRight: 12,
-        marginLeft: 16,
+        marginHorizontal: 16,
         marginTop: 10,
         elevation: 3
     },

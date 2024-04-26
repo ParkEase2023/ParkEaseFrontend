@@ -12,10 +12,9 @@ import {
     Platform,
     ScrollView
 } from 'react-native';
-import { ArrowLeft, CaretLeft, CoinVertical, Money } from 'phosphor-react-native';
+import { CaretLeft, CoinVertical, Money } from 'phosphor-react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ProfileParamList } from '../stack/ProfileStack';
 import { createdPromptPayQRCode } from '../services/omise';
 
@@ -69,7 +68,7 @@ const AddCoin = () => {
                 keyboardShouldPersistTaps="handled">
                 <View style={styles.headerContent}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <CaretLeft size={22} color="#10152F" />
+                        <CaretLeft size={24} weight="bold" />
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Add coins to your account</Text>
                 </View>
@@ -79,7 +78,7 @@ const AddCoin = () => {
                             <CoinVertical size={24} weight="fill" color="#EEF0FF" />
                             <Text style={styles.textMain}>Remaining Balance</Text>
                         </View>
-                        <Text style={styles.textRight}>{params.coins} coins</Text>
+                        <Text style={styles.textRight}>{params.coins} Coins</Text>
                     </View>
                 </View>
                 <View style={styles.imageContrainer}>
@@ -143,6 +142,7 @@ const AddCoin = () => {
         </KeyboardAvoidingView>
     );
 };
+///ioperghoie
 
 export default AddCoin;
 
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     textleft: {
         fontFamily: 'RedHatText-Regular',
         fontSize: 14,
-        color: '#10152F',
+        color: 'black',
         paddingTop: 10,
         paddingBottom: 25
     },

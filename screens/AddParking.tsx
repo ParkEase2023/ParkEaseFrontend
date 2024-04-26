@@ -40,11 +40,10 @@ const AddParking = () => {
         setProfile(data);
     };
 
-
     useEffect(() => {
         checkVerificationStatus();
-    }, [profile])
-    
+    }, [profile]);
+
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', async () => {
             await getUserProfile();
@@ -64,7 +63,7 @@ const AddParking = () => {
     const checkVerificationStatus = async () => {
         if (profile.verification_status === false && profile._id != '') {
             navigationVerify.navigate('SelectForVerify', { email: profile.email });
-        }else if (profile.verification_status === true && profile.roles.length === 1){
+        } else if (profile.verification_status === true && profile.roles.length === 1) {
             navigationVerify.navigate('ApplyForMembership');
         }
     };
@@ -98,10 +97,16 @@ const AddParking = () => {
         <RequireLogin>
             <View style={{ flex: 1 }}>
                 <View style={styles.header}>
-                    <TouchableOpacity style={styles.btnBack} onPress={() => navigation.goBack()}>
-                        <CaretLeft size={24} color="#F4F6FD" />
-                    </TouchableOpacity>
-                    <Text style={styles.headerTitle}>Adding a toilet</Text>
+                    <View style={styles.rowHeader}>
+                        <TouchableOpacity
+                            onPress={() => navigation.goBack()}>
+                            <CaretLeft size={28} color="#F4F6FD" />
+                        </TouchableOpacity>
+                        <Text style={styles.headerTitle}>Add Parking Location</Text>
+                    </View>
+                    <Text style={styles.Pretitle}>
+                        Add your parking location to where you are right now.
+                    </Text>
                 </View>
                 <MapView
                     showsUserLocation={true}
@@ -115,9 +120,8 @@ const AddParking = () => {
                     <Marker coordinate={pos} />
                 </MapView>
                 <View style={styles.container}>
-                    <TouchableOpacity style={styles.btnNext} onPress={gotoAddParking}>
-                        <Text style={styles.txtSubmit}>NEXT</Text>
-                        <CaretRight size={22} color="#F4F6FD" />
+                    <TouchableOpacity style={styles.btnSelect} onPress={gotoAddParking}>
+                        <Text style={styles.txtSelect}>SELECT</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -133,61 +137,53 @@ const styles = StyleSheet.create({
     },
 
     header: {
-        backgroundColor: '#2C2F4A',
-        height: 52,
+        backgroundColor: '#10152F',
+        // height: 52,
         width: '100%',
         zIndex: 1,
         paddingHorizontal: 24,
         paddingVertical: 12,
-        alignItems: 'stretch',
-        justifyContent: 'flex-end',
+        // alignItems: 'stretch',
+        // justifyContent: 'flex-end',
         borderBottomLeftRadius: 8,
         borderBottomRightRadius: 8,
         elevation: 4
     },
-    btnBack: {
-        position: 'absolute',
-        left: 16,
-        top: 14
+    rowHeader: {
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     headerTitle: {
-        fontFamily: 'Fredoka-Medium',
+        fontFamily: 'RedHatText-Bold',
         fontSize: 24,
         color: '#F4F6FD',
-        left: 26
+        marginLeft: 16
+    },
+    Pretitle: {
+        fontFamily: 'RedHatText-Regular',
+        fontSize: 14,
+        color: '#F4F6FD',
+        marginTop: 8
     },
 
-    btnStackSimple_44: {
-        position: 'relative',
-        width: 39,
-        height: 39,
-        borderRadius: 3,
-        backgroundColor: '#fff',
-        top: 88,
-        left: 13.5,
-        elevation: 3,
-        justifyContent: 'center',
-        alignItems: 'center',
-        opacity: 0.8
-    },
     container: {
-        marginHorizontal: 12
+        marginHorizontal: 16
     },
-    btnNext: {
+    btnSelect: {
         flexDirection: 'row',
         justifyContent: 'center',
-        backgroundColor: '#6D7DD3',
+        backgroundColor: '#10152F',
         width: '100%',
-        height: 44,
-        borderRadius: 8,
+        paddingVertical: 16,
+        borderRadius: 16,
         alignItems: 'center',
         position: 'absolute',
         bottom: 20,
         elevation: 4
     },
-    txtSubmit: {
-        fontFamily: 'Fredoka-SemiBold',
-        color: '#F4F6FD',
+    txtSelect: {
+        fontFamily: 'RedHatText-Bold',
+        color: '#FEFA94',
         fontSize: 16
     }
 });

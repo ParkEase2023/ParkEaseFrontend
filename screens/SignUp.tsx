@@ -115,100 +115,114 @@ const SignUp = () => {
             <ScrollView
                 contentContainerStyle={styles.scrollViewContainer}
                 keyboardShouldPersistTaps="handled">
-            <SafeAreaView style={styles.Logo}>
-                <Image source={require('../assets/LogoParkEase2.png')} />
-                <View style={styles.circleG} />
-                <View style={styles.circleB} />
-                <View style={styles.circleY} />
-            </SafeAreaView>
+                <SafeAreaView style={styles.Logo}>
+                    <Image source={require('../assets/LogoParkEase2.png')} />
+                    <View style={styles.circleG} />
+                    <View style={styles.circleB} />
+                    <View style={styles.circleY} />
+                </SafeAreaView>
 
-            <View style={styles.mainContainer}>
-                <View style={styles.heading}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <ArrowLeft size={24} color="#565E8B" />
-                    </TouchableOpacity>
-                    <Text style={styles.title}>Sign Up</Text>
-                </View>
-
-                <View style={styles.textInputContainer}>
-                    <View style={styles.firstName}>
-                        <TextInput
-                            placeholder="First Name"
-                            style={styles.shortTextInput}
-                            onChangeText={text => setFirstname(text)}
-                        />
+                <View style={styles.mainContainer}>
+                    <View style={styles.heading}>
+                        <TouchableOpacity onPress={() => navigation.goBack()}>
+                            <ArrowLeft size={24} color="#565E8B" />
+                        </TouchableOpacity>
+                        <Text style={styles.title}>Sign Up</Text>
                     </View>
-                    <Text style={styles.error}>{errorsFirstname}</Text>
 
-                    <View style={styles.lastName}>
-                        <TextInput
-                            placeholder="Last Name"
-                            style={styles.shortTextInput}
-                            onChangeText={text => setLastname(text)}
-                        />
+                    <View style={styles.textInputContainer}>
+                        <View style={styles.firstName}>
+                            <TextInput
+                                placeholder="First Name"
+                                style={styles.shortTextInput}
+                                onChangeText={text => setFirstname(text)}
+                            />
+                        </View>
+
+                        <View style={styles.lastName}>
+                            <TextInput
+                                placeholder="Last Name"
+                                style={styles.shortTextInput}
+                                onChangeText={text => setLastname(text)}
+                            />
+                        </View>
                     </View>
-                    <Text style={styles.error}>{errorsLastname}</Text>
-                </View>
+                    <View style={styles.rowError}>
+                        <Text style={styles.error}>{errorsFirstname}</Text>
+                        <View style={{ marginLeft: 10 }}>
+                            <Text style={styles.error}>{errorsLastname}</Text>
+                        </View>
+                    </View>
 
-                <View style={styles.emailToConPassword}>
-                    <EnvelopeSimple size={24} color="#565E8B" />
-                    <TextInput
-                        placeholder="Email"
-                        style={styles.longTextInput}
-                        onChangeText={text => setEmail(text)}
-                    />
-                    <Text style={styles.error}>{errorsEmail}</Text>
-                </View>
+                    <View style={{ marginBottom: 8 }}>
+                        <View style={styles.emailToConPassword}>
+                            <EnvelopeSimple size={24} color="#565E8B" />
+                            <TextInput
+                                placeholder="Email"
+                                style={styles.longTextInput}
+                                onChangeText={text => setEmail(text)}
+                            />
+                        </View>
+                        <Text style={styles.error}>{errorsEmail}</Text>
+                    </View>
 
-                <View style={styles.emailToConPassword}>
-                    <Phone size={24} color="#565E8B" />
-                    <TextInput
-                        placeholder="Phone Number"
-                        style={styles.longTextInput}
-                        onChangeText={text => setPhoneNum(text)}
-                    />
-                    <Text style={styles.error}>{errorsPhone}</Text>
-                </View>
+                    <View style={{ marginBottom: 8 }}>
+                        <View style={styles.emailToConPassword}>
+                            <Phone size={24} color="#565E8B" />
+                            <TextInput
+                                placeholder="Phone Number"
+                                style={styles.longTextInput}
+                                onChangeText={text => setPhoneNum(text)}
+                            />
+                        </View>
+                        <Text style={styles.error}>{errorsPhone}</Text>
+                    </View>
 
-                <View style={styles.emailToConPassword}>
-                    <View style={styles.itemLeft}>
-                        <Key size={24} color="#565E8B" />
-                        <TextInput
-                            placeholder="Password"
-                            secureTextEntry={textEntry}
-                            style={styles.longTextInput}
-                            onChangeText={text => setPassword(text)}
-                        />
+                    <View style={{ marginBottom: 8 }}>
+                        <View style={styles.emailToConPassword}>
+                            <View style={styles.itemLeft}>
+                                <Key size={24} color="#565E8B" />
+                                <TextInput
+                                    placeholder="Password"
+                                    secureTextEntry={textEntry}
+                                    style={styles.longTextInput}
+                                    onChangeText={text => setPassword(text)}
+                                />
+                            </View>
+                            <Entrypassword></Entrypassword>
+                        </View>
                         <Text style={styles.error}>{errorsPassword}</Text>
                     </View>
-                    <Entrypassword></Entrypassword>
-                </View>
 
-                <View style={styles.emailToConPassword}>
-                    <View style={styles.itemLeft}>
-                        <Key size={24} weight="fill" color="#565E8B" />
-                        <TextInput
-                            placeholder="Confirm Password"
-                            secureTextEntry={textEntry}
-                            style={styles.longTextInput}
-                            onChangeText={text => setConfirmPassword(text)}
-                        />
+                    <View style={{ marginBottom: 8 }}>
+                        <View style={styles.emailToConPassword}>
+                            <View style={styles.itemLeft}>
+                                <Key size={24} weight="fill" color="#565E8B" />
+                                <TextInput
+                                    placeholder="Confirm Password"
+                                    secureTextEntry={textEntry}
+                                    style={styles.longTextInput}
+                                    onChangeText={text => setConfirmPassword(text)}
+                                />
+                            </View>
+                            <Entrypassword></Entrypassword>
+                        </View>
                         <Text style={styles.error}>{errorsConpassword}</Text>
                     </View>
-                    <Entrypassword></Entrypassword>
-                </View>
 
-                <TouchableOpacity style={styles.btnLogIn} onPress={handleSignUp}>
-                    <Text style={styles.textSignUp}>SIGN UP</Text>
-                </TouchableOpacity>
-                <Text style={styles.textBody}>
-                    Already have account?
-                    <Text style={styles.textButton} onPress={() => navigation.navigate('SignUp')}>
-                        {' '}
-                        LOG IN
+                    <TouchableOpacity style={styles.btnLogIn} onPress={handleSignUp}>
+                        <Text style={styles.textSignUp}>SIGN UP</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.textBody}>
+                        Already have account?
+                        <Text
+                            style={styles.textButton}
+                            onPress={() => navigation.navigate('SignUp')}>
+                            {' '}
+                            LOG IN
+                        </Text>
                     </Text>
-                </Text>
-            </View>
+                </View>
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -222,7 +236,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#10152F'
     },
     scrollViewContainer: {
-      flexGrow: 1,
+        flexGrow: 1
     },
     Logo: {
         flex: 1,
@@ -283,13 +297,20 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
+    rowError: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: -16
+    },
     shortTextInput: {
+        flex: 1,
         paddingVertical: 16,
         fontFamily: 'RedHatText-Regular',
         fontSize: 16,
         color: '#10152F'
     },
     longTextInput: {
+        flex: 1,
         padding: 16,
         fontFamily: 'RedHatText-Regular',
         fontSize: 16,
@@ -338,7 +359,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#DAE0FF',
         borderRadius: 12,
-        marginBottom: 25,
         paddingHorizontal: 16
     },
     emailToConPasswordActive: {
@@ -346,7 +366,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#DAE0FF',
         borderRadius: 12,
-        marginBottom: 25,
         paddingHorizontal: 16,
         borderWidth: 2,
         borderColor: '#565E8B',
@@ -384,7 +403,7 @@ const styles = StyleSheet.create({
         color: '#EA4C4C',
         fontFamily: 'RedHatText-SemiBold',
         fontSize: 12,
-        paddingTop: 2
-        // paddingLeft: 16,
+        paddingTop: 2,
+        paddingLeft: 16
     }
 });
