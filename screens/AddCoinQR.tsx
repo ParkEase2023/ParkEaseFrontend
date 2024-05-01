@@ -164,7 +164,7 @@ const AddCoinQR = () => {
                     style={{
                         width: "100%", // Set the desired width
                         height: "100%", // Set the desired height
-                        transform: [{ scale: 0.7 }], 
+                        transform: [{ scale: 0.7   }], 
                     }}
                 />
             </View>
