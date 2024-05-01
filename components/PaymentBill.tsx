@@ -78,8 +78,6 @@ const PaymentBill = (props: PaymentBillProps) => {
     };
 
     const recipientLogo = bankLogos[myRecipien.bank];
-
-
     return (
         <View style={styles.container}>
             <View style={styles.row}>
@@ -105,7 +103,7 @@ const PaymentBill = (props: PaymentBillProps) => {
             </View>
             <View style={styles.recipientRow}>
                 <View style={styles.logo}>
-                    {recipientLogo && <Image source={recipientLogo} style={{ width: 60, height: 60 }} />}
+                    {recipientLogo && <Image source={recipientLogo} style={{ width: 90, height: 90 }} />}
                 </View>
                 <View style={styles.spaceText}>
                     <Text style={styles.headerText}>{myRecipien.firstname} {myRecipien.lastname}</Text>
