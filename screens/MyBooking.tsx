@@ -22,9 +22,9 @@ const MyBooking = () => {
                 </TouchableOpacity>
                 <Text style={styles.topic}>My Booking</Text>
             </View>
-            <View style={styles.flexHeader} />
+            {/* <View style={styles.flexHeader} /> */}
             <View style={styles.circleBig} />
-            <View style={styles.flexMain}>
+            {/* <View style={styles.flexMain}> */}
                 <ScrollView style={styles.container}>
                     <View style={styles.ticketContainer}>
                         <ImageBackground
@@ -124,8 +124,8 @@ const MyBooking = () => {
                         </View>
                     </View>
                 </ScrollView>
-            </View>
-            <View style={styles.flexFooter} />
+            {/* </View> */}
+            {/* <View style={styles.flexFooter} /> */}
             <View style={styles.circleSmall} />
         </View>
     );
@@ -171,7 +171,8 @@ const styles = StyleSheet.create({
         zIndex: -1
     },
     container: {
-        paddingHorizontal: 25
+        paddingHorizontal: 25,
+        marginTop: 75
     },
     ticketContainer: {
         flex: 1,
@@ -292,14 +293,14 @@ const styles = StyleSheet.create({
     },
     flexCarModel: {
         flex: 1,
-        paddingRight: 78
+        paddingRight: 50
     },
     flexCarColor: {
         flex: 1
     },
     flexCarRegistration: {
         flex: 1,
-        paddingRight: 78
+        paddingRight: 50
     },
     flexTotalPrice: {
         flex: 1
