@@ -157,17 +157,17 @@ const AddCoinQR = () => {
                 </View>
             </View>
             <View style={styles.line}></View>
+            <View style={styles.backgroundQrcode}>
             <View style={styles.qrcode}>
                 <Image
                     source={{ uri: params.qrCode }}
                     style={{
-                        width: 300,
-                        height: 300,
-                        marginRight: 50,
-                        marginLeft: 50,
-                        borderRadius: 18
+                        width: "100%", // Set the desired width
+                        height: "100%", // Set the desired height
+                        transform: [{ scale: 0.7   }], 
                     }}
                 />
+            </View>
             </View>
 
             <Modal isVisible={visible} backdropOpacity={0.9} backdropColor="#262D57">
@@ -215,6 +215,10 @@ const styles = StyleSheet.create({
         borderBottomColor: '#CED2EA',
         width: '150%'
     },
+    backgroundQrcode: {
+        width: 500,
+        height: '100%', 
+    },
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -250,10 +254,8 @@ const styles = StyleSheet.create({
         padding: 16
     },
     qrcode: {
-        padding: 130,
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 80
     },
     modalContainer: {
         justifyContent: 'center',

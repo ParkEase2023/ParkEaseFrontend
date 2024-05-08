@@ -4,12 +4,12 @@ import { CaretLeft } from "phosphor-react-native";
 import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ProfileParamList } from "../stack/ProfileStack";
 import PaymentBill from "../components/PaymentBill";
+import TabSelectBank from "../components/TabSelectBank";
 
 const WithdrawalReceipt = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const { params } = useRoute<RouteProp<ProfileParamList, 'WithdrawalReceipt'>>();
-    const handleAddCoin = async () => {
-    };
+
     return (
         <ScrollView
             style={styles.container}
@@ -26,7 +26,8 @@ const WithdrawalReceipt = () => {
                     userId={params._id}
                     firstname={params.firstname}
                     lastname={params.lastname}
-                    phoneNumber={params.phoneNumber}></PaymentBill>
+                    phoneNumber={params.phoneNumber}>
+                </PaymentBill>
                 <View style={styles.space}>
                     <View style={styles.totalPrice}>
                         <Text style={styles.bodytext}>amount:</Text>

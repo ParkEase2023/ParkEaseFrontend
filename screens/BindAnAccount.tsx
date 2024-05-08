@@ -109,7 +109,8 @@ const BindAnAccount = () => {
                         }}
                         setIsHidden={value => {
                             setIsHidden(value);
-                        }}></TabSelectBank>
+                        }}>
+                    </TabSelectBank>
                 </Animated.View>
             );
         } else {

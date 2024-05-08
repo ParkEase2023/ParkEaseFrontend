@@ -22,7 +22,6 @@ const AddCoin = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
     const { params } = useRoute<RouteProp<ProfileParamList, 'AddCoin'>>();
     const [inputNumber, setInputNumber] = useState<number>(0);
-    const [inputStr, setInputStr] = useState('');
     const handleButtonClick = () => {
         const newNumber = inputNumber + 100;
 
@@ -78,7 +77,9 @@ const AddCoin = () => {
                             <CoinVertical size={24} weight="fill" color="#EEF0FF" />
                             <Text style={styles.textMain}>Remaining Balance</Text>
                         </View>
-                        <Text style={styles.textRight}>{params.coins} Coins</Text>
+                        <Text 
+                            style={styles.textRight
+                            }>{params.coins} Coins</Text>
                     </View>
                 </View>
                 <View style={styles.imageContrainer}>
