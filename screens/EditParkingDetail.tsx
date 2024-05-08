@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import {
     CaretLeft,
@@ -202,15 +202,15 @@ const EditParkingDetails = () => {
                 <Text style={styles.titlePicture}>Picture of parking place</Text>
                 <View style={styles.row}>
                     <TouchableOpacity onPress={chooseImage1}>
-                        {/* <Image source={{ uri: picture1 }} style={styles.btnAddPicture} /> */}
+                        <Image source={{ uri: picture1 }} style={styles.btnAddPicture} />
                         <PlusCircle size={24} weight="bold" color="#fff" style={styles.iconPlus} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={chooseImage2}>
-                        {/* <Image source={{ uri: picture2 }} style={styles.btnAddPicture} /> */}
+                        <Image source={{ uri: picture2 }} style={styles.btnAddPicture} />
                         <PlusCircle size={24} weight="bold" color="#fff" style={styles.iconPlus} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={chooseImage3}>
-                        {/* <Image source={{ uri: picture3 }} style={styles.btnAddPicture} /> */}
+                        <Image source={{ uri: picture3 }} style={styles.btnAddPicture} />
                         <PlusCircle size={24} weight="bold" color="#fff" style={styles.iconPlus} />
                     </TouchableOpacity>
                 </View>
