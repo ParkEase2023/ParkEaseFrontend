@@ -78,7 +78,9 @@ const DetailParking = (props: IDetail) => {
     const [SumRate, setsumRate] = useState('');
 
     useEffect(() => {
+        setHeart(false);
         checkHeart();
+        reloadValue();
         console.log(props.reload);
     }, [props.reload]);
 
@@ -96,9 +98,9 @@ const DetailParking = (props: IDetail) => {
         fetchData();
     }, [props.reload]);
 
-    useEffect(() => {
-        reloadValue();
-    }, [heart]);
+    // useEffect(() => {
+    //     reloadValue();
+    // }, [heart]);
 
     const RenderComment = (): JSX.Element | null => {
         if (checkData === 'success' && comment[0] !== undefined) {
@@ -139,9 +141,6 @@ const DetailParking = (props: IDetail) => {
                         console.log('checkHeart true');
                         setHeart(true);
                         setMyListId(item._id);
-                    } else {
-                        console.log('checkHeart flase');
-                        setHeart(false);
                     }
                 });
             }
@@ -152,6 +151,8 @@ const DetailParking = (props: IDetail) => {
 
     const reloadValue = async () => {
         let list: any = await getMyList(userId);
+        console.log(props.parkingId);
+        console.log(list.myList[0].myList[0]);
         if (list.myList[0] !== undefined) {
             {
                 list.myList.map((item: any, index: any) => {

@@ -4,9 +4,19 @@ interface Iforgetpassword {
     password:string
 }
 
-export const checkemail = async (email:any) => {
-    const res = await http.get('/forget/checkemail', {params: {email: email}});
-    // console.log('res', res);
+interface Icheckemail {
+    email: string;
+}
+
+// export const checkemail = async (email:any) => {
+//     const res = await http.get('/forget/checkemail', {params: {email: email}});
+//     // console.log('res', res);
+//     return res;
+// };
+
+export const checkemail = async (body: Icheckemail) => {
+    const res = await http.post('/forget/checkemail', body);
+    // console.log('res checkemail ', res);
     return res;
 };
 
