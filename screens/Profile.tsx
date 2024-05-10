@@ -35,7 +35,7 @@ import { RootStackList } from '../stack/RootStack';
 import AuthContext from '../context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProfileParamList } from '../stack/ProfileStack';
-import PopupVerify from '../components/Popupverify'
+import PopupVerify from '../components/PopupVerify'
 import TabRemainingBalance from '../components/TabRemainingBalance';
 import { getRecipienOnDB } from '../services/recipien';
 import PopupMember from '../components/PopupMember';
