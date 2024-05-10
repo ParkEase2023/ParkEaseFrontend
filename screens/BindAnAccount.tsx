@@ -220,7 +220,7 @@ const BindAnAccount = () => {
                     <View style={{ marginBottom: 18 }}>
                         <TouchableOpacity style={styles.btnChooseBank} onPress={handleOpenTab}>
                             <View style={styles.itemLeft}>
-                                <Bank size={24} weight='fill' color="#565E8B" />
+                                <Bank size={24} weight="fill" color="#565E8B" />
                                 <TextInput
                                     placeholder="Choose a bank"
                                     editable={false}
@@ -229,7 +229,7 @@ const BindAnAccount = () => {
                                 />
                             </View>
                             <View>
-                                <CaretDown size={16} weight='fill' color='#7F85B2' />
+                                <CaretDown size={16} weight="fill" color="#7F85B2" />
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -253,12 +253,12 @@ const BindAnAccount = () => {
                             />
                         </View>
                     </View>
-
-                    <View>
-                        <TouchableOpacity style={styles.btnConfirm} onPress={createRecipien}>
-                            <Text style={styles.textConfirm}>CONFIRM</Text>
-                        </TouchableOpacity>
-                    </View>
+                </View>
+                
+                <View style={styles.btnContainer}>
+                    <TouchableOpacity style={styles.btnConfirm} onPress={createRecipien}>
+                        <Text style={styles.textConfirm}>CONFIRM</Text>
+                    </TouchableOpacity>
                 </View>
                 <RenderTab></RenderTab>
                 <Renderbg></Renderbg>
@@ -296,6 +296,7 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     mainContainer: {
+        flex: 8,
         paddingHorizontal: 25,
         paddingTop: 35
     },
@@ -359,7 +360,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#DAE0FF',
-        borderRadius: 12,
+        borderRadius: 12
     },
     itemLeft: {
         flex: 1,
@@ -382,15 +383,19 @@ const styles = StyleSheet.create({
         bottom: 0,
         zIndex: 2
     },
+    btnContainer: {
+        flex: 1
+    },
     btnConfirm: {
         backgroundColor: '#10152F',
         borderRadius: 16,
         paddingVertical: 16,
+        marginHorizontal: 25,
+        alignItems: 'center'
     },
     textConfirm: {
-        textAlign: 'center',
         fontFamily: 'RedHatText-Bold',
         fontSize: 16,
-        color: '#FEFA94',
-    },
+        color: '#FEFA94'
+    }
 });
