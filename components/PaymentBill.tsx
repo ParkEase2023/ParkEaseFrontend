@@ -1,12 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ArrowCircleDown, Bank, CaretLeft } from "phosphor-react-native";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import { ProfileParamList } from "../stack/ProfileStack";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import { getRecipienOnDB } from "../services/recipien";
-import TabSelectBank from "./TabSelectBank";
 
 
 interface PaymentBillProps {
@@ -83,7 +81,7 @@ const PaymentBill = (props: PaymentBillProps) => {
             <View style={styles.row}>
                 <View style={styles.logo}>
                     <View style={styles.circle} />
-                    <Image source={require('../assets/LogoPark_DarkMode.png')} style={{ width: 50, height: 50 }} />
+                    <Image source={require('../assets/LogoParkEase1.png')} style={{ width: 50, height: 50 }} />
                 </View>
                 <View style={styles.spaceTextSender}>
                     <Text style={styles.headerText}>{props.firstname} {props.lastname}</Text>
