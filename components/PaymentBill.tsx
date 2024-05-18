@@ -43,72 +43,76 @@ const PaymentBill = (props: PaymentBillProps) => {
     }, [])
 
     const bankLogos: { [key: string]: any } = {
-        KTB: require('../assets/bank/Krung_Thai_Bank_logo1.png'),
-        SCB: require('../assets/bank/SCB.png'),
-        BBL: require('../assets/bank/BBL.png'),
-        KBANK: require('../assets/bank/KBANK.png'),
-        TISCO: require('../assets/bank/TISCO.png'),
-        RBS: require('../assets/bank/RBC1.png'),
-        JPM: require('../assets/bank/J.P.Morgan.png'),
-        MUFG: require('../assets/bank/MUFG.png'),
-        TTB: require('../assets/bank/TTB.png'),
-        CITI: require('../assets/bank/CITI.png'),
-        SMBC: require('../assets/bank/SMBC.png'),
-        SC: require('../assets/bank/SCBT.png'),
-        CIMB: require('../assets/bank/CIMBT.png'),
-        UOB: require('../assets/bank/UOBT.png'),
-        BAY: require('../assets/bank/BAY.png'),
-        MEGA: require('../assets/bank/megainternationalcommercial1.png'),
-        BOA: require('../assets/bank/bank-of-america-logo1.png'),
-        CACIB: require('../assets/bank/creditagricole.png'),
-        GSB: require('../assets/bank/GSB.png'),
-        HSBC: require('../assets/bank/HSBC.png'),
-        DB: require('../assets/bank/DBBK.png'),
-        GHB: require('../assets/bank/GHB.png'),
-        BAAC: require('../assets/bank/BAAC.png'),
-        MB: require('../assets/bank/MUFG.png'),
-        BNP: require('../assets/bank/bnp.png'),
-        IBANK: require('../assets/bank/ibank.png'), 
-        KK: require('../assets/bank/kkbank.png'),
-        ICBC: require('../assets/bank/ICBC.png'),
-        TCRB: require('../assets/bank/TCRB.png'),
-        LHB: require('../assets/bank/LHBANK.png'),
+        KTB: require('../assets/Bank_big/Krung_Thai_Bank_logo1.png'),
+        SCB: require('../assets/Bank_big/SCB.png'),
+        BBL: require('../assets/Bank_big/BBL.png'),
+        KBANK: require('../assets/Bank_big/KBANK.png'),
+        TISCO: require('../assets/Bank_big/TISCO.png'),
+        RBS: require('../assets/Bank_big/RBC1.png'),
+        JPM: require('../assets/Bank_big/J.P.Morgan.png'),
+        MUFG: require('../assets/Bank_big/MUFG.png'),
+        TTB: require('../assets/Bank_big/TTB.png'),
+        CITI: require('../assets/Bank_big/CITI.png'),
+        SMBC: require('../assets/Bank_big/SMBC.png'),
+        SC: require('../assets/Bank_big/SCBT.png'),
+        CIMB: require('../assets/Bank_big/CIMBT.png'),
+        UOB: require('../assets/Bank_big/UOBT.png'),
+        BAY: require('../assets/Bank_big/BAY.png'),
+        MEGA: require('../assets/Bank_big/megainternationalcommercial1.png'),
+        BOA: require('../assets/Bank_big/bank-of-america-logo1.png'),
+        CACIB: require('../assets/Bank_big/creditagricole.png'),
+        GSB: require('../assets/Bank_big/GSB.png'),
+        HSBC: require('../assets/Bank_big/HSBC.png'),
+        DB: require('../assets/Bank_big/DBBK.png'),
+        GHB: require('../assets/Bank_big/GHB.png'),
+        BAAC: require('../assets/Bank_big/BAAC.png'),
+        MB: require('../assets/Bank_big/MUFG.png'),
+        BNP: require('../assets/Bank_big/bnp.png'),
+        IBANK: require('../assets/Bank_big/ibank.png'), 
+        KK: require('../assets/Bank_big/kkbank.png'),
+        ICBC: require('../assets/Bank_big/ICBC.png'),
+        TCRB: require('../assets/Bank_big/TCRB.png'),
+        LHB: require('../assets/Bank_big/LHBANK.png'),
     };
 
     const recipientLogo = bankLogos[myRecipien.bank];
     return (
         <View style={styles.container}>
-            <View style={styles.row}>
+
+            <View style={styles.senderRow}>
                 <View style={styles.logo}>
                     <View style={styles.circle} />
                     <Image source={require('../assets/LogoParkEase1.png')} style={{ width: 50, height: 50 }} />
                 </View>
                 <View style={styles.spaceTextSender}>
                     <Text style={styles.headerText}>{props.firstname} {props.lastname}</Text>
-                    <Text style={styles.bodyText}>{props.phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3')}</Text>
+                    <Text style={styles.phoneNumText1}>{props.phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3')}</Text>
                 </View>
             </View>
+
             <View style={styles.linePosition}>
                 <View style={styles.lineContainer}>
                     <View style={styles.VerticalLine} />
                 </View>
                 <View style={styles.arrowCirclePosition}>
-                    <ArrowCircleDown size={32} color="#239D60" />
+                    <ArrowCircleDown weight="fill" size={26} color="#239D60" />
                 </View>
                 <View style={styles.lineContainer}>
                     <View style={styles.VerticalLine} />
                 </View>
             </View>
+
             <View style={styles.recipientRow}>
                 <View style={styles.logo}>
-                    {recipientLogo && <Image source={recipientLogo} style={{ width: 90, height: 90 }} />}
+                    {recipientLogo && <Image source={recipientLogo} style={{ width: 85, height: 85 }} />}
                 </View>
-                <View style={styles.spaceText}>
+                <View style={styles.spaceTextRecipient}>
                     <Text style={styles.headerText}>{myRecipien.firstname} {myRecipien.lastname}</Text>
-                    <Text style={styles.bodyText}>{myRecipien.bank}</Text>
-                    <Text style={styles.bodyText}>XXX-X-X{myRecipien.accountnumber.slice(5, 9)}-X</Text>
+                    <Text style={styles.bankText}>{myRecipien.bank}</Text>
+                    <Text style={styles.phoneNumText2}>XXX-X-X{myRecipien.accountnumber.slice(5, 9)}-X</Text>
                 </View>
             </View>
+
         </View>
     );
 }
@@ -119,42 +123,41 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    row: {
+    senderRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 25,
-        paddingVertical: 12,
+        paddingLeft: 20,
     },
     logo: {
         alignItems: 'center',
         justifyContent: 'center',
     },
     circle: {
-        width: 100,
-        height: 100,
-        borderRadius: 100,
-        backgroundColor: '#10152F',
         position: 'absolute',
+        width: 85,
+        height: 85,
+        borderRadius: 100,
+        backgroundColor: '#10152F'
+    },
+    spaceTextSender: {
+        marginLeft: 45,
     },
     headerText: {
         fontFamily: 'RedHatText-Bold',
-        textAlign: 'center',
-        fontSize: 18,
+        fontSize: 16,
         color: '#10152F',
     },
-    spaceTextSender: {
-        marginLeft: 60,
-    },
-    bodyText: {
+    phoneNumText1: {
         fontFamily: 'RedHatText',
         fontSize: 14,
-        color: '#262D57',
-        marginTop: 10,
+        color: '#565E8B',
+        marginTop: 12,
     },
+    
     linePosition: {
-        paddingHorizontal: 45,
-        paddingVertical: 12,
-        paddingTop: 25
+        paddingLeft: 42,
+        paddingTop: 20,
+        paddingBottom: 3,
     },
     lineContainer: {
         flexDirection: 'row',
@@ -163,17 +166,29 @@ const styles = StyleSheet.create({
     VerticalLine: {
         borderBottomColor: '#239D60',
         borderBottomWidth: 20,
-        width: '1%',
-        backgroundColor: '#262D57',
+        width: 2,
     },
     arrowCirclePosition: {
-        marginLeft: -15,
+        right: 12,
     },
+
     recipientRow: {
         flexDirection: 'row',
         alignItems: 'center',
     },
-    spaceText: {
-        marginLeft: 40,
+    spaceTextRecipient: {
+        marginLeft: 30,
+    },
+    bankText: {
+        fontFamily: 'RedHatText',
+        fontSize: 14,
+        color: '#262D57',
+        marginTop: 8,
+    },
+    phoneNumText2: {
+        fontFamily: 'RedHatText',
+        fontSize: 14,
+        color: '#565E8B',
+        marginTop: 8,
     },
 });

@@ -98,27 +98,30 @@ const CheckInformation = () => {
                 </TouchableOpacity>
                 <Text style={styles.headerText}>Check Information</Text>
             </View>
-            <View style={styles.line}/>
+            <View style={styles.line} />
 
-            <View style={styles.mainContainer}>
-                <PaymentBill
-                    userId={params._id}
-                    firstname={params.firstname}
-                    lastname={params.lastname}
-                    phoneNumber={params.phoneNumber}>
-                </PaymentBill>
-            </View>
-            <View style={styles.totalPrice}>
-                <View style={styles.textRow}>
-                    <Text style={styles.bodyText}>amount:</Text>
-                    <Text style={styles.textLeft}>{params.withdrawMoney} THB</Text>
+            <View style={styles.flexMain}>
+                <View style={styles.mainContainer}>
+                    <PaymentBill
+                        userId={params._id}
+                        firstname={params.firstname}
+                        lastname={params.lastname}
+                        phoneNumber={params.phoneNumber}></PaymentBill>
                 </View>
-                <View style={styles.textRow}>
-                    <Text style={styles.bodyText}>fee:</Text>
-                    <Text style={styles.textLeft}>30 THB</Text>
+                <View style={styles.totalPrice}>
+                    <View style={styles.textRow}>
+                        <Text style={styles.bodyText}>amount:</Text>
+                        <Text style={styles.textLeft}>{params.withdrawMoney} THB</Text>
+                    </View>
+                    <View style={styles.space} />
+                    <View style={styles.textRow}>
+                        <Text style={styles.bodyText}>fee:</Text>
+                        <Text style={styles.textLeft}>30 THB</Text>
+                    </View>
                 </View>
             </View>
-            <View style={styles.buttonContrainer}>
+
+            <View style={styles.btnContainer}>
                 <TouchableOpacity style={styles.btnConfirm} onPress={handleWithdrawmoney}>
                     <Text style={styles.textConfirm}>CONFIRM</Text>
                 </TouchableOpacity>
@@ -154,9 +157,12 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         width: '100%',
     },
+    flexMain: {
+        flex: 8
+    },
     mainContainer: {
         paddingVertical: 45,
-        paddingHorizontal: 25
+        paddingHorizontal: 50
     },
     totalPrice: {
         paddingHorizontal: 25,
@@ -171,33 +177,29 @@ const styles = StyleSheet.create({
         fontFamily: 'RedHatText-Bold',
         fontSize: 16,
         color: '#10152F',
-        paddingVertical: 5
     },
     textLeft: {
         fontFamily: 'RedHatText-Bold',
         fontSize: 16,
         color: '#10152F',
-        paddingVertical: 5
+    },
+    space: {
+        height: 14,
+    },
+    btnContainer: {
+        flex: 1,
+        paddingHorizontal: 25,
     },
     btnConfirm: {
         backgroundColor: '#10152F',
-        borderRadius: 15,
-        elevation: 2,
-        marginTop: 80,
+        borderRadius: 16,
+        paddingVertical: 16,
         width: '100%',
-        height: 55
     },
     textConfirm: {
         textAlign: 'center',
-        fontFamily: 'RedHatText',
-        fontWeight: 'bold',
+        fontFamily: 'RedHatText-Bold',
         fontSize: 16,
         color: '#FEFA94',
-        top: 15,
-        letterSpacing: 0.64
     },
-    buttonContrainer: {
-        paddingHorizontal: 25,
-        paddingTop: 40
-    }
 });
