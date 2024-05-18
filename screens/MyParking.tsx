@@ -1,4 +1,4 @@
-import { StyleSheet, Text, Touchable, TouchableOpacity, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { CaretLeft, Plus } from 'phosphor-react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
@@ -6,7 +6,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ProfileParamList } from '../stack/ProfileStack';
 import ContentMyParking from '../components/ContentMyParking';
 import { AddParkingParamList } from '../stack/AddparkingStack';
-import { MenuParamList } from '../stack/MenuStack';
 import { getMyparking } from '../services/parking';
 import PopupDeleteMyParking from '../components/PopupDeleteMyParking';
 
@@ -171,19 +170,21 @@ const MyParking = () => {
         <View style={styles.container}>
             <View style={styles.mainContainer}>
                 <View style={styles.circleBig} />
-                <View style={styles.circleSmallBotton} />
-                <View style={styles.row}>
+
+                <View style={styles.rowTopic}>
                     <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-                        <CaretLeft size={24} weight="bold" color="white" />
+                        <CaretLeft size={24} weight="bold" color="#fff" />
                     </TouchableOpacity>
                     <Text style={styles.title}>My Parking</Text>
-                    <TouchableOpacity style={styles.circleWhite} onPress={handlenavi}>
-                        <Plus size={24} weight="bold" />
+                    <TouchableOpacity style={styles.btnAdd} onPress={handlenavi}>
+                        <Plus size={24} weight="bold" color="#10152F" />
                     </TouchableOpacity>
                 </View>
-                <View style={styles.bodyContainer}>
+
+                <ScrollView>
                     <RenderMyparking></RenderMyparking>
-                </View>
+                </ScrollView>
+                <View style={styles.circleSmall} />
             </View>
             <PopupDeleteMyParking
                 setVisible={modal}
@@ -203,7 +204,7 @@ export default MyParking;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#D7DAEF'
+        backgroundColor: '#CED2EA'
     },
     mainContainer: {
         flex: 1,
@@ -211,18 +212,19 @@ const styles = StyleSheet.create({
     },
     circleBig: {
         position: 'absolute',
-        width: 370,
-        height: 370,
-        borderRadius: 200,
+        width: 378,
+        height: 378,
+        borderRadius: 300,
         backgroundColor: '#262D57',
-        top: -80,
-        left: -120
+        top: -110,
+        left: -144
     },
-    row: {
+    rowTopic: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 25,
+        paddingHorizontal: 16,
         marginTop: 65,
+        marginBottom: 40,
         justifyContent: 'space-between'
     },
     title: {
@@ -232,25 +234,22 @@ const styles = StyleSheet.create({
         fontSize: 24,
         color: '#fff'
     },
-    circleWhite: {
+    btnAdd: {
         width: 48,
         height: 48,
         borderRadius: 25,
-        backgroundColor: '#fff',
+        backgroundColor: '#EEF0FF',
         justifyContent: 'center',
         alignItems: 'center'
     },
-    circleSmallBotton: {
+    circleSmall: {
+        zIndex: -1,
         position: 'absolute',
-        width: 100,
-        height: 100,
+        width: 95,
+        height: 95,
         borderRadius: 100,
-        backgroundColor: '#262D57',
-        bottom: 15,
-        right: 15
+        backgroundColor: '#7F85B2',
+        bottom: 8,
+        right: -20
     },
-    bodyContainer: {
-        flex: 1,
-        paddingHorizontal: 25
-    }
 });

@@ -1,6 +1,6 @@
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { CoinVertical, Heart, Star } from 'phosphor-react-native';
+import { CoinVertical, Star } from 'phosphor-react-native';
 import BottonHeartMylist from './ButtonHeartMyList';
 
 interface IContentMyList {
