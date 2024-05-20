@@ -3,11 +3,8 @@ import {
     View,
     Text,
     StyleSheet,
-    Pressable,
-    TextInput,
     Image,
     TouchableOpacity,
-    Alert,
     PermissionsAndroid,
     Platform
 } from 'react-native';
@@ -72,20 +69,20 @@ const AddCoinQR = () => {
             email: params.email,
             text:
                 'Dear parkease users, you have successfully addcoins \n in your account is the total amount ' +
-                (params.addcoins) + 
+                params.addcoins +
                 ' at '
         });
     };
 
     const createNoti = async () => {
-        const Notification : any = await createNotification({
+        const Notification: any = await createNotification({
             userId: params.userId,
-            Parking_ownerId:params.userId,
-            Topic: "Add coins",
+            Parking_ownerId: params.userId,
+            Topic: 'Add coins',
             Booking: false,
-            From: "",
-            Parking_name:"",
-            Coins:params.addcoins
+            From: '',
+            Parking_name: '',
+            Coins: params.addcoins
         });
     };
 
@@ -96,7 +93,7 @@ const AddCoinQR = () => {
         const timer = setTimeout(() => {
             setVisible(false);
             transactions();
-            createNoti()
+            createNoti();
             navigation.replace('Profile');
         }, duration);
 
@@ -144,30 +141,26 @@ const AddCoinQR = () => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <View style={styles.headerContent}>
-                    <Toast />
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <CaretLeft size={24} weight="bold" />
-                    </TouchableOpacity>
-                    <Text style={styles.headerText}>Add coins to your account</Text>
-                    <TouchableOpacity onPress={saveImage}>
-                        <DownloadSimple size={24} color="#011303" weight="bold" style={{ paddingLeft: 130 }} />
-                    </TouchableOpacity>
-                </View>
+            <View style={styles.headerContent}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <CaretLeft size={20} weight="bold" color="#10152F" />
+                </TouchableOpacity>
+                <Text style={styles.headerText}>Add coins to your account</Text>
+                <TouchableOpacity onPress={saveImage}>
+                    <DownloadSimple size={30} color="#10152F" />
+                </TouchableOpacity>
             </View>
-            <View style={styles.line}></View>
+            <View style={styles.line} />
+            <Toast />
             <View style={styles.backgroundQrcode}>
-            <View style={styles.qrcode}>
                 <Image
                     source={{ uri: params.qrCode }}
                     style={{
-                        width: "100%", // Set the desired width
-                        height: "100%", // Set the desired height
-                        transform: [{ scale: 0.7   }], 
+                        width: '100%',
+                        height: '100%',
+                        transform: [{ scale: 0.55 }]
                     }}
                 />
-            </View>
             </View>
 
             <Modal isVisible={visible} backdropOpacity={0.9} backdropColor="#262D57">
@@ -184,78 +177,31 @@ const AddCoinQR = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        paddingHorizontal: 25,
-        padding: 27,
         backgroundColor: '#EEF0FF'
-    },
-    header: {
-        width: '100%',
-        paddingVertical: 10,
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     headerContent: {
         flexDirection: 'row',
         alignItems: 'center',
-        width: '100%'
+        paddingHorizontal: 25,
+        paddingVertical: 7,
+        justifyContent: 'space-between'
     },
     headerText: {
-        fontFamily: 'RedHatText',
+        fontFamily: 'RedHatText-Bold',
         textAlign: 'center',
         fontSize: 16,
-        fontWeight: 'bold',
-        color: '#10152F',
-        marginLeft: 50
+        color: '#10152F'
     },
     line: {
         borderBottomWidth: 1,
         borderBottomColor: '#CED2EA',
-        width: '150%'
+        width: '100%'
     },
     backgroundQrcode: {
-        width: 500,
-        height: '100%', 
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 30
-    },
-    button: {
-        backgroundColor: '#DAE0FF',
-        color: 'black',
-        padding: 10,
-        paddingLeft: 20,
-        paddingRight: 20,
-        borderRadius: 10,
-        marginHorizontal: 10
-    },
-    buttonText: {
-        color: 'black',
-        textAlign: 'center'
-    },
-    textConfirm: {
-        textAlign: 'center',
-        fontFamily: 'RedHatText',
-        fontWeight: 'bold',
-        fontSize: 16,
-        color: '#FEFA94',
-        letterSpacing: 0.64
-    },
-    btnConfirm: {
-        backgroundColor: '#10152F',
-        borderRadius: 15,
-        elevation: 2,
-        width: 343,
-        height: 55,
-        padding: 16
-    },
-    qrcode: {
-        alignItems: 'center',
-        justifyContent: 'center',
+        width: 600,
+        height: 900,
+        alignSelf: 'center',
+        marginTop: -100
     },
     modalContainer: {
         justifyContent: 'center',

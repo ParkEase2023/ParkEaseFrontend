@@ -12,14 +12,9 @@ const InspectionInProgress = () => {
             contentContainerStyle={styles.scrollViewContainer}
             keyboardShouldPersistTaps="handled">
             <View style={styles.headerContent}>
-                {/* <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-                    <CaretLeft size={22} color="#10152F" />
-                </TouchableOpacity> */}
-                <View style={styles.center}>
-                    <Text style={styles.headerText}>Bind An Account</Text>
-                </View>
+                <Text style={styles.headerText}>Bind An Account</Text>
             </View>
-            <View style={styles.line}></View>
+            <View style={styles.line}/>
             <View style={styles.container}>
                 <View style={styles.ImageContainer}>
                     <Image
@@ -27,13 +22,12 @@ const InspectionInProgress = () => {
                         style={{ width: 300, height: 300 }}
                     />
                 </View>
-                <Text style={styles.headerText}>Inspection In Progress</Text>
-                <View style={styles.space}></View>
-                <Text style={styles.bodyText}> Please wait about 2 - 3 days to proceed.</Text>
+                <Text style={styles.title}>Inspection In Progress</Text>
+                <Text style={styles.bodyText}> Please wait about 2 - 3 days {"\n"} to proceed.</Text>
             </View>
-            <View style={styles.buttonContrainer}>
+            <View style={styles.btnContainer}>
                 <TouchableOpacity style={styles.btnConfirm} onPress={() => navigation.navigate("Profile")}>
-                    <Text style={styles.textConfirm}>Confirm</Text>
+                    <Text style={styles.textConfirm}>CONFIRM</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>
@@ -46,43 +40,35 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         backgroundColor: '#EEF0FF'
     },
-    container: {
-        flex: 1,
-        backgroundColor: '#EEF0FF',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    mainContainer: {
-        paddingHorizontal: 25,
-        paddingVertical: 40
-    },
     headerContent: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 25,
-        paddingTop: 40
+        justifyContent: 'center',
     },
-    center: {
-        flex: 1,
+    headerText: {
+        fontSize: 16,
+        color: '#10152F',
+        fontFamily: 'RedHatText-Bold',
+        paddingVertical: 12
+    },
+    line: {
+        borderBottomColor: '#CED2EA',
+        borderBottomWidth: 1,
+        width: '100%'
+    },
+    container: {
+        flex: 8,
         alignItems: 'center',
         justifyContent: 'center'
     },
-    headerText: {
-        fontSize: 18,
-        color: '#10152F',
-        fontFamily: 'RedHatText-Bold',
-        textAlign: 'center'
-    },
-    line: {
-        borderBottomColor: '#7F85B2',
-        borderBottomWidth: 1,
-        paddingTop: 15,
-        width: '100%'
-    },
     ImageContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 20
+        paddingBottom: 35
+    },
+    title: {
+        fontFamily: 'RedHatText-Bold',
+        fontSize: 24,
+        color: '#10152F',
+        paddingBottom: 16
     },
     bodyText: {
         fontFamily: 'RedHatText-Regular',
@@ -90,27 +76,19 @@ const styles = StyleSheet.create({
         color: '#10152F',
         textAlign: 'center'
     },
-    buttonContrainer: {
+    btnContainer: {
         flex: 1,
-        justifyContent: 'flex-end',
-        marginBottom: 50
     },
     btnConfirm: {
         backgroundColor: '#10152F',
-        borderRadius: 10,
-        padding: 15,
+        borderRadius: 16,
+        paddingVertical: 16,
         marginHorizontal: 25,
         alignItems: 'center'
     },
     textConfirm: {
         fontFamily: 'RedHatText-Bold',
-        fontSize: 18,
+        fontSize: 16,
         color: '#FEFA94'
     },
-    spaceInLine: {
-        paddingVertical: 10
-    },
-    space: {
-        paddingVertical: 10
-    }
 });

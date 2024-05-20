@@ -2,7 +2,6 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { CaretLeft } from 'phosphor-react-native';
 import {
-    KeyboardAvoidingView,
     ScrollView,
     StyleSheet,
     Text,
@@ -19,8 +18,8 @@ import { createNotification } from '../services/notification';
 
 interface myRecipien {
     recipienId: string;
-    firstname:string;
-    lastname:string;
+    firstname: string;
+    lastname: string;
 }
 
 const CheckInformation = () => {
@@ -28,9 +27,8 @@ const CheckInformation = () => {
     const { params } = useRoute<RouteProp<ProfileParamList, 'CheckInformation'>>();
     const [myRecipien, setMyRecipien] = useState<myRecipien>({
         recipienId: '',
-        firstname:'',
-        lastname:'',
-
+        firstname: '',
+        lastname: ''
     });
     const [recipienId, setRecipienId] = useState('');
     const handleWithdrawmoney = async () => {
@@ -53,14 +51,16 @@ const CheckInformation = () => {
             };
             const res: any = await createTransfersOnDB(body3);
             if (res.message === 'created') {
-                await createNoti()
-                navigation.navigate('WithdrawalReceipt',{_id: params._id,
+                await createNoti();
+                navigation.navigate('WithdrawalReceipt', {
+                    _id: params._id,
                     firstname: params.firstname,
                     lastname: params.lastname,
                     email: params.email,
                     withdrawMoney: params.withdrawMoney,
                     coins: params.coins,
-                    phoneNumber: params.phoneNumber})
+                    phoneNumber: params.phoneNumber
+                });
             }
         }
     };
@@ -72,14 +72,14 @@ const CheckInformation = () => {
     };
 
     const createNoti = async () => {
-        const Notification : any = await createNotification({
+        const Notification: any = await createNotification({
             userId: params._id,
-            Parking_ownerId:params._id,
-            Topic: "Withdraw Money",
+            Parking_ownerId: params._id,
+            Topic: 'Withdraw Money',
             Booking: false,
-            From: myRecipien.firstname+' '+myRecipien.lastname,
-            Parking_name:"",
-            Coins:params.withdrawMoney
+            From: myRecipien.firstname + ' ' + myRecipien.lastname,
+            Parking_name: '',
+            Coins: params.withdrawMoney
         });
     };
 
@@ -92,28 +92,36 @@ const CheckInformation = () => {
             style={styles.container}
             contentContainerStyle={styles.scrollViewContainer}
             keyboardShouldPersistTaps="handled">
-            <TouchableOpacity style={styles.headerContent} onPress={() => navigation.goBack()}>
-                <CaretLeft size={22} color="#141414" />
-            </TouchableOpacity>
-            <View style={styles.line}></View>
-            <View style={styles.mainContainer}>
-                <PaymentBill
-                    userId={params._id}
-                    firstname={params.firstname}
-                    lastname={params.lastname}
-                    phoneNumber={params.phoneNumber}></PaymentBill>
+            <View style={styles.headerContent}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <CaretLeft size={20} weight="bold" color="#10152F" />
+                </TouchableOpacity>
+                <Text style={styles.headerText}>Check Information</Text>
             </View>
-            <View style={styles.totalPrice}>
-                <View style={styles.textRow}>
-                    <Text style={styles.bodytext}>amount:</Text>
-                    <Text style={styles.textleft}>{params.withdrawMoney} THB</Text>
+            <View style={styles.line} />
+
+            <View style={styles.flexMain}>
+                <View style={styles.mainContainer}>
+                    <PaymentBill
+                        userId={params._id}
+                        firstname={params.firstname}
+                        lastname={params.lastname}
+                        phoneNumber={params.phoneNumber}></PaymentBill>
                 </View>
-                <View style={styles.textRow}>
-                    <Text style={styles.bodytext}>fee:</Text>
-                    <Text style={styles.textleft}>30 THB</Text>
+                <View style={styles.totalPrice}>
+                    <View style={styles.textRow}>
+                        <Text style={styles.bodyText}>amount:</Text>
+                        <Text style={styles.textLeft}>{params.withdrawMoney} THB</Text>
+                    </View>
+                    <View style={styles.space} />
+                    <View style={styles.textRow}>
+                        <Text style={styles.bodyText}>fee:</Text>
+                        <Text style={styles.textLeft}>30 THB</Text>
+                    </View>
                 </View>
             </View>
-            <View style={styles.buttonContrainer}>
+
+            <View style={styles.btnContainer}>
                 <TouchableOpacity style={styles.btnConfirm} onPress={handleWithdrawmoney}>
                     <Text style={styles.textConfirm}>CONFIRM</Text>
                 </TouchableOpacity>
@@ -132,25 +140,29 @@ const styles = StyleSheet.create({
         flexGrow: 1
     },
     headerContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
         paddingHorizontal: 25,
-        marginTop: 20
+        paddingVertical: 12
     },
     headerText: {
+        flex: 1,
         fontFamily: 'RedHatText-Bold',
         textAlign: 'center',
-        fontSize: 18,
-        color: '#10152F',
-        paddingLeft: 90
+        fontSize: 16,
+        color: '#10152F'
     },
     line: {
-        borderBottomColor: '#EEF0FF',
+        borderBottomColor: '#CED2EA',
         borderBottomWidth: 1,
-        width: '150%',
-        paddingTop: 50
+        width: '100%',
+    },
+    flexMain: {
+        flex: 8
     },
     mainContainer: {
         paddingVertical: 45,
-        paddingHorizontal: 25
+        paddingHorizontal: 50
     },
     totalPrice: {
         paddingHorizontal: 25,
@@ -160,38 +172,34 @@ const styles = StyleSheet.create({
     textRow: {
         flexDirection: 'row'
     },
-    bodytext: {
+    bodyText: {
         flex: 9,
         fontFamily: 'RedHatText-Bold',
         fontSize: 16,
         color: '#10152F',
-        paddingVertical: 5
     },
-    textleft: {
+    textLeft: {
         fontFamily: 'RedHatText-Bold',
         fontSize: 16,
         color: '#10152F',
-        paddingVertical: 5
+    },
+    space: {
+        height: 14,
+    },
+    btnContainer: {
+        flex: 1,
+        paddingHorizontal: 25,
     },
     btnConfirm: {
         backgroundColor: '#10152F',
-        borderRadius: 15,
-        elevation: 2,
-        marginTop: 80,
+        borderRadius: 16,
+        paddingVertical: 16,
         width: '100%',
-        height: 55
     },
     textConfirm: {
         textAlign: 'center',
-        fontFamily: 'RedHatText',
-        fontWeight: 'bold',
+        fontFamily: 'RedHatText-Bold',
         fontSize: 16,
         color: '#FEFA94',
-        top: 15,
-        letterSpacing: 0.64
     },
-    buttonContrainer: {
-        paddingHorizontal: 25,
-        paddingTop: 40
-    }
 });

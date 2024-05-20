@@ -3,28 +3,21 @@ import {
     View,
     Text,
     StyleSheet,
-    Pressable,
     TextInput,
     Image,
     TouchableOpacity,
-    Alert,
     KeyboardAvoidingView,
-    Platform,
     ScrollView,
     Animated
 } from 'react-native';
 import {
-    AirplaneInFlight,
-    ArrowLeft,
     Bank,
     CaretDown,
     CaretLeft,
-    CoinVertical,
     EnvelopeSimple,
     Eye,
     EyeSlash,
-    IdentificationCard,
-    Money
+    IdentificationCard
 } from 'phosphor-react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -109,8 +102,7 @@ const BindAnAccount = () => {
                         }}
                         setIsHidden={value => {
                             setIsHidden(value);
-                        }}>
-                    </TabSelectBank>
+                        }}></TabSelectBank>
                 </Animated.View>
             );
         } else {
@@ -176,110 +168,97 @@ const BindAnAccount = () => {
                 keyboardShouldPersistTaps="handled">
                 <View style={styles.headerContent}>
                     <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-                        <CaretLeft weight='bold' size={24} color="#10152F" />
+                        <CaretLeft weight="bold" size={20} color="#10152F" />
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Bind An Account</Text>
                 </View>
                 <View style={styles.line}></View>
+
                 <View style={styles.mainContainer}>
-                    <Text style={styles.headerTextbody}>Payer's Information</Text>
-                    <View style={styles.rowInputName}>
-                        <View style={styles.textboxName}>
+                    <Text style={styles.headerTextBody}>Payer's Information</Text>
+                    <View style={styles.textInputContainer}>
+                        <View style={styles.firstName}>
                             <TextInput
-                                numberOfLines={1}
-                                style={styles.input}
                                 placeholder="First Name"
+                                style={styles.shortTextInput}
                                 onChangeText={text => setFirstname(text)}
                             />
                         </View>
-                        <View style={styles.textboxLastname}>
+
+                        <View style={styles.lastName}>
                             <TextInput
-                                numberOfLines={1}
-                                style={styles.input}
                                 placeholder="Last Name"
+                                style={styles.shortTextInput}
                                 onChangeText={text => setLastname(text)}
                             />
                         </View>
                     </View>
-                    <View style={styles.space}>
-                        <View style={[styles.textbox1]}>
-                            <View style={styles.row}>
-                                <View style={styles.iconPosition}>
-                                    <EnvelopeSimple size={32} />
-                                </View>
+
+                    <View style={{ marginBottom: 18 }}>
+                        <View style={styles.emailToTaxID}>
+                            <EnvelopeSimple size={24} color="#565E8B" />
+                            <TextInput
+                                placeholder="Email"
+                                style={styles.longTextInput}
+                                onChangeText={text => setEmail(text)}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{ marginBottom: 35 }}>
+                        <View style={styles.emailToTaxID}>
+                            <IdentificationCard size={24} color="#565E8B" />
+                            <TextInput
+                                placeholder="Tax ID  (13-digit ID card number)"
+                                style={styles.longTextInput}
+                                onChangeText={text => setTaxID(text)}
+                            />
+                        </View>
+                    </View>
+
+                    <Text style={styles.headerTextBody}>Bank Account</Text>
+                    <View style={{ marginBottom: 18 }}>
+                        <TouchableOpacity style={styles.btnChooseBank} onPress={handleOpenTab}>
+                            <View style={styles.itemLeft}>
+                                <Bank size={24} weight="fill" color="#565E8B" />
                                 <TextInput
-                                    numberOfLines={1}
-                                    style={styles.inputBank}
-                                    placeholder="Email"
-                                    onChangeText={text => setEmail(text)}
+                                    placeholder="Choose a bank"
+                                    editable={false}
+                                    value={selectBank}
+                                    style={styles.longTextInput}
                                 />
                             </View>
-                        </View>
-                    </View>
-                    <View style={styles.space}>
-                        <View style={[styles.textbox1]}>
-                            <View style={styles.row}>
-                                <View style={styles.iconPosition}>
-                                    <IdentificationCard size={32} />
-                                </View>
-                                <TextInput
-                                    style={styles.input}
-                                    secureTextEntry={textEntry}
-                                    placeholder="Tax ID"
-                                    onChangeText={text => setTaxID(text)}
-                                />
-                                <View style={styles.entrypassword}>
-                                    <Entrypassword></Entrypassword>
-                                </View>
+                            <View>
+                                <CaretDown size={16} weight="fill" color="#7F85B2" />
                             </View>
-                        </View>
-                    </View>
-                    <View style={styles.space}>
-                        <Text style={styles.headerTextbody}>Bank Account</Text>
-                        <View style={[styles.textbox1]}>
-                            <View style={styles.iconPosition}>
-                                <TouchableOpacity style={styles.row} onPress={handleOpenTab}>
-                                    <Bank size={32} weight='bold' />
-                                    <TextInput
-                                        style={styles.inputBank}
-                                        editable={false}
-                                        placeholder="Choose a bank"
-                                        value={selectBank}
-                                    />
-                                    <View>
-                                        <CaretDown size={32} />
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                        <View style={styles.space}>
-                            <View style={[styles.textbox1]}>
-                                <View style={styles.row}>
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="Account Name"
-                                        onChangeText={text => setAccountName(text)}
-                                    />
-                                </View>
-                            </View>
-                        </View>
-                        <View style={styles.space}>
-                            <View style={[styles.textbox1]}>
-                                <View style={styles.row}>
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="Account Number"
-                                        onChangeText={text => setAccountNumber(text)}
-                                    />
-                                </View>
-                            </View>
-                        </View>
-                    </View>
-                    <View>
-                        <TouchableOpacity style={styles.btnConfirm} onPress={createRecipien}>
-                            <Text style={styles.textConfirm}>CONFIRM</Text>
                         </TouchableOpacity>
                     </View>
+
+                    <View style={{ marginBottom: 18 }}>
+                        <View style={styles.AccNameToAccNum}>
+                            <TextInput
+                                placeholder="Account Name"
+                                style={styles.longTextInput}
+                                onChangeText={text => setAccountName(text)}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{ marginBottom: 50 }}>
+                        <View style={styles.AccNameToAccNum}>
+                            <TextInput
+                                placeholder="Account Number"
+                                style={styles.longTextInput}
+                                onChangeText={text => setAccountNumber(text)}
+                            />
+                        </View>
+                    </View>
+                </View>
+                
+                <View style={styles.btnContainer}>
+                    <TouchableOpacity style={styles.btnConfirm} onPress={createRecipien}>
+                        <Text style={styles.textConfirm}>CONFIRM</Text>
+                    </TouchableOpacity>
                 </View>
                 <RenderTab></RenderTab>
                 <Renderbg></Renderbg>
@@ -295,76 +274,100 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#EEF0FF'
     },
-    mainContainer: {
-        paddingHorizontal: 25,
-        paddingVertical: 40
-    },
-    headerTextbody: {
-        fontFamily: 'RedHatText-Bold',
-        fontSize: 16,
-        color: '#10152F',
-        paddingBottom: 20
+    scrollViewContainer: {
+        flexGrow: 1
     },
     headerContent: {
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 25,
-        paddingTop: 40
+        paddingVertical: 12
     },
     headerText: {
+        flex: 1,
         fontFamily: 'RedHatText-Bold',
         textAlign: 'center',
-        fontSize: 18,
-        color: '#10152F',
-        paddingLeft: 90
+        fontSize: 16,
+        color: '#10152F'
     },
     line: {
         borderBottomColor: '#CED2EA',
         borderBottomWidth: 1,
-        paddingTop: 15,
         width: '100%'
     },
-    row: {
+    mainContainer: {
+        flex: 8,
+        paddingHorizontal: 25,
+        paddingTop: 35
+    },
+    headerTextBody: {
+        fontFamily: 'RedHatText-Bold',
+        fontSize: 16,
+        color: '#10152F',
+        paddingBottom: 25
+    },
+    textInputContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    shortTextInput: {
+        flex: 1,
+        paddingVertical: 16,
+        fontFamily: 'RedHatText-Regular',
+        fontSize: 16,
+        color: '#10152F'
+    },
+    longTextInput: {
+        flex: 1,
+        padding: 16,
+        fontFamily: 'RedHatText-Regular',
+        fontSize: 16,
+        color: '#10152F'
+    },
+    firstName: {
+        flex: 1,
+        marginRight: 10,
+        backgroundColor: '#DAE0FF',
+        borderRadius: 12,
+        marginBottom: 18,
+        paddingHorizontal: 16
+    },
+    lastName: {
+        flex: 1,
+        marginLeft: 10,
+        backgroundColor: '#DAE0FF',
+        borderRadius: 12,
+        marginBottom: 18,
+        paddingHorizontal: 16
+    },
+    emailToTaxID: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#DAE0FF',
+        borderRadius: 12,
+        paddingHorizontal: 16
+    },
+    btnChooseBank: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#DAE0FF',
+        borderRadius: 12,
+        paddingHorizontal: 16,
+        borderWidth: 1,
+        borderColor: '#7F85B2'
+    },
+    AccNameToAccNum: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#DAE0FF',
+        borderRadius: 12
+    },
+    itemLeft: {
+        flex: 1,
         flexDirection: 'row',
         alignItems: 'center'
     },
-    rowInputName: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-    },
-    iconPosition: {
-        paddingHorizontal: 16
-    },
-    textboxName: {
-        backgroundColor: '#DAE0FF',
-        borderRadius: 12,
-        borderColor: '#10152F',
-        width: '48%'
-    },
-    textboxLastname: {
-        backgroundColor: '#DAE0FF',
-        borderRadius: 12,
-        borderColor: '#10152F',
-        width: '48%'
-    },
-    boxText: {
-        backgroundColor: '#565E8B',
-        top: 50
-    },
-    textMain: {
-        fontFamily: 'RedHatText-Bold',
-        fontSize: 16,
-        color: '#EEF0FF'
-    },
-    textRight: {
-        fontFamily: 'RedHatText-Bold',
-        fontSize: 16,
-        color: '#EEF0FF'
-    },
-    space: {
-        marginTop: 20
-    },
+
     containerpopup: {
         flex: 1,
         backgroundColor: 'rgba(16, 21, 47, 0.8)',
@@ -373,87 +376,26 @@ const styles = StyleSheet.create({
         width: '100%',
         zindex: 3
     },
-    textbox1: {
-        backgroundColor: '#DAE0FF',
-        borderRadius: 12,
-        borderColor: '#10152F'
-    },
-    scrollViewContainer: {
-        flexGrow: 1
-    },
-    input: {
-        fontFamily: 'RedHatText',
-        fontSize: 16,
-        color: '#10152F',
-        padding: 16,
-        flex: 9
-    },
-    entrypassword: {
-        flex: 1,
-        paddingRight: 16
-    },
-    inputBank: {
-        fontFamily: 'RedHatText',
-        fontSize: 16,
-        color: '#10152F',
-        padding: 16,
-        flex: 9
-    },
-    textright1: {
-        fontFamily: 'RedHatText',
-        fontSize: 16,
-        color: '#10152F',
-        paddingRight: 16
-    },
-    textleft: {
-        fontFamily: 'RedHatText-Regular',
-        fontSize: 14,
-        color: '#10152F',
-        paddingTop: 10,
-        paddingBottom: 25
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        buttom: 50
-    },
-    button: {
-        padding: 18,
-        paddingLeft: 18,
-        paddingRight: 18,
-        borderRadius: 23,
-        paddingVertical: 6
-    },
-    buttonText: {
-        color: 'black',
-        textAlign: 'center'
-    },
-    textConfirm: {
-        textAlign: 'center',
-        fontFamily: 'RedHatText',
-        fontWeight: 'bold',
-        fontSize: 16,
-        color: '#FEFA94',
-        padding: 16,
-        letterSpacing: 0.64
-    },
-    btnConfirm: {
-        backgroundColor: '#10152F',
-        borderRadius: 15,
-        elevation: 2,
-        marginTop: 80,
-        width: '100%',
-        height: 55
-    },
-    color: {
-        borderWidth: 2,
-        borderColor: '#7F85B2'
-    },
     boxview: {
         width: '100%',
         height: 550,
         position: 'absolute',
         bottom: 0,
         zIndex: 2
+    },
+    btnContainer: {
+        flex: 1
+    },
+    btnConfirm: {
+        backgroundColor: '#10152F',
+        borderRadius: 16,
+        paddingVertical: 16,
+        marginHorizontal: 25,
+        alignItems: 'center'
+    },
+    textConfirm: {
+        fontFamily: 'RedHatText-Bold',
+        fontSize: 16,
+        color: '#FEFA94'
     }
 });

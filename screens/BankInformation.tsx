@@ -5,8 +5,6 @@ import { View, StyleSheet, Text, ScrollView, TouchableOpacity, Image } from 'rea
 import { ProfileParamList } from '../stack/ProfileStack';
 import { Bank, CaretLeft, EnvelopeSimple, IdentificationCard } from 'phosphor-react-native';
 import { destroyRecipien, getRecipienOnDB } from '../services/recipien';
-import Modal from 'react-native-modal';
-import Good from '../assets/Good.png';
 
 interface myRecipien {
     recipienId: string;
@@ -24,12 +22,11 @@ const BankInformation = () => {
     const { params } = useRoute<RouteProp<ProfileParamList, 'BankInformation'>>();
     const handleConfirm = async () => {
         const destroy: any = await destroyRecipien({
-            userId:params.userId,
-            recipienId:myRecipien.recipienId,
-        })
-        if(destroy.message === 'success')
-        {
-            navigation.navigate("BindAnAccount",{userId:params.userId})
+            userId: params.userId,
+            recipienId: myRecipien.recipienId
+        });
+        if (destroy.message === 'success') {
+            navigation.navigate('BindAnAccount', { userId: params.userId });
         }
     };
 
@@ -62,85 +59,77 @@ const BankInformation = () => {
             keyboardShouldPersistTaps="handled">
             <View style={styles.headerContent}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <CaretLeft size={22} weight='bold' color="#10152F" />
+                    <CaretLeft size={20} weight="bold" color="#10152F" />
                 </TouchableOpacity>
-                <View style={styles.center}>
-                    <Text style={styles.headerText}>Bank Information</Text>
-                </View>
+                <Text style={styles.headerText}>Bank Information</Text>
             </View>
             <View style={styles.line}></View>
-            <View>
-                <View style={styles.container}>
-                    <View style={styles.bodytext}>
-                        <Text style={styles.headerTextbody}>Payer’s Information</Text>
-                    </View>
-                    <View style={styles.boxText}>
-                        <Text style={styles.bodytext}>FIRST NAME :</Text>
-                        <Text numberOfLines={1} style={styles.textleft}>{myRecipien.firstname}</Text>
-                    </View>
-                    <View style={styles.boxText}>
-                        <Text style={styles.bodytext}>LAST NAME :</Text>
-                        <Text numberOfLines={1} style={styles.textleft}>{myRecipien.lastname}</Text>
-                    </View>
-                    <View style={styles.boxText}>
-                        <EnvelopeSimple size={24} color="#565E8B" />
-                        <View style={styles.spaceInLine}></View>
-                        <Text style={styles.bodytext}>EMAIL :</Text>
-                        <Text numberOfLines={1} style={styles.textleftEmailandID}>{myRecipien.email}</Text>
-                    </View>
-                    <View style={styles.boxText}>
-                        <IdentificationCard size={24} color="#565E8B" />
-                        <View style={styles.spaceInLine}></View>
-                        <Text style={styles.bodytext}>TAX ID :</Text>
-                        <Text numberOfLines={1} style={styles.textleftEmailandID}>
-                            {myRecipien.taxId.replace(
-                                /(\d{1})(\d{4})(\d{5})(\d{3})/,
-                                '$1-$2-$3-$4'
-                            )}
-                        </Text>
-                    </View>
-                    <View style={styles.space}></View>
-                    <View style={styles.bodytext}>
-                        <Text style={styles.headerTextbody}>Bank Account</Text>
-                    </View>
-                    <View style={styles.boxText}>
-                        <Bank size={24} color="#565E8B" />
-                        <Text style={styles.spaceInLine}></Text>
-                        <Text style={styles.bodytext}> Bank:</Text>
-                        {/* <Image
+
+            <View style={styles.mainContainer}>
+                <Text style={styles.headerTextBody}>Payer’s Information</Text>
+                <View style={styles.boxText}>
+                    <Text style={styles.bodyText}>First Name:</Text>
+                    <Text numberOfLines={1} style={styles.textLeft}>
+                        {myRecipien.firstname}
+                    </Text>
+                </View>
+                <View style={styles.boxText}>
+                    <Text style={styles.bodyText}>Last Name:</Text>
+                    <Text numberOfLines={1} style={styles.textLeft}>
+                        {myRecipien.lastname}
+                    </Text>
+                </View>
+                <View style={styles.boxText}>
+                    <EnvelopeSimple size={24} color="#565E8B" />
+                    <View style={styles.spaceInLine}></View>
+                    <Text style={styles.bodyText}>Email:</Text>
+                    <Text numberOfLines={1} style={styles.textLeftEmail_TaxID_Bank}>
+                        {myRecipien.email}
+                    </Text>
+                </View>
+                <View style={styles.boxText}>
+                    <IdentificationCard size={24} color="#565E8B" />
+                    <View style={styles.spaceInLine}></View>
+                    <Text style={styles.bodyText}>Tax ID:</Text>
+                    <Text numberOfLines={1} style={styles.textLeftEmail_TaxID_Bank}>
+                        {myRecipien.taxId.replace(/(\d{1})(\d{4})(\d{5})(\d{3})/, '$1-$2-$3-$4')}
+                    </Text>
+                </View>
+                    <Text style={styles.headerTextBody}>Bank Account</Text>
+                <View style={styles.boxText}>
+                    <Bank size={24} color="#565E8B" />
+                    <Text style={styles.spaceInLine}></Text>
+                    <Text style={styles.bodyText}>Bank:</Text>
+                    {/* <Image
                             source={require('../assets/Kasikorn.png')}
                             style={{ width: 24, height: 24 }}
                         /> */}
-                        {/* <Text style={styles.spaceInLine}></Text> */}
-                        <Text style={styles.textleft}>{myRecipien.bank}</Text>
-                    </View>
-                    <View style={styles.boxText}>
-                        <Text style={styles.bodytext}>Account Name:</Text>
-                        <Text numberOfLines={1} style={styles.textleft}>{myRecipien.accountname}</Text>
-                    </View>
+                    {/* <Text style={styles.spaceInLine}></Text> */}
+                    <Text style={styles.textLeftEmail_TaxID_Bank}>{myRecipien.bank}</Text>
+                </View>
+                <View style={styles.boxText}>
+                    <Text style={styles.bodyText}>Account Name:</Text>
+                    <Text numberOfLines={1} style={styles.textLeft}>
+                        {myRecipien.accountname}
+                    </Text>
+                </View>
 
-                    <View style={styles.boxText}>
-                        <Text style={styles.bodytext}>Account Number:</Text>
-                        <Text numberOfLines={1} style={styles.textleft}>
-                            {myRecipien.accountnumber.slice(0, 3) +
-                                '-' +
-                                myRecipien.accountnumber[3] +
-                                '-' +
-                                myRecipien.accountnumber.slice(4)}
-                        </Text>
-                    </View>
-                    <TouchableOpacity style={styles.btnConfirm} onPress={handleConfirm}>
-                        <Text style={styles.textConfirm}>Change Account</Text>
-                    </TouchableOpacity>
+                <View style={styles.boxText}>
+                    <Text style={styles.bodyText}>Account Number:</Text>
+                    <Text numberOfLines={1} style={styles.textLeft}>
+                        {myRecipien.accountnumber.slice(0, 3) +
+                            '-' +
+                            myRecipien.accountnumber[3] +
+                            '-' +
+                            myRecipien.accountnumber.slice(4)}
+                    </Text>
                 </View>
             </View>
-            {/* <Modal isVisible={visible} backdropOpacity={0.9} backdropColor="#262D57">
-                <View style={styles.modalContainer}>
-                    <Image source={Good} style={styles.imageGood} />
-                    <Text style={styles.modalText}>Finished!</Text>
-                    <Text style={styles.modalText2}>Yahoo! You addcoin successfully.</Text>
+            <View style={styles.btnContainer}>
+                    <TouchableOpacity style={styles.btnConfirm} onPress={handleConfirm}>
+                        <Text style={styles.textConfirm}>CHANGE ACCOUNT</Text>
+                    </TouchableOpacity>
                 </View>
-            </Modal> */}
         </ScrollView>
     );
 };
@@ -156,108 +145,73 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 25,
-        top: 40
+        paddingVertical: 12
     },
     headerText: {
+        flex: 1,
         fontFamily: 'RedHatText-Bold',
-        fontSize: 20,
-        lineHeight: 30,
+        textAlign: 'center',
+        fontSize: 16,
         color: '#10152F'
     },
     line: {
-        borderBottomColor: '#D9DBE9',
+        borderBottomColor: '#CED2EA',
         borderBottomWidth: 1,
-        top: 50
+        width: '100%'
     },
-    center: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
+    mainContainer: {
+        flex: 8,
+        paddingHorizontal: 25,
     },
-    container: {
-        paddingVertical: 45,
-        paddingHorizontal: 25
-    },
-    headerTextbody: {
-        flex: 9,
+    headerTextBody: {
         fontFamily: 'RedHatText-Bold',
         fontSize: 16,
         color: '#10152F',
-        paddingTop: 20,
-        paddingVertical: 5
+        paddingBottom: 25,
+        marginTop: 35,
+    },
+    bodyText: {
+        flex: 1.5,
+        fontFamily: 'RedHatText-Regular',
+        fontSize: 16,
+        color: '#565E8B'
     },
     boxText: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingVertical: 15
+        paddingBottom: 20
     },
     iconPosition: {
         paddingRight: 10
     },
-    textleft: {
+    textLeft: {
         flex: 1.5,
-        fontFamily: 'RedHatText',
+        fontFamily: 'RedHatText-Medium',
         fontSize: 16,
         color: '#10152F'
     },
-    bodytext: {
-        flex: 1.5,
-        fontFamily: 'RedHatText',
-        fontSize: 16,
-        color: '#565E8B'
-        
-    },
-    textleftEmailandID: {
-        flex: 1.75,
-        fontFamily: 'RedHatText',
+    textLeftEmail_TaxID_Bank: {
+        flex: 1.82,
+        fontFamily: 'RedHatText-Medium',
         fontSize: 16,
         color: '#10152F'
-    },
-    space: {
-        top: 20
-    },
-    btnConfirm: {
-        backgroundColor: '#10152F',
-        borderRadius: 15,
-        elevation: 2,
-        marginTop: 80,
-        width: '100%',
-        height: 55
-    },
-    textConfirm: {
-        textAlign: 'center',
-        fontFamily: 'RedHatText-Bold',
-        fontSize: 16,
-        color: '#FEFA94',
-        lineHeight: 55
     },
     spaceInLine: {
         width: 10
     },
-    modalContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#EEF0FF',
+    btnContainer: {
+        flex: 1
+    },
+    btnConfirm: {
+        backgroundColor: '#10152F',
         borderRadius: 16,
-        paddingHorizontal: 25,
-        marginHorizontal: 35
+        paddingVertical: 16,
+        marginHorizontal: 25,
+        alignItems: 'center'
     },
-    imageGood: {
-        marginTop: -115,
-        marginBottom: 16
-    },
-    modalText: {
+    textConfirm: {
         fontFamily: 'RedHatText-Bold',
-        fontSize: 24,
-        color: '#10152F',
-        marginBottom: 16
-    },
-    modalText2: {
-        fontFamily: 'RedHatText-Regular',
         fontSize: 16,
-        color: '#262D57',
-        textAlign: 'center',
-        marginBottom: 30
-    }
+        color: '#FEFA94'
+    },
 });

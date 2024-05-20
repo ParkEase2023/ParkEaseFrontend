@@ -1,23 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
     StyleSheet,
-    Pressable,
     TextInput,
     Image,
     TouchableOpacity,
-    Alert,
     KeyboardAvoidingView,
-    Platform,
     ScrollView
 } from 'react-native';
-import { ArrowLeft, CaretLeft, CoinVertical, Money } from 'phosphor-react-native';
+import { CaretLeft, CoinVertical, Money } from 'phosphor-react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ProfileParamList } from '../stack/ProfileStack';
-import { createdPromptPayQRCode } from '../services/omise';
 
 const WithdrawMoney = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ProfileParamList>>();
@@ -63,74 +58,60 @@ const WithdrawMoney = () => {
                 keyboardShouldPersistTaps="handled">
                 <View style={styles.headerContent}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <CaretLeft weight='bold' size={22} color="#10152F" />
+                        <CaretLeft size={20} weight="bold" color="#10152F" />
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Withdraw Money</Text>
                 </View>
-                <View style={styles.boxText}>
-                    <View style={styles.rowTop}>
-                        <View style={styles.textIcon}>
-                            <CoinVertical size={24} weight="fill" color="#EEF0FF" />
-                            <Text style={styles.textMain}>Remaining Balance</Text>
-                        </View>
-                        <Text style={styles.textRight}>{params.coins} Coins</Text>
+                <View style={styles.rowTop}>
+                    <View style={styles.iconText}>
+                        <CoinVertical size={24} weight="fill" color="#EEF0FF" />
+                        <Text style={styles.textMain}>Remaining Balance</Text>
                     </View>
+                    <Text style={styles.textRight}>{params.coins} Coins</Text>
                 </View>
-                <View style={styles.imageContainer}>
-                    <Image
-                        source={require('../assets/withdrawMoney.png')}
-                    />
-                </View>
+                <Image source={require('../assets/withdrawMoney.png')} style={styles.image} />
                 <View style={styles.mainContainer}>
-                    <View style={[styles.textbox1]}>
-                        <View style={styles.row}>
-                            <Money size={26} />
+                    <View style={styles.enterAmount}>
+                        <View style={styles.itemLeft}>
+                            <Money size={24} color="#565E8B" />
                             <TextInput
-                                style={styles.input}
                                 placeholder="Enter a number"
                                 keyboardType="numeric"
+                                style={styles.input}
                                 onChangeText={text => {
                                     const parsedNumber = parseInt(text.replace(/[^0-9]/g, ''), 10);
                                     setInputNumber(isNaN(parsedNumber) ? 0 : parsedNumber);
                                 }}
                                 value={inputNumber.toLocaleString('en-US')}
                             />
-                            <Text style={styles.textright1}>THB</Text>
+                            <Text style={styles.textInputRight}>THB</Text>
                         </View>
                     </View>
                     <View>
-                        <Text style={styles.textleft}>Minimum balance: 100 THB</Text>
+                        <Text style={styles.description}>Flexible fee 30 THB</Text>
                     </View>
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity
-                            onPress={handleButtonClick}
-                            style={[styles.button, styles.color]}>
+
+                    <View style={styles.btnContainer}>
+                        <TouchableOpacity onPress={handleButtonClick} style={styles.btnAddMoney}>
                             <Text style={styles.buttonText}>+100</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity
-                            onPress={handleButtonClick1}
-                            style={[styles.button, styles.color]}>
+                        <TouchableOpacity onPress={handleButtonClick1} style={styles.btnAddMoney}>
                             <Text style={styles.buttonText}>+200</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity
-                            onPress={handleButtonClick2}
-                            style={[styles.button, styles.color]}>
+                        <TouchableOpacity onPress={handleButtonClick2} style={styles.btnAddMoney}>
                             <Text style={styles.buttonText}>+500</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity
-                            onPress={handleButtonClick3}
-                            style={[styles.button, styles.color]}>
+                        <TouchableOpacity onPress={handleButtonClick3} style={styles.btnAddMoney}>
                             <Text style={styles.buttonText}>+1,000</Text>
                         </TouchableOpacity>
                     </View>
-                    <View>
-                        <TouchableOpacity style={styles.btnConfirm} onPress={handleWithdrawMoney}>
-                            <Text style={styles.textConfirm}>CONFIRM</Text>
-                        </TouchableOpacity>
-                    </View>
+
+                    <TouchableOpacity style={styles.btnConfirm} onPress={handleWithdrawMoney}>
+                        <Text style={styles.textConfirm}>CONFIRM</Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
@@ -144,128 +125,122 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#EEF0FF'
     },
-    mainContainer: {
-        paddingHorizontal: 25,
-        paddingVertical: 50
-    },
-    main: {
+    scrollViewContainer: {
         flexGrow: 1
     },
     headerContent: {
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 25,
-        top: 40
+        paddingVertical: 12
     },
     headerText: {
+        flex: 1,
         fontFamily: 'RedHatText-Bold',
         textAlign: 'center',
-        fontSize: 18,
-        color: '#10152F',
-        paddingLeft: 90
+        fontSize: 16,
+        color: '#10152F'
     },
     rowTop: {
+        backgroundColor: '#565E8B',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 25,
-        paddingVertical: 12,
-        paddingBottom: 16
+        paddingVertical: 12
     },
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingLeft: 16
-    },
-    textIcon: {
+    iconText: {
         flexDirection: 'row',
         alignItems: 'center'
-    },
-    boxText: {
-        backgroundColor: '#565E8B',
-        top: 50
     },
     textMain: {
         fontFamily: 'RedHatText-Bold',
         fontSize: 16,
-        color: '#EEF0FF'
+        color: '#EEF0FF',
+        paddingLeft: 6
     },
     textRight: {
         fontFamily: 'RedHatText-Bold',
         fontSize: 16,
         color: '#EEF0FF'
     },
-    imageContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: 80,
-        width: '100%'
+    image: {
+        width: '100%',
+        top: 16
     },
-    textbox1: {
+    enterAmount: {
+        flexDirection: 'row',
+        alignItems: 'center',
         backgroundColor: '#DAE0FF',
         borderRadius: 12,
-        borderColor: '#10152F',
-        height: 60
+        paddingHorizontal: 16,
+        marginTop: 25
     },
-    scrollViewContainer: {
-        flexGrow: 1
+    enterAmountActive: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#DAE0FF',
+        borderRadius: 12,
+        paddingHorizontal: 16,
+        marginTop: 25,
+        borderWidth: 2,
+        borderColor: '#565E8B',
+        elevation: 2
+    },
+    itemLeft: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     input: {
+        flex: 1,
+        padding: 16,
         fontFamily: 'RedHatText-Regular',
         fontSize: 16,
-        color: '#10152F',
-        width: 250,
-        padding: 16
+        color: '#565E8B'
     },
-    textright1: {
-        fontFamily: 'RedHatText',
+    textInputRight: {
+        fontFamily: 'RedHatText-Regular',
         fontSize: 16,
-        color: '#10152F',
-        paddingRight: 16
+        color: '#262D57'
     },
-    textleft: {
+    mainContainer: {
+        paddingHorizontal: 25,
+        paddingTop: 54
+    },
+    description: {
         fontFamily: 'RedHatText-Regular',
         fontSize: 14,
         color: '#10152F',
-        paddingTop: 10,
+        paddingTop: 12,
         paddingBottom: 25
     },
-    buttonContainer: {
+    btnContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        buttom: 50
     },
-    button: {
-        padding: 18,
-        paddingLeft: 18,
-        paddingRight: 18,
-        borderRadius: 23,
-        paddingVertical: 6
+    btnAddMoney: {
+        paddingHorizontal: 18,
+        borderRadius: 30,
+        paddingVertical: 6,
+        borderWidth: 1,
+        borderColor: '#7F85B2'
     },
     buttonText: {
-        color: 'black',
-        textAlign: 'center'
-    },
-    textConfirm: {
-        textAlign: 'center',
-        fontFamily: 'RedHatText',
-        fontWeight: 'bold',
+        color: '#10152F',
+        fontFamily: 'RedHatText-Regular',
         fontSize: 16,
-        color: '#FEFA94',
-        top: 15,
-        letterSpacing: 0.64
     },
     btnConfirm: {
         backgroundColor: '#10152F',
-        borderRadius: 15,
-        elevation: 2,
-        marginTop: 80,
-        width: '100%',
-        height: 55
+        borderRadius: 16,
+        paddingVertical: 16,
+        marginTop: 54,
     },
-    color: {
-        borderWidth: 2,
-        borderColor: '#7F85B2'
-    }
+    textConfirm: {
+        textAlign: 'center',
+        fontFamily: 'RedHatText-Bold',
+        fontSize: 16,
+        color: '#FEFA94',
+    },
 });
