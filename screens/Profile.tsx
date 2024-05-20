@@ -324,7 +324,7 @@ const Profile = () => {
                 setFnWithdrawMoney(false);
             } else {
                 navigationBindAnAccount.navigate('BindAnAccount', { userId: profile._id });
-                setFnBindAccount(false);
+                setFnWithdrawMoney(false);
             }
         }
     };
