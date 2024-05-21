@@ -1,11 +1,26 @@
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Bank, CalendarPlus, CaretDown, CaretLeft, CaretRight, Clock, CoinVertical, IdentificationCard, MapPin, Phone, Scroll, User } from "phosphor-react-native";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput } from "react-native";
-import MyCalendarPicker from "../components/CalenderPicker";
-import React, { useEffect } from "react";
-import { getProfile } from "../services/user";
-import { HomeParamList } from "../stack/HomeStack";
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {
+    Bank,
+    CalendarPlus,
+    CaretDown,
+    CaretLeft,
+    CaretRight,
+    Clock,
+    CoinVertical,
+    IdentificationCard,
+    MapPin,
+    Phone,
+    Scroll,
+    User
+} from 'phosphor-react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import MyCalendarPicker from '../components/CalenderPicker';
+import React, { useEffect, useState } from 'react';
+import { getProfile } from '../services/user';
+import { HomeParamList } from '../stack/HomeStack';
+import moment from 'moment';
+import CalenderPickerEnd from '../components/CalenderPickerEnd';
 
 export interface IProfile {
     _id: string;
@@ -22,13 +37,49 @@ export interface IProfile {
     Exptime: string;
 }
 
-
 const Booking = () => {
     const navigation = useNavigation<NativeStackNavigationProp<HomeParamList>>();
     const { params } = useRoute<RouteProp<HomeParamList, 'Booking'>>();
+    const [dayOpenAll, setDayOpenAll] = useState('');
     const handleBook = async () => {
         console.log('book');
     };
+
+    useEffect(() => {
+        const dayOpen = [];
+        if (params.mo === true) {
+            dayOpen.push('Mo');
+        }
+        if (params.tu === true) {
+            dayOpen.push('Tu');
+        }
+        if (params.we === true) {
+            dayOpen.push('We');
+        }
+        if (params.th === true) {
+            dayOpen.push('Th');
+        }
+        if (params.fr === true) {
+            dayOpen.push('Fr');
+        }
+        if (params.sa === true) {
+            dayOpen.push('Sat');
+        }
+        if (params.su === true) {
+            dayOpen.push('Sun');
+        }
+        const result = dayOpen.join('-');
+        setDayOpenAll(result);
+    }, []);
+
+    const [show, setShow] = useState(false);
+    const [ticker, setTicker] = useState(false);
+    const [show2, setShow2] = useState(false);
+    const [ticker2, setTicker2] = useState(false);
+    const [startDate, setStartDate] = useState(Date);
+    const [startTime, setStartTime] = useState('Start date & time');
+    const [DateEnd, setDateEnd] = useState(Date);
+    const [TimeEnd, setTimeEnd] = useState('End date & time');
 
     const [profile, setProfile] = React.useState<IProfile>({
         _id: '',
@@ -52,10 +103,20 @@ const Booking = () => {
         setProfile(data);
     };
 
+    const handleOpen1 = () => {
+        setTicker(true);
+        setShow(!show);
+    };
+
+    const handleOpen2 = () => {
+        setTicker2(true);
+        setShow2(!show2);
+    };
+
     useEffect(() => {
         getUserProfile();
     }, []);
-    
+
     return (
         <View style={styles.container}>
             <View style={styles.headerContent}>
@@ -67,31 +128,31 @@ const Booking = () => {
                 </View>
             </View>
             <View style={styles.line}></View>
-        <ScrollView>
-            <View style={styles.content}>
-                <Text style={styles.headerText}>{params.Title}</Text>
-                <View style={styles.space}></View>
+            <ScrollView>
+                <View style={styles.content}>
+                    <Text style={styles.headerText}>{params.Title}</Text>
+                    <View style={styles.space}></View>
                     <View style={styles.boxText}>
                         <View style={styles.iconPosition}>
-                            <CoinVertical size={24} color="#262D57" weight="fill"/>
+                            <CoinVertical size={24} color="#262D57" weight="fill" />
                         </View>
                         <Text style={styles.bodytext}>{params.Price} Coins / hr</Text>
                     </View>
                     <View style={styles.boxText}>
                         <View style={styles.iconPosition}>
-                            <MapPin size={24} color="#262D57" weight="fill"/>
+                            <MapPin size={24} color="#262D57" weight="fill" />
                         </View>
                         <Text style={styles.bodytext}>{params.Location_address}</Text>
                     </View>
                     <View style={styles.boxText}>
                         <View style={styles.iconPosition}>
-                            <Clock size={24} color="#262D57" weight="fill"/>
+                            <Clock size={24} color="#262D57" weight="fill" />
                         </View>
-                        <Text style={styles.bodytext}>Mo-Sat | 07:00 - 22:00</Text>
+                        <Text style={styles.bodytext}>{dayOpenAll} | {params.TimeOpen} - {params.TimeClose}</Text>
                     </View>
                     <View style={styles.boxText}>
                         <View style={styles.iconPosition}>
-                            <User size={24} color="#262D57" weight="fill"/>
+                            <User size={24} color="#262D57" weight="fill" />
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.bodytext}>Provider by </Text>
@@ -100,32 +161,58 @@ const Booking = () => {
                     </View>
                     <View style={styles.boxText}>
                         <View style={styles.iconPosition}>
-                            <Phone size={24} color="#262D57" weight="fill"/>
+                            <Phone size={24} color="#262D57" weight="fill" />
                         </View>
                         <Text style={styles.headerText}>{params.PhoneCall}</Text>
                     </View>
-                    <View style={[styles.textbox1]}>
+                    <TouchableOpacity style={[styles.textbox1]} onPress={handleOpen1}>
                         <View style={styles.iconPosition}>
                             <View style={styles.row}>
                                 <CalendarPlus size={24} />
-                                    <Text
-                                        style={styles.inputBank}>
-                                        Start date & time
-                                    </Text>
+                                <Text style={styles.inputBank}>{startTime}</Text>
                                 <View>
                                     <CaretRight size={24} />
                                 </View>
                             </View>
                         </View>
-                    </View>
-                    <View style={styles.textbox1}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.textbox1} onPress={handleOpen2}>
                         <View style={styles.iconPosition}>
                             <View style={styles.row}>
                                 <CalendarPlus size={24} weight="fill" />
-                                    <Text
-                                        style={styles.inputBank}>
-                                        End date & time
-                                    </Text>
+                                <Text style={styles.inputBank}>{TimeEnd}</Text>
+                                <View>
+                                    <CaretRight size={24} />
+                                </View>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                    <View style={styles.space}></View>
+                    <View style={styles.row}>
+                        <View style={[styles.textboxName]}>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Name"
+                                keyboardType="email-address"
+                            />
+                        </View>
+                        <View style={[styles.textboxLastname]}>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Last name"
+                                keyboardType="email-address"
+                            />
+                        </View>
+                    </View>
+                    <View style={[styles.textbox1]}>
+                        <View style={styles.iconPosition}>
+                            <View style={styles.row}>
+                                <Phone size={24} />
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="phone number"
+                                    keyboardType="email-address"
+                                />
                                 <View>
                                     <CaretRight size={24} />
                                 </View>
@@ -135,59 +222,27 @@ const Booking = () => {
                     <View style={styles.space}></View>
                     <View style={styles.row}>
                         <View style={[styles.textboxName]}>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Name"
-                                    keyboardType= "email-address"
-                                />
-                                </View>
-                            <View style={[styles.textboxLastname]}>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Last name"
-                                    keyboardType= "email-address"
-                                />
-                            </View>
-                        </View> 
-                        <View style={[styles.textbox1]}>
-                            <View style={styles.iconPosition}>
-                                <View style={styles.row}>
-                                    <Phone size={24} />
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="phone number"
-                                        keyboardType= "email-address"
-                                    />
-                                    <View>
-                                        <CaretRight size={24} />
-                                    </View>
-                                </View>
-                            </View>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Car model"
+                                keyboardType="email-address"
+                            />
                         </View>
-                    <View style={styles.space}></View>
-                    <View style={styles.row}>
-                        <View style={[styles.textboxName]}>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Car model"
-                                    keyboardType= "email-address"
-                                />
-                                </View>
-                            <View style={[styles.textboxLastname]}>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Car color"
-                                    keyboardType= "email-address"
-                                />
-                            </View>
-                        </View> 
+                        <View style={[styles.textboxLastname]}>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Car color"
+                                keyboardType="email-address"
+                            />
+                        </View>
+                    </View>
                     <View style={[styles.textbox1]}>
-                            <View style={styles.iconPosition}>
-                                <View style={styles.row}>
+                        <View style={styles.iconPosition}>
+                            <View style={styles.row}>
                                 <TextInput
                                     style={styles.input}
                                     placeholder="Car registration"
-                                    keyboardType= "email-address"
+                                    keyboardType="email-address"
                                 />
                             </View>
                         </View>
@@ -207,18 +262,35 @@ const Booking = () => {
                     <TouchableOpacity style={styles.btnBook} onPress={handleBook}>
                         <Text style={styles.textBook}>Book</Text>
                     </TouchableOpacity>
-                </View> 
+                </View>
             </View>
-            <MyCalendarPicker></MyCalendarPicker>
+            <MyCalendarPicker
+                setVisible={show}
+                ticker={ticker}
+                selectDate={value => {
+                    setStartDate(value);
+                }}
+                selectTime={value => {
+                    setStartTime(value);
+                }}></MyCalendarPicker>
+            <CalenderPickerEnd
+                setVisible={show2}
+                ticker={ticker2}
+                selectDateEnd={value => {
+                    setDateEnd(value);
+                }}
+                selectTimeEnd={value => {
+                    setTimeEnd(value);
+                }}></CalenderPickerEnd>
         </View>
     );
-}
+};
 export default Booking;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#EEF0FF',
+        backgroundColor: '#EEF0FF'
     },
     headerContent: {
         flexDirection: 'row',
@@ -228,16 +300,16 @@ const styles = StyleSheet.create({
     },
     center: {
         flex: 1,
-        alignItems: 'center',
+        alignItems: 'center'
     },
     headerText: {
         fontSize: 16,
         color: '#262D57',
         fontFamily: 'RedHatText',
-        fontWeight: 'bold',
+        fontWeight: 'bold'
     },
     space: {
-        paddingVertical: 5,
+        paddingVertical: 5
     },
     line: {
         borderBottomColor: '#CED2EA',
@@ -247,47 +319,46 @@ const styles = StyleSheet.create({
     },
     content: {
         paddingVertical: 25,
-        paddingHorizontal: 25,
+        paddingHorizontal: 25
     },
     boxText: {
         flexDirection: 'row',
         paddingVertical: 10,
-        alignItems: 'center',
+        alignItems: 'center'
     },
     bodytext: {
         fontFamily: 'RedHatText',
         fontSize: 16,
-        color: '#262D57',
+        color: '#262D57'
     },
     iconPosition: {
-        marginRight: 10,
+        marginRight: 10
     },
     row: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'space-between'
     },
     textboxName: {
         backgroundColor: '#DAE0FF',
         borderRadius: 12,
         borderColor: '#10152F',
         width: '48%',
-        padding: 10,
+        padding: 10
     },
     textboxLastname: {
         backgroundColor: '#DAE0FF',
         borderRadius: 12,
         borderColor: '#10152F',
         width: '48%',
-        padding: 10,
+        padding: 10
     },
     input: {
         fontFamily: 'RedHatText',
         fontSize: 16,
         color: '#262D57',
         flex: 1,
-        paddingVertical: 5,
-
+        paddingVertical: 5
     },
     textbox1: {
         backgroundColor: '#DAE0FF',
@@ -308,13 +379,13 @@ const styles = StyleSheet.create({
     footer: {
         backgroundColor: '#10152F',
         paddingVertical: 25,
-        paddingHorizontal: 25,
-    },  
+        paddingHorizontal: 25
+    },
     footerText: {
         fontFamily: 'RedHatText-Bold',
         fontSize: 16,
         color: '#EEF0FF',
-        paddingBottom: 5,
+        paddingBottom: 5
     },
     btnBook: {
         backgroundColor: '#FEFA94',
@@ -322,14 +393,13 @@ const styles = StyleSheet.create({
         elevation: 2,
         marginTop: 20,
         width: '100%',
-        height: 55,
+        height: 55
     },
     textBook: {
         textAlign: 'center',
         fontFamily: 'RedHatText-Bold',
         fontSize: 16,
         color: '#10152F',
-        lineHeight: 55,
+        lineHeight: 55
     }
-
 });
