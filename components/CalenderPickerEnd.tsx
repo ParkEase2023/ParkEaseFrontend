@@ -11,6 +11,7 @@ import {
 import { Calendar } from 'react-native-calendars';
 import SelectDropdown from 'react-native-select-dropdown'
 import moment from 'moment';
+import momentTz from 'moment-timezone';
 
 interface IPopup {
     setVisible: boolean;
@@ -46,7 +47,8 @@ const CalenderPickerEnd = (props: IPopup) => {
         const year = currentDate.getFullYear();
         const combinedDateTimeStr = `${day}-${month}-${year} ${selectedTime}`;
         const date = moment(combinedDateTimeStr, 'DD-MM-YYYY HH:mm');
-        props.selectDateEnd(date);
+        const dateFoment = moment(date).format()
+        props.selectDateEnd(dateFoment);
         props.selectTimeEnd(combinedDateTimeStr);
         closeModal();
     };

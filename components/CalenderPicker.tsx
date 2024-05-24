@@ -4,6 +4,8 @@ import { Text, View, Modal, Button, StyleSheet, TouchableOpacity } from 'react-n
 import { Calendar } from 'react-native-calendars';
 import SelectDropdown from 'react-native-select-dropdown';
 import moment from 'moment';
+import momentTz from 'moment-timezone';
+import { parse, format } from 'date-fns';
 
 interface IPopup {
     setVisible: boolean;
@@ -53,8 +55,9 @@ const MyCalendarPicker = (props: IPopup) => {
         const year = currentDate.getFullYear();
         const combinedDateTimeStr = `${day}-${month}-${year} ${selectedTime}`;
         const date = moment(combinedDateTimeStr, 'DD-MM-YYYY HH:mm');
-        console.log(date);
-        props.selectDate(date);
+        const dateFoment = moment(date).format()
+        // console.log("aom",dateFoment);
+        props.selectDate(dateFoment);
         props.selectTime(combinedDateTimeStr);
         closeModal();
     };

@@ -1,25 +1,41 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
+import Moment from 'react-moment';
 
-const ContentNotificationIncoming = () => {
+interface INotification {
+    coins: number;
+    date: string;
+    to: string;
+    Parking_name: string;
+}
+
+const ContentNotificationIncoming = (props: INotification) => {
     return (
         <TouchableOpacity style={styles.NotificationContainer}>
             <View style={styles.row}>
                 <Text style={styles.title}>Incoming coins list</Text>
-                <Text style={styles.price}>- 610 Coins</Text>
+                <Text style={styles.price}>+ {props.coins} Coins</Text>
             </View>
 
             <View style={styles.row}>
                 <View style={styles.rowName}>
                     <Text style={styles.conjunction}>From</Text>
-                    <Text style={styles.name}>Wilson Levin</Text>
+                    <Text style={styles.name}>{props.to}</Text>
                 </View>
-                <Text style={styles.date}>21 Dec 2023 | 08:30</Text>
+                <Text style={styles.date}>
+                    <Moment format="DD/MM/YYYY" element={Text}>
+                        {props.date}
+                    </Moment>{' '}
+                    |{' '}
+                    <Moment format="HH:mm" element={Text}>
+                        {props.date}
+                    </Moment>
+                </Text>
             </View>
 
             <View style={styles.lastRow}>
                 <Text style={styles.description}>Made a reservation at</Text>
-                <Text style={styles.location}>“ที่จอดบ้านฉันเอง”</Text>
+                <Text style={styles.location}>“{props.Parking_name}”</Text>
             </View>
         </TouchableOpacity>
     );

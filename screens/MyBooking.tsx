@@ -7,25 +7,84 @@ import {
     ImageBackground,
     Image
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CaretLeft, MapPin } from 'phosphor-react-native';
 import TicketParkEase from '../assets/TicketParkEase.png';
 import LinearGradient from 'react-native-linear-gradient';
 import LogoParkEase2 from '../assets/LogoParkEase2.png';
+import { getProfile } from '../services/user';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackList } from '../stack/RootStack';
+import { getBooking } from '../services/booking';
+import Moment from 'react-moment';
+import moment from 'moment';
+import { MenuParamList } from '../stack/MenuStack';
+
+export interface IProfile {
+    _id: string;
+}
+
+interface ImyBooking {
+    userId: string;
+    parking_name: string;
+    dateStart: any;
+    dateEnd: any;
+    totalPrice: number;
+    ReservedBy: string;
+    phoneNumber: string;
+    carModel: string;
+    carColor: string;
+    carRegistration: string;
+}
 
 const MyBooking = () => {
-    return (
-        <View style={styles.bg}>
-            <View style={styles.rowTopic}>
-                <TouchableOpacity>
-                    <CaretLeft size={28} weight="bold" color="#10152F" />
-                </TouchableOpacity>
-                <Text style={styles.topic}>My Booking</Text>
-            </View>
-            {/* <View style={styles.flexHeader} /> */}
-            <View style={styles.circleBig} />
-            {/* <View style={styles.flexMain}> */}
-                <ScrollView style={styles.container}>
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
+    const navigation2 = useNavigation<NativeStackNavigationProp<MenuParamList>>();
+    const [myBooking, setMyBooking] = useState<ImyBooking>({
+        userId: '',
+        parking_name: '',
+        dateStart: '',
+        dateEnd: '',
+        totalPrice: 0,
+        ReservedBy: '',
+        phoneNumber: '',
+        carModel: '',
+        carColor: '',
+        carRegistration: ''
+    });
+    const [checkData, setCheckData] = useState('');
+    const [profile, setProfile] = React.useState<IProfile>({
+        _id: ''
+    });
+    const [hours, setHours] = useState(0)
+    const [timeout, setTimeout] = useState(0)
+    const currentTime = new Date();
+    const getDataBooking = async () => {
+        const { data } = await getProfile();
+        const list: any = await getBooking(data._id);
+        await setMyBooking(list.myBooking[0]);
+        await setCheckData(list.message);
+        const date1 = moment(list.myBooking[0].dateStart);
+        const date2 = moment( list.myBooking[0].dateEnd);
+        const date3 = moment(currentTime);
+        const diffInHours = date2.diff(date1, 'hours');
+        const diffInHours2 = date2.diff(date3, 'minute');
+        setTimeout(diffInHours2)
+        setHours(diffInHours)
+    };
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', async () => {
+            getDataBooking();
+        });
+        return unsubscribe;
+    }, [navigation]);
+
+    const RenderMyBooking = (): JSX.Element | null => {
+        if (checkData === 'success' && timeout > 0) {
+            return (
+                <>
                     <View style={styles.ticketContainer}>
                         <ImageBackground
                             source={TicketParkEase}
@@ -40,17 +99,33 @@ const MyBooking = () => {
                             <View style={styles.rowPlace}>
                                 <MapPin size={20} weight="fill" color="#FEFA94" />
                                 <Text style={styles.place} numberOfLines={1}>
-                                    อาคารจอดรถ 5 ชั้น
+                                    {myBooking.parking_name}
                                 </Text>
                             </View>
                             <View style={styles.rowDate}>
-                                <Text style={styles.date}>22 Dec</Text>
-                                <Text style={styles.date}>24 Dec</Text>
+                                <Text style={styles.date}>
+                                    <Moment format="DD MMM" element={Text}>
+                                        {myBooking.dateStart}
+                                    </Moment>
+                                </Text>
+                                <Text style={styles.date}>
+                                    <Moment format="DD MMM" element={Text}>
+                                        {myBooking.dateEnd}
+                                    </Moment>
+                                </Text>
                             </View>
                             <View style={styles.rowTime}>
-                                <Text style={styles.time}>09:00</Text>
-                                <Text style={styles.totalHr}>61 h</Text>
-                                <Text style={styles.time}>22:00</Text>
+                                <Text style={styles.time}>
+                                    <Moment format="HH:mm" element={Text}>
+                                        {myBooking.dateStart}
+                                    </Moment>
+                                </Text>
+                                <Text style={styles.totalHr}>{hours} h</Text>
+                                <Text style={styles.time}>
+                                    <Moment format="HH:mm" element={Text}>
+                                        {myBooking.dateEnd}
+                                    </Moment>
+                                </Text>
                             </View>
                             <View
                                 style={[
@@ -85,12 +160,12 @@ const MyBooking = () => {
                                 <View style={styles.flexReserved}>
                                     <Text style={styles.lable}>Reserved by</Text>
                                     <Text style={styles.Input} numberOfLines={1}>
-                                        Kierra Aminoff
+                                        {myBooking.ReservedBy}
                                     </Text>
                                 </View>
                                 <View style={styles.flexPhoneNumber}>
                                     <Text style={styles.lable}>Phone Number</Text>
-                                    <Text style={styles.Input}>089-555-0120</Text>
+                                    <Text style={styles.Input}>{myBooking.phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3")}</Text>
                                 </View>
                             </View>
 
@@ -98,13 +173,13 @@ const MyBooking = () => {
                                 <View style={styles.flexCarModel}>
                                     <Text style={styles.lable}>Car Model</Text>
                                     <Text style={styles.Input} numberOfLines={1}>
-                                        Toyota
+                                        {myBooking.carModel}
                                     </Text>
                                 </View>
                                 <View style={styles.flexCarColor}>
                                     <Text style={styles.lable}>Car Color</Text>
                                     <Text style={styles.Input} numberOfLines={1}>
-                                        สีเทา
+                                        {myBooking.carColor}
                                     </Text>
                                 </View>
                             </View>
@@ -113,19 +188,35 @@ const MyBooking = () => {
                                 <View style={styles.flexCarRegistration}>
                                     <Text style={styles.lable}>Car Registration</Text>
                                     <Text style={styles.Input} numberOfLines={1}>
-                                        คซ 123
+                                        {myBooking.carRegistration}
                                     </Text>
                                 </View>
                                 <View style={styles.flexTotalPrice}>
                                     <Text style={styles.lable}>Total Price</Text>
-                                    <Text style={styles.Input}>610 Coins</Text>
+                                    <Text style={styles.Input}>{myBooking.totalPrice} Coins</Text>
                                 </View>
                             </View>
                         </View>
                     </View>
-                </ScrollView>
-            {/* </View> */}
-            {/* <View style={styles.flexFooter} /> */}
+                </>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    return (
+        <View style={styles.bg}>
+            <View style={styles.rowTopic}>
+                <TouchableOpacity onPress={()=>navigation2.navigate("HomeStack",{state:undefined})}>
+                    <CaretLeft size={28} weight="bold" color="#10152F" />
+                </TouchableOpacity>
+                <Text style={styles.topic}>My Booking</Text>
+            </View>
+            <View style={styles.circleBig} />
+            <ScrollView style={styles.container}>
+                <RenderMyBooking></RenderMyBooking>             
+            </ScrollView>
             <View style={styles.circleSmall} />
         </View>
     );
@@ -179,7 +270,7 @@ const styles = StyleSheet.create({
         width: 332,
         borderRadius: 30,
         alignSelf: 'center',
-        backgroundColor: '#10152F',
+        backgroundColor: '#10152F'
     },
     ticketBGImage: {
         alignSelf: 'center',
@@ -284,7 +375,7 @@ const styles = StyleSheet.create({
         color: '#7F85B2'
     },
     Input: {
-        fontSize: 16,
+        fontSize: 15,
         fontFamily: 'RedHatText-Bold',
         color: '#CED2EA'
     },

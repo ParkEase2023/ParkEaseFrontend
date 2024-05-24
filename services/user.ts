@@ -8,8 +8,18 @@ interface IupdateUser {
   profile_picture: string;
 }
 
+interface IfindUser {
+  id: string;
+}
+
 export const getProfile = async () => {
     return await http.get('/user/getprofile');
+};
+
+export const getProfileById = async (body: IfindUser) => {
+  const res = await http.post('/user/getProfileById/', body);
+  console.log('res getProfileById ', res);
+  return res;
 };
 
 export const updateProfile = async (uid: string, body: IupdateUser) => {

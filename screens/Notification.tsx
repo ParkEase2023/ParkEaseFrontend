@@ -55,6 +55,26 @@ const Notification = () => {
                                     to={item.From}
                                 />
                             );
+                        } else if (item.Booking === true && item.Topic === 'Outgoing coins list') {
+                            return (
+                                <ContentNotificationOutgoing
+                                    key={index}
+                                    coins={item.Coins}
+                                    date={item.updatedAt}
+                                    to={item.From}
+                                    Parking_name={item.Parking_name}
+                                />
+                            );
+                        } else if (item.Booking === true && item.Topic === 'Incoming coins list'){
+                            return (
+                                <ContentNotificationIncoming
+                                key={index}
+                                coins={item.Coins}
+                                date={item.updatedAt}
+                                to={item.From}
+                                Parking_name={item.Parking_name}
+                            />
+                            )
                         }
                     })}
                 </>
