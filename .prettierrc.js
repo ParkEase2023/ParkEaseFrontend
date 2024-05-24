@@ -3,5 +3,12 @@ module.exports = {
   bracketSameLine: true,
   bracketSpacing: false,
   singleQuote: true,
-  trailingComma: 'all',
+  printWidth: 100,
+  proseWrap: 'always',
+  tabWidth: 4,
+  useTabs: false,
+  trailingComma: 'none',
+  bracketSpacing: true,
+  jsxSingleQuote: false,
+  semi: true
 };

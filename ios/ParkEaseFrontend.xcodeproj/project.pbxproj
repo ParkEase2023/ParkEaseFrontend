@@ -14,6 +14,16 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-ParkEaseFrontend-ParkEaseFrontendTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-ParkEaseFrontend-ParkEaseFrontendTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		1FD968C04F9E41BF975DEB6C /* RedHatText-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13F8C7DD28D84B80B927F955 /* RedHatText-Bold.ttf */; };
+		802C120EE691456D8D24CE67 /* RedHatText-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D801FCA4B3BB4A6FBF969CFE /* RedHatText-BoldItalic.ttf */; };
+		C7BC72D305E342638FE8EFF6 /* RedHatText-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22434D3847D34B26A185D162 /* RedHatText-Italic.ttf */; };
+		100736C0BD07471D9F4D26D3 /* RedHatText-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8465C29184A94A9AA92B98CA /* RedHatText-Light.ttf */; };
+		8D7B1DF44C75452B92564AAF /* RedHatText-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 50C288A8FEF84E088292E15A /* RedHatText-LightItalic.ttf */; };
+		9BF2A06A588642C28ACEBBB9 /* RedHatText-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4FE04C53DBD4699B41BBE03 /* RedHatText-Medium.ttf */; };
+		942E0FE8700E43538E474C0F /* RedHatText-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46616B3032B948F3A02E9C4D /* RedHatText-MediumItalic.ttf */; };
+		9F69BF59620E42E6824069EE /* RedHatText-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A9E1BC8976746D1A8000102 /* RedHatText-Regular.ttf */; };
+		19D7D55B7E024004BB3AB2F3 /* RedHatText-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A27070462A9447F887D1BFCE /* RedHatText-SemiBold.ttf */; };
+		E07012D041944002A640349F /* RedHatText-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9B9C25A09654706B4E75D82 /* RedHatText-SemiBoldItalic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +54,16 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ParkEaseFrontend/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-ParkEaseFrontend-ParkEaseFrontendTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParkEaseFrontend-ParkEaseFrontendTests.release.xcconfig"; path = "Target Support Files/Pods-ParkEaseFrontend-ParkEaseFrontendTests/Pods-ParkEaseFrontend-ParkEaseFrontendTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		13F8C7DD28D84B80B927F955 /* RedHatText-Bold.ttf */ = {isa = PBXFileReference; name = "RedHatText-Bold.ttf"; path = "../assets/fonts/RedHatText-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D801FCA4B3BB4A6FBF969CFE /* RedHatText-BoldItalic.ttf */ = {isa = PBXFileReference; name = "RedHatText-BoldItalic.ttf"; path = "../assets/fonts/RedHatText-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		22434D3847D34B26A185D162 /* RedHatText-Italic.ttf */ = {isa = PBXFileReference; name = "RedHatText-Italic.ttf"; path = "../assets/fonts/RedHatText-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8465C29184A94A9AA92B98CA /* RedHatText-Light.ttf */ = {isa = PBXFileReference; name = "RedHatText-Light.ttf"; path = "../assets/fonts/RedHatText-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		50C288A8FEF84E088292E15A /* RedHatText-LightItalic.ttf */ = {isa = PBXFileReference; name = "RedHatText-LightItalic.ttf"; path = "../assets/fonts/RedHatText-LightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E4FE04C53DBD4699B41BBE03 /* RedHatText-Medium.ttf */ = {isa = PBXFileReference; name = "RedHatText-Medium.ttf"; path = "../assets/fonts/RedHatText-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		46616B3032B948F3A02E9C4D /* RedHatText-MediumItalic.ttf */ = {isa = PBXFileReference; name = "RedHatText-MediumItalic.ttf"; path = "../assets/fonts/RedHatText-MediumItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0A9E1BC8976746D1A8000102 /* RedHatText-Regular.ttf */ = {isa = PBXFileReference; name = "RedHatText-Regular.ttf"; path = "../assets/fonts/RedHatText-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A27070462A9447F887D1BFCE /* RedHatText-SemiBold.ttf */ = {isa = PBXFileReference; name = "RedHatText-SemiBold.ttf"; path = "../assets/fonts/RedHatText-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A9B9C25A09654706B4E75D82 /* RedHatText-SemiBoldItalic.ttf */ = {isa = PBXFileReference; name = "RedHatText-SemiBoldItalic.ttf"; path = "../assets/fonts/RedHatText-SemiBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +142,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				E64163DF8EA84489A040A39F /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -147,6 +168,24 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		E64163DF8EA84489A040A39F /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				13F8C7DD28D84B80B927F955 /* RedHatText-Bold.ttf */,
+				D801FCA4B3BB4A6FBF969CFE /* RedHatText-BoldItalic.ttf */,
+				22434D3847D34B26A185D162 /* RedHatText-Italic.ttf */,
+				8465C29184A94A9AA92B98CA /* RedHatText-Light.ttf */,
+				50C288A8FEF84E088292E15A /* RedHatText-LightItalic.ttf */,
+				E4FE04C53DBD4699B41BBE03 /* RedHatText-Medium.ttf */,
+				46616B3032B948F3A02E9C4D /* RedHatText-MediumItalic.ttf */,
+				0A9E1BC8976746D1A8000102 /* RedHatText-Regular.ttf */,
+				A27070462A9447F887D1BFCE /* RedHatText-SemiBold.ttf */,
+				A9B9C25A09654706B4E75D82 /* RedHatText-SemiBoldItalic.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -244,6 +283,16 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				1FD968C04F9E41BF975DEB6C /* RedHatText-Bold.ttf in Resources */,
+				802C120EE691456D8D24CE67 /* RedHatText-BoldItalic.ttf in Resources */,
+				C7BC72D305E342638FE8EFF6 /* RedHatText-Italic.ttf in Resources */,
+				100736C0BD07471D9F4D26D3 /* RedHatText-Light.ttf in Resources */,
+				8D7B1DF44C75452B92564AAF /* RedHatText-LightItalic.ttf in Resources */,
+				9BF2A06A588642C28ACEBBB9 /* RedHatText-Medium.ttf in Resources */,
+				942E0FE8700E43538E474C0F /* RedHatText-MediumItalic.ttf in Resources */,
+				9F69BF59620E42E6824069EE /* RedHatText-Regular.ttf in Resources */,
+				19D7D55B7E024004BB3AB2F3 /* RedHatText-SemiBold.ttf in Resources */,
+				E07012D041944002A640349F /* RedHatText-SemiBoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
