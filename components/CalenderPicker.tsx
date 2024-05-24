@@ -1,46 +1,64 @@
 import { CalendarPlus, CaretDown } from 'phosphor-react-native';
-import React, { useState } from 'react';
-import {
-    Text,
-    View,
-    Modal,
-    Button,
-    StyleSheet,
-    TouchableOpacity,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, View, Modal, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-import SelectDropdown from 'react-native-select-dropdown'
+import SelectDropdown from 'react-native-select-dropdown';
+import moment from 'moment';
+import momentTz from 'moment-timezone';
+import { parse, format } from 'date-fns';
 
-const MyCalendarPicker = () => {
+interface IPopup {
+    setVisible: boolean;
+    ticker: boolean;
+    selectDate: (value: any) => void;
+    selectTime: (value: string) => void;
+}
+
+const MyCalendarPicker = (props: IPopup) => {
     const [selectedDate, setSelectedDate] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
     const currentDate = new Date().toISOString().split('T')[0];
     const [selectedTime, setSelectedTime] = useState('00 : 00');
     const [isTimePickerVisible, setTimePickerVisible] = useState(false);
 
+    useEffect(() => {
+        if (props.ticker === true) {
+            setModalVisible(true);
+        }
+    }, [props.setVisible]);
 
-    const openModal = () => {
-        setModalVisible(true);
-    };
+    // const openModal = () => {
+    //     setModalVisible(true);
+    // };
 
     const closeModal = () => {
         setModalVisible(false);
     };
 
-    const openTimePicker = () => {
-        setTimePickerVisible(false);
-    };
+    // const openTimePicker = () => {
+    //     setTimePickerVisible(false);
+    // };
 
-    const closeTimePicker = () => {
-        setTimePickerVisible(false);
-    };
+    // const closeTimePicker = () => {
+    //     setTimePickerVisible(false);
+    // };
 
-    const handleSetTime = (time: string) => {
-        setSelectedTime(time);
-        closeTimePicker();
-    };
+    // const handleSetTime = (time: string) => {
+    //     setSelectedTime(time);
+    //     closeTimePicker();
+    // };
 
     const handleSave = () => {
+        const currentDate = new Date();
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const year = currentDate.getFullYear();
+        const combinedDateTimeStr = `${day}-${month}-${year} ${selectedTime}`;
+        const date = moment(combinedDateTimeStr, 'DD-MM-YYYY HH:mm');
+        const dateFoment = moment(date).format()
+        // console.log("aom",dateFoment);
+        props.selectDate(dateFoment);
+        props.selectTime(combinedDateTimeStr);
         closeModal();
     };
 
@@ -68,17 +86,16 @@ const MyCalendarPicker = () => {
         '20 : 00',
         '21 : 00',
         '22 : 00',
-        '23 : 00',
+        '23 : 00'
     ];
-
 
     return (
         <View style={{ flex: 1 }}>
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={false}
-                onRequestClose={closeModal}
+                visible={modalVisible}
+                // onRequestClose={closeModal}
             >
                 <View style={styles.container}>
                     <View style={styles.modalView}>
@@ -91,8 +108,9 @@ const MyCalendarPicker = () => {
                                 style={styles.calendar}
                                 minDate={currentDate}
                                 maxDate={currentDate}
-                                onDayPress={(day) => setSelectedDate(day.dateString)}
-                                markedDates={{ [selectedDate]: { selected: true, selectedColor: 'blue' } }}
+                                markedDates={{
+                                    [currentDate]: { selected: true, selectedColor: 'blue' }
+                                }}
                             />
                         </View>
                         <View style={styles.timePosition}>
@@ -105,13 +123,13 @@ const MyCalendarPicker = () => {
                                     buttonStyle={styles.timePickerBoxContainer}
                                     defaultButtonText={selectedTime}
                                     onSelect={(selectedItem, index) => {
-                                        console.log(selectedItem, index)
+                                        setSelectedTime(selectedItem);
                                     }}
                                     buttonTextAfterSelection={(selectedItem, index) => {
-                                        return selectedItem
+                                        return selectedItem;
                                     }}
                                     rowTextForSelection={(item, index) => {
-                                        return item
+                                        return item;
                                     }}
                                 />
                             </View>
@@ -136,11 +154,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'rgba(0,0,0,0.5)',
         paddingHorizontal: 25,
-        paddingVertical: 25,
+        paddingVertical: 25
     },
     modalView: {
         borderRadius: 20,
-        backgroundColor: 'white',
+        backgroundColor: 'white'
     },
     headerBox: {
         backgroundColor: '#10152F',
@@ -149,33 +167,33 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 20,
         paddingLeft: 70,
         paddingRight: 70,
-        width: '100%',
+        width: '100%'
     },
     headerText: {
         fontSize: 16,
         color: 'white',
-        padding: 10,
+        padding: 10
     },
     calendar: {
         width: '100%',
-        fontFamily: 'RedHatText',
+        fontFamily: 'RedHatText'
     },
     timePosition: {
         flexDirection: 'row',
         paddingHorizontal: 25,
-        paddingVertical: 15,
+        paddingVertical: 15
     },
     timeTextPosiotion: {
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     timeText: {
         fontFamily: 'RedHatText-Bold',
         fontSize: 20,
-        color: '#10152F',
+        color: '#10152F'
     },
     timePickerPosition: {
         flex: 1,
-        alignItems: 'flex-end',
+        alignItems: 'flex-end'
     },
     timePickerBoxContainer: {
         backgroundColor: 'white',
@@ -183,20 +201,20 @@ const styles = StyleSheet.create({
         borderColor: '#7F85B2',
         borderWidth: 1,
         padding: 5,
-        width: '40%',
+        width: '40%'
     },
     timePicker: {
         fontFamily: 'RedHatText',
         fontSize: 16,
-        color: '#10152F',
+        color: '#10152F'
     },
     row: {
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     buttonContainer: {
         flexDirection: 'row',
-        padding: 20,
+        padding: 20
     },
     button: {
         backgroundColor: '#10152F',
@@ -205,12 +223,12 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 10,
         marginHorizontal: 10,
-        width: '100%',
+        width: '100%'
     },
     buttonText: {
         textAlign: 'center',
         fontFamily: 'RedHatText-Bold',
         fontSize: 24,
-        color: '#95EDFF',
-    },
+        color: '#95EDFF'
+    }
 });

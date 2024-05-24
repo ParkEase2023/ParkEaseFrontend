@@ -37,7 +37,7 @@ const Comment = (props: IComment) => {
                     </View>
                 </View>
                 
-                <BtnReportReview />
+                {/* <BtnReportReview /> */}
                 {/* <DotsThreeVertical size={24} weight="bold" color="#565E8B" /> */}
             </View>
             <Text style={styles.textComment}>{props.comment}</Text>

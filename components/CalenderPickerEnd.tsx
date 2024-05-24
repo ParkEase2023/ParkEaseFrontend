@@ -1,5 +1,5 @@
 import { CalendarPlus, CaretDown } from 'phosphor-react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Text,
     View,
@@ -10,37 +10,46 @@ import {
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import SelectDropdown from 'react-native-select-dropdown'
+import moment from 'moment';
+import momentTz from 'moment-timezone';
 
-const CalenderPickerEnd = () => {
+interface IPopup {
+    setVisible: boolean;
+    ticker: boolean;
+    selectDateEnd: (value: any) => void;
+    selectTimeEnd: (value: string) => void;
+}
+
+const CalenderPickerEnd = (props: IPopup) => {
     const [selectedDate, setSelectedDate] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
     const currentDate = new Date().toISOString().split('T')[0];
     const [selectedTime, setSelectedTime] = useState('00 : 00');
     const [isTimePickerVisible, setTimePickerVisible] = useState(false);
 
+    useEffect(() => {
+        if (props.ticker === true) {
+            setModalVisible(true);
+        }
+    }, [props.setVisible]);
 
-    const openModal = () => {
-        setModalVisible(true);
-    };
+
 
     const closeModal = () => {
         setModalVisible(false);
     };
 
-    const openTimePicker = () => {
-        setTimePickerVisible(false);
-    };
-
-    const closeTimePicker = () => {
-        setTimePickerVisible(false);
-    };
-
-    const handleSetTime = (time: string) => {
-        setSelectedTime(time);
-        closeTimePicker();
-    };
 
     const handleSave = () => {
+        const currentDate = new Date();
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); 
+        const year = currentDate.getFullYear();
+        const combinedDateTimeStr = `${day}-${month}-${year} ${selectedTime}`;
+        const date = moment(combinedDateTimeStr, 'DD-MM-YYYY HH:mm');
+        const dateFoment = moment(date).format()
+        props.selectDateEnd(dateFoment);
+        props.selectTimeEnd(combinedDateTimeStr);
         closeModal();
     };
 
@@ -68,17 +77,16 @@ const CalenderPickerEnd = () => {
         '20 : 00',
         '21 : 00',
         '22 : 00',
-        '23 : 00',
+        '23 : 00'
     ];
-
 
     return (
         <View style={{ flex: 1 }}>
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={false}
-                onRequestClose={closeModal}
+                visible={modalVisible}
+                // onRequestClose={closeModal}
             >
                 <View style={styles.container}>
                     <View style={styles.modalView}>
@@ -91,8 +99,9 @@ const CalenderPickerEnd = () => {
                                 style={styles.calendar}
                                 minDate={currentDate}
                                 maxDate={currentDate}
-                                onDayPress={(day) => setSelectedDate(day.dateString)}
-                                markedDates={{ [selectedDate]: { selected: true, selectedColor: 'blue' } }}
+                                markedDates={{
+                                    [currentDate]: { selected: true, selectedColor: 'blue' }
+                                }}
                             />
                         </View>
                         <View style={styles.timePosition}>
@@ -105,13 +114,13 @@ const CalenderPickerEnd = () => {
                                     buttonStyle={styles.timePickerBoxContainer}
                                     defaultButtonText={selectedTime}
                                     onSelect={(selectedItem, index) => {
-                                        console.log(selectedItem, index)
+                                        setSelectedTime(selectedItem);
                                     }}
                                     buttonTextAfterSelection={(selectedItem, index) => {
-                                        return selectedItem
+                                        return selectedItem;
                                     }}
                                     rowTextForSelection={(item, index) => {
-                                        return item
+                                        return item;
                                     }}
                                 />
                             </View>
