@@ -22,6 +22,7 @@ import MyParking from '../screens/MyParking';
 import { NavigatorScreenParams } from '@react-navigation/native';
 import AddParkingStack, { AddParkingParamList } from './AddparkingStack';
 import EditParkingDetails from '../screens/EditParkingDetail';
+import BookingHistory from '../screens/BookingHistory';
 
 export type ProfileParamList = {
     Profile: undefined;
@@ -98,6 +99,7 @@ export type ProfileParamList = {
         Exptime: string;
         roles: any;
     };
+    BookingHistory:undefined;
     MyParking: { userId: string; navi: string };
     AddParkingStack: NavigatorScreenParams<AddParkingParamList>;
     EditParkingDetails: {
@@ -155,6 +157,7 @@ const ProfileStack = () => {
             <Stack.Screen name="MyParking" component={MyParking} />
             <Stack.Screen name="AddParkingStack" component={AddParkingStack} />
             <Stack.Screen name="EditParkingDetails" component={EditParkingDetails} />
+            <Stack.Screen name="BookingHistory" component={BookingHistory} />
         </Stack.Navigator>
     );
 };

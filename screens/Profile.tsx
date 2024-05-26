@@ -35,7 +35,7 @@ import { RootStackList } from '../stack/RootStack';
 import AuthContext from '../context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProfileParamList } from '../stack/ProfileStack';
-import PopupVerify from '../components/PopupVerify'
+import PopupVerify from '../components/PopupVerify';
 import TabRemainingBalance from '../components/TabRemainingBalance';
 import { getRecipienOnDB } from '../services/recipien';
 import PopupMember from '../components/PopupMember';
@@ -243,6 +243,28 @@ const Profile = () => {
         }
     };
 
+    const RenderIconMembership = (): JSX.Element | null => {
+        if (profile.roles.length === 2) {
+            if (profile.roles[1] === 'partner') {
+                return (
+                    <View style={styles.bgPartner}>
+                        <Image source={King} style={styles.imageKing} />
+                    </View>
+                );
+            } else if (profile.roles[1] === 'member') {
+                return (
+                    <View style={styles.bgMember}>
+                        <Image source={Nobility} style={styles.imageNobility} />
+                    </View>
+                );
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    };
+
     const RenderTabMembership = (): JSX.Element | null => {
         if (profile.roles.length === 2) {
             return (
@@ -357,13 +379,8 @@ const Profile = () => {
                                     source={{ uri: profile.profile_picture }}
                                     style={styles.imageProfile}
                                 />
-                                <View style={styles.bgMember}>
-                                    <Image source={Nobility} style={styles.imageNobility} />
-                                </View>
-                                <View style={styles.bgPartner}>
-                                    <Image source={King} style={styles.imageKing} />
-                                </View>
                                 
+                                <RenderIconMembership></RenderIconMembership>
 
                                 <View style={styles.dataProfile}>
                                     <Text style={styles.name}>
@@ -425,7 +442,7 @@ const Profile = () => {
                             <CaretRight size={22} weight="bold" color="#7F85B2" />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.btnRectangle}>
+                        <TouchableOpacity style={styles.btnRectangle} onPress={()=>navigationMyparking.navigate("BookingHistory")}>
                             <View style={styles.itemLeft}>
                                 <View style={styles.bgIcon}>
                                     <ClockCounterClockwise
@@ -558,7 +575,7 @@ const styles = StyleSheet.create({
     imageNobility: {
         width: 18,
         height: 16,
-        left: 1.75,
+        left: 1.75
     },
     bgPartner: {
         position: 'absolute',
@@ -570,7 +587,7 @@ const styles = StyleSheet.create({
     },
     imageKing: {
         width: 18,
-        height: 16,
+        height: 16
     },
 
     dataProfile: {
