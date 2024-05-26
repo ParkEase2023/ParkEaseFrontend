@@ -1,13 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import { X } from 'phosphor-react-native';
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modal';
 import { cancelMembership } from '../services/membership';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ProfileParamList } from '../stack/ProfileStack';
 interface ChangePlanProps {
-    email:string;
+    email: string;
     setVisible: boolean;
     ticker: boolean;
 }
@@ -22,9 +22,9 @@ const CancelMember = (props: ChangePlanProps) => {
     }, [props.setVisible]);
 
     const handleCancel = async () => {
-        const res:any = await cancelMembership(props.email)
-        if(res.message === "created"){
-            navigation.navigate("Profile")
+        const res: any = await cancelMembership(props.email);
+        if (res.message === 'created') {
+            navigation.navigate('Profile');
         }
     };
 
@@ -32,24 +32,19 @@ const CancelMember = (props: ChangePlanProps) => {
         <Modal isVisible={show} backdropOpacity={0.6} backdropColor="#000">
             <View style={styles.container}>
                 <View style={styles.modalTextContent}>
-                    <View style={styles.modalIcon}>
-                        <TouchableOpacity onPress={() => setShow(!show)}>
-                            <X size={15} weight='bold' color="#141414" />
-                        </TouchableOpacity>
-                    </View>
-                    <Text style={styles.headerText}>Confirm</Text>
-                    <Text style={styles.headerText}>Your Cancellation</Text>
-                    <View style={styles.textContainer}>
-                    <Text style={styles.text}>If you cancel your current</Text>
-                    <Text style={styles.text}>membership, your current</Text>
-                    <Text style={styles.text}>membership will be changed</Text>
-                    <Text style={styles.text}>immediately.</Text>
-                    </View>
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={handleCancel}>
-                            <Text style={styles.buttonText}>CONFIRM</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity style={styles.modalIcon} onPress={() => setShow(!show)}>
+                        <X size={24} weight="bold" color="#141414" />
+                    </TouchableOpacity>
+
+                    <Text style={styles.headerText}>Confirm {'\n'} Your Cancellation</Text>
+                    <Text style={styles.bodyText}>
+                        If you cancel your current {'\n'} membership, your current membership will
+                        be canceled immediately.
+                    </Text>
+
+                    <TouchableOpacity style={styles.btnConfirm} onPress={handleCancel}>
+                        <Text style={styles.textConfirm}>CONFIRM</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </Modal>
@@ -62,59 +57,40 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 25,
-        paddingVertical: 25
-    },
-    modalIcon: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
-        width: '100%'
-    },
-    modalContent: {
-        borderRadius: 10,
-        width: '80%',
-        alignItems: 'center',
-        paddingVertical: 20
+        alignItems: 'center'
     },
     modalTextContent: {
         backgroundColor: '#EEF0FF',
-        padding: 25,
-        borderRadius: 10,
-        width: '80%',
-        alignItems: 'center',
-        paddingVertical: 20
+        borderRadius: 16,
+        width: '75%',
+        paddingHorizontal: 16,
+        paddingBottom: 16,
+        paddingTop: 30
+    },
+    modalIcon: {
+        position: 'absolute',
+        top: 10,
+        right: 10
     },
     headerText: {
         fontFamily: 'RedHatText-Bold',
         textAlign: 'center',
         fontSize: 24,
-        fontWeight: 'bold',
-        color: '#10152F'
+        color: '#10152F',
+        marginBottom: 15
     },
-    textContainer: {
-        width: '100%',
-        padding: 10
-    },
-    text: {
-        fontFamily: 'RedHatText',
+    bodyText: {
+        fontFamily: 'RedHatText-Regular',
         textAlign: 'center',
-        fontSize: 14,
+        fontSize: 16,
         color: '#262D57',
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: '100%',
-        paddingHorizontal: 10
+        marginBottom: 25
     },
     button: {
         backgroundColor: '#10152F',
         width: '100%',
         paddingVertical: 10,
-        borderRadius: 10,
+        borderRadius: 10
     },
     buttonText: {
         textAlign: 'center',
@@ -123,12 +99,15 @@ const styles = StyleSheet.create({
         color: '#FEFA94'
     },
     btnConfirm: {
+        backgroundColor: '#10152F',
+        borderRadius: 12,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingVertical: 12
     },
     textConfirm: {
         fontFamily: 'RedHatText-Bold',
-        fontSize: 18,
-        color: '#565E8B'
+        fontSize: 16,
+        color: '#FEFA94'
     }
 });

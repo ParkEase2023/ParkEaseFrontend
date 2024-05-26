@@ -107,7 +107,7 @@ const BillingInfo = () => {
                     onPress={() => {
                         setShowpopupChange(!showpopupChange), setTickerpopupChange(true);
                     }}>
-                    <Text style={styles.textChance}>CHANCE PLAN</Text>
+                    <Text style={styles.textChange}>CHANGE PLAN</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    textChance: {
+    textChange: {
         fontFamily: 'RedHatText-Bold',
         fontSize: 16,
         color: '#FEFA94'

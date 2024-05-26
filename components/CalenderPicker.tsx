@@ -1,11 +1,8 @@
-import { CalendarPlus, CaretDown } from 'phosphor-react-native';
 import React, { useEffect, useState } from 'react';
-import { Text, View, Modal, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View, Modal, StyleSheet, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import SelectDropdown from 'react-native-select-dropdown';
 import moment from 'moment';
-import momentTz from 'moment-timezone';
-import { parse, format } from 'date-fns';
 
 interface IPopup {
     setVisible: boolean;
@@ -55,7 +52,7 @@ const MyCalendarPicker = (props: IPopup) => {
         const year = currentDate.getFullYear();
         const combinedDateTimeStr = `${day}-${month}-${year} ${selectedTime}`;
         const date = moment(combinedDateTimeStr, 'DD-MM-YYYY HH:mm');
-        const dateFoment = moment(date).format()
+        const dateFoment = moment(date).format();
         // console.log("aom",dateFoment);
         props.selectDate(dateFoment);
         props.selectTime(combinedDateTimeStr);
@@ -102,19 +99,16 @@ const MyCalendarPicker = (props: IPopup) => {
                         <View style={styles.headerBox}>
                             <Text style={styles.headerText}>Start Date & Time</Text>
                         </View>
-                        <View>
-                            <Calendar
-                                current={currentDate}
-                                style={styles.calendar}
-                                minDate={currentDate}
-                                maxDate={currentDate}
-                                markedDates={{
-                                    [currentDate]: { selected: true, selectedColor: 'blue' }
-                                }}
-                            />
-                        </View>
+                        <Calendar
+                            current={currentDate}
+                            minDate={currentDate}
+                            maxDate={currentDate}
+                            markedDates={{
+                                [currentDate]: { selected: true, selectedColor: '#5865F2' }
+                            }}
+                        />
                         <View style={styles.timePosition}>
-                            <View style={styles.timeTextPosiotion}>
+                            <View style={styles.timeTextPosition}>
                                 <Text style={styles.timeText}>Time</Text>
                             </View>
                             <View style={styles.timePickerPosition}>
@@ -153,42 +147,36 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         backgroundColor: 'rgba(0,0,0,0.5)',
-        paddingHorizontal: 25,
-        paddingVertical: 25
+        paddingHorizontal: 40
     },
     modalView: {
-        borderRadius: 20,
+        borderRadius: 8,
         backgroundColor: 'white'
     },
     headerBox: {
         backgroundColor: '#10152F',
         alignItems: 'center',
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        paddingLeft: 70,
-        paddingRight: 70,
-        width: '100%'
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8
     },
     headerText: {
         fontSize: 16,
+        fontFamily: 'RedHatText-Bold',
         color: 'white',
-        padding: 10
-    },
-    calendar: {
-        width: '100%',
-        fontFamily: 'RedHatText'
+        paddingTop: 18,
+        paddingBottom: 6
     },
     timePosition: {
         flexDirection: 'row',
-        paddingHorizontal: 25,
-        paddingVertical: 15
+        paddingHorizontal: 16,
+        paddingVertical: 12
     },
-    timeTextPosiotion: {
+    timeTextPosition: {
         justifyContent: 'center'
     },
     timeText: {
         fontFamily: 'RedHatText-Bold',
-        fontSize: 20,
+        fontSize: 16,
         color: '#10152F'
     },
     timePickerPosition: {
@@ -200,35 +188,23 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: '#7F85B2',
         borderWidth: 1,
-        padding: 5,
-        width: '40%'
-    },
-    timePicker: {
-        fontFamily: 'RedHatText',
-        fontSize: 16,
-        color: '#10152F'
-    },
-    row: {
-        flexDirection: 'row',
-        alignItems: 'center'
+        height: 40,
+        width: '36%'
     },
     buttonContainer: {
-        flexDirection: 'row',
-        padding: 20
+        paddingTop: 12,
+        paddingHorizontal: 16,
+        paddingBottom: 20
     },
     button: {
         backgroundColor: '#10152F',
-        padding: 16,
-        paddingHorizontal: 25,
-        paddingVertical: 10,
-        borderRadius: 10,
-        marginHorizontal: 10,
-        width: '100%'
+        paddingVertical: 12,
+        borderRadius: 8,
     },
     buttonText: {
         textAlign: 'center',
         fontFamily: 'RedHatText-Bold',
-        fontSize: 24,
+        fontSize: 16,
         color: '#95EDFF'
     }
 });

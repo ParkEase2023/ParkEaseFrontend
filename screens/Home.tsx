@@ -362,7 +362,7 @@ const Home = () => {
                 toolbarEnabled={true}>
                 <RenderParking></RenderParking>
             </MapView>
-            <View style={styles.container}>
+            {/* <View style={styles.container}>
                 <View style={styles.searchContainer}>
                     <View style={styles.inner}>
                         <TouchableOpacity style={styles.search}>
@@ -377,7 +377,7 @@ const Home = () => {
                         />
                     </View>
                 </View>
-            </View>
+            </View> */}
             <View
                 style={{
                     position: 'absolute',
@@ -452,7 +452,8 @@ const styles = StyleSheet.create({
         width: 48,
         height: 48,
         backgroundColor: '#10152F',
-        marginTop: 42,
+        // marginTop: 42,
+        marginTop: 10,
         right: 3,
         elevation: 3,
         justifyContent: 'center',
@@ -465,7 +466,8 @@ const styles = StyleSheet.create({
         width: 48,
         height: 48,
         backgroundColor: '#10152F',
-        marginTop: 98,
+        // marginTop: 98,
+        marginTop: 68,
         right: 3,
         elevation: 3,
         justifyContent: 'center',

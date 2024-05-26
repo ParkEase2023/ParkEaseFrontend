@@ -1,17 +1,13 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
-    Bank,
     CalendarPlus,
-    CaretDown,
     CaretLeft,
     CaretRight,
     Clock,
     CoinVertical,
-    IdentificationCard,
     MapPin,
     Phone,
-    Scroll,
     User
 } from 'phosphor-react-native';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native';
@@ -65,19 +61,19 @@ const Booking = () => {
             parking_name: params.Title,
             timestart: startTime,
             timestop: TimeEnd,
-            ReservedBy: firstname+''+lastname,
+            ReservedBy: firstname + '' + lastname,
             phoneNumber: phoneNumber,
-            carModel:Carmodel,
-            carColor:Carcolor,
-            carRegistration:Carregistration,
+            carModel: Carmodel,
+            carColor: Carcolor,
+            carRegistration: Carregistration,
             totalPrice: totalPrice,
             dateStart: startDate,
-            dateEnd: DateEnd,
+            dateEnd: DateEnd
         });
-        if(res.message === 'createBooking successfully'){
-            createNoti()
-            payment()
-            navigationMybooking.navigate("BookingStack")
+        if (res.message === 'createBooking successfully') {
+            createNoti();
+            payment();
+            navigationMybooking.navigate('BookingStack');
         }
         // console.log('res createBooking', res);
     };
@@ -117,14 +113,14 @@ const Booking = () => {
     const [startTime, setStartTime] = useState('Start date & time');
     const [DateEnd, setDateEnd] = useState();
     const [TimeEnd, setTimeEnd] = useState('End date & time');
-    const [hours, setHours] = useState(0)
-    const [totalPrice, settotalPrice] = useState(0)
+    const [hours, setHours] = useState(0);
+    const [totalPrice, settotalPrice] = useState(0);
 
     const [profileOwner, setProfileOwner] = React.useState<IProfileOwner>({
-        coins:0,
-        email:"",
+        coins: 0,
+        email: ''
     });
-    
+
     const [profile, setProfile] = React.useState<IProfile>({
         _id: '',
         firstname: '',
@@ -157,7 +153,7 @@ const Booking = () => {
             Parking_ownerId: params.parkingownerId,
             Topic: 'Incoming coins list',
             Booking: true,
-            From: profile.firstname+' '+profile.lastname,
+            From: profile.firstname + ' ' + profile.lastname,
             Parking_name: params.Title,
             Coins: totalPrice
         });
@@ -211,10 +207,9 @@ const Booking = () => {
             const date2 = moment(DateEnd);
 
             const diffInHours = date2.diff(date1, 'hours');
-            const total = diffInHours*Number(params.Price)
-            setHours(diffInHours)
-            settotalPrice(total)
-            
+            const total = diffInHours * Number(params.Price);
+            setHours(diffInHours);
+            settotalPrice(total);
         }
     }, [DateEnd]);
 
@@ -222,156 +217,132 @@ const Booking = () => {
         <View style={styles.container}>
             <View style={styles.headerContent}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <CaretLeft size={22} color="#10152F" />
+                    <CaretLeft weight="bold" size={20} color="#10152F" />
                 </TouchableOpacity>
-                <View style={styles.center}>
-                    <Text style={styles.headerText}>Booking</Text>
-                </View>
+                <Text style={styles.headerText}>Booking</Text>
             </View>
-            <View style={styles.line}></View>
+            <View style={styles.line} />
+
             <ScrollView>
                 <View style={styles.content}>
-                    <Text style={styles.headerText}>{params.Title}</Text>
-                    <View style={styles.space}></View>
-                    <View style={styles.boxText}>
-                        <View style={styles.iconPosition}>
-                            <CoinVertical size={24} color="#262D57" weight="fill" />
-                        </View>
-                        <Text style={styles.bodytext}>{params.Price} Coins / hr</Text>
+                    <Text style={styles.title}>{params.Title}</Text>
+                    <View style={styles.rowDetail}>
+                        <CoinVertical weight="fill" size={20} color="#262D57" />
+                        <Text style={styles.bodyText}>{params.Price} Coins / hr</Text>
                     </View>
-                    <View style={styles.boxText}>
-                        <View style={styles.iconPosition}>
-                            <MapPin size={24} color="#262D57" weight="fill" />
-                        </View>
-                        <Text style={styles.bodytext}>{params.Location_address}</Text>
+
+                    <View style={styles.rowDetail}>
+                        <MapPin size={20} color="#262D57" weight="fill" />
+                        <Text style={styles.bodyText}>{params.Location_address}</Text>
                     </View>
-                    <View style={styles.boxText}>
-                        <View style={styles.iconPosition}>
-                            <Clock size={24} color="#262D57" weight="fill" />
-                        </View>
-                        <Text style={styles.bodytext}>
+
+                    <View style={styles.rowDetail}>
+                        <Clock size={20} color="#262D57" weight="fill" />
+                        <Text style={styles.bodyText}>
                             {dayOpenAll} | {params.TimeOpen} - {params.TimeClose}
                         </Text>
                     </View>
-                    <View style={styles.boxText}>
-                        <View style={styles.iconPosition}>
-                            <User size={24} color="#262D57" weight="fill" />
-                        </View>
+
+                    <View style={styles.rowDetail}>
+                        <User size={20} color="#262D57" weight="fill" />
                         <View style={styles.row}>
-                            <Text style={styles.bodytext}>Provider by </Text>
-                            <Text style={styles.headerText}>{params.ProviderBy}</Text>
+                            <Text style={styles.bodyText}>Provider by </Text>
+                            <Text style={styles.SemiText_1}>{params.ProviderBy}</Text>
                         </View>
                     </View>
-                    <View style={styles.boxText}>
-                        <View style={styles.iconPosition}>
-                            <Phone size={24} color="#262D57" weight="fill" />
-                        </View>
-                        <Text style={styles.headerText}>{params.PhoneCall}</Text>
+
+                    <View style={styles.rowDetail}>
+                        <Phone size={20} color="#262D57" weight="fill" />
+                        <Text style={styles.SemiText_2}>{params.PhoneCall}</Text>
                     </View>
-                    <TouchableOpacity style={[styles.textbox1]} onPress={handleOpen1}>
-                        <View style={styles.iconPosition}>
-                            <View style={styles.row}>
-                                <CalendarPlus size={24} />
-                                <Text style={styles.inputBank}>{startTime}</Text>
-                                <View>
-                                    <CaretRight size={24} />
-                                </View>
-                            </View>
+
+                    <TouchableOpacity style={styles.btnChooseDateAndTime} onPress={handleOpen1}>
+                        <CalendarPlus size={24} color="#565E8B" />
+                        <Text style={styles.longTextInput}>{startTime}</Text>
+                        <View>
+                            <CaretRight size={16} color="#565E8B" />
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.textbox1} onPress={handleOpen2}>
-                        <View style={styles.iconPosition}>
-                            <View style={styles.row}>
-                                <CalendarPlus size={24} weight="fill" />
-                                <Text style={styles.inputBank}>{TimeEnd}</Text>
-                                <View>
-                                    <CaretRight size={24} />
-                                </View>
-                            </View>
+
+                    <TouchableOpacity style={styles.btnChooseDateAndTime} onPress={handleOpen2}>
+                        <CalendarPlus weight="fill" size={24} />
+                        <Text style={styles.longTextInput}>{TimeEnd}</Text>
+                        <View>
+                            <CaretRight size={16} color="#565E8B" />
                         </View>
                     </TouchableOpacity>
-                    <View style={styles.space}></View>
-                    <View style={styles.row}>
-                        <View style={[styles.textboxName]}>
+
+                    <View style={styles.textInputContainer}>
+                        <View style={[styles.firstNameAndCarModel]}>
                             <TextInput
-                                style={styles.input}
-                                placeholder="Name"
+                                placeholder="First Name"
                                 keyboardType="email-address"
+                                style={styles.shortTextInput}
                                 onChangeText={text => setFirstname(text)}
                             />
                         </View>
-                        <View style={[styles.textboxLastname]}>
+                        <View style={[styles.lastNameAndCarColor]}>
                             <TextInput
-                                style={styles.input}
-                                placeholder="Last name"
+                                placeholder="Last Name"
                                 keyboardType="email-address"
+                                style={styles.shortTextInput}
                                 onChangeText={text => setLastname(text)}
                             />
                         </View>
                     </View>
-                    <View style={[styles.textbox1]}>
-                        <View style={styles.iconPosition}>
-                            <View style={styles.row}>
-                                <Phone size={24} />
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="phone number"
-                                    keyboardType="email-address"
-                                    onChangeText={text => setphoneNumber(text)}
-                                />
-                                <View>
-                                    <CaretRight size={24} />
-                                </View>
-                            </View>
-                        </View>
+
+                    <View style={styles.textInputPhone}>
+                        <Phone size={24} color="#565E8B" />
+                        <TextInput
+                            placeholder="phone number"
+                            keyboardType="email-address"
+                            style={styles.longTextInput}
+                            onChangeText={text => setphoneNumber(text)}
+                        />
                     </View>
-                    <View style={styles.space}></View>
+
                     <View style={styles.row}>
-                        <View style={[styles.textboxName]}>
+                        <View style={[styles.firstNameAndCarModel]}>
                             <TextInput
-                                style={styles.input}
                                 placeholder="Car model"
                                 keyboardType="email-address"
+                                style={styles.shortTextInput}
                                 onChangeText={text => setCarmodel(text)}
                             />
                         </View>
-                        <View style={[styles.textboxLastname]}>
+                        <View style={[styles.lastNameAndCarColor]}>
                             <TextInput
-                                style={styles.input}
                                 placeholder="Car color"
                                 keyboardType="email-address"
+                                style={styles.shortTextInput}
                                 onChangeText={text => setCarcolor(text)}
                             />
                         </View>
                     </View>
-                    <View style={[styles.textbox1]}>
-                        <View style={styles.iconPosition}>
-                            <View style={styles.row}>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Car registration"
-                                    keyboardType="email-address"
-                                    onChangeText={text => setCarregistration(text)}
-                                />
-                            </View>
-                        </View>
+
+                    <View style={styles.textInputCarRegistration}>
+                        <TextInput
+                            placeholder="Car registration"
+                            keyboardType="email-address"
+                            style={styles.longTextInput}
+                            onChangeText={text => setCarregistration(text)}
+                        />
                     </View>
                 </View>
             </ScrollView>
+
             <View style={styles.footer}>
                 <View style={styles.row}>
-                    <Text style={styles.footerText}>Number of hours:</Text>
-                    <Text style={styles.footerText}>{hours} hr</Text>
+                    <Text style={styles.footerText_1}>Number of hours:</Text>
+                    <Text style={styles.footerText_1}>{hours} hr</Text>
                 </View>
                 <View style={styles.row}>
-                    <Text style={styles.footerText}>Total price:</Text>
-                    <Text style={styles.footerText}>{totalPrice} Coin</Text>
+                    <Text style={styles.footerText_2}>Total price:</Text>
+                    <Text style={styles.footerText_2}>{totalPrice} Coin</Text>
                 </View>
-                <View>
-                    <TouchableOpacity style={styles.btnBook} onPress={handleBook}>
-                        <Text style={styles.textBook}>Book</Text>
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity style={styles.btnBook} onPress={handleBook}>
+                    <Text style={styles.textBook}>BOOK</Text>
+                </TouchableOpacity>
             </View>
             <MyCalendarPicker
                 setVisible={show}
@@ -405,43 +376,52 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 25,
-        paddingTop: 40
-    },
-    center: {
-        flex: 1,
-        alignItems: 'center'
+        paddingVertical: 12
     },
     headerText: {
+        flex: 1,
+        fontFamily: 'RedHatText-Bold',
+        textAlign: 'center',
         fontSize: 16,
-        color: '#262D57',
-        fontFamily: 'RedHatText',
-        fontWeight: 'bold'
-    },
-    space: {
-        paddingVertical: 5
+        color: '#10152F'
     },
     line: {
         borderBottomColor: '#CED2EA',
         borderBottomWidth: 1,
-        paddingTop: 15,
         width: '100%'
     },
     content: {
-        paddingVertical: 25,
+        paddingVertical: 15,
         paddingHorizontal: 25
     },
-    boxText: {
+    title: {
+        fontFamily: 'RedHatText-Bold',
+        fontSize: 16,
+        color: '#10152F',
+        paddingBottom: 16
+    },
+    rowDetail: {
         flexDirection: 'row',
-        paddingVertical: 10,
+        paddingBottom: 10,
         alignItems: 'center'
     },
-    bodytext: {
+    bodyText: {
         fontFamily: 'RedHatText',
-        fontSize: 16,
-        color: '#262D57'
+        fontSize: 14,
+        color: '#262D57',
+        paddingLeft: 12
     },
-    iconPosition: {
-        marginRight: 10
+    SemiText_1: {
+        fontFamily: 'RedHatText-SemiBold',
+        fontSize: 14,
+        color: '#262D57',
+        paddingLeft: 8
+    },
+    SemiText_2: {
+        fontFamily: 'RedHatText-SemiBold',
+        fontSize: 14,
+        color: '#262D57',
+        paddingLeft: 12
     },
     row: {
         flexDirection: 'row',
@@ -462,53 +442,95 @@ const styles = StyleSheet.create({
         width: '48%',
         padding: 10
     },
-    input: {
-        fontFamily: 'RedHatText',
-        fontSize: 16,
-        color: '#262D57',
-        flex: 1,
-        paddingVertical: 5
-    },
-    textbox1: {
+    btnChooseDateAndTime: {
+        flexDirection: 'row',
+        alignItems: 'center',
         backgroundColor: '#DAE0FF',
         borderRadius: 12,
-        borderColor: '#10152F',
-        padding: 10,
-        width: '100%',
-        marginTop: 20
+        paddingHorizontal: 16,
+        borderWidth: 1,
+        borderColor: '#7F85B2',
+        marginTop: 6,
+        marginBottom: 12
     },
-    inputBank: {
-        fontFamily: 'RedHatText',
-        fontSize: 16,
-        color: '#262D57',
+    longTextInput: {
         flex: 1,
-        paddingVertical: 5,
-        paddingLeft: 10
+        padding: 16,
+        fontFamily: 'RedHatText-Regular',
+        fontSize: 16,
+        color: '#10152F'
     },
+    textInputContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 6
+    },
+    shortTextInput: {
+        flex: 1,
+        paddingVertical: 16,
+        fontFamily: 'RedHatText-Regular',
+        fontSize: 16,
+        color: '#10152F'
+    },
+    firstNameAndCarModel: {
+        flex: 1,
+        marginRight: 10,
+        backgroundColor: '#DAE0FF',
+        borderRadius: 12,
+        marginBottom: 18,
+        paddingHorizontal: 16
+    },
+    lastNameAndCarColor: {
+        flex: 1,
+        marginLeft: 10,
+        backgroundColor: '#DAE0FF',
+        borderRadius: 12,
+        marginBottom: 18,
+        paddingHorizontal: 16
+    },
+    textInputPhone: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#DAE0FF',
+        borderRadius: 12,
+        paddingHorizontal: 16,
+        marginBottom: 18
+    },
+    textInputCarRegistration: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#DAE0FF',
+        borderRadius: 12
+    },
+
     footer: {
         backgroundColor: '#10152F',
         paddingVertical: 25,
         paddingHorizontal: 25
     },
-    footerText: {
+    footerText_1: {
         fontFamily: 'RedHatText-Bold',
         fontSize: 16,
         color: '#EEF0FF',
-        paddingBottom: 5
+        paddingBottom: 12
+    },
+    footerText_2: {
+        fontFamily: 'RedHatText-Bold',
+        fontSize: 16,
+        color: '#EEF0FF',
     },
     btnBook: {
         backgroundColor: '#FEFA94',
-        borderRadius: 15,
-        elevation: 2,
-        marginTop: 20,
+        borderRadius: 12,
+        marginTop: 12,
         width: '100%',
-        height: 55
+        paddingHorizontal: 12,
     },
     textBook: {
         textAlign: 'center',
         fontFamily: 'RedHatText-Bold',
         fontSize: 16,
         color: '#10152F',
-        lineHeight: 55
+        paddingVertical: 12
     }
 });
