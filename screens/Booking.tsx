@@ -53,29 +53,36 @@ const Booking = () => {
     const [Carmodel, setCarmodel] = useState('');
     const [Carcolor, setCarcolor] = useState('');
     const [Carregistration, setCarregistration] = useState('');
+    const [errorsCoins, setErrorsCoins] = useState('');
 
     const handleBook = async () => {
         console.log(startDate);
-        const res: any = await createBooking({
-            customerId: profile._id,
-            parking_name: params.Title,
-            timestart: startTime,
-            timestop: TimeEnd,
-            ReservedBy: firstname + '' + lastname,
-            phoneNumber: phoneNumber,
-            carModel: Carmodel,
-            carColor: Carcolor,
-            carRegistration: Carregistration,
-            totalPrice: totalPrice,
-            dateStart: startDate,
-            dateEnd: DateEnd
-        });
-        if (res.message === 'createBooking successfully') {
-            createNoti();
-            payment();
-            navigationMybooking.navigate('BookingStack');
+        if(profile.coins>totalPrice){
+            const res: any = await createBooking({
+                customerId: profile._id,
+                parking_name: params.Title,
+                timestart: startTime,
+                timestop: TimeEnd,
+                ReservedBy: firstname + '' + lastname,
+                phoneNumber: phoneNumber,
+                carModel: Carmodel,
+                carColor: Carcolor,
+                carRegistration: Carregistration,
+                totalPrice: totalPrice,
+                dateStart: startDate,
+                dateEnd: DateEnd
+            });
+            if (res.message === 'createBooking successfully') {
+                createNoti();
+                payment();
+                navigationMybooking.navigate('BookingStack');
+            }
+        }
+        if(profile.coins<totalPrice){
+            setErrorsCoins("Your balance insufficient, Please add coins.")
         }
         // console.log('res createBooking', res);
+        
     };
 
     useEffect(() => {
@@ -340,6 +347,7 @@ const Booking = () => {
                     <Text style={styles.footerText_2}>Total price:</Text>
                     <Text style={styles.footerText_2}>{totalPrice} Coin</Text>
                 </View>
+                <Text style={styles.error}>{errorsCoins}</Text>
                 <TouchableOpacity style={styles.btnBook} onPress={handleBook}>
                     <Text style={styles.textBook}>BOOK</Text>
                 </TouchableOpacity>
@@ -404,6 +412,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingBottom: 10,
         alignItems: 'center'
+    },
+    error: {
+        color: '#EA4C4C',
+        fontFamily: 'RedHatText-Bold',
+        fontSize: 14,
+        paddingTop: 8,
+        paddingBottom: 8,
+        textAlign: 'center',
     },
     bodyText: {
         fontFamily: 'RedHatText',
@@ -522,7 +538,7 @@ const styles = StyleSheet.create({
     btnBook: {
         backgroundColor: '#FEFA94',
         borderRadius: 12,
-        marginTop: 12,
+        // marginTop: 12,
         width: '100%',
         paddingHorizontal: 12,
     },

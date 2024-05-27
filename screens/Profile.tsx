@@ -612,7 +612,8 @@ const styles = StyleSheet.create({
         fontFamily: 'RedHatText-Regular',
         fontSize: 14,
         color: '#7F85B2',
-        marginLeft: 8
+        marginLeft: 8,
+        width: '75%',
     },
     textPhone: {
         fontFamily: 'RedHatText-Regular',

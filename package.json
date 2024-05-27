@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start --reset-cache",
-    "test": "jest"
+    "test": "jest",
+    "build-android-prod": "cd android && SET ENVFILE=.env && gradlew assembleRelease && cd .."
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.4",

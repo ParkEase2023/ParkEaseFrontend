@@ -14,6 +14,6 @@ export default StarReview;
 
 const styles = StyleSheet.create({
   star: {
-    paddingHorizontal: 18,
+    paddingHorizontal: 10,
   },
 });

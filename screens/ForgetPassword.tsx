@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   textInput: {
+    flex: 1,
     padding: 16,
     fontFamily: 'RedHatText-Regular',
     fontSize: 16,
